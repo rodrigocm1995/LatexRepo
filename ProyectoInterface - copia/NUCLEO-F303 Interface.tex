@@ -1,0 +1,2562 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	SETTINGS
+%----------------------------------------------------------------------------------------
+
+
+
+%\lstdefinestyle{DOS}
+%{
+%	backgroundcolor=\color{black},
+%	basicstyle=\scriptsize\color{white}\ttfamily
+%}
+
+\lstdefinelanguage{DOS}
+{
+	backgroundcolor=\color{black},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+}
+
+\lstdefinelanguage{POWERSHELL}
+{
+	backgroundcolor=\color{DarkBlue},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+    emph={New,Service},
+	emphstyle={\color{yellow}},
+}
+
+\lstdefinelanguage{XML}
+{
+	basicstyle=\ttfamily\footnotesize,
+	backgroundcolor = \color{LightGrey!10},
+	basicstyle=\ttfamily\footnotesize,
+	morestring=[b]",
+	moredelim=[s][\bfseries\color{Maroon}]{<}{\ },
+	moredelim=[s][\bfseries\color{Maroon}]{</}{>},
+	moredelim=[l][\bfseries\color{Maroon}]{/>},
+	moredelim=[l][\bfseries\color{Maroon}]{>},
+	morecomment=[s]{<?}{?>},
+	morecomment=[s]{<!--}{-->},
+	commentstyle=\color{DarkOliveGreen},
+	stringstyle=\color{blue},
+	showstringspaces=false,
+	identifierstyle=\color{red},
+	breaklines=true,
+	numbers=left
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{HTML}{C42043}
+\definecolor{backcolour}{HTML}{F2F2F2}
+\definecolor{bookColor}{cmyk}{0,0,0,0.90}  
+\color{bookColor}
+
+\definecolor{csKeyword}{RGB}{0,0,255}
+\definecolor{csString}{RGB}{163,21,21}
+\definecolor{csComment}{RGB}{0,128,0}
+\definecolor{csAttribute}{RGB}{128,0,0}
+\definecolor{csIdentifier}{RGB}{43,145,175}
+\definecolor{csBackground}{RGB}{250,250,250}
+
+\definecolor{vscodeBg}{HTML}{1E1E1E}
+\definecolor{vscodeFg}{HTML}{D4D4D4}
+\definecolor{vscodeString}{HTML}{CE9178}
+\definecolor{vscodeKeyword}{HTML}{569CD6}
+\definecolor{vscodeNumber}{HTML}{B5CEA8}
+\definecolor{vscodePunctuation}{HTML}{D4D4D4}
+
+% --- COLORES ESTILO VS CODE DARK ---
+\definecolor{vsback}{RGB}{30,30,30}       % Fondo oscuro (#1e1e1e)
+\definecolor{vstext}{RGB}{212,212,212}     % Texto normal (#d4d4d4)
+\definecolor{vskey}{RGB}{86,156,214}       % Palabras clave estándar (Azul #569cd6)
+\definecolor{vscontrol}{RGB}{197,134,192}  % Control de flujo (Rosa/Morado #c586c0)
+\definecolor{vstype}{RGB}{78,201,176}      % Tipos y Clases (Turquesa #4ec9b0)
+\definecolor{vsstring}{RGB}{206,145,120}    % Cadenas/Strings (Naranja/Marrón #ce9178)
+\definecolor{vscomment}{RGB}{106,153,85}    % Comentarios (Verde #6a9955)
+\definecolor{vsgutter}{RGB}{133,133,133}    % Números de línea (Gris #858585)
+\definecolor{vsframe}{RGB}{60,60,60}        % Borde del marco (#3c3c3c)
+
+% --- DEFINICIÓN DE LENGUAJE C# ESTILO VS CODE ---
+\lstdefinelanguage{CSharpVSCode}{
+	% Clase 1: Palabras clave estándar (Azul)
+	morekeywords=[1]{
+		using, namespace, class, public, private, protected, internal,
+		readonly, static, void, string, int, bool, object, out, var,
+		new, null, byte, short, long, float, double, decimal, char,
+		struct, enum, delegate, event, interface, get, set, value,
+		this, override, virtual, abstract, partial, false, true
+	},
+	% Clase 2: Control de flujo y modificadores (Rosa/Morado)
+	morekeywords=[2]{
+		if, else, while, for, foreach, try, catch, finally, throw, return,
+		break, continue, lock, await, async, in, switch, case, default
+	},
+	% Clase 3: Clases y Tipos específicos detectados en el archivo (Turquesa)
+	morekeywords=[3]{
+		SerialService, SerialHub, IHubContext, ILogger, SerialPort, Thread,
+		Exception, TimeoutException, Task, Path, AppDomain, File,
+		JsonSerializer, JsonSerializerOptions, SettingsData, Array,
+		StringComparison, Action, Console, TaskRun
+	},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+	morestring=[b]'
+}
+% --- ESTILO VS CODE DARK ---
+\lstdefinestyle{VSCodeDark}{
+	language=CSharpVSCode,
+	backgroundcolor=\color{vsback},
+	basicstyle=\color{vstext}\ttfamily\small,
+	keywordstyle=[1]\color{vskey}\bfseries,
+	keywordstyle=[2]\color{vscontrol}\bfseries,
+	keywordstyle=[3]\color{vstype},
+	stringstyle=\color{vsstring},
+	commentstyle=\color{vscomment}\itshape,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	numberstyle=\tiny\color{vsgutter},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4,
+	frame=single,
+	rulecolor=\color{vsframe},
+	frameround=tttt,
+	columns=flexible
+}
+
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{220,220,220}
+\definecolor{codecomment}{RGB}{0,128,0}
+\definecolor{codetext}{RGB}{40,40,40}
+\definecolor{codelinenum}{RGB}{130,130,130}
+
+% Lenguaje sencillo para texto tipo .gitignore
+\lstdefinelanguage{plaintext}{
+	morecomment=[l]{\#}
+}
+
+\lstdefinestyle{miestiloclaro}{
+	language=plaintext,
+	basicstyle=\ttfamily\small\color{codetext},
+	backgroundcolor=\color{codebg},
+	frame=single,
+	rulecolor=\color{codeframe},
+	frameround=tttt,
+	framesep=6pt,
+	xleftmargin=8pt,
+	xrightmargin=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	breakatwhitespace=false,
+	commentstyle=\color{codecomment}\itshape,
+	numbers=left,
+	numberstyle=\tiny\color{codelinenum},
+	numbersep=8pt,
+	tabsize=2,
+	keepspaces=true
+}
+
+\lstdefinelanguage{SQL}	
+{
+	basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{backcolour},   
+	commentstyle=\color{green},
+	keywordstyle=\color{Maroon},
+	numberstyle=\numberstyle,
+	stringstyle=\color{codepurple},
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+}
+
+
+\lstdefinelanguage{CSharpCustom}{
+	language=[Sharp]C,
+	morekeywords={ApiController,Route,HttpGet,IActionResult,Ok,ControllerBase,public,class,return},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+}
+
+\lstdefinestyle{csharpStyle}{
+	language=CSharpCustom,
+	backgroundcolor=\color{csBackground},
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{csKeyword}\bfseries,
+	stringstyle=\color{csString},
+	commentstyle=\color{csComment}\itshape,
+	identifierstyle=\color{black},
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	breaklines=true,
+	frame=single,
+	rulecolor=\color{gray!40},
+	tabsize=4
+}
+
+\lstdefinelanguage{json}{
+	basicstyle=\ttfamily\small\color{vscodeFg},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	frame=single,
+	backgroundcolor=\color{vscodeBg},
+	string=[s]{"}{"},
+	stringstyle=\color{vscodeString},
+	comment=[l]{//},
+	commentstyle=\color{gray},
+	morecomment=[s]{/*}{*/},
+	keywordstyle=\color{vscodeKeyword},
+	keywords={true,false,null},
+	morekeywords={name,path},
+	literate=
+	*{0}{{{\color{vscodeNumber}0}}}{1}
+	{1}{{{\color{vscodeNumber}1}}}{1}
+	{2}{{{\color{vscodeNumber}2}}}{1}
+	{3}{{{\color{vscodeNumber}3}}}{1}
+	{4}{{{\color{vscodeNumber}4}}}{1}
+	{5}{{{\color{vscodeNumber}5}}}{1}
+	{6}{{{\color{vscodeNumber}6}}}{1}
+	{7}{{{\color{vscodeNumber}7}}}{1}
+	{8}{{{\color{vscodeNumber}8}}}{1}
+	{9}{{{\color{vscodeNumber}9}}}{1}
+	{:}{{{\color{vscodePunctuation}{:}}}}{1}
+	{,}{{{\color{vscodePunctuation}{,}}}}{1}
+	{\}}{{\color{vscodePunctuation}\}}}{1}
+	{[}{{\color{vscodePunctuation}[}}{1}
+	{]}{{\color{vscodePunctuation}]}}{1},
+}
+
+\newcommand\numberstyle[1]{%
+	\footnotesize
+	\color{codegray}%
+	\ttfamily
+	\ifnum#1<10 0\fi#1 |%
+}
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{InfoBox}[1]{
+	colframe=brandblue, 
+	base={#1}
+}
+
+\newtcolorbox{WarningBox}[1]{
+	%colback=yellow!5!white,
+	colframe=yellow!60!white,
+	base={#1}
+}
+
+\newtcolorbox{ErrorBox}[1]{
+	%colback=yellow!5!white,
+	colframe=red!60!white,
+	base={#1}
+}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{STM32 NUCLEO - INTERFAZ DE CONTROL DE LED}} % The article title
+
+%\subtitle{Subtitle} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+\maketitle % Print the title/author/date block
+
+\setcounter{tocdepth}{3} % Set the depth of the table of contents to show sections and subsections only
+
+\tableofcontents % Print the table of contents
+
+%\newpage
+%\listoffigures % Print the list of figures
+
+%\listoftables % Print the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\newpage
+%\section*{Resumen} % This section will not appear in the table of contents due to the star (\section*)
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR AFFILIATIONS
+%----------------------------------------------------------------------------------------
+
+%\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+
+%\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+
+%----------------------------------------------------------------------------------------
+
+\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+
+%----------------------------------------------------------------------------------------
+%	DESINSTALACIÓN DE COMPONENTES
+%----------------------------------------------------------------------------------------
+
+\section{Configuración del espacio de trabajo}
+
+\subsection{Requisitos Previos del Sistema}
+
+Antes de abrir VS Code, hay que asegurarse de tener instalado lo siguiente:
+
+\begin{description}
+	\item[.NET SDK 9:] Se puede descargar del sitio oficial de Microsoft. Es necesario para compilar y ejecutar el backend en C\#.
+	\item[Node.js (version LTS recomendada):] Se puede descargar del sitio oficial de Node.js
+	\item[Git:] Se descarga Git para Windows para el control de versiones.
+\end{description}
+
+\subsection{Verificación de .NET SDK 9}
+Para verificar si se tiene instalado \textbf{.NET SDK 9} en el sistema, abre la terminal (ya sea en PowerShell, CMD, o la terminal integrada de VS Code) y ejecuta uno de los siguientes comandos: 
+
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>dotnet --version
+\end{lstlisting}
+
+El sistema debe devolver un número de versión, por ejemplo:
+
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>dotnet --version
+	9.0.100
+\end{lstlisting}
+
+Si se tiene múltiples versiones instaladas, se puede ejecutar el siguiente comando:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>dotnet --list-sdks
+\end{lstlisting}
+
+El sistema deberá devolver todas las versiones instaladas junto a su ubicación en el disco, ejemplo:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>dotnet --list-sdks
+	8.0.204 [C:\Program Files\dotnet\sdk]
+	9.0.100 [C:\Program Files\dotnet\sdk]
+\end{lstlisting}
+
+Si al ejecutar el comando la terminal devuelve el siguiente mensaje, significa que no tienes el SDK instalado o no se ha agregado el PATH al sistema. En este caso, puedes descargarlo directamente desde \href{https://dotnet.microsoft.com/es-es/download/dotnet/9.0}{dot.net} seleccionando la opción .NET SDK (no el "Runtime").
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>dotnet --version
+	The command could not be loaded, possibly because:
+		* You intended to execute a .NET application:
+			The application '--version' does not exist.
+		* You intended to execute a .NET SDK command:
+			No -NET SDKs were found.
+
+	Download a .NET SDK:
+	https://aka.ms/dotnet/download
+	
+	Learn about SDK resolution:
+	https://aka.ms/dotnet/sdk-not-found
+	
+	C:\Users\casti>
+\end{lstlisting}
+
+\subsection{Verificación de Node.js}
+
+\subsubsection{Comprobar la versión de Node.js}
+Para saber si se tiene instalado Node.js (y su gestor de paquetes \textbf{npm} que es indispensable para Angular), abre tu terminal y ejecuta los siguientes comandos:
+
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>node -v
+\end{lstlisting}
+
+El sistema deberá devolver un número de versión de npm, por ejemplo:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>node -v
+	v22.12.0
+\end{lstlisting}
+
+Si al ejecutar el comando la terminal devuelve el siguiente mensaje significa que no tienes Node.js instalado en tu sistema. Puedes descargar el instalador desde la página oficial de \href{https://nodejs.org/en}{nodejs.org}
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>node -v
+	'node' is not recognized as an internal or external command,
+	operable program or batch file.
+\end{lstlisting}
+
+\subsubsection{Comprobar la versión de npm}
+Node.js se instala junto con \textbf{npm}. Es buena idea comprobar que también responda correctamente:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>npm -v
+	10.9.0
+\end{lstlisting}
+
+\subsection{Verificación de Git}
+Para comprobar si tiene \textbf{Git} instalado en su computadora, abra su terminal y ejecute el siguiente comando:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>git --version
+	10.9.0
+\end{lstlisting}
+
+Si Git está instalado, el sistema deberá devolver la versión Git configurada en tu sistema, por ejemplo:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>git --version
+	git version 2.52.0.windows.1
+\end{lstlisting}
+
+Si quiere verificar en dónde se encuentra el ejecutable puede ejecutar el siguiente comando
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>where git
+	C:\Program Files\Git\cmd\git.exe
+\end{lstlisting}
+
+Si la terminal muestra el siguiente mensaje significa que no tiene instalado Git en su computadora. Puede descargar el instalador oficial para Windows desde \href{https://git-scm.com/}{git-scm.com}
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Users\casti>git --version
+	'git' is not recognized as an internal or external command,
+	operable program or batch file.
+\end{lstlisting}
+
+\begin{InfoBox}{Ejecución del instalador de Git} 
+	Durante los pasos de instalación, asegúrate de dejar activada la opción predeterminada que dice \textbf{"Git from the command line and also from 3rd-party software"} (esto garantiza que puede usar \texttt{git} desde VS Code y PowerShell).
+\end{InfoBox}
+
+\newpage
+\section{Estructura de carpetas y creación del proyecto}
+Se crea una carpeta en \directory{C:/Visual Studio Projects}. Nos posicionamos en esta ruta y abrimos una nueva terminal, tal como se muestra en la figura \ref{fig1}.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{new_terminal} 
+	\caption{Abrir una nueva terminal en \directory{C:/Visual Studio Projects}}\label{fig1} 
+\end{figure}
+
+Ejecutamos los siguientes comandos para crear la estructura base del proyecto.
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Visual Studio Projects>mkdir NucleoBoard_LedControl
+	C:\Visual Studio Projects>cd NucleoBoard_LedControl
+\end{lstlisting}
+
+Una vez creada la carpeta principal, crearemos el contenedor de la solución. Esto define el punto de partida de todo el proyecto:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Visual Studio Projects\NucleoBoard_LedControl>dotnet new sln -n NucleoBoard_LedControl
+\end{lstlisting}
+
+El comando de .NET CLI \texttt{dotnet new sln -n NucleoBoard\_LedControl} sirve para crear una nueva solución (.sln) en .NET con el nombre \textbf{NucleoBoard\_LedControl}.
+
+\begin{InfoBox}{Ejecución del instalador} 
+\begin{enumerate}
+	\item \commandbox{dotnet}: Es la herramienta de línea de comandos de .NET. Con ella puedes crear proyectos, compilar, ejecutar, restaurar paquetes, publicar, etc.
+	\item \commandbox{new}: Indica que quieres crear algo nuevo a partir de una plantilla.
+	\item \commandbox{sln}: Es la plantilla para crear una solución de Visual Studio / .NET. Una solución (.sln) es como un contenedor organizador donde puedes agrupar varios proyectos relacionados.
+	\item \commandbox{-n NucleoBoard\_LedControl}: La opción -n significa \textbf{name} (nombre).
+\end{enumerate}
+\end{InfoBox}
+
+
+Creamos los subdirectorios dentro de \texttt{NucleoBoard\_LedControl} para separar el servidor del cliente.
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Visual Studio Projects\NucleoBoard_LedControl>mkdir Service
+	C:\Visual Studio Projects\NucleoBoard_LedControl>mkdir View
+\end{lstlisting}
+
+Estos comandos permiten crear las carpetas que se muestren en la figura \ref{fig2}.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{make_directory} 
+	\caption{Creación de las carpetas del proyecto.}\label{fig2} 
+\end{figure}
+
+\newpage
+\section{Inicialización del backend (C\# .NET 9 Web API)}
+Desde la terminal raíz del proyecto, inicializa la API Web de C\# y agrega el driver del puerto serie.
+
+\subsection{Desde la terminal}
+Desde la terminal raíz del proyecto \directory{C:/Visual Studio Projects/NucleoBoard\_Led\\Control} inicializa la API web de C\# y agrega el driver del puerto serie utilizando los siguientes comandos:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	# 1. Muevete a la carpeta Service
+	C:\Visual Studio Projects\NucleoBoard_LedControl>cd Service
+	
+	#2. Crea un nuevo proyecto Web API de C# .NET 9
+	C:\Visual Studio Projects\NucleoBoard_LedControl\Service>dotnet new webapi --use-controllers -o LedControllerService
+	
+	#3. Regresamos a la raiz
+	C:\Visual Studio Projects\NucleoBoard_LedControl\Service>cd ..
+\end{lstlisting}
+
+El comando de .NET CLI \texttt{dotnet new webapi --use-controllers -o LedController\\Service} crea un nuevo proyecto de \textbf{ASP.NET Core Web API}, el comando se explica a continuación:
+
+\begin{enumerate}
+	\item \commandbox{dotnet}: Es la herrramienta de línea de comandos de .NET. Se usa para crear proyectos, compilarlos, ejecutarlos, restarurar paquetes, publicar, etc.
+	\item \commandbox{new}: Indica que quieres crear algo nuevo. En este caso, crearás un proyecto basado en una plantilla.
+	\item \commandbox{webapi}: Es la plantilla que se va a usar. La plantilla \textbf{webapi} genera un proyecto de \textbf{API REST} con \textbf{ASP.NET Core}.
+	\item \commandbox{--use-controllers}: Esta opción le dice a la plantilla que use el enfoque de \textbf{controladores MVC} en lugar de depender solo de \textbf{Minimal APIs}. Con esta opción, el proyecto estará preparado para trabajar con clases como estas:
+	\begin{lstlisting}[style=VSCodeDark]
+		[ApiController]
+		[Route("api/[controller]")]
+		public class LedController : ControllerBase
+		{
+			[HttpGet]
+			public IActionResult Get()
+			{
+				return Ok("LED encendido");
+			}
+		}\end{lstlisting}
+	\item \commandbox{-o LedControllerService} La opción \textbf{-o} significa \textbf{output}. Le indica a \texttt{dotnet} que cree el proyecto dentro de una carpeta llamada \texttt{LedControllerService}. Si la carpeta no existe, la crea automáticamente.
+\end{enumerate}
+
+
+
+Justo después de crear el proyecto, lo vinculamos a la solución para que el IDE sepa que forman parte del mismo ecosistema:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Visual Studio Projects\NucleoBoard_LedControl>dotnet sln add Service/LedControllerService/LedControllerService.csproj
+\end{lstlisting}
+
+Una vez que el proyecto está creado y vinculado, entramos a su carpeta para agregar las dependencias de terceros (como el puerto serie).
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Visual Studio Projects\NucleoBoard_LedControl>cd Service
+	C:\Visual Studio Projects\NucleoBoard_LedControl\Service>cd LedControllerService 
+	C:\Visual Studio Projects\NucleoBoard_LedControl\Service\LedControllerService>dotnet add package System.IO.Ports --version 10.0.8
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_17} 
+	\caption{Crear nueva plantilla e instalar paquete Nuget.}\label{fig18} 
+\end{figure}
+
+
+
+El comando \texttt{dotnet add package System.IO.Ports --version 10.0.8} sirve para agregar una dependencia NuGet a tu proyecto .NET, específicamente el paquete \texttt{System.IO.\\Ports} en la versión \texttt{10.0.8}
+
+\begin{enumerate}
+	\item \commandbox{dotnet}: Es la herramienta de línea de comandos de .NET CLI, usada para crear, compilar, ejecutar y administrar proyectos y paquetes.
+	\item \commandbox{add package}: Indica que quieres agregar un paquete NuGet al proyecto actual. 
+	\item \commandbox{System.IO.Ports}: Es el nombre del paquete NuGet que proporciona clases para trabajar con puertos seriales; el tipo principal que expone es SerialPort. 
+	\item \commandbox{--version 10.0.8}: Le indica a la CLI que agregue exactamente esa versión del paquete, en lugar de usar automáticamente la última versión compatible disponible.
+\end{enumerate}
+
+Cuando ejecutas ese comando, .NET hace varias cosas automáticamente: \\\\
+Primero verifica la compatibilidad entre el paquete y los frameworks del proyecto; si es compatible, agrega (o actualiza) un elemento <PackageReference> en el archivo \texttt{.csproj}; y después ejecuta \commandbox{dotnet restore} para descargar el paquete y generar los archivos de assets necesarios.
+
+En la práctica, tu archivo \texttt{.csproj} terminaría con algo parecido a esto
+\begin{lstlisting}[style=VSCodeDark]
+<ItemGroup>
+	<PackageReference Include="System.IO.Ports" Version="10.0.8" />
+</ItemGroup>
+\end{lstlisting}
+\begin{InfoBox}{Sin \texttt{ - -version}} 
+	La herramienta intentará resolver una versión apropiada del paquete, normalmente la más reciente compatible con tu proyecto. La documentación indica que, si el paquete ya existe, el comando también puede actualizar la referencia a una versión compatible.
+\end{InfoBox}
+
+\newpage
+\subsection{Crear el proyecto Web API de forma visual}
+
+Si tienes instalada la extensión \textbf{C\# Dev Kit} (figura \ref{fig3}), puedes crear proyectos utilizando el asistente gráfico incorporado.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{extension_devkit} 
+	\caption{Instalación de la extensión \textbf{C\# Dev Kit}}\label{fig3} 
+\end{figure}
+
+Abre VS Code y abre la carpeta vacía \texttt{nucleo-led-control} (figura \ref{fig4})
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_1} 
+	\caption{Abriendo la carpeta \texttt{nucleo-led-control} en VS Code.}\label{fig4} 
+\end{figure}
+
+Abre la \textbf{Paleta de Comandos} presionando \keys{Ctrl+Shift+P} o \keys{F1} (figura \ref{fig5}). 
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_2} 
+	\caption{Abriendo la Paleta de Comandos en VS Code.}\label{fig5} 
+\end{figure}
+
+Escriba el comando \commandbox{.NET: New Project...} (Nuevo proyecto .NET) y presiona Enter (figura \ref{fig6}).
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_3} 
+	\caption{Nuevo proyecto .NET.}\label{fig6} 
+\end{figure}
+
+El asistente mostrará una lista visual de plantillas. Selecciona \textbf{ASP.NET Core Web API} (figura \ref{fig7}).
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_4} 
+	\caption{Lista de plantillas.}\label{fig7} 
+\end{figure}
+
+El asistente te pedirá tres cosas de forma guiada:
+\begin{itemize}
+	\item \textbf{Nombre del proyecto:} Escribe \commandbox{backend}
+	\begin{figure}[H]
+		\centering 
+		\includegraphics[width=1\textwidth]{vscode_5} 
+		\caption{Solicitud del nombre del proyecto.}\label{fig8} 
+	\end{figure}
+	\item \textbf{Directorio de salida:} Selecciona la carpeta donde quieres crearlo.
+		\begin{figure}[H]
+		\centering 
+		\includegraphics[width=1\textwidth]{vscode_6} 
+		\caption{Directorio de salida.}\label{fig9} 
+	\end{figure}
+	\item Configuraciones adicionales: (Como si quieres usar controladores o Minimal APIs, a través de menús desplegables simples).
+\end{itemize}
+
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_7} 
+	\caption{Finalizar la creación del proyecto.}\label{fig10} 
+\end{figure}
+
+Al terminar, la extensión generará automáticamente todos los archivos del proyecto (figura \ref{fig11}).
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_8} 
+	\caption{Finalizar la creación del proyecto.}\label{fig11} 
+\end{figure}
+
+\subsubsection{Instalar el paquete System.IO.Ports}
+Para instalar librerías sin usar comandos, la mejor opción es instalar la extensión \textbf{NuGet Gallery} en VS Code (figura \ref{fig12}).
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_9} 
+	\caption{Instalación de la extensión \textbf{Nuget Gallery}.}\label{fig12} 
+\end{figure}
+
+Abre la \textbf{Paleta de Comandos}, busca y selecciona \commandbox{Nuget: Focus on Nuget View} (figura \ref{fig13}).
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_10} 
+	\caption{Abriendo la vista de paquetes NuGet. }\label{fig13} 
+\end{figure}
+
+Se abrirá una pestaña con una interfaz web integrada de búsqueda. En la barra de búsqueda escriba \commandbox{System.IO.Ports}. Selecciona el paquete en la lista de resultados y selecciona el ícono que contiene el símbolo de "+" para instalar el paquete.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_11} 
+	\caption{Instalación del paquete System.IO.Ports }\label{fig14} 
+\end{figure}
+
+Para ver los paquetes NuGet instalados así como las dependencias virtuales, busca el panel llamado \textbf{C\# Project Details}. Si está colapsado, has clic en la flecha a la izquierda del título para desplegarlo (figura \ref{fig15}). Allí podrás ver de forma virtual las dependencias NuGet, paquetes instalados, etc.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_12} 
+	\caption{Panel \textbf{C\# Project Details} para ver los paquetes instalados.}\label{fig15} 
+\end{figure}
+
+\newpage
+
+\section{Inicialización del Frontend}
+
+Ejecute el siguiente comando (en una nueva terminal de VS Code, por ejemplo)
+
+\texttt{npx -y @angular/cli new frontend --directory=frontend --style=css --routing=true --ssr=false}
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	CPS C:\Visual Studio Projects\nucleo-led-control\frontend>npx -y @angular/cli new frontend --directory=frontend --style=css --routing=true --ssr=false
+\end{lstlisting}
+
+Este comando es una instrucción optimizada para crear un nuevo proyecto de Angular nuevo y listo para usar sin necesidad de configurar nada manualmente.
+
+\begin{enumerate}
+	\item \commandbox{npx} (Node Package Runner): Es una herramienta que viene con Node.js y sirve para ejecutar paquetes sin tener que instalarlos de forma global en tu computadora. En lugar de instalar permanentemente el CLI de Angular (\commandbox{npm install -g @angular/cli}), \commandbox{npx} descarga una versión temporal de la herramienta en la memoria, crea tu proyecto, y luego libera el espacio. Esto mantiene tu sistema limpio.
+	\item \commandbox{-y} (Yes): Es un parámetro para omitir preguntas. Le dice a Node: \textit{"Si me vas a preguntar si deseo descargar el paquete de Angular CLI, responde 'Sí' automáticamente"}. Esto hace que el comando se ejecute sin pausas interactivas.
+	\item \commandbox{@angular/cli}: Es la librería oficial de la línea de comandos de Angular (Angular CLI). Es la herramienta responsable de estructurar la aplicación, configurar el compilador, y generar los archivos base.
+	\item \commandbox{new frontend}: Es el comando interno de Angular CLI para crear un nuevo proyecto. El nombre que se le asignará al proyecto y a la aplicación principal es \textbf{frontend}.
+	\item \commandbox{--directory=frontend}: Le indica al instalador dónde crear los archivos. Por defecto, Angular crea una nueva carpeta con el nombre del proyecto. Con \commandbox{--directory=frontend}, le indicamos que coloque todos los archivos directamente dentro de la carpeta frontend, evitando que se genera una estructura redundante \commandbox{frontend/frontend/...}
+	\item \commandbox{--style=css}: Define qué motor de estilos utilizará la aplicación. En este caso, le decimos que configure hojas de estilo en CSS tradicional (Vanilla CSS) en lugar de preprocesadores más complejos como SCSS, Sass o Less.
+	\item \commandbox{--routing=true}: Configura automáticamente el sistema de rutas de Angular (Angular Router). Crea los archivos de configuración de navegación (como \texttt{app.route.ts}) permitiendo que puedas definir páginas y secciones de URL en el futuro muy fácilmente.
+	\item \commandbox{--ssr=false}: Desactiva el \textbf{Server-Side Rendering (SSR)}. Angular moderno intenta activar SSR por defecto (lo que significa que un servidor Node procesa el HTML inicial). Como nosotros estamos creando una arquitectura limpia donde el servidor es de C\# .NET, solo necesitamos que Angular compile como una aplicación de cliente clásica (Single Page Application - SPA), la cual es más rápida de compilar, más ligera y se ejecuta directamente en el navegador del usuario.
+\end{enumerate}
+
+Al finalizar, la terminal deberá arrojar el siguiente que se muestra en la figura \ref{fig16}.
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_14} 
+	\caption{Instalación de paquetes.}\label{fig16} 
+\end{figure}
+
+Ahora ejecute el directorio a \commandbox{frontend} y ejecute el siguiente comando  (figura \ref{fig17}) \commandbox{npm install @microsoft/signalr}.
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	CPS C:\Visual Studio Projects\nucleo-led-control\frontend>cd frontend
+	CPS C:\Visual Studio Projects\nucleo-led-control\frontend\frontend> npm install @microsoft/signalr
+\end{lstlisting}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_15} 
+	\caption{Instalación del SDK del cliente de SignalR para JavaScript/TypeScript.}\label{fig17} 
+\end{figure}
+
+\begin{InfoBox}{Ejecución de comandos} 
+	Se pueden ejecutar estos comandos utilizando cualquier terminal estándar (CMD en Windows, PowerShell, Git Bash o la terminal integrada de VS Code). No es obligatorio utilizar específicamente \textit{Node.js Command prompt}. \\\\
+	Cuando instalas Node.js, el instalador de Windows configura automáticamente las variables de entorno (PATH) de tu sistema. Esto permite que Windows reconozca comandos como \commandbox{node}, \commandbox{npm} y \commandbox{npx} de forma global desde cualquier ventana de comandos.
+\end{InfoBox}
+
+\newpage
+\section{Gestión de espacios de trabajo (workspaces)}
+
+\subsection{El archivo Workspace de VS Code}
+Para no tener carpetas anidadas en el explorador y ver tus carpetas Service y View de forma limpia y organizada en la barra lateral, debes crear un archivo en la raíz llamado: \texttt{NucleoBoard\_LedControl.code-workspace}
+
+\begin{lstlisting}[language=json]
+	{
+		"folders": [
+		{
+			"name": "CONFIGURACION GENERAL",
+			"path": "C:/Visual Studio Projects/NucleoBoard_LedControl"
+		},
+		{
+			"name": "SERVICIO BACKEND (C#)",
+			"path": "C:/Visual Studio Projects/NucleoBoard_LedControl/Service/LedControllerService"
+		},
+		{
+			"name": "VISTA FRONTEND (Angular)",
+			"path": "C:/Visual Studio Projects/NucleoBoard_LedControl/View/LedControlView"
+		}
+		],
+		"settings": {
+			"editor.formatOnSave": true,
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		}
+	}
+\end{lstlisting}
+
+Cree el archivo en blanco a través del siguiente comando (figura \ref{fig19}):
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Visual Studio Projects\NucleoBoard_LedControl>code NucleoBoard_LedControl.code-workspace
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_18} 
+	\caption{Archivo Workspace en la raíz del proyecto.}\label{fig19} 
+\end{figure}
+
+\newpage
+\subsection{Crear archivo .gitignore}
+Actualmente, Angular tiene su propio \texttt{.gitignore} dentro de \texttt{View/LedControlView/}, pero no hay un archivo global en la raíz. Si deseas subir el proyecto a Git, se subirán por error carpetas temporales pesadas de C\# como \texttt{bin/} y \texttt{obj/}. Por lo tanto, se debe crear un archivo \texttt{.gitignore} en la raíz \texttt{C:\textbackslash Visual Studio Projects\textbackslash NucleoBoard\_\\LedControl\textbackslash .gitignore} con este contenido esencial.
+
+Cree el archivo en blanco a través del siguiente comando (figura \ref{fig20}):
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	C:\Visual Studio Projects\NucleoBoard_LedControl>code .gitignore
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_19} 
+	\caption{Archivo .gitignore en la raíz del proyecto.}\label{fig20} 
+\end{figure}
+
+\begin{lstlisting}[style=miestiloclaro, caption={Ejemplo de archivo de exclusiones}]
+	# Carpetas de compilacion de .NET
+	**/bin/
+	**/obj/
+	[Dd]ebug/
+	[Rr]elease/
+	
+	# Configuraciones locales de Visual Studio
+	.vs/
+	*.user
+	*.userosscache
+	*.sln.docstates
+	
+	# Dependencias de Node / Angular
+	**/node_modules/
+	**/.angular/
+	**/dist/
+	
+	# Configuraciones locales de VS Code
+	.vscode/tasks.log
+	.vscode/launch.json
+\end{lstlisting}
+
+Para gestionar cómodamente las carpetas \texttt{/Service} y \texttt{/View} de forma independiente en una misma ventana de VS Code:
+
+Ve al menú superior \directory{File/Open Workspace from File...} y seleccione este archivo (figura \ref{fig21}).
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_20} 
+	\caption{Abrir un archivo workspace.}\label{fig21} 
+\end{figure}
+
+Esto reestructurará tu barra lateral organizando de mnera limpia ambos proyectos (figura \ref{fig22}).
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_21} 
+	\caption{Reestructuración del proyecto.}\label{fig22} 
+\end{figure}
+
+\newpage
+\section{Compilación y ejecución del proyecto}
+
+\subsection{Compilación y ejecución del backend}
+Abre una terminal y dirígete a la siguiente ruta:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	PS C:\Visual Studio Projects\NucleoBoard_LedControl>cd Service\LedControllerService
+\end{lstlisting}
+
+Compile el proyecto para asegurar que no haya errores de namespaces:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	PS C:\Visual Studio Projects\NucleoBoard_LedControl\Service\LedControllerService> dotnet build
+\end{lstlisting}
+
+Inicia el servidor de C\#:
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	PS C:\Visual Studio Projects\NucleoBoard_LedControl\Service\LedControllerService>dotnet run
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_23} 
+	\caption{Compilación y ejecución del backend.}\label{fig23} 
+\end{figure}
+
+\subsection{Compilación y ejecución del frontend}
+Abre otra pestaña en la terminal y ve al frontend
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	PS C:\Visual Studio Projects\NucleoBoard_LedControl>cd View/LedControlView
+\end{lstlisting}
+
+Arranca el servidor de desarrollo en Angular
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	PS C:\Visual Studio Projects\NucleoBoard_LedControl/View/LedControlView>npm start
+\end{lstlisting}
+
+\newpage
+\section{title}
+
+\subsection{Crear el Servicio Serial (SerialService)}
+El archivo \texttt{SerialService} se encargará de gestionar directamente la comunicación física con la terjeta STM32 Nucleo. Este servicio se registrará como un \textbf{Singleton} (una instancia única en memoria), debido a que el puerto COM físico sólo puede estar abierto por un único proceso a la vez. Este archivo realizará lo siguiente:
+
+\begin{description}
+	\item[Abrir y cerrar la conexión] con el puerto COM seleccionado por el usuario y a la velocidad indicada.
+	\item[Auto conexión inteligente]: Guardará los datos del último puerto exitoso en un archivo local \texttt{serial-settings.json}. Si al arrancar el servidor detecta que la placa está conectada en ese puerto, se conectará de inmediato.
+	\item[Lectura asíncrona (Background Thread)]: Creará un hilo de ejecución secundario (Thread) dedicado únicamente a escuchar datos provenientes de la tarjeta en segundo plano. Esto evita que el servidor Web API se congele mientras espera los datos del puerto serie.
+	\item[Notificaciones en tiempo real] Utiliza \textbf{SignalR} (\texttt{IHubContext<SerialHub>}) para "empujar" de forma reactiva los datos recibidos (RX), transmitidos (TX) y el estado del LED hacie el frontend, sin que el cliente tenga que estar preguntando periodicamente (polling).
+\end{description}
+
+Dentro del editor de Visual Studio Code, ve a la carpeta \texttt{Service/LedControllerService}
+\begin{lstlisting}[language=DOS]
+	Microsoft Windows [Version 10.0.26200.8457]
+	(c) Microsoft Corporation. Todos los derechos reservados.
+	
+	PS C:\Visual Studio Projects\NucleoBoard_LedControl>cd Service/LedControllerService
+\end{lstlisting}
+
+Crea una nueva carpeta llamada \textbf{Services} (en plural).
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_24} 
+	\caption{Creación de la carpeta \textbf{Services}.}\label{fig24} 
+\end{figure}
+
+Dentro de la carpeta \textbf{Services}, crea un archivo llamado \textbf{SerialService.cs}
+\begin{lstlisting}[style=VSCodeDark]
+using LedControllerService.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using System;
+using System.IO;
+using System.IO.Ports;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+\end{lstlisting}
+
+\subsubsection{Namespaces}
+En C\# (y otros lenguajes como C++ o Java), la plabra clave \texttt{using} se utiliza para importar Namespaces.
+Los Namespaces pueden visualizarse como carpetas organizadoras llenas de código escrito por ti o por terceros. En lugar de escribir el nombre completo de una clase cada vez (como \texttt{System.IO.Ports.SerialPort}), se coloca \texttt{using} al inicio y se puede escribir simplemente como \texttt{SerialPort}.
+
+
+\begin{enumerate}
+	\item \texttt{\textcolor{blue}{using} \textcolor{purple}{LedControllerService.Hubs;}}
+	\begin{description}
+		\item[Significado] Importa la carpeta virtual de nuestro propio proyecto donde declararemos el canal del WebSocket de SignalR.
+		\item[uso] Permite que este servicio haga referencia al canal \texttt{SerialHub} para poder enviarle mensajes a los navegadores web.
+	\end{description}
+	\item \texttt{\textcolor{blue}{using} \textcolor{purple}{Microsoft.AspNetCore.SignalR;}}
+	\begin{description}
+		\item[Significado] Importa herramientas oficiales de Microsoft para la comunicación en tiempo real (SignalR).
+		\item[uso] Nos da acceso a la interfaz IHubContext, la cual permite que una clase de C\# común y corriente (como este servicio) tome el control de las conexiones WebSockets activas para enviarles datos.
+	\end{description}
+	\item \texttt{\textcolor{blue}{using} \textcolor{purple}{System;}}
+	\begin{description}
+		\item[Significado] El espacio de nombres base y fundamental de todo .NET.
+		\item[uso] Da soporte a tipos y objetos básicos de programación.
+	\end{description}
+	\item \texttt{\textcolor{blue}{using} \textcolor{purple}{System.IO;}}
+	\begin{description}
+		\item[Significado] Significa \textit{System Input/Output} (Entrada/Salida de archivos del sistema)
+		\item[uso] Nos permite interactuaer con el disco duro de la PC para saber si existe el archivo de configuración (\texttt{File.Exists}), leerlo (\texttt{File.ReadAllText}) y escribir en él (\texttt{File.WriteAllText})
+	\end{description}
+	\item \texttt{\textcolor{blue}{using} \textcolor{purple}{System.IO.Ports;}}
+	\begin{description}
+		\item[Significado] El paquete que se instaló mediante NuGet para gestionar puertos serie.
+		\item[uso] Es el que hace toda la "magia" del hardware. Nos provee la clase \texttt{SerialPort}, que es el controlador de bajo nivel para detectar puertos USB conectados, abrir la comunicación, fijar baudios y transmitir/recibir texto.
+	\end{description}
+	\item \texttt{\textcolor{blue}{using} \textcolor{purple}{System.Text.Json;}}
+	\begin{description}
+		\item[Significado] El serializador JSON oficial de Microsoft
+		\item[uso] Convierte la información de configuración en texto formateado JSON para guardarla en el archivo de texto \texttt{JsonSerializer.Serialize} y la vuelve a transformar en datos estructurados de C\# cuando arranca la app \texttt{JsonSerializer.Deserilize}.
+	\end{description}
+	\item \texttt{\textcolor{blue}{using} \textcolor{purple}{System.Threading;}}
+	\begin{description}
+		\item[Significado] Herramientas para la gestión de Hilos de ejecución (\textit{Threads}).
+		\item[uso] Sirve para crear el hilo paralelo que lee la tarjeta continuamente y usar pausas breves (\texttt{Thread.Sleep}) para que el procesador de la PC descance cuando no hay datos entrantes.
+	\end{description}
+		\item \texttt{\textcolor{blue}{using} \textcolor{purple}{System.Threading.Tasks;}}
+	\begin{description}
+		\item[Significado] Libraría para programación asíncrona moderna de .NET
+		\item[uso] Nos provee la clase \texttt{Task}, que sirve para ejecutar pequeñas tareas en segundo plano sin interrumpir el flujo principal (como cuando le enviamos la pregunta \texttt{?} a la placa medio segundo después de haber conectado.)
+	\end{description}
+\end{enumerate}
+
+Las siguientes líneas son los cimientos de la Programación Orientada a Objetos (POO) en C\# y definen la identidad de nuestro archivo.
+\begin{lstlisting}[style=VSCodeDark]
+namespace LedControllerService.Services
+{
+	public class SerialService
+	{
+		
+	}
+}
+\end{lstlisting}
+
+\begin{enumerate}
+	\item \texttt{\textcolor{blue}{namespace} \textcolor{Emerald}{LedControllerService.Services}} \\
+	Un \texttt{namespace} es un contenedor lógico que sirve para organizar las clases y evitar conflictos de nombres (por ejemplo, si se crea una clase llamada \texttt{Logger}) y Microsoft tiene otra igual, los namespaces evitarán que choquen.
+	\begin{itemize}
+		\item \texttt{LedControllerService.Services} le dice al compilador de C\#: \textit{"Esta clase pertenece al proyecto \texttt{LedControllerService} y está guardada dentro del grupo lógico \texttt{Services}"}
+		\item Por convención, los namespaces reflejan la estructura física de tus carpetas en el disco duro.
+	\end{itemize}
+	\item \texttt{\textcolor{blue}{public}}\\
+	Es un \textbf{modificador de acceso}. Define quién tiene permitido ver y utilizar esta clase. Significa que \textbf{cualquier otra clase} del proyecto (como tu controlador \texttt{SerialController} o el archivo de inicio \texttt{Program.cs}) puede instanciar, leer y ejecutar este servicio. Si fuera \texttt{private} (privado) o \texttt{internal} (interno), su acceso estaría muy restringido.
+	\item \texttt{\textcolor{blue}{class}}\\
+	Una clase es la plantilla o molde a partir del cual creamos objetos en programación. La palabra clave class le dice a C\# que a continuación definiremos una estructura que contendrá datos (variables como el puerto COM actual) y comportamientos (métodos como \texttt{Connect} o \texttt{Disconnect}).
+	\item \texttt{\textcolor{Emerald}{SerialService}}\\
+	Es simplemente el nombre que le asignamos a esta clase.
+	\begin{itemize}
+		\item Por convención en C\#, los nombres de las clases se escriben en PascalCase (comienzan con mayúscula y cada nueva palabra empieza con mayúscula) y deben ser descriptivos de su función. En este caso, indica que es un "Servicio" encargado de la comunicación "Serial".
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Declaración de variables}
+Estas declaraciones representan las propiedades y estados internos de nuestro servicio. Se les conoce como campos privados (private fields) y definen los datos que el servicio necesita recordar y utilizar para funcionar.
+
+Antes de ver a detalle cada variable , es importante recordar estos tres puntos claves de la sintaxis en C\#:
+
+\begin{itemize}
+	\item \texttt{\textcolor{blue}{private}} (privado): Significa que estas variables sólo existen dentro de esta clase. Ninguna clase externa puede verlas ni modificarlas directamente.
+	\item \textbf{El guión bajo (\_)}: Es una convención estándar en C\# para identificar rápidamente que una variable es un campo privado de la clase.
+	\item \textbf{El signo de interrogación (?)}: Por ejemplo, \texttt{SerialPort?} o \texttt{string?} indica que la variable es \textbf{nuleable} (puede valer \textbf{null}, si, por ejemplo, la tarjeta está desconectada).
+\end{itemize}
+
+\begin{lstlisting}[style=VSCodeDark]
+private readonly IHubContext<SerialHub> _hubContext;
+private readonly ILogger<SerialService> _logger;
+private SerialPort? _serialPort;
+private string? _currentPort;
+private int _currentBaudRate = 115200;
+private string? _savedPort;
+private int _savedBaudRate = 115200;
+private Thread? _readThread;
+private bool _isRunning;
+private readonly object _lock = new();
+private readonly string _settingsPath;
+\end{lstlisting}
+
+\begin{enumerate}
+	\item \textbf{Comunicación en tiempo real y logs}
+	\begin{itemize}
+		\item \texttt{\textcolor{blue}{private readonly} \textcolor{Emerald}{IHubContext<SerialHub>} \textcolor{SkyBlue}{\_hubContext};}
+		\begin{description}
+			\item[Qué es:] La interfaz para interactuar con nuestro hub de SignalR (WebSockets).
+			\item[Uso] Es la que nos permite hacer \texttt{\_hubContext.Clients.All.SendAsync(...)} para enviar datos de forma instantánea a los navegadores.
+		\end{description}
+		
+		\item \texttt{\textcolor{blue}{private readonly} \textcolor{Emerald}{ILogger<SerialService>} \textcolor{SkyBlue}{\_logger};}
+		\begin{description}
+			\item[Qué es:] El grabador de logs del sistema de ASP.NET Core.
+			\item[Uso] Escribe mensajes en la consola negra del servidor (p.e. \texttt{\_logger.Log\\Information("Puerto conectado")}) para que pueda monitorear en tiempo real qué hace el backend.
+		\end{description}
+	\end{itemize}
+	\item \textbf{Control de la conexión física}
+	\begin{itemize}
+		\item \texttt{\textcolor{blue}{private} \textcolor{Emerald}{SerialPort}? \textcolor{SkyBlue}{\_serialPort};}
+		\begin{description}
+			\item[Qué es:] El objeto físico que controla el puerto COM.
+			\item[Uso:] Contiene los métodos nativos del sistema para abrir, cerrar, leer y escribir datos en el cable USB. Vale \textbf{null} cuando no hay conexión.
+		\end{description}
+		
+		\item \texttt{\textcolor{blue}{private} \textcolor{Emerald}{string}? \textcolor{SkyBlue}{\_currentPort};}
+		\begin{description}
+			\item[Qué es:] El nombre del puerto activo, por ejemplo, \texttt{"COM3"}.
+		\end{description}
+		
+		\item \texttt{\textcolor{blue}{private int} \textcolor{SkyBlue}{\_currentBaudRate} =  \textcolor{Dandelion}{115200};}
+		\begin{description}
+			\item[Qué es:] La velocidad de comunicación activa del puerto (115200 bits por segundo por defecto).
+		\end{description}
+	\end{itemize}
+	\item \textbf{Recordar la última conexión (Persistencia)}
+	\begin{itemize}
+		\item \texttt{\textcolor{blue}{private string}? \textcolor{SkyBlue}{\_savedPort};}
+		\item \texttt{\textcolor{blue}{private int}? \textcolor{SkyBlue}{\_savedBaudRate} = \textcolor{Dandelion}{115200};}
+		\begin{description}
+			\item[Qué es:] Variables temporales que guardan en memoria el último puerto y baudios existosos cargados desde el archivo JSON de configuración.
+		\end{description}
+		
+		\item \texttt{\textcolor{blue}{private readonly string}? \textcolor{SkyBlue}{\_settingsPath};}
+		\begin{description}
+			\item[Qué es:] La ruta absoluta en el disco duro donde se creará y leerá el archivo de configuración \texttt{serial-settings.json}.
+		\end{description}
+	\end{itemize} 
+	\item \textbf{Hilos y control de concurrencia (Multithreading)}
+	\begin{itemize}
+		\item \texttt{\textcolor{blue}{private} \textcolor{Emerald}{Thread}? \textcolor{SkyBlue}{\_readThread};}
+		\begin{description}
+			\item[Qué es:] El objeto que representa nuestro hilo secundario de procesamiento.
+			\item[Uso:] Ejecuta el bucle de lectura del puerto de forma aislada para no bloquear la página web principal.
+		\end{description}
+		
+		\item \texttt{\textcolor{blue}{private bool} \textcolor{SkyBlue}{\_isRunning};}
+		\begin{description}
+			\item[Qué es:] Una bandera booleana (verdadero/falso).
+			\item[Uso:] Controla el buble de lectura. Si es \texttt{true}, el hilo sigue leyendo; cuando es \texttt{false} (al desconectar), el hilo se apaga de forma limpia.
+		\end{description}
+		
+		\item \texttt{\textcolor{blue}{private readonly object} \textcolor{SkyBlue}{\_lock} = \textcolor{blue}{new}();}
+		\begin{description}
+			\item[Qué es:] Un objeto de bloqueo exclusivo.
+			\item[Uso:] Como tenemos varios hilos de ejecución activos (el de lectura de datos, y el de la web que envía comandos como encender el LED), este objeto sirve de "semáforo" para asegurar que un sólo hilo a la vez intente comunicarse con la tarjeta STM32, evitando que el puerto colapse por peticiones simultáneas.
+		\end{description}
+	\end{itemize}
+	
+\end{enumerate}
+
+\subsubsection{Constructor de la clase}
+El constructor es una función especial que se \textbf{ejecuta automáticamente una sola vez} en el momento exacto en que el servidor crea la clase en memoria. Su objetivo es inicializar los datos y preparar la clase para que pueda ser utilizada.
+
+Se le reconoce porque \textbf{tiene el mismo nombre que la clase} y no devuelve ningún valor.
+\begin{lstlisting}[style=VSCodeDark]
+public SerialService(IHubContext<SerialHub> hubContext, ILogger<SerialService> logger)
+{
+	_hubContext = hubContext;
+	_logger = logger;
+	// Ruta del archivo JSON para guardar las configuraciones de conexion
+	_settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "serial-settings.json");
+	LoadSettings();
+	
+	// Intenta auto-conectar al iniciar el servidor
+	TryAutoConnect();
+}
+\end{lstlisting}
+
+Los parámetros \texttt{hubContext} y \texttt{logger} se reciben utilizando un patrón de diseño fundamental en ASP.NET Core llamado \textbf{Inyección de Dependencias}.
+
+\begin{description}
+	\item[Cómo funciona:] En lugar de que nuestro código intente crear manualmente los servicios de SignalR o de Logs (escribiendo un \texttt{new HubContext(...)} lo cual sería muy complejo), el framework de .NET se encarga de crear esos servicios al arrancar el servidor.
+	\item[La inyección:] Al declarar \texttt{IHubContext<SerialHub> hubContext} en los parámetros de entrada del constructor, le estamos diciendo a .NET \textit{"necesito usar SignalR y Logs, por favor pásamelos cuando crees este servicio"}. .NET los busca y los "inyecta" automáticamente en la función.
+	\item[El guardado:] Las primeras dos líneas
+	\begin{lstlisting}[style=csharpStyle]
+		\_hubContext = hubContext;
+		\_logger = logger;
+	\end{lstlisting}
+	Toman esos servicios provistos por .NET y los guardan en nuestras variables privadas (los campos con guión bajo) para que cualquier otra función de la clase pueda usarlos más tarde.
+\end{description}
+
+\begin{InfoBox}{El constructor de la clase} 
+	A nivel técnico, toda clase tiene siempre un constructor, pero no siempre tienes que escribirlo tú. \\
+	
+	Si crea una clase y no escribes ningún constructor, el compilador de C\# creará uno automáticamente tras bambalinas. A esto se le conoce como \textbf{Constructor por Defecto} (Default Constructor). Por ejemplo, si escribe esto
+	\begin{lstlisting}[style=csharpStyle]
+	public class Persona
+	{
+		public string Nombre { get; set; }
+	}
+	\end{lstlisting}
+	El compilador lo transforma en esto:
+	\begin{lstlisting}[style=csharpStyle]
+		public class Persona
+		{
+			public string Nombre { get; set; }
+			
+			//Creado automaticamente por C#
+			public Persona()
+			{
+			}
+		}
+	\end{lstlisting}
+	Debes escribir manualmente un constructor en tres casos principales:
+	\begin{itemize}
+		\item \textbf{Para inyección de dependencias (como en nuestro proyecto)}: Si tu clase necesita que .NET le pase herramientas externas al iniciar (como el contexto de SignalR o el Logger), debes escribir el constructor para declarar qué dependencias requieres.
+		\item \textbf{Para inicializar datos obligatorios:} Si deseas que no se pueda crear una clase sin ciertos datos.
+		\item \textbf{Para ejecutar código de preparación:} Si necesitas realizar acciones preias (como calcular rutas de archivos, conectar una base de datos o suscribir eventos.)
+	\end{itemize}
+\end{InfoBox}
+
+\textbf{Función del cuerpo de la función} \\
+
+\begin{enumerate}
+	\item \textbf{Calcular la ruta física del archivo de configuración}
+	\begin{lstlisting}[style=csharpStyle]
+	_settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "serial-settings.json");
+	\end{lstlisting}
+	\begin{description}
+		\item[Qué hace:] \texttt{AppDomain.CurrentDomain.BaseDirectory} obtiene la ruta de la carpeta exacta donde se está ejecutando el backend en tu disco duro.
+		\item[Resultado] Crea la ruta absoluta segura en disco (por ejemplo \texttt{D:\textbackslash VisualStudio\\Projects\textbackslash NucleoBoard\_LedControl\textbackslash bin\textbackslash Debug\textbackslash net9.0\textbackslash serial-settings.json}) para guardar configuraciones sin importar en qué computadora se ejecute.
+	\end{description}
+	\item \textbf{Cargar la configuración previa}
+	\begin{lstlisting}[style=csharpStyle]
+		LoadSettings();
+	\end{lstlisting}
+	Llama al método interno \texttt{LoadSettings()}. Este método va al disco duro, abre el archivo \texttt{serial-settings.json} (si ya existe) y lee cuál fue la última velocidad de baudios y el último puerto COM con el que el usuario se conectó con éxito.
+	\item \textbf{Autoconexión inteligente}
+	\begin{lstlisting}[style=csharpStyle]
+		TryAutoConnect();
+	\end{lstlisting}
+	Llama al método \texttt{TryAutoConnect()}. Si el paso anterior leyó un puerto COM válido (por ejemplo, \texttt{COM3}) y el sistema operativo detecta que la tarjeta STM32 está físicamente conectada en ese puerto en este momento, el constructor abre el puerto inmediatamente de forma automática sin esperar a que el usuario tenga que presionar el botón de "Conectar" en la página web.
+\end{enumerate}
+
+\subsubsection{Contenido de la clase}
+La siguiente función es sencilla pero fundamental: se encarga de consultar el sistema operativo Windows qué puertos COM físicos o virtuales están activos y utilizables en la computadora en ese instante. 
+\begin{lstlisting}[style=csharpStyle]
+public string[] GetAvailablePorts()
+{
+	return SerialPort.GetPortNames();
+}
+\end{lstlisting}
+
+\begin{itemize}
+	\item \texttt{public}:  Permite que clases externas (como nuestro controlador API \texttt{SerialCont\\roller}) llamen a esta función para obtener la lista de puertos.
+	\item \texttt{string[]}: Es el tipo de dato que devuelve la función. En este caso, una lista o "vector" de textos (por ejemplo: ["COM1", "COM3"]).
+	\item \texttt{SerialPort.GetPortNames()}: Es un método nativo provisto por .NET (\texttt{System\\.IO.Ports}). Este método le pregunta a Windows: \textit{"Oye, ¿qué dispositivos seriales están conectados ahora mismo?"}.
+	\item \texttt{return}: Envía la lista de puertos obtenida de vuelta a quien haya llamado a la función.
+\end{itemize}
+
+Cuando conectas tu tarjeta de desarrollo STM32 Nucleo mediante cable USB a la computadora, Windows le asigna automáticamente un puerto serie virtual. Esta función permite que, cuando abras la página web del panel de control en tu navegador, el menú desplegable (Select) se llene automáticamente con los puertos reales disponibles en tu PC, evitando que tengas que escribir a mano a qué puerto conectarte. Si no hay nada conectado, devolverá una lista vacía.
+
+\begin{lstlisting}[style=VSCodeDark]
+public object GetStatus()
+{
+	lock (_lock)
+	{
+		return new
+		{
+			IsConnected = _serialPort?.IsOpen ?? false,
+			PortName = _serialPort?.IsOpen == true ? _currentPort : null,
+			BaudRate = _serialPort?.IsOpen == true ? _currentBaudRate : 0,
+			SavedPort = _savedPort,
+			SavedBaudRate = _savedBaudRate
+		};
+	}
+}
+\end{lstlisting}
+
+
+Esta función se encarga de recopilar e informar el estado actual de la conexión serie y la configuración del servidor, empaquetándolo todo en un formato que el navegador pueda entender fácilmente.
+
+\begin{enumerate}
+	\item \textbf{El tipo de retorno} \texttt{object}\\
+	En C\#, \texttt{object} es la clase base de la cual heredan todos los tipos de datos. Retornar un objeto \texttt{object} nos permite crear y devolver un\textbf{ Objeto Anónimo} (un objeto "al vuelo", sin necesidad de crear una clase formal para él).\\
+	Cuando una respuesta es enviada al navegador a través de nuestra API, .NET la convierte automáticamente en un formato JSON limpio y estructurado.
+	\item \textbf{El semáforo} \texttt{lock (\_lock) {} }\\
+	Dado que el puerto serie puede estar siendo modificado por varios procesos al mismo tiempo (por ejemplo, el hilo de lectura secundario o una orden de desconexión repentina), la instrucción lock (\texttt{\_lock}) detiene temporalmente cualquier otra operación sobre el puerto mientras recopilamos el estado. Esto evita errores de concurrencia y caídas del servidor.
+	\item \textbf{Las propiedades que devuelve (lógica paso a paso)}\\
+	\begin{itemize}
+		\item \texttt{IsConnected = \_serialPort?.IsOpen ?? false}
+		\begin{itemize}
+			\item \textit{Lógica}: Usa dos operadores modernos de C\#:
+			\begin{itemize}
+				\item El operador nulo-condicional (?): Si \texttt{SerialPort} es nulo (no existe), devuelve nulo en lugar de lanzar un error.
+				\item El operador de coalescencia nula (??): Si la parte izquierda es nula, toma el valor de la derecha, \texttt{false}. 
+			\end{itemize}
+			\item \textit{Resultado}: Devuelve \texttt{true} si el puerto está físicamente conectado y abierto, o \texttt{false} si no lo está.
+		\end{itemize}
+		\item \texttt{PortName = \_serialPort?.IsOpen == true ? \_currentPort : null}\\
+		\begin{itemize}
+			\item \textit{Lógica}: Es un operador ternario \texttt{(condición ? si\_es\_verdadero : si\_es\_falso)}.
+			\item \textit{Resultado}: Si el puerto está abierto, devuelve el nombre del puerto activo (ej: "COM3"). Si está cerrado, devuelve \texttt{null}.
+		\end{itemize}
+		\item \texttt{BaudRate = \_serialPort?.IsOpen == true ? \_currentBaudRate : 0}
+		\begin{itemize}
+			\item \textit{Resultado}: Si está conectado, devuelve la velocidad actual (ej: 115200). Si no, devuelve 0.
+		\end{itemize}
+		\item \texttt{SavedPort = \_savedPort} y \texttt{SavedBaudRate = \_savedBaudRate}
+		\begin{itemize}
+			\item \textit{Resultado}: Devuelve la última configuración de puerto y baudios que se guardó en el archivo JSON. Esto sirve para que el frontend sepa qué puerto autoseleccionar por defecto en la pantalla al cargar la página.
+		\end{itemize}
+	\end{itemize}
+\end{enumerate}
+
+Tenga en cuenta que las variables:
+\begin{lstlisting}[style=csharpStyle]
+IsConnected
+PortName 
+BaudRate
+SavedPort 
+SavedBaudRate 
+\end{lstlisting}
+
+nunca se declararon antes. Estas se declaran e inicializan en ese preciso instante. En C\# esto se conoce como \textbf{Tipos Anónimos (Anonymous Types)}. \\
+
+\newpage
+\textbf{\large ¿Qué es un Tipo Anónimo?}\\\\
+Cuando se utiliza la palabra clave \texttt{new} seguida de llaves \texttt{\{...\} } sin especificar el nombre de una clase, le estás diciendo a C\#: \textit{"por favor crea una clase temporal en segundo plano, asígnale propiedades con estos nombres, y deduce sus tipos de datos según los valores que les estoy asignando a la derecha"}.
+
+\begin{InfoBox}{Tipos Anónimos} 
+En este fragmento de código:
+
+\begin{lstlisting}[style=VSCodeDark]
+return new
+{
+	IsConnected = _serialPort?.IsOpen ?? false, // C# deduce que es un booleano (bool)
+	PortName = _serialPort?.IsOpen == true ? _currentPort : null, // C# deduce que es un texto (string)
+	BaudRate = _serialPort?.IsOpen == true ? _currentBaudRate : 0, // C# deduce que es un entero (int)
+	SavedPort = _savedPort,
+	SavedBaudRate = _savedBaudRate
+};
+\end{lstlisting}
+El compilador crea en tiempo de compilación una clase temporal oculta que contiene exactamente este aspecto:
+
+\begin{lstlisting}[style=VSCodeDark]
+public class ClaseAnonimaOculta
+{
+	public bool IsConnected { get; }
+	public string PortName { get; }
+	public int BaudRate { get; }
+	public string SavedPort { get; }
+	public int SavedBaudRate { get; }
+}
+\end{lstlisting}
+\end{InfoBox}
+
+\textbf{\large ¿Por qué hacemos esto en lugar de crear una nueva clase?}
+\begin{description}
+	\item[Ahorro de código]: Nos evita la molestia de tener que crear un archivo o clase llamada \texttt{EstadoSerial.cs} que sólo se usaría una vez en todo el proyecto para esta respuesta.
+	\item[Compatibilidad con JSON]: El servidor de ASP.NET Core lee las propiedades de este objeto anónimo y las convierte automáticamente en un formato JSON estándar que viaja hacia Angular:
+	\begin{lstlisting}[language=json]
+	{
+		"isConnected": true,
+		"portName": "COM3",
+		"baudRate": 115200,
+		"savedPort": "COM3",
+		"savedBaudRate": 115200
+	}
+	\end{lstlisting}
+	Es una característica muy utilizada en .NET para construir respuestas rápidas de APIs.
+\end{description}
+
+\newpage
+
+Esta es la función más importante del servicio para la conexión física. Se encarga de abrir la compuerta de comunicación con la tarjeta, configurar el canal de datos y encender el hilo de escucha en segundo plano
+\begin{lstlisting}[style=VSCodeDark]
+// Abre la conexion con el puerto serie fisico
+public bool Connect(string portName, int baudRate, out string errorMessage)
+{
+	lock (_lock)
+	{
+		errorMessage = string.Empty;
+		if (_serialPort != null && _serialPort.IsOpen)
+		{
+			Disconnect();
+		}
+		try
+		{
+			_serialPort = new SerialPort(portName, baudRate)
+			{
+				ReadTimeout = 1000,
+				WriteTimeout = 1000,
+				NewLine = "\n" // Sincroniza las lecturas por caracteres de salto de linea
+			};
+			_serialPort.Open();
+			// Limpiar buffers iniciales para descartar basura de conexion
+			_serialPort.DiscardInBuffer();
+			_serialPort.DiscardOutBuffer();
+			_currentPort = portName;
+			_currentBaudRate = baudRate;
+			_savedPort = portName;
+			_savedBaudRate = baudRate;
+			
+			SaveSettings(portName, baudRate);
+			// Inicializa el hilo de lectura secundario
+			_isRunning = true;
+			_readThread = new Thread(ReadLoop)
+			{
+				IsBackground = true,
+				Name = "SerialReadThread"
+			};
+			_readThread.Start();
+			_logger.LogInformation($"Puerto serie {portName} abierto con exito a {baudRate} bps.");
+			
+			// Notificar a los clientes web a traves de SignalR
+			_hubContext.Clients.All.SendAsync("ReceiveStatus", new { IsConnected = true, PortName = portName, BaudRate = baudRate });
+			_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"[Sistema] Puerto COM conectado con exito a {baudRate} bps.");
+			
+			// Preguntar proactivamente el estado del LED a la placa ('?') tras conectar
+			Task.Run(async () =>
+			{
+				await Task.Delay(500);
+				SendCommand("?");
+			});
+			return true;
+		}
+		catch (Exception ex)
+		{
+			errorMessage = ex.Message;
+			_logger.LogError($"Error al abrir el puerto {portName}: {ex.Message}");
+			_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"[Sistema] Error de conexion en {portName}: {ex.Message}");
+			return false;
+		}
+	}
+}
+\end{lstlisting}
+
+\begin{enumerate}
+	\item \textbf{Inicialización del método y el parámetro} \texttt{\textcolor{blue}{out}}
+	\begin{lstlisting}[style=VSCodeDark]
+	public bool Connect(string portName, int baudRate, out string errorMessage)\end{lstlisting}
+	\begin{itemize}
+		\item Retorna \texttt{\textcolor{Magenta}{bool}}: Devuelve \texttt{\textcolor{blue}{true}} si la conexión fue exitosa y \texttt{\textcolor{blue}{false}} si falló.
+		\item \texttt{\textcolor{blue}{out string} errorMessage}: El modificador \textcolor{blue}{out} en C\# permite que una función devuelva más de un valor. En este caso, si la función retorna \textcolor{blue}{false}, "saca" el mensaje de error exacto dentro de la variable \texttt{errorMessage} para que el controlador pueda mostrárselo al usuario en la página web.
+	\end{itemize}
+	\item \textbf{Evitar conexiones duplicadas y proteger concurencia.}
+		\begin{lstlisting}[style=VSCodeDark]
+		lock (_lock)
+		{
+			errorMessage = string.Empty;
+			if (_serialPort != null && _serialPort.IsOpen)
+			{
+				Disconnect();
+			}
+		\end{lstlisting}
+	\begin{itemize}
+		\item \texttt{\textcolor{Magenta}{lock} (\_lock)}: Bloquea el acceso al puerto. Si el usuario hace clic rápido dos veces en "Conectar", esto evita que se intenten abrir dos conexiones al mismo tiempo.
+		\item \texttt{\textcolor{Dandelion}{Disconnect}()}: Si ya había una conexión activa (o colgada en memoria), primero se cierra y libera limpiamente antes de intentar abrir la nueva.
+	\end{itemize}
+	\item \textbf{Configuración y apertura del puerto}
+	\begin{lstlisting}[style=VSCodeDark]
+	_serialPort = new SerialPort(portName, baudRate)
+	{
+		// Espera 1 seg para leer antes de dar timeout
+		ReadTimeout = 1000,
+		// Espera 1 seg para escribir antes de dar timeout   
+		WriteTimeout = 1000,
+		// Define que cada mensaje del uC termina con un salto de linea
+		NewLine = "\n"         
+	};
+	_serialPort.Open(); // Abre fisicamente la conexion
+	
+	// Limpiar buffers para evitar ruido de conexion inicial
+	_serialPort.DiscardInBuffer();
+	_serialPort.DiscardOutBuffer();
+	\end{lstlisting}
+	\begin{itemize}
+		\item Crea el objeto \texttt{SerialPort} con los parámetros del usuario y define los tiempos límite de espera (timeouts).
+		\item \texttt{DiscardInBuffer()} y \texttt{DiscardOutBuffer()}: Limpia toda la "basura" o ruido eléctrico que pueda haber quedado en el cable USB en conexiones anteriores para iniciar con un canal limpio de datos.
+	\end{itemize}
+	\item \textbf{Guardar Estado y persistencia}
+		\begin{lstlisting}[style=VSCodeDark]
+		_currentPort = portName;
+		_currentBaudRate = baudRate;
+		_savedPort = portName;
+		_savedBaudRate = baudRate;
+		// Guarda los datos en serial-settings.json
+		SaveSettings(portName, baudRate); \end{lstlisting}
+		\begin{itemize}
+			\item Actualiza las variables de estado en memoria y escribe en el disco duro para recorsar este puerto en la siguiente autoconexión.
+		\end{itemize}
+	\item \textbf{Encender el Hilo secundario de lectura}
+	\begin{lstlisting}[style=VSCodeDark]
+	_isRunning = true;
+	_readThread = new Thread(ReadLoop)
+	{
+		// Indica que el hilo morira automaticamente si la aplicacion principal se apaga
+		IsBackground = true,     
+		Name = "SerialReadThread" // Nombre descriptivo para depurar
+	};
+	_readThread.Start(); // Arranca el bucle 'ReadLoop'\end{lstlisting}
+	\begin{itemize}
+		\item \textbf{Multithreading}: Aquí es donde se delega la lectura a un carril independiente. El bucle \texttt{ReadLoop} se ejecutará en paralelo, escuchando lo que la tarjeta STM32 tenga que decir, sin congelar las peticiones de los usuarios en la web.
+	\end{itemize}
+	\item \textbf{Avisar en tiempo real mediante SignalR}
+		\begin{lstlisting}[style=VSCodeDark]
+		_hubContext.Clients.All.SendAsync("ReceiveStatus", new { IsConnected = true, PortName = portName, BaudRate = baudRate });
+		_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"[Sistema] Puerto COM conectado con exito a {baudRate} bps.");\end{lstlisting}
+	\begin{itemize}
+		\item Envía notificaciones de manera instantánea a todos los navegadores conectados diciendo: \textit{"¡Ya estamos conectados!"} y añade un registro de log a la consola.
+	\end{itemize}
+	\item \textbf{Sincronización Automática con la placa (LED)}
+		\begin{lstlisting}[style=VSCodeDark]
+		Task.Run(async () =>
+		{
+			// Espera 0.5s para que la electronica se estabilice
+			await Task.Delay(500);
+			// Envia el comando de pregunta a la placa		 
+			SendCommand("?");      
+		}\end{lstlisting}
+	\begin{itemize}
+		\item \texttt{Task.Run}: Inicia una tarea asíncrona de fondo. Espera medio segundo (para que la comunicación serial recién abierta se estabilice) y envía automáticamente el carácter \texttt{'?'} a la placa Nucleo. La placa responderá si el LED está encendido o apagado y la web se actualizará sola.
+	\end{itemize}
+	\item \textbf{Captura de Errores (Try-Catch)}
+	\begin{lstlisting}[style=VSCodeDark]
+		catch (Exception ex)
+		{
+			errorMessage = ex.Message; // Guarda el error fisico (ej. "Acceso denegado" o "El puerto no existe")
+			_logger.LogError(...);
+			_hubContext.Clients.All.SendAsync(...);
+			return false;
+		}
+	\end{lstlisting}
+	\begin{itemize}
+		\item Si algo falla (ej. el puerto está siendo usado por otro programa como STM32CubeIDE o el cable está desconectado), se captura el error, se notifica al usuario en la consola web, y la función devuelve \texttt{false}.
+	\end{itemize}
+\end{enumerate}
+
+Esta función se encarga de realizar la desconexión controlada y la liberación de recursos del hardware en tu computadora. Cuando la comunicación con la tarjeta termina, no basta con "dejar de usar" el puerto; es necesario avisarle al sistema operativo de forma limpia para que el puerto COM no quede bloqueado o "colgado".
+\begin{lstlisting}[style=VSCodeDark]
+// Cierra la conexion y libera los recursos del puerto
+public void Disconnect()
+{
+	lock (_lock)
+	{
+		_isRunning = false;
+		
+		if (_serialPort != null)
+		{
+			try
+			{
+				if (_serialPort.IsOpen)
+				{
+					_serialPort.Close();
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"Error al cerrar el puerto serie: {ex.Message}");
+			}
+			finally
+			{
+				_serialPort.Dispose();
+				_serialPort = null;
+			}
+		}
+		_currentPort = null;
+		_logger.LogInformation("Puerto serie desconectado.");
+		_hubContext.Clients.All.SendAsync("ReceiveStatus", new { IsConnected = false, PortName = (string?)null, BaudRate = 0 });
+		_hubContext.Clients.All.SendAsync("ReceiveTxLog", "[Sistema] Puerto serie desconectado.");
+	}
+}
+\end{lstlisting}
+
+\begin{enumerate}
+	\item \textbf{El semáforo y la señal de parada}
+	\begin{lstlisting}[style=VSCodeDark]
+		lock (_lock)
+		{
+			_isRunning = false;\end{lstlisting}
+	\begin{itemize}
+		\item \texttt{lock (\_lock)}: Protege el método. Asegura que nadie intente enviar un comando a la placa ni consultar el estado mientras se está desmantelando la conexión.
+		\item \texttt{\_isRunning = false}: Es el interruptor de apagado. Al cambiar esta variable a \texttt{false}, le estamos diciendo al hilo de lectura en segundo plano (\texttt{ReadLoop}) que \textbf{debe terminar su bucle de inmediato} y apagarse de forma segura.
+	\end{itemize}
+	\item \textbf{Cierre seguro del puerto físico}
+	\begin{lstlisting}[style=VSCodeDark]
+		if (_serialPort != null)
+		{
+			try
+			{
+				if (_serialPort.IsOpen)
+				{
+					_serialPort.Close(); // 1. Cierra el canal fisico
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"Error al cerrar el puerto serie: {ex.Message}");
+			}
+	\end{lstlisting}
+	\begin{itemize}
+		\item primero verifica si la variable \texttt{\_serialPort} existe (no es nula).
+		\item Si el puerto está abierto, llama a \texttt{\_serialPort.Close()}. Esto corta la conexión eléctrica virtual con el puerto USB.Si por alguna razón de hardware esto falla, el \texttt{catch} captura la excedpción para evitor que el servidor web se caiga.
+	\end{itemize}
+	\item \textbf{Liberación abosluta de memoria (\texttt{finally})}
+	\begin{lstlisting}[style=VSCodeDark]
+	finally
+		{
+			// 2. Libera recursos a nivel de Sistema Operativo
+			_serialPort.Dispose(); 
+			// 3. Destruye la referencia en memoria C#
+			_serialPort = null;    
+		}
+	}
+	\end{lstlisting}
+	\begin{itemize}
+		\item El bloque \texttt{finally} se ejecuta \textbf{sí o sí}, haya habido errores en el paso anterior o no.
+		\item \texttt{\_serialPort.Dispose()}: Desecha el objeto y le dice a Windows: \textit{"He terminado, puedes liberar por completo los controladores de este puerto COM para que otros programas (como STM32CubeIDE) puedan usarlo"}.
+		\item \texttt{\_serialPort = null;}: Deja la variable limpia en \texttt{null} indicando que no hay ningún puerto enlazado.
+	\end{itemize}
+	\item \textbf{Limpieza de estado local y Notificación Web instantánea}
+	\begin{lstlisting}[style=VSCodeDark]
+_currentPort = null;
+_logger.LogInformation("Puerto serie desconectado.");
+
+_hubContext.Clients.All.SendAsync("ReceiveStatus", new { IsConnected = false, PortName = (string?)null, BaudRate = 0 });
+_hubContext.Clients.All.SendAsync("ReceiveTxLog", "[Sistema] Puerto serie desconectado.");\end{lstlisting}
+	\begin{itemize}
+		\item Resetea el nombre del puerto activo a \texttt{null};
+		\item Mediante SignalR, transmite a todos los navegadores web que el servidor está Desconectado (\texttt{isConnected = false}) y envía un mensaje a la consola de logs para que la interfaz cambie sus botones a estado de desconectado inmediatamente.
+	\end{itemize}
+\end{enumerate}
+
+Esta función es la encargada de la transmisión de datos \textbf{(TX)}. Es el puente que toma una orden que viene desde el botón de la página web (como \texttt{"0"}, \texttt{"1"}, o \texttt{CR} o \texttt{LF}) y la inyecta directamente por el cable USB hacia los pines físicos del microcontrolador STM32.
+
+\begin{lstlisting}[style=VSCodeDark]
+public bool SendCommand(string cmd)
+{
+	lock (_lock)
+	{
+		if (_serialPort == null || !_serialPort.IsOpen)
+		{
+			_logger.LogWarning("Intento de envio de comando sin puerto serie activo.");
+			return false;
+		}
+		
+		try
+		{
+			_serialPort.Write(cmd);
+			_logger.LogInformation($"Enviado comando serie: '{cmd}'");
+			_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"Enviado: '{cmd}'");
+			return true;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError($"Error al transmitir comando serie: {ex.Message}");
+			_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"Error al enviar: {ex.Message}");
+			return false;
+		}
+	}
+}
+\end{lstlisting}
+
+\begin{enumerate}
+	\item \textbf{Inicialización del método}
+	\begin{lstlisting}[style=VSCodeDark]
+	public bool SendCommand(string cmd)
+	{
+		lock (_lock)
+		{\end{lstlisting}
+	\begin{itemize}
+		\item Retorno \texttt{bool}: Devuelve \texttt{true} si el comando se envió con éxito y \texttt{false} si no se pudo transmitir.
+		\item \texttt{lock (\_lock)}: Al igual que la conexión y desconexión, este cerrojo garantiza que no haya dos comandos chocando en el puerto serie al mismo tiempo (por ejemplo, si el usuario da múltiples clics rápidos en la interfaz).
+	\end{itemize}
+	\item \textbf{Verificación}
+	\begin{lstlisting}[style=VSCodeDark]
+	if (_serialPort == null || !_serialPort.IsOpen)
+	{
+		_logger.LogWarning("Intento de envio de comando sin puerto serie activo.");
+		return false;
+	}
+	\end{lstlisting}
+	\begin{itemize}
+		\item Antes de intentar enviar nada, verifica si el puerto serie está instanciado y abierto.
+		\item Si el puerto está cerrado o es nulo (por ejemplo, si el usuario intenta encender el LED sin haber conectado el puerto COM antes), el programa escribe una advertencia en los logs del servidor y sale inmediatamente devolviendo \texttt{false} para evitar un fallo crítico o una excepción no controlada.
+	\end{itemize}
+	\item \textbf{Transmisión del Comando y Actualización en Tiempo Real}
+	\begin{lstlisting}[style=VSCodeDark]
+try
+{
+	_serialPort.Write(cmd); // Envio fisico de datos a la tarjeta
+	_logger.LogInformation($"Enviado comando serie: '{cmd}'");
+	
+	// Registra la transmision en el panel web
+	_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"Enviado: '{cmd}'");
+	return true;
+}
+	\end{lstlisting}
+	\begin{itemize}
+		\item \texttt{\_serialPort.Write(cmd)}: Esta línea de código toma la cadena cmd y la transmite eléctricamente a través del canal TX del cable de comunicación
+		\item SignalR \texttt{ReceiveTxLog}: Envía un mensaje instantáneo a la interfaz gráfica del usuario con el texto \texttt{"Enviado: '1'"} o \texttt{"Enviado: '0'"}, permitiendo que el log del cliente web muestre la acción inmediatamente en su pantalla.
+	\end{itemize}
+	\item \textbf{Control de fallos}
+	\begin{lstlisting}[style=VSCodeDark]
+	catch (Exception ex)
+	{
+		_logger.LogError($"Error al transmitir comando serie: {ex.Message}");
+		_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"Error al enviar: {ex.Message}");
+		return false;
+	}
+	\end{lstlisting}
+	\begin{itemize}
+		\item Si ocurre un error de hardware en pleno envío (por ejemplo, si desconectas el cable USB de la tarjeta justo en el momento en que presionas el interruptor en la página web), el bloque \texttt{catch} captura la excepción, informa del error al servidor, avisa a la interfaz mediante SignalR de que el comando falló, y devuelve \texttt{false}.
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+Este bloque de código es el encargado de recepción de datos \textbf{(RX)} del servidor. Se ejecuta dentro del hilo secundario (Thread) independiente. Su únco trabajo es estar al acecho, esperando a que el microcontrolador STM32 envíe algún texto por el puerto serie para leerlo, interpretarlo y mandarlo inmediatamente a tu navegador web.
+\begin{lstlisting}[style=VSCodeDark]
+private void ReadLoop()
+{
+	while (_isRunning)
+	{
+		try
+		{
+			if (_serialPort != null && _serialPort.IsOpen)
+			{
+				string line = _serialPort.ReadLine();
+				if (!string.IsNullOrWhiteSpace(line))
+				{
+					string trimmedLine = line.Trim();
+					_logger.LogInformation($"Recibido del microcontrolador: \"{trimmedLine}\"");
+					
+					// Envia la linea cruda de log a la consola del frontend
+					_hubContext.Clients.All.SendAsync("ReceiveData", trimmedLine);
+					
+					// Detecta el estado del LED para actualizar la grafica y foco en la web
+					string lowerLine = trimmedLine.ToLower();
+					if (lowerLine.Contains("encendido"))
+					{
+						_hubContext.Clients.All.SendAsync("ReceiveLedState", true);
+					}
+					else if (lowerLine.Contains("apagado"))
+					{
+						_hubContext.Clients.All.SendAsync("ReceiveLedState", false);
+					}
+				}
+			}
+			else
+			{
+				Thread.Sleep(100);
+			}
+		}
+		catch (TimeoutException)
+		{
+			// Ignora timeouts de espera de lectura normales
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError($"Error en el bucle de lectura del puerto serie: {ex.Message}");
+			
+			// Maneja la desconexion fisica inesperada (ej. desconectar cable USB)
+			lock (_lock)
+			{
+				if (_serialPort == null || !_serialPort.IsOpen)
+				{
+					HandleUnexpectedDisconnection();
+					break;
+				}
+			}
+			Thread.Sleep(500);
+		}
+	}
+}
+\end{lstlisting}
+
+\begin{enumerate}
+	\item \textbf{El ciclo de vida del hilo} (\texttt{while (\_isRunning)})
+	\begin{lstlisting}[style=VSCodeDark]
+		while (_isRunning)
+		{\end{lstlisting}
+	El hilo ejecuta un ciclo constante mientras la variable \texttt{\_isRunning} sea verdadera (\texttt{true}). Cuando el usuario presiona "Desconectar" en la web, \texttt{\_isRunning} se vuelve \texttt{false}, lo que hace que este bucle termine limpiamente y el hilo se apague sin consumir recursos.
+	\item \textbf{Lectura bloqueante y limpieza}
+	\begin{lstlisting}[style=VSCodeDark]
+		string line = _serialPort.ReadLine();
+	\end{lstlisting}
+	\begin{itemize}
+		\item \textbf{Lectura por líneas:} El método \texttt{ReadLine()} es "bloqueante". Esto significa que el hilo secundario se queda "dormido" o pausado en esta línea exacta de código hasta que el microcontrolador envíe un mensaje que termine con un carácter de salto de línea (\texttt{\textbackslash n}).
+		\item \textbf{Limpieza de datos:} \texttt{line.Trim()} elimina espacios vacíos o caracteres invisibles de retorno de carro (\texttt{\textbackslash r}) para quedarse solo con el texto crudo.
+	\end{itemize}
+	\item \textbf{ Transmisión a la Web y Detección de Estado}
+	\begin{lstlisting}[style=VSCodeDark]
+	_hubContext.Clients.All.SendAsync("ReceiveData", trimmedLine);\end{lstlisting}
+	\begin{itemize}
+		\item \textbf{Logs en tiempo real:} En cuanto llega una línea del microcontrolador (por ejemplo, \texttt{"LED Encendido"}), la retransmite inmediatamente a todos los clientes web conectados para que aparezca en la consola de logs del navegador.
+	\end{itemize}
+	\begin{lstlisting}[style=VSCodeDark]
+	string lowerLine = trimmedLine.ToLower();
+	if (lowerLine.Contains("encendido"))
+	{
+		_hubContext.Clients.All.SendAsync("ReceiveLedState", true);
+	}
+	else if (lowerLine.Contains("apagado"))
+	{
+		_hubContext.Clients.All.SendAsync("ReceiveLedState", false);
+	}
+	\end{lstlisting}
+	\begin{itemize}
+		\item \textbf{Sincronización Inteligente:} El hilo analiza el texto recibido. Si la tarjeta le envía \texttt{"LED Encendido"}, el backend deduce que el pin físico está activo y le envía al frontend la orden de encender el LED virtual y la gráfica (\texttt{ReceiveLedState}, \texttt{true}). Lo mismo ocurre para \texttt{"apagado"}.
+		\item Esto asegura que la interfaz web esté siempre sincronizada con la realidad de la placa, incluso si el cambio de estado fue provocado por el propio microcontrolador al iniciar o reiniciar.
+	\end{itemize}
+	\item \textbf{¿Qué pasa si no hay conexión activa?}
+		\begin{lstlisting}[style=VSCodeDark]
+		else
+		{
+			Thread.Sleep(100);
+		}\end{lstlisting}
+	\begin{itemize}
+		\item Si la conexión aún no se ha abierto, el hilo se "duerme" por 100 milisegundos. Esto es crucial en multithreading: evita que la computadora consuma el 100\% de la capacidad de tu procesador (CPU) girando en un bucle infinito a máxima velocidad.
+	\end{itemize}
+	\item \textbf{Control de Excepciones y Desconexión Inesperada (Desenchufar cable)}
+	\begin{enumerate}[label=\Alph*.]
+		\item Manejo de timeouts
+		\begin{lstlisting}[style=VSCodeDark]
+		catch (TimeoutException)
+		{
+			// Ignora timeouts de espera de lectura normales
+		}\end{lstlisting}
+	\begin{itemize}
+		\item En la conexión definimos un tiempo de espera de 1 segundo (ReadTimeout = 1000). Si el microcontrolador pasa 1 segundo sin enviar nada, \texttt{ReadLine()} arroja un \texttt{TimeoutException}. El bucle atrapa este error y no hace nada, simplemente vuelve a empezar el bucle para seguir escuchando. Esto evita que el hilo se quede congelado para siempre si el microcontrolador está en silencio.
+	\end{itemize}
+	\item Error crítico/Desconexión física
+	\begin{lstlisting}[style=VSCodeDark]
+	catch (Exception ex)
+	{
+		_logger.LogError($"Error en el bucle de lectura: {ex.Message}");
+		lock (_lock)
+		{
+			if (_serialPort == null || !_serialPort.IsOpen)
+			{
+				HandleUnexpectedDisconnection();
+				break; // Rompe el bucle while y apaga el hilo
+			}
+		}
+	}\end{lstlisting}
+	\begin{itemize}
+		\item Si ocurre un error general (como un fallo de entrada/salida porque se desconectó físicamente el cable USB de la tarjeta):
+		\item Captura la excepción y escribe el error en los logs del servidor.
+		\item Activa el cerrojo \texttt{lock (\_lock)} y verifica si el puerto serie efectivamente se cerró o se perdió.
+		\item Llama a \texttt{HandleUnexpectedDisconnection()} para limpiar el estado y enviar una alerta de advertencia a la web de que se perdió la comunicación.
+		\item Ejecuta un \texttt{break} para salir inmediatamente del bucle \texttt{while}, finalizando el hilo secundario de forma segura y sin dejar procesos colgados.
+	\end{itemize}
+	\end{enumerate}
+\end{enumerate}
+
+\newpage
+\subsubsection{Código completo}
+\begin{lstlisting}[style=VSCodeDark, caption={Servicio de comunicacion serie en C\#}, label={lst:serial_service}]
+	using LedControllerService.Hubs;
+	using Microsoft.AspNetCore.SignalR;
+	using System;
+	using System.IO;
+	using System.IO.Ports;
+	using System.Text.Json;
+	using System.Threading;
+	using System.Threading.Tasks;
+	namespace LedControllerService.Services
+	{
+		public class SerialService
+		{
+			private readonly IHubContext<SerialHub> _hubContext;
+			private readonly ILogger<SerialService> _logger;
+			private SerialPort? _serialPort;
+			private string? _currentPort;
+			private int _currentBaudRate = 115200;
+			private string? _savedPort;
+			private int _savedBaudRate = 115200;
+			private Thread? _readThread;
+			private bool _isRunning;
+			private readonly object _lock = new();
+			private readonly string _settingsPath;
+			public SerialService(IHubContext<SerialHub> hubContext, ILogger<SerialService> logger)
+			{
+				_hubContext = hubContext;
+				_logger = logger;
+				// Ruta del archivo JSON para guardar las configuraciones de conexion
+				_settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "serial-settings.json");
+				LoadSettings();
+				
+				// Intenta auto-conectar al iniciar el servidor
+				TryAutoConnect();
+			}
+			// Obtiene la lista de puertos COM disponibles en Windows (e.g. COM3, COM4)
+			public string[] GetAvailablePorts()
+			{
+				return SerialPort.GetPortNames();
+			}
+			// Devuelve el estado actual de la conexion y las configuraciones guardadas
+			public object GetStatus()
+			{
+				lock (_lock)
+				{
+					return new
+					{
+						IsConnected = _serialPort?.IsOpen ?? false,
+						PortName = _serialPort?.IsOpen == true ? _currentPort : null,
+						BaudRate = _serialPort?.IsOpen == true ? _currentBaudRate : 0,
+						SavedPort = _savedPort,
+						SavedBaudRate = _savedBaudRate
+					};
+				}
+			}
+			// Abre la conexion con el puerto serie fisico
+			public bool Connect(string portName, int baudRate, out string errorMessage)
+			{
+				lock (_lock)
+				{
+					errorMessage = string.Empty;
+					if (_serialPort != null && _serialPort.IsOpen)
+					{
+						Disconnect();
+					}
+					try
+					{
+						_serialPort = new SerialPort(portName, baudRate)
+						{
+							ReadTimeout = 1000,
+							WriteTimeout = 1000,
+							NewLine = "\n" // Sincroniza las lecturas por caracteres de salto de linea
+						};
+						_serialPort.Open();
+						// Limpiar buffers iniciales para descartar basura de conexion
+						_serialPort.DiscardInBuffer();
+						_serialPort.DiscardOutBuffer();
+						_currentPort = portName;
+						_currentBaudRate = baudRate;
+						_savedPort = portName;
+						_savedBaudRate = baudRate;
+						
+						SaveSettings(portName, baudRate);
+						// Inicializa el hilo de lectura secundario
+						_isRunning = true;
+						_readThread = new Thread(ReadLoop)
+						{
+							IsBackground = true,
+							Name = "SerialReadThread"
+						};
+						_readThread.Start();
+						_logger.LogInformation($"Puerto serie {portName} abierto con exito a {baudRate} bps.");
+						
+						// Notificar a los clientes web a traves de SignalR
+						_hubContext.Clients.All.SendAsync("ReceiveStatus", new { IsConnected = true, PortName = portName, BaudRate = baudRate });
+						_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"[Sistema] Puerto COM conectado con exito a {baudRate} bps.");
+						
+						// Preguntar proactivamente el estado del LED a la placa ('?') tras conectar
+						Task.Run(async () =>
+						{
+							await Task.Delay(500);
+							SendCommand("?");
+						});
+						return true;
+					}
+					catch (Exception ex)
+					{
+						errorMessage = ex.Message;
+						_logger.LogError($"Error al abrir el puerto {portName}: {ex.Message}");
+						_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"[Sistema] Error de conexion en {portName}: {ex.Message}");
+						return false;
+					}
+				}
+			}
+			// Cierra la conexion y libera los recursos del puerto
+			public void Disconnect()
+			{
+				lock (_lock)
+				{
+					_isRunning = false;
+					
+					if (_serialPort != null)
+					{
+						try
+						{
+							if (_serialPort.IsOpen)
+							{
+								_serialPort.Close();
+							}
+						}
+						catch (Exception ex)
+						{
+							_logger.LogError($"Error al cerrar el puerto serie: {ex.Message}");
+						}
+						finally
+						{
+							_serialPort.Dispose();
+							_serialPort = null;
+						}
+					}
+					_currentPort = null;
+					_logger.LogInformation("Puerto serie desconectado.");
+					_hubContext.Clients.All.SendAsync("ReceiveStatus", new { IsConnected = false, PortName = (string?)null, BaudRate = 0 });
+					_hubContext.Clients.All.SendAsync("ReceiveTxLog", "[Sistema] Puerto serie desconectado.");
+				}
+			}
+			// Envia un comando de texto ('0', '1', '?') a la tarjeta
+			public bool SendCommand(string cmd)
+			{
+				lock (_lock)
+				{
+					if (_serialPort == null || !_serialPort.IsOpen)
+					{
+						_logger.LogWarning("Intento de envio de comando sin puerto serie activo.");
+						return false;
+					}
+					try
+					{
+						_serialPort.Write(cmd);
+						_logger.LogInformation($"Enviado comando serie: '{cmd}'");
+						_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"Enviado: '{cmd}'");
+						return true;
+					}
+					catch (Exception ex)
+					{
+						_logger.LogError($"Error al transmitir comando serie: {ex.Message}");
+						_hubContext.Clients.All.SendAsync("ReceiveTxLog", $"Error al enviar: {ex.Message}");
+						return false;
+					}
+				}
+			}
+			// Bucle de lectura que corre en el hilo secundario
+			private void ReadLoop()
+			{
+				while (_isRunning)
+				{
+					try
+					{
+						if (_serialPort != null && _serialPort.IsOpen)
+						{
+							string line = _serialPort.ReadLine();
+							if (!string.IsNullOrWhiteSpace(line))
+							{
+								string trimmedLine = line.Trim();
+								_logger.LogInformation($"Recibido del microcontrolador: \"{trimmedLine}\"");
+								
+								% Envia la linea cruda de log a la consola del frontend
+								_hubContext.Clients.All.SendAsync("ReceiveData", trimmedLine);
+								% Detecta el estado del LED para actualizar la grafica y foco en la web
+								string lowerLine = trimmedLine.ToLower();
+								if (lowerLine.Contains("encendido"))
+								{
+									_hubContext.Clients.All.SendAsync("ReceiveLedState", true);
+								}
+								else if (lowerLine.Contains("apagado"))
+								{
+									_hubContext.Clients.All.SendAsync("ReceiveLedState", false);
+								}
+							}
+						}
+						else
+						{
+							Thread.Sleep(100);
+						}
+					}
+					catch (TimeoutException)
+					{
+						// Ignora timeouts de espera de lectura normales
+					}
+					catch (Exception ex)
+					{
+						_logger.LogError($"Error en el bucle de lectura del puerto serie: {ex.Message}");
+						
+						// Maneja la desconexion fisica inesperada (ej. desconectar cable USB)
+						lock (_lock)
+						{
+							if (_serialPort == null || !_serialPort.IsOpen)
+							{
+								HandleUnexpectedDisconnection();
+								break;
+							}
+						}
+						Thread.Sleep(500);
+					}
+				}
+			}
+			// Informa al frontend que el cable se desconecto
+			private void HandleUnexpectedDisconnection()
+			{
+				_logger.LogWarning("Desconexion inesperada de hardware detectada.");
+				Disconnect();
+				_hubContext.Clients.All.SendAsync("ReceiveTxLog", "[Sistema] Advertencia: Conexion perdida con la tarjeta STM32 (Puerto COM cerrado inesperadamente).");
+			}
+			// Intenta recuperar la ultima conexion registrada
+			private void TryAutoConnect()
+			{
+				if (string.IsNullOrEmpty(_savedPort)) return;
+				string[] availablePorts = GetAvailablePorts();
+				bool isPortAvailable = Array.Exists(availablePorts, p => p.Equals(_savedPort, StringComparison.OrdinalIgnoreCase));
+				if (isPortAvailable)
+				{
+					_logger.LogInformation($"Restableciendo conexion guardada de forma automatica en el puerto: {_savedPort}");
+					string error;
+					Connect(_savedPort, _savedBaudRate, out error);
+				}
+				else
+				{
+					_logger.LogInformation($"El puerto guardado ({_savedPort}) no esta disponible. Esperando seleccion manual.");
+				}
+			}
+			// Carga configuraciones de serial-settings.json
+			private void LoadSettings()
+			{
+				try
+				{
+					if (File.Exists(_settingsPath))
+					{
+						string json = File.ReadAllText(_settingsPath);
+						var settings = JsonSerializer.Deserialize<SettingsData>(json);
+						if (settings != null)
+						{
+							_savedPort = settings.SavedPort;
+							_savedBaudRate = settings.SavedBaudRate;
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					_logger.LogError($"No se pudo cargar la configuracion de puerto: {ex.Message}");
+				}
+			}
+			// Guarda configuraciones en serial-settings.json
+			private void SaveSettings(string portName, int baudRate)
+			{
+				try
+				{
+					var settings = new SettingsData { SavedPort = portName, SavedBaudRate = baudRate };
+					string json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+					File.WriteAllText(_settingsPath, json);
+				}
+				catch (Exception ex)
+				{
+					_logger.LogError($"No se pudo guardar la configuracion de puerto: {ex.Message}");
+				}
+			}
+			private class SettingsData
+			{
+				public string? SavedPort { get; set; }
+				public int SavedBaudRate { get; set; }
+			}
+		}
+	}
+\end{lstlisting}
+
+En este punto, el compilador nos mostrará que encontró 3 problemas en el archivo \texttt{SerialService.cs}, tal como se muestra en la figura \ref{fig25}. Esto es completamente normal, ya que aún no hemos creado el Hub de SignalR. Lo crearemos en el siguiente paso.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_25} 
+	\caption{Errores encontrados en SerialService.cs.}\label{fig25} 
+\end{figure}
+
+\subsection{Crear el Hub de SignalR (\texttt{SerialHub.cs})}
+Un \textbf{Hub} (Concentrador) en SignalR es el canal lógico de comunicación donde se conectan los clientes externos (los navegadores web) a través de \textbf{WebSockets}. Funciona como un conmutador electrónico.\\
+
+\begin{enumerate}
+	\item Dentro de Visual Studio Code, dirígete a la carpeta \directory{Service/LedControllerService}
+	\item Crea una nueva carpeta llamada \textbf{Hubs}
+	\item Dentro de la carpeta \textbf{Hubs}, crea un archivo llamado \texttt{SerialHub.cs}
+	\item Pega el siguiente código en el archivo
+\end{enumerate}
+
+\begin{lstlisting}[style=VSCodeDark]
+using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
+
+namespace LedControllerService.Hubs
+{
+	public class SerialHub : Hub
+	{
+		// Este Hub puede permanecer vacio ya que toda la emision de datos 
+		// la controla el servicio singleton 'SerialService' utilizando IHubContext<SerialHub>.
+		// Sin embargo, permite que los clientes se conecten mediante WebSockets directamente.
+		
+		public override async Task OnConnectedAsync()
+		{
+			// Este metodo se dispara automaticamente cuando un navegador web se conecta.
+			// Es util si quisieramos registrar informacion del cliente conectado en el futuro.
+			await base.OnConnectedAsync();
+		}
+	}
+}
+\end{lstlisting}
+
+\subsubsection{¿Qué significan los componentes de este código?}
+\begin{itemize}
+	\item \texttt{using Microsoft.AspNetCore.SignalR;}: Importa la librería oficial de SignalR que provee la clase \texttt{Hub}.
+	\item \texttt{namespace LedControllerService.Hubs}: Define que la clase se encuentra en la carpeta lógica Hubs de tu proyecto.
+	\item \texttt{public class SerialHub : Hub}: La palabra clave \texttt{:} significa \textbf{herencia}. Le estamos indicando a C\# que nuestra clase \texttt{SerialHub} hereda todas las propiedades y comportamientos de la clase base \texttt{Hub} de Microsoft, convirtiéndose oficialmente en un canal de WebSockets de SignalR.
+	\item \texttt{public override async Task OnConnectedAsync()}:
+	\begin{itemize}
+		\item \texttt{override} (Sobrescribir): Indica que estamos reemplazando el comportamiento por defecto de lo que hace SignalR cuando alguien se conecta.
+		\item \texttt{async Task}: Define que es un método asíncrono (que no congela la ejecución mientras espera una respuesta de red).
+	\end{itemize} 
+\end{itemize}
+
+\begin{InfoBox}{Advertencias después de guardar el archivo SerialHub.cs } 
+	Al guardar este archivo, la advertencia de \texttt{using LedControllerService.Hubs;} en el archivo \texttt{SerialService.cs} desaparecerán.
+\end{InfoBox}
+
+\newpage
+\subsection{Crear el controlador API (\texttt{SerialController.cs})}
+
+El controlador es la puerta de entrada para las peticiones HTTP convencionales (REST) del frontend. Mientras que SignalR maneja la recepción continua de datos en tiempo real, el controlador maneja las órdenes directas que realiza el usuario mediante clics en la interfaz (como \textit{"conéctame a este puerto"}, \textit{"desconéctame"} o \textit{"envía este comando al LED"}).
+
+\begin{description}
+	\item[Inyección de dependencias] El controlador no tiene idea de cómo hablar con el puerto serie. En su lugar, el constructor recibe nuestro \texttt{SerialService} y le delega todo el trabajo.
+	\item[Expoints expuestos] listado de endpoints
+	\begin{enumerate}
+		\item \texttt{GET /api/serial/ports}: Obtiene la lista de puertos COM
+		\item \texttt{GET /api/serial/status}: Obtiene el estado actual de la conexión.
+		\item \texttt{POST /api/serial/connect}: Ordena la conexión a un puerto y baudios específicos.
+		\item \texttt{POST /api/serial/disconnect}: Cierra la conexión activa.
+		\item \texttt{POST /api/serial/send}:Envía un comando a la tarjeta (\texttt{0}, \texttt{1}, \texttt{?}).
+	\end{enumerate}
+\end{description}
+
+\begin{enumerate}
+	\item En tu editor, ve a la carpeta que ya existe en tu proyecto: \texttt{Service/LedController\\Service/Controllers/}
+	\item Dentro de esa carpeta, crea un archivo llamado \texttt{SerialController.cs}.
+	\item Pega el siguiente código en el archivo:
+\end{enumerate}
+
+\begin{lstlisting}[style=VSCodeDark]
+using LedControllerService.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LedControllerService.Controllers
+{
+	[ApiController]
+	[Route("api/[controller]")] // Define la ruta base como: api/serial
+	public class SerialController : ControllerBase
+	{
+		private readonly SerialService _serialService;
+		
+		// El constructor recibe el servicio singleton SerialService por Inyeccion de Dependencias
+		public SerialController(SerialService serialService)
+		{
+			_serialService = serialService;
+		}
+		
+		// GET: api/serial/ports
+		[HttpGet("ports")]
+		public ActionResult<string[]> GetAvailablePorts()
+		{
+			return Ok(_serialService.GetAvailablePorts());
+		}
+		
+		// GET: api/serial/status
+		[HttpGet("status")]
+		public ActionResult GetStatus()
+		{
+			return Ok(_serialService.GetStatus());
+		}
+		
+		// POST: api/serial/connect
+		[HttpPost("connect")]
+		public ActionResult Connect([FromBody] ConnectRequest request)
+		{
+			if (string.IsNullOrEmpty(request.PortName))
+			{
+				return BadRequest("El nombre del puerto es obligatorio.");
+			}
+			
+			if (request.BaudRate <= 0)
+			{
+				return BadRequest("La velocidad de baudios debe ser mayor a cero.");
+			}
+			
+			string error;
+			bool success = _serialService.Connect(request.PortName, request.BaudRate, out error);
+			
+			if (success)
+			{
+				return Ok(new { Message = "Conectado exitosamente.", Success = true });
+			}
+			else
+			{
+				return StatusCode(500, new { Message = $"Error de conexion: {error}", Success = false });
+			}
+		}
+		
+		// POST: api/serial/disconnect
+		[HttpPost("disconnect")]
+		public ActionResult Disconnect()
+		{
+			_serialService.Disconnect();
+			return Ok(new { Message = "Desconectado exitosamente.", Success = true });
+		}
+		
+		// POST: api/serial/send
+		[HttpPost("send")]
+		public ActionResult SendCommand([FromBody] SendCommandRequest request)
+		{
+			if (string.IsNullOrEmpty(request.Command))
+			{
+				return BadRequest("El comando no puede estar vacio.");
+			}
+			
+			bool success = _serialService.SendCommand(request.Command);
+			
+			if (success)
+			{
+				return Ok(new { Message = "Comando enviado.", Success = true });
+			}
+			else
+			{
+				return BadRequest(new { Message = "No se pudo enviar el comando. El puerto esta conectado?", Success = false });
+			}
+		}
+	}
+	
+	// Modelos de datos para recibir los parametros del cuerpo de las peticiones JSON (POST)
+	public class ConnectRequest
+	{
+		public string PortName { get; set; } = string.Empty;
+		public int BaudRate { get; set; } = 115200;
+	}
+	
+	public class SendCommandRequest
+	{
+		public string Command { get; set; } = string.Empty;
+	}
+}
+\end{lstlisting}
+
+\textbf{Detallles del código}\\
+\begin{itemize}
+	\item \texttt{[ApiController]}: Le dice a .NET que esta clase responderá peticiones de red HTTP y aplicará validaciones automáticas a los modelos de datos de entrada.
+	\item \texttt{[Route("api/[controller]")]}: Configura la URL. La palabra \texttt{[controller]} se reemplaza automáticamente por el nombre de la clase sin la palabra "Controller", por lo que todas las peticiones a esta API comenzarán con \texttt{/api/serial}.
+	\item \texttt{[FromBody]}: Indica al compilador que el contenido de la petición (el JSON con el puerto o comando) viene en el cuerpo de la solicitud HTTP (Body) y debe ser transformado automáticamente a las clases \texttt{ConnectRequest} o \texttt{SendCommandRequest}.
+\end{itemize}
+
+\subsection{Configuración del archivo \texttt{Program.cs}}
+El archivo\texttt{ Program.cs} es el punto de entrada principal del servidor. Cuando inicias tu API con dotnet run, es este archivo el que se ejecuta primero.
+
+Para que todo nuestro sistema funcione, debemos configurarle los siguientes servicios básicos al constructor del servidor:
+
+\begin{description}
+	\item[Configurar la política de CORS:] Por seguridad, los navegadores bloquean llamadas entre diferentes puertos (Angular corre en el puerto 4200 y C\# corre en el puerto 5200). Aquí le daremos permiso explícito a \texttt{http://localhost:4200} para realizar peticiones y conectarse por WebSockets (usando \texttt{.AllowCredentials()} )
+	\item[Intectar el] \texttt{SerialService}: Registraremos este servicio para que esté siempre activo y disponible para el controlador.
+	\item[Activar Signalr]: Habilita el motor de WebSockets en el backend.
+	\item[Mapear el Hub de websockets:] Configura la dirección URL física (\texttt{/hubs/serial}) que escuchará las conexiones de SignalR.
+	\item[Forzar el puerto del servidor:] Obligaremos a la aplicación a correr exactamente en \texttt{http://localhost:5200} para que coincida con la configuración de llamadas de Angular.
+\end{description}
+
+\begin{enumerate}
+	\item En el editor, abre el archivo existente \texttt{Service/LedControllerService/Program.cs}
+	\item Borra todo su contenido original y reemplázalo por el siguiente código estructurado:
+\end{enumerate}
+
+\begin{lstlisting}[style=VSCodeDark]
+using LedControllerService.Hubs;
+using LedControllerService.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// 1. Configurar CORS (Cross-Origin Resource Sharing) para Angular
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("CorsPolicy", policy =>
+	{
+		policy.WithOrigins("http://localhost:4200") // Permite el origen del frontend
+		.AllowAnyHeader()
+		.AllowAnyMethod()
+		.AllowCredentials(); // Obligatorio para permitir conexiones de WebSockets de SignalR
+	});
+});
+
+// 2. Agregar el soporte para los controladores API REST tradicionales
+builder.Services.AddControllers();
+
+// 3. Agregar el soporte para SignalR (WebSockets)
+builder.Services.AddSignalR();
+
+// 4. Registrar nuestro SerialService como Singleton (instancia unica)
+builder.Services.AddSingleton<SerialService>();
+
+// 5. Agregar OpenAPI (Swagger) para documentacion y pruebas
+builder.Services.AddOpenApi();
+
+var app = builder.Build();
+
+// Configurar el pipeline de peticiones HTTP
+if (app.Environment.IsDevelopment())
+{
+	app.MapOpenApi();
+}
+
+// 6. Activar la politica de CORS antes del ruteo de controladores y hubs
+app.UseCors("CorsPolicy");
+
+app.UseAuthorization();
+
+// 7. Mapear los Controladores de la API REST
+app.MapControllers();
+
+// 8. Mapear la ruta URL para el Hub de SignalR
+app.MapHub<SerialHub>("/hubs/serial");
+
+// 9. Forzar al servidor a escuchar en el puerto local 5200
+app.Run("http://localhost:5200");
+
+\end{lstlisting}
+
+\begin{itemize}
+	\item \texttt{builder.Services.AddSingleton<SerialService>();}: Le dice a .NET: \textit{"Crea una única instancia de \texttt{SerialService} al arrancar. Cuando un controlador (\texttt{Serial\\Controller}) la pida en su constructor, dale siempre esta misma instancia"} (evita que se intente abrir el puerto USB varias veces).
+	\item \texttt{app.UseCors("CorsPolicy");}: Activa el semáforo de seguridad de red en el servidor. Debe ir colocado antes de mapear controladores o hubs para que las peticiones web no sean rechazadas.
+	\item \texttt{app.MapHub<SerialHub>("/hubs/serial");}: Mapea la dirección de WebSockets. El cliente de Angular intentará conectarse a \texttt{http://localhost:5200/hubs/serial}.
+\end{itemize}
+
+Con este paso, el código del backend está 100\% completo. Para confirmar que no hay errores de sintaxis y que todo está listo para funcionar, abre una terminal de VS Code y realiza lo siguiente:
+
+\begin{enumerate}
+	\item Navega a la carpeta del backend:
+	\begin{lstlisting}[language=DOS]	
+	cd "C:\VisualStudioProjects\NucleoBoard_LedControl\Service\LedControllerService"
+	\end{lstlisting}
+	\item Ejecuta la compilación de prueba:
+	\begin{lstlisting}[language=DOS]	
+	dotnet build
+	\end{lstlisting}
+\end{enumerate}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{vscode_26} 
+	\caption{Compilación del backend.}\label{fig26} 
+\end{figure}
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+%\bibliographystyle{unsrt}
+
+%\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

@@ -1,0 +1,1355 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\usepackage{geometry}
+\geometry{
+	top=2.5cm,      % Margen superior
+	bottom=2.5cm,   % Margen inferior
+	left=3cm,       % Margen izquierdo
+	right=3cm,      % Margen derecho
+	% headheight=15pt % Opcional: Aumentar espacio para el encabezado si LaTeX da un Warning
+}
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	END OF PACKAGES
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	INPUTS
+%----------------------------------------------------------------------------------------
+\input{listings_config.tex}
+\input{vscode_theme.tex}
+\input{custom_boxes.tex}
+%----------------------------------------------------------------------------------------
+%	END INPUTS
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+\lstset{
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1
+	{é}{{\'e}}1
+	{í}{{\'i}}1
+	{ó}{{\'o}}1
+	{ú}{{\'u}}1
+	{ñ}{{\~n}}1
+	{Á}{{\'A}}1
+	{É}{{\'E}}1
+	{Í}{{\'I}}1
+	{Ó}{{\'O}}1
+	{Ú}{{\'U}}1
+	{Ñ}{{\~N}}1
+	{¿}{{\textquestiondown}}1
+	{¡}{{\textexclamdown}}1
+}
+%----------------------------------------------------------------------------------------
+%	END OF ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{STM32 NUCLEO - INTERFAZ DE CONTROL DE LED}} % The article title
+
+%\subtitle{Subtitle} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+%\maketitle % Print the title/author/date block
+%----------------------------------------------------------------------------------------
+%	PORTADA PERSONALIZADA
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\centering
+	\vspace*{2cm}
+	
+	% Si deseas agregar un logo o imagen (por ejemplo, el logo de tu universidad o de STM32), 
+	% coloca la imagen en la carpeta Figures/ y descomenta la siguiente línea:
+	% \includegraphics[width=0.4\textwidth]{tu_logo.png}\\[1cm]
+	
+	\vspace{1cm}
+	
+	% Título Principal
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{STM32 and VS Code}}\\[0.5cm]
+	
+	% Subtítulo
+	{\Large\spacedlowsmallcaps{How to create a new project}}\\[1.5cm]
+	
+	% Línea divisoria elegante
+	\rule{\linewidth}{1pt}\\[2cm]
+	
+	% Información del Autor y detalles del curso/institución
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushleft} \large
+			\emph{Autor:}\\
+			Rodrigo \spacedlowsmallcaps{Castillejos}
+		\end{flushleft}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushright} \large
+			\emph{Proyecto:}\\
+			Control de Dispositivos Embebidos
+		\end{flushright}
+	\end{minipage}
+	
+	\vfill
+	\vspace{3cm}
+	
+	% Fecha
+	{\large\today}\\[1cm]
+\end{titlepage}
+\newpage % Forza el salto de página después de la portada
+
+\setcounter{tocdepth}{3} % Set the depth of the table of contents to show sections and subsections only
+
+%----------------------------------------------------------------------------------------
+%	RESUMEN (SUMMARY / ABSTRACT) - COLOCAR ANTES DEL ÍNDICE
+%----------------------------------------------------------------------------------------
+\section*{Resumen}
+Este documento técnico presenta una guía metodológica detallada para el diseño, configuración e implementación de un entorno de desarrollo de firmware embebido unificado, orientado a microcontroladores de la familia STM32 mediante el uso del editor de código Visual Studio Code en sistemas operativos Windows. El flujo de desarrollo presentado abarca desde la instalación inicial de las herramientas indispensables de software (Visual Studio Code, STM32CubeMX y CMake), hasta la integración práctica del diseño del hardware utilizando como plataforma física la tarjeta de desarrollo NUCLEO-F303RE.\\
+
+Asimismo, se exponen las mejores prácticas de optimización y organización dentro de VS Code. Esto incluye la creación y activación de perfiles dedicados (Profiles) para el desarrollo con STM32, lo cual previene la saturación de recursos en el IDE, así como la asignación manual del ejecutable de CMake en las configuraciones globales. A través del uso de la extensión oficial de STMicroelectronics, se detalla la vinculación de la toolchain GCC y el depurador físico ST-Link a través de un GDB Server local para realizar la carga y monitoreo del firmware.
+\newpage % Salto de página para que el índice (Table of Contents) inicie en una hoja limpia
+
+\tableofcontents % Print the table of contents
+
+%\newpage
+%\listoffigures % Print the list of figures
+
+%\listoftables % Print the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\newpage
+%\section*{Resumen} % This section will not appear in the table of contents due to the star (\section*)
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR AFFILIATIONS
+%----------------------------------------------------------------------------------------
+
+%\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+
+%\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+
+%----------------------------------------------------------------------------------------
+
+\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+
+%----------------------------------------------------------------------------------------
+%	DESINSTALACIÓN DE COMPONENTES
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN DE HERRAMIENTAS REQUERIDAS
+%----------------------------------------------------------------------------------------
+\section{Aplicaciones requeridas para la creación de proyectos STM32}
+
+Para poder inicializar, configurar y desarrollar un nuevo proyecto destinado a tarjetas de desarrollo o microcontroladores STM en Visual Studio Code, es fundamental descargar e instalar las siguientes herramientas en su versión para Windows:
+\begin{description}
+	\item[Visual Studio Code para Windows:] El entorno de desarrollo (IDE) ligero donde se escribirá, compilará y depurará el código C/C++. Se recomienda instalar posteriormente las extensiones oficiales de STMicroelectronics (como \textit{STM32 VS Code Extension}).
+	\begin{itemize}
+		\item Enlace de descarga: \href{https://code.visualstudio.com/}{code.visualstudio.com}
+	\end{itemize}
+	
+	\item[STM32CubeMX:] Herramienta gráfica oficial de STMicroelectronics que se utiliza para configurar los periféricos del microcontrolador (pines GPIO, relojes del sistema, puertos USART, etc.) y generar el código de inicialización base del proyecto.
+	\begin{itemize}
+		\item Enlace de descarga: \href{https://www.st.com/en/development-tools/stm32cubemx.html}{st.com/stm32cubemx}
+	\end{itemize}
+	
+	\item[CMake:] El sistema de generación de compilación multiplataforma. Las nuevas plantillas de proyectos de STM32CubeMX utilizan CMake para gestionar y organizar la compilación de todos los archivos de código fuente.
+	\begin{itemize}
+		\item Enlace de descarga: \href{https://cmake.org/download/}{cmake.org}
+	\end{itemize}
+\end{description}
+\begin{InfoBox}{Variable de Entorno (PATH)}
+	Durante la instalación de \textbf{CMake}, asegúrese de marcar la opción que dice \textbf{"Add CMake to the system PATH for all users"} (o para el usuario actual). Esto es indispensable para que Visual Studio Code pueda localizar y ejecutar CMake de forma automática desde la terminal.
+\end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECCIÓN DE EXTENSIONES DE VS CODE (ACTUALIZADA)
+%----------------------------------------------------------------------------------------
+\subsection{Extensiones Recomendadas para Visual Studio Code}
+Una vez instalado Visual Studio Code, es necesario equiparlo con las extensiones adecuadas para habilitar el soporte de desarrollo y depuración de microcontroladores. Abra el panel de Extensiones en VS Code mediante el atajo \keys{Ctrl + Shift + X} e instale las siguientes herramientas:
+\begin{itemize}
+	\item \textbf{C/C++ Extension Pack:} Proporciona soporte esencial para el lenguaje, incluyendo el autocompletado inteligente (IntelliSense), formateo automático, navegación por símbolos y depuración básica.
+	\item \textbf{CMake Tools:} Permite a VS Code interpretar, configurar y compilar proyectos que utilicen sistemas de archivos basados en CMake de forma gráfica e integrada.
+	\item \textbf{Serial Monitor:} Extensión oficial de Microsoft que integra un monitor de terminal serie directamente en las pestañas del editor para interactuar con los datos enviados por la tarjeta STM32.
+	\item \textbf{STM32CubeIDE for Visual Studio Code:} La extensión principal de STMicroelectronics. Al instalar esta extensión, se instalará de forma automática el paquete completo que incluye 15 extensiones integradas, entre las que destacan:
+	\begin{itemize}
+		\item \textit{STM32Cube Core} (Núcleo de soporte básico)
+		\item \textit{STM32Cube Bundles Manager} (Gestor de recursos y librerías)
+		\item \textit{STM32Cube CMake Support} (Integración y soporte para compilación basada en CMake)
+		\item \textit{STM32Cube Project Manager} (Importación y creación de proyectos desde CubeMX)
+		\item \textit{STM32Cube Build Analyzer} (Analizador visual del resultado de compilación y uso de memoria)
+		\item \textit{STM32Cube Debug Core} (Motor de depuración de firmware)
+		\item \textit{STM32Cube Debug Generic GDB Server} (Servidor GDB para depuración genérica)
+		\item \textit{STM32Cube Debug STLink GDB Server} (Servidor GDB específico para depuradores físicos ST-Link de ST)
+		\item \textit{STM32Cube Debug Jlink GDB Server} (Servidor GDB específico para depuradores Segger J-Link)
+		\item \textit{STM32Cube RTOS Views} (Vistas de depuración en tiempo real para sistemas operativos RTOS)
+		\item \textit{STM32Cube Registers View} (Visor detallado del estado de los registros SFR del microcontrolador)
+		\item \textit{STM32Cube clangd} (Servicio de lenguaje avanzado basado en Clang para análisis y refactorización)
+		\item \textit{Memory Inspector} (Herramienta gráfica para evaluar las secciones de RAM y Flash del chip)
+		\item \textit{Web and Desktop Serial Monitor} (Monitor serie alternativo y avanzado para tramas de comunicación)
+	\end{itemize}
+\end{itemize}
+\begin{InfoBox}{Instalación del Paquete de STMicroelectronics}
+	Al instalar la extensión \textbf{STM32CubeIDE for Visual Studio Code}, VS Code descargará e instalará automáticamente en segundo plano todas las demás extensiones asociadas de STMicroelectronics. No es necesario buscarlas ni instalarlas individualmente.
+\end{InfoBox}
+
+Una vez finalizada la instalación de estas herramientas, observará que en la \textbf{barra de actividad lateral izquierda} de Visual Studio Code aparecerán dos nuevos iconos dedicados:
+\begin{enumerate}
+	\item El icono de \textbf{CMake} (representado por una figura geométrica tridimensional), desde el cual podrá configurar y compilar objetivos.
+	\item El logotipo oficial de \textbf{STMicroelectronics}, el cual da acceso directo a la gestión del proyecto, visualización de registros y herramientas de análisis del microcontrolador.
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECCIÓN DE DESCARGA E INSTALACIÓN DE CMAKE
+%----------------------------------------------------------------------------------------
+\subsection{Descarga y Configuración de CMake}
+Para realizar la descarga e instalación de CMake en su sistema, siga los siguientes pasos:
+\begin{enumerate}
+	\item Ingrese a la página oficial de descargas de CMake a través del enlace proporcionado anteriormente.
+	\item Al cargar el portal, identificará que las descargas se dividen en dos grandes opciones:
+	\begin{itemize}
+		\item \textbf{Source Distributions:} Bloques que contienen únicamente el código fuente original del programa, recomendados si se desea compilar la herramienta desde cero.
+		\item \textbf{Binary Distributions:} Paquetes con ejecutables precompilados y listos para ser utilizados directamente en el sistema operativo.
+	\end{itemize}
+	\item Desplácese a la sección de \textbf{Binary Distributions} y descargue el paquete comprimido denominado \textbf{\texttt{cmake-4.3.2-windows-x86\_64.zip}} adaptado para la arquitectura de Windows de 64 bits.
+\end{enumerate}
+\begin{InfoBox}{Uso de la Versión Portátil (ZIP)}
+	Al tratarse de una versión comprimida en formato \texttt{.zip}, deberá extraer el contenido en una carpeta permanente dentro de su disco duro (por ejemplo, en \directory{C:/Program Files/CMake} o \directory{C:/CMake}). No olvide agregar la ruta de la subcarpeta \texttt{bin} a las variables de entorno (PATH) del sistema para que Visual Studio Code pueda ejecutar CMake de forma global.
+\end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN: CONFIGURACIONES PREVIAS EN VS CODE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Configuraciones Previas en Visual Studio Code}
+Antes de proceder con la inicialización y creación de cualquier proyecto, es muy importante realizar un par de ajustes de preparación dentro de Visual Studio Code. Estas configuraciones se realizan una sola vez en el editor, por lo que no será necesario repetirlas cada vez que cree un nuevo proyecto en el futuro.
+\subsection{Creación y Uso de Perfiles (Profiles)}
+Los \textbf{Perfiles (Profiles)} en Visual Studio Code son una característica que permite guardar y aislar conjuntos específicos de configuraciones, temas, atajos de teclado, estados de la interfaz y extensiones instaladas.
+\subsubsection{¿Para qué sirven y cuáles son sus ventajas?}
+El desarrollo embebido para microcontroladores STM32 requiere herramientas y dependencias muy particulares (compiladores, extensiones de depuración, etc.). El uso de un perfil dedicado aporta las siguientes ventajas:
+\begin{itemize}
+	\item \textbf{Aislamiento y Organización:} Mantiene las extensiones de STM32 separadas de las extensiones que utilice para otros tipos de programación (como desarrollo web, Python, etc.), evitando conflictos y saturación de menús.
+	\item \textbf{Optimización del Rendimiento:} Al cargar únicamente las extensiones específicas de STM32 en este perfil, VS Code consume menos memoria RAM y el editor arranca mucho más rápido.
+	\item \textbf{Portabilidad y Respaldo:} Permite exportar toda la configuración de desarrollo en un solo archivo e importarlo en cualquier otra máquina para tener el entorno de trabajo listo al instante.
+\end{itemize}
+\subsubsection{Pasos para crear un nuevo perfil}
+Para configurar un perfil exclusivo para su trabajo con tarjetas STM, siga los siguientes pasos:
+\begin{enumerate}
+	\item Diríjase al extremo inferior de la barra de actividad lateral izquierda y haga clic en el icono del \textbf{engranaje} (Administración).
+	\item En el menú contextual que aparece, seleccione la opción \textbf{Profiles} $\rightarrow$ \textbf{Profiles} (o \textbf{Create Profile...} según la versión de su editor).
+	\item Esto abrirá una pestaña de configuración llamada \textbf{"Profiles"}. En el campo de texto etiquetado como \textbf{Name}, asigne un nombre representativo para este perfil, por ejemplo: \texttt{STM32} (tal como se ilustra en la figura \ref{fig_stm32_10}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{stm32_10}
+		\caption{Creación del perfil dedicado "STM32" en Visual Studio Code.}\label{fig_stm32_10}
+	\end{figure}
+	
+	\item Una vez ingresado el nombre, puede proceder a cerrar la pestaña de perfiles; el entorno guardará los cambios automáticamente.
+\end{enumerate}
+\subsubsection{Activación del perfil}
+Para activar y comenzar a trabajar bajo este entorno, haga clic nuevamente en el icono del \textbf{engranaje} en la esquina inferior izquierda, desplace el cursor sobre la opción \textbf{Profiles} y haga clic en el perfil previamente creado (\textbf{STM32}) en la lista desplegable. Esto cambiará todo el contexto del editor a tu espacio de trabajo configurado.
+
+
+%----------------------------------------------------------------------------------------
+%	SUBSECCIÓN: CONFIGURACIÓN DE LA RUTA DE CMAKE
+%----------------------------------------------------------------------------------------
+\subsection{Configuración de la Ruta del Ejecutable de CMake}
+De acuerdo con la documentación y advertencias provistas por la extensión oficial \textbf{CMake Tools}, para que la automatización de compilación opere sin inconvenientes es necesario cumplir con el siguiente requerimiento:
+\begin{quote}
+	\textit{"Ensure that either you've added your CMake executable to your PATH, or you've adjusted the cmake.cmakePath setting to point to your CMake executable."}
+\end{quote}
+Para solventar esta directiva indicando explícitamente a VS Code dónde se encuentra el ejecutable de CMake en su computadora, realice el siguiente procedimiento:
+\begin{enumerate}
+	\item Diríjase al icono del \textbf{engranaje} (Administración) en la barra de actividad y elija la opción \textbf{Settings} (o use el atajo rápido \keys{Ctrl + ,}).
+	\item En la barra de búsqueda de la pestaña de configuraciones que se despliega, escriba la frase de búsqueda: \texttt{path cmake}.
+	\item Identifique el campo de configuración titulado \textbf{"Cmake: Cmake Path"} (cuya etiqueta de descripción indica: \textit{Name/path of the CMake executable to use}).
+	\item En la caja de texto de esta opción, introduzca la ruta exacta en su disco duro donde se localiza el binario de CMake. Para esta instalación, la ruta corresponde a: \\
+	\texttt{C:\textbackslash Program Files\textbackslash CMake\textbackslash bin\textbackslash cmake} (tal como se ilustra en la figura \ref{fig_stm32_11}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{stm32_11}
+		\caption{Asignación de la ruta de CMake en el campo Cmake Path de VS Code.}\label{fig_stm32_11}
+	\end{figure}
+	
+	\item Cierre la ventana de configuración; Visual Studio Code registrará y salvará las modificaciones de forma automática e inmediata.
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECCIÓN: CONFIGURACIÓN DE LA RUTA DE STM32CUBEMX
+%----------------------------------------------------------------------------------------
+\subsection{Configuración de la Ruta del Ejecutable de STM32CubeMX}
+Para garantizar que Visual Studio Code pueda lanzar la herramienta gráfica de configuración física de pines sin inconvenientes, es altamente recomendable configurar de forma explícita la ruta de instalación de STM32CubeMX. Esto previene un error común en el que el editor muestra una notificación indicando que no se ha encontrado la ruta para abrir la aplicación.
+Para configurar esta ruta, realice el siguiente procedimiento:
+\begin{enumerate}
+	\item Abra la ventana de configuraciones globales de Visual Studio Code mediante el atajo de teclado \keys{Ctrl + ,} (o dirigiéndose al icono del engranaje en la esquina inferior izquierda y seleccionando \textbf{Settings}).
+	
+	\item En la barra de búsqueda de la pestaña de configuraciones, escriba el texto de búsqueda: \texttt{path stm32cubemx}.
+	
+	\item Identifique la sección de configuración correspondiente a la extensión de STMicroelectronics, específicamente el campo titulado: \\
+	\textbf{Stm32cube-ide-core $\rightarrow$ Configuration $\rightarrow$ Product STM32 Cube MX: Executable Path} \\
+	\textit{(Absolute path to the STM32CubeMX executable)}.
+	
+	\item Introduzca la ruta absoluta exacta donde se encuentra instalado el ejecutable en su sistema. Para esta versión, la ruta corresponde a: \\
+	\texttt{C:\textbackslash Users\textbackslash casti\textbackslash AppData\textbackslash Local\textbackslash Programs\textbackslash STM32CubeMX\_6.17.0\textbackslash STM32CubeMX.exe} \\
+	(tal como se ilustra en la figura \ref{fig_stm32_18}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{stm32_18}
+		\caption{Asignación de la ruta absoluta del ejecutable de STM32CubeMX en VS Code.}\label{fig_stm32_18}
+	\end{figure}
+	
+	\item Cierre la ventana de configuración; Visual Studio Code registrará y salvará las modificaciones de forma automática e inmediata.
+\end{enumerate}
+\begin{WarningBox}{Error de Lanzamiento de STM32CubeMX}
+	Si omite esta configuración, al hacer clic en las opciones del panel lateral de ST como \textbf{Launch STM32CubeMX}, es posible que VS Code intente buscar el ejecutable en las rutas por defecto del sistema y falle si se trata de una instalación local de usuario, arrojando una alerta de error. Configurar la ruta absoluta soluciona este comportamiento de manera permanente.
+\end{WarningBox}
+
+
+\newpage
+%----------------------------------------------------------------------------------------
+%	SECCIÓN: CREACIÓN DE PROYECTO CON STM32CUBEMX
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Creación de un nuevo proyecto usando STM32CubeMX}
+Una vez que el entorno de desarrollo y las extensiones se han instalado correctamente, puede proceder con la creación y configuración inicial de su firmware. El flujo de trabajo oficial de ST en Visual Studio Code le permite gestionar todo el proceso desde el panel integrado:
+\begin{enumerate}
+	\item Diríjase a la \textbf{barra de actividad lateral izquierda} en Visual Studio Code.
+	\item Haga clic en el icono oficial de \textbf{STM32Cube} (el logotipo con las letras \textbf{ST}).
+	\item Se abrirá un panel lateral en el editor que mostrará las siguientes 7 opciones de configuración y creación (figura \ref{fig1}):
+	\begin{itemize}
+		\item \textbf{Launch STM32CubeMX:} Abre de forma externa la herramienta gráfica oficial de ST para configurar el hardware y los periféricos del microcontrolador.
+		\item \textbf{Launch STM32CubeMX2:} Método secundario de acceso rápido para arrancar la interfaz gráfica de CubeMX.
+		\item \textbf{Launch STM32CubeFinder:} Lanza el catálogo interactivo de STMicroelectronics para buscar y elegir chips o tarjetas de desarrollo específicas.
+		\item \textbf{Create Empty Project:} Inicializa la estructura básica de carpetas y código para un proyecto de STM32 desde cero.
+		\item \textbf{Import STM32Cube example(s):} Permite explorar e importar proyectos de ejemplo predefinidos provistos por ST para diferentes periféricos.
+		\item \textbf{Convert eclipse STM32CubeIDE project:} Utilidad para migrar proyectos antiguos que fueron configurados bajo el IDE tradicional basado en Eclipse hacia el nuevo formato de Visual Studio Code.
+		\item \textbf{Set Up STM32Cube project(s):} Parámetros avanzados de configuración para proyectos STM32 \textit{(esta opción se encuentra deshabilitada por el momento)}.
+	\end{itemize}
+\end{enumerate}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=1\textwidth]{stm32_1} 
+	\caption{STM32Cube - opciones de trabajo}\label{fig1} 
+\end{figure}
+
+Para continuar con el proceso de creación y configuración física de la tarjeta de desarrollo, siga los pasos a continuación:
+\begin{enumerate}
+	\setcounter{enumi}{3} % Continúa la lista numerada en el paso 4
+	\item Seleccione la opción \textbf{Launch STM32CubeMX} en el menú lateral. Esto abrirá la interfaz de configuración gráfica de STM32CubeMX en una ventana independiente, tal como se muestra en la figura \ref{fig_stm32_2}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_2}
+		\caption{Interfaz de bienvenida de STM32CubeMX.}\label{fig_stm32_2}
+	\end{figure}
+	
+	\item Dado que para este proyecto se utiliza la tarjeta de desarrollo \textbf{NUCLEO-F303RE}, busque en la pantalla central de STM32CubeMX la sección \textbf{Start my project from ST Board} y haga clic en el botón \textbf{ACCESS TO BOARD SELECT...}.
+	
+	\item Esta acción abrirá la ventana de selección de hardware titulada \textbf{"New Project from a Board"} (ilustrada en la figura \ref{fig_stm23_3}), la cual carga por defecto en la pestaña \textbf{Board Selector}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_3}
+		\caption{Ventana "New Project from a Board" con filtro de búsqueda.}\label{fig_stm23_3}
+	\end{figure}
+	
+	\item En el menú de filtros del lado izquierdo de esta ventana, busque el campo de texto etiquetado como \textbf{Commercial Part Number}. Escriba allí el modelo de la placa: \texttt{NUCLEO-F303RE}.
+	
+	\item Al mostrarse la tarjeta en la sección central de resultados, selecciónela haciendo clic sobre su imagen/descripción.
+	
+	\item Finalmente, haga clic en el botón \textbf{Start Project} (ubicado en la esquina superior derecha) para inicializar el proyecto base con la arquitectura de hardware de la NUCLEO-F303RE.
+\end{enumerate}
+
+Para la configuración de periféricos, configuración del reloj y exportación del proyecto, prosiga con los siguientes pasos:
+\begin{enumerate}
+	\setcounter{enumi}{9} % Continúa la lista numerada en el paso 10
+	\item Al iniciar el proyecto se abrirá el entorno principal de edición de STM32CubeMX, donde podrá personalizar las características del hardware del microcontrolador:
+	\begin{itemize}
+		\item \textbf{Pinout \& Configuration:} Sección para configurar los pines de entrada/salida (GPIO) y activar los recursos de hardware necesarios como Timers, ADC/DAC e Interfaces de comunicación física (\texttt{I2C}, \texttt{SPI}, \texttt{UART/USART}, etc.).
+		\item \textbf{Clock Configuration:} Pestaña visual interactiva para ajustar la frecuencia de reloj del procesador, configurar multiplicadores/divisores PLL y seleccionar las fuentes de oscilador.
+	\end{itemize}
+	
+	\item Una vez completada la configuración de hardware de su microcontrolador, diríjase a la pestaña superior titulada \textbf{Project Manager}.
+	
+	\item En el menú lateral izquierdo, seleccione la sección \textbf{Project} y llene los campos requeridos en la ventana \textbf{Project Settings} (de la misma manera que se muestra en la figura \ref{fig_stm32_4}):
+	\begin{description}
+		\item[Project Name:] El nombre que tendrá la carpeta y los archivos del firmware (por ejemplo: \texttt{NUCLEO-F303\_OPT3001}).
+		\item[Project Location:] La carpeta raíz de su computadora donde desea almacenar el proyecto (por ejemplo: \directory{D:/STM32\_Projects/}).
+		\item[Toolchain Folder Location:] Esta ruta se autocompleta automáticamente concatenando los campos anteriores (por ejemplo: \directory{D:/STM32\_Projects/NUCLEO-F303\_OPT3001/}).
+		\item[Toolchain / IDE:] En la caja de selección desplegable, elija específicamente la opción \textbf{CMake}.
+	\end{description}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_4}
+		\caption{Parámetros de configuración del proyecto en la pestaña Project Manager.}\label{fig_stm32_4}
+	\end{figure}
+	
+	\item Una vez que haya completado todos los pasos de configuración de esta pestaña, presione el botón \textbf{GENERATE CODE} localizado en la barra de menús superior derecha. Esto generará la estructura de carpetas de código fuente C/C++ y los archivos de compilación para CMake.
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	CONTINUACIÓN DE PASOS: IMPORTACIÓN EN VS CODE Y CONFIGURACIÓN DE CMAKE
+%----------------------------------------------------------------------------------------
+\begin{enumerate}
+	\setcounter{enumi}{13} % Continúa la numeración en el paso 14
+	\item Regrese a Visual Studio Code. Abra el panel lateral del Explorador de archivos con el atajo \keys{Ctrl + Shift + E} (o a través de la barra de menús en \textbf{File} $\rightarrow$ \textbf{Open Folder}) y abra la carpeta del proyecto recién creado (\directory{D:/STM32\_Projects/NUCLEO-F303\_OPT3001/}).
+	
+	\item Una vez cargada la carpeta en VS Code, deberá visualizar el árbol de directorios y archivos generado por la herramienta (tal como se ilustra en la figura \ref{fig_stm32_5}), compuesto principalmente por:
+	\begin{itemize}
+		\item \directory{cmake/} (Directorio con los archivos de la Toolchain de GCC)
+		\item \directory{Core/} (Carpeta que contiene el código fuente principal, organizada en \directory{Src} e \directory{Inc})
+		\item \directory{Drivers/} (Controladores HAL y CMSIS oficiales de STMicroelectronics)
+		\item \texttt{.mxproject} (Archivo de configuración interna para CubeMX)
+		\item \texttt{CMakeLists.txt} (Archivo de configuración de compilación de CMake)
+		\item \texttt{CMakePresets.json} (Definición de presets de desarrollo y pruebas de CMake)
+		\item Archivo con extensión \texttt{.ioc} (Fichero de diseño gráfico del microcontrolador de CubeMX)
+		\item \texttt{startup\_stm32f303xe.s} (Código assembler para el vector de interrupciones y arranque del chip)
+		\item \texttt{STM32F303XX\_FLASH.id} (Archivo del mapa de memoria / Linker Script del enlazador)
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_5}
+		\caption{Estructura del proyecto recién creado abierta en el explorador de VS Code.}\label{fig_stm32_5}
+	\end{figure}
+	
+	\item Diríjase a la barra de actividad lateral izquierda en VS Code y seleccione de nuevo el icono de \textbf{STM32Cube} (logotipo de \textbf{ST}).
+	
+	\item Con su tarjeta de desarrollo \textbf{NUCLEO-F303RE} conectada físicamente por USB a su computadora, haga clic en la opción del menú lateral titulada \textbf{Set Up STM32Cube project(s)}.
+	
+	\item Esta acción abrirá la pestaña interactiva de configuración de hardware titulada \textbf{"Project Setup"} en VS Code. Aquí deberá seleccionar las siguientes opciones:
+	\begin{itemize}
+		\item \textbf{Board/Device:} Seleccione la tarjeta del proyecto (en este ejemplo: \texttt{NUCLEO-F303RE}).
+		\item \textbf{Toolchain:} Seleccione la opción de compilador \textbf{GCC}.
+	\end{itemize}
+	
+	\item Una vez seleccionadas estas dos opciones, presione el botón \textbf{Configure}.
+	
+	\item A continuación, se desplegará un menú en la barra de búsqueda superior de VS Code para que seleccione el preset de compilación del proyecto. Seleccione la opción \textbf{Debug} para este caso de estudio (como se muestra en la figura \ref{fig_stm32_7}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_7}
+		\caption{Selección del preset Debug en la barra de entrada de VS Code.}\label{fig_stm32_7}
+	\end{figure}
+	
+	Al seleccionar esta opción, el motor de CMake comenzará a configurar el proyecto y verá la siguiente salida en la terminal integrada:
+	\begin{lstlisting}[language=DOS]
+	[bookmarks] Loaded 0 bookmarks
+	[proc] Executing command: cube-cmake --version
+	[proc] Executing command: cube-cmake -E capabilities
+	[kit] Successfully loaded 4 kits from C:\Users\casti\AppData\Local\CMakeTools\cmake-tools-kits.json
+	[presetController] Reading and validating the presets file "D:\STM32_Projects\NUCLEO-F303_OPT3001\CMakePresets.json"
+	[presetController] Successfully validated D:\STM32_Projects\NUCLEO-F303_OPT3001\CMakePresets.json against presets schema
+	[presetController] Expanding presets file D:\STM32_Projects\NUCLEO-F303_OPT3001\CMakePresets.json
+	[presetController] Successfully expanded presets file D:\STM32_Projects\NUCLEO-F303_OPT3001\CMakePresets.json
+	[driver] Switching to configure preset: Debug
+	[driver] Switching to build preset: Debug
+	[driver] Switching to test preset: __defaultTestPreset__
+	[driver] Switching to test preset: __defaultTestPreset__
+	[driver] Switching to package preset: __defaultPackagePreset__
+	[driver] Switching to workflow preset: __defaultWorkflowPreset__
+	[main] Configuring project: NUCLEO-F303_OPT3001 
+	[driver] NOTE: You are configuring with preset Debug, but there are some overrides being applied from your VS Code settings.
+	[proc] Executing command: cube-cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=D:/STM32_Projects/NUCLEO-F303_OPT3001/cmake/gcc-arm-none-eabi.cmake -DCMAKE_COMMAND=cube-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S D:/STM32_Projects/NUCLEO-F303_OPT3001 -B D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug -G Ninja
+	[cmake] Build type: Debug
+	[cmake] -- Found assembler: C:/Users/casti/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc.exe
+	[cmake] -- Configuring done (5.4s)
+	[cmake] -- Generating done (0.1s)
+	[cmake] CMake Warning:
+	[cmake]   Manually-specified variables were not used by the project:
+	[cmake] 
+	[cmake]     CMAKE_COMMAND
+	[cmake] 
+	[cmake] 
+	[cmake] -- Build files have been written to: D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug
+	\end{lstlisting}
+	\item Para finalizar y almacenar esta configuración, haga clic en el botón \textbf{Save and Close} en el panel superior de configuración (ver figura \ref{fig_stm32_8}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_8}
+		\caption{Guardar la configuración final en la ventana de Project Setup.}\label{fig_stm32_8}
+	\end{figure}
+	
+	Esto desencadenará la recarga de CMake y mostrará el siguiente reporte final en su terminal confirmando la correcta escritura de los archivos de compilación (\textit{build}):
+	
+	\begin{lstlisting}[language=DOS]
+	[main] Configuring project: NUCLEO-F303_OPT3001 
+	[driver] Removing D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug/CMakeCache.txt
+	[driver] Removing D:%5CSTM32_Projects%5CNUCLEO-F303_OPT3001%5Cbuild%5CDebug%5CCMakeFiles
+	[driver] NOTE: You are configuring with preset Debug, but there are some overrides being applied from your VS Code settings.
+	[proc] Executing command: cube-cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=D:/STM32_Projects/NUCLEO-F303_OPT3001/cmake/gcc-arm-none-eabi.cmake -DCMAKE_COMMAND=cube-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -S D:/STM32_Projects/NUCLEO-F303_OPT3001 -B D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug -G Ninja
+	[cmake] Build type: Debug
+	[cmake] -- Found assembler: C:/Users/casti/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc.exe
+	[cmake] -- Configuring done (1.8s)
+	[cmake] -- Generating done (0.1s)
+	[cmake] CMake Warning:
+	[cmake]   Manually-specified variables were not used by the project:
+	[cmake] 
+	[cmake]     CMAKE_COMMAND
+	[cmake] 
+	[cmake] 
+	[cmake] -- Build files have been written to: D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug
+	\end{lstlisting}
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	INFOBOX: SELECTOR DE PRESET ALTERNATIVO
+%----------------------------------------------------------------------------------------
+\begin{InfoBox}{¿No aparece el selector de Preset (Debug / Release)?}
+	Si después de hacer clic en \textbf{Configure} la barra superior de comandos de VS Code no muestra de forma automática el menú desplegable para elegir el preset de compilación, puede forzar su aparición de la siguiente manera:
+	\begin{enumerate}
+		\item Diríjase a la barra de actividad lateral izquierda y seleccione la pestaña de \textbf{CMake} (el icono de la figura geométrica).
+		\item En el panel que se despliega, busque la sección titulada \textbf{Configure}.
+		\item Pase el cursor sobre dicha sección y haga clic en el \textbf{icono de lápiz (Editar)}.
+		\item Esto forzará el despliegue del menú de selección en la parte superior de la pantalla para que pueda elegir el preset deseado (como se ilustra en la figura \ref{fig_stm32_9}).
+	\end{enumerate}
+\end{InfoBox}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{stm32_9}
+	\caption{Selección forzada de presets desde el panel de control de CMake.}\label{fig_stm32_9}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECCIÓN: PRUEBA DE FUNCIONAMIENTO (BLINKY)
+%----------------------------------------------------------------------------------------
+\subsection{Prueba de Funcionamiento: Parpadeo de LED (Blinky)}
+
+Para verificar que el flujo de trabajo completo (compilador, enlazador, CMake y el servidor de depuración ST-Link) funciona adecuadamente, realizaremos una prueba clásica haciendo parpadear el LED integrado en la propia placa.
+
+\begin{enumerate}
+	\setcounter{enumi}{19} % Continúa la lista numerada en el paso 20
+	\item En el Explorador de archivos de VS Code, diríjase a la ruta \directory{Core/Src/main.c} y abra dicho archivo de código fuente C.
+	
+	\item Busque el ciclo infinito principal \texttt{while (1)} dentro de la función \texttt{main} y coloque las siguientes líneas para alternar el estado del pin del LED (el cual para la placa NUCLEO-F303RE está asociado físicamente a la etiqueta \texttt{GPIOA} en el \texttt{GPIO\_PIN\_5}):
+	
+	\begin{lstlisting}[language=C]
+		/* USER CODE BEGIN 3 */
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		HAL_Delay(100);
+		/* USER CODE END 3 */
+	\end{lstlisting}
+	
+	\begin{InfoBox}{Uso de las etiquetas USER CODE}
+		Es sumamente importante colocar el código que escriba únicamente entre los bloques marcados con comentarios de tipo \texttt{/* USER CODE BEGIN */} y \texttt{/* USER CODE END */}. De lo contrario, si realiza cambios futuros en los periféricos desde STM32CubeMX y regenera el código, las líneas externas a estas marcas se borrarán de forma definitiva.
+	\end{InfoBox}
+	
+	\item Guarde el archivo e inicie la compilación del proyecto seleccionando la opción \textbf{Build} localizada en la barra de estado inferior izquierda de la ventana de VS Code (tal como se ilustra en la figura \ref{fig_stm32_12}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_12}
+		\caption{Ubicación de la opción Build para compilar el proyecto en la barra inferior.}\label{fig_stm32_12}
+	\end{figure}
+	
+	La terminal de VS Code desplegará el avance de compilación indicando las regiones de memoria ocupadas por el binario resultante:
+	
+	\begin{lstlisting}[language=DOS]
+		[main] Building folder: D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug 
+		[build] Starting build
+		[driver] NOTE: You are building with preset Debug, but there are some overrides being applied from your VS Code settings.
+		[proc] Executing command: cube-cmake --build D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug --
+		[build] [1/2] Building C object CMakeFiles/NUCLEO-F303_OPT3001.dir/Core/Src/main.c.obj
+		[build] [2/2] Linking C executable NUCLEO-F303_OPT3001.elf
+		[build] Memory region         Used Size  Region Size  %age Used
+		[build]              RAM:        1800 B        64 KB      2.75%
+		[build]           CCMRAM:           0 B        16 KB      0.00%
+		[build]            FLASH:       12604 B       512 KB      2.40%
+		[driver] Build completed: 00:00:00.614
+		[build] Build finished with exit code 0
+	\end{lstlisting}
+	
+	\item Una vez compilado con éxito el proyecto, haga clic en el icono de \textbf{Run and Debug} (icono del insecto con botón play) en la barra de actividad o presione el atajo \keys{Ctrl + Shift + D}.
+	
+	\item En el menú desplegable de arranque de la parte superior del panel, se mostrarán las siguientes configuraciones de lanzamiento disponibles:
+	\begin{itemize}
+		\item \texttt{C++ (GDB/LLDB)}
+		\item \texttt{C++ (Windows)}
+		\item \texttt{STM32Cube: STM32 launch GDB}
+		\item \texttt{STM32Cube: STM32 launch JLink GDB Server}
+		\item \texttt{STM32Cube: STM32 launch STLink GDB Server}
+	\end{itemize}
+	
+	\item Seleccione exactamente la opción \textbf{STM32Cube: STM32 launch STLink GDB Server} (ver figura \ref{fig_stm32_13}) y haga clic en el botón verde de Play para iniciar la depuración del microcontrolador.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{stm32_13}
+		\caption{Selección de la configuración de depuración para usar STLink GDB Server.}\label{fig_stm32_13}
+	\end{figure}
+	
+	\begin{InfoBox}{Generación del archivo JSON}
+		Antes de ejecutar el debug, tiene que generar el archivo \textbf{launch.json}, para esto, seleccione la opción: \textit{To customize Run and Debug create a launch.json file}, ubicado debajo del botón \textbf{Run and Debug}.
+	\end{InfoBox}
+	
+	\item Esto establecerá la comunicación con su tarjeta y abrirá la pestaña \textbf{DEBUG CONSOLE} (Consola de depuración), mostrando los mensajes de conexión del programador y volcado de memoria a la Flash:
+	
+	\begin{lstlisting}[language=DOS]
+		STMicroelectronics ST-LINK GDB server. Version 7.13.0
+		Copyright (c) 2026, STMicroelectronics. All rights reserved.
+		
+		Starting server with the following options:
+		Persistent Mode            : Disabled
+		Logging Level              : 1
+		Listen Port Number         : 61234
+		Status Refresh Delay       : 15s
+		Verbose Mode               : Disabled
+		SWD Debug                  : Enabled
+		InitWhile                  : Enabled
+		
+		Waiting for debugger connection...
+		GNU gdb (GNU Tools for STM32 14.3.rel1.20251027-0700) 15.2.90.20241229-git
+		Copyright (C) 2024 Free Software Foundation, Inc.
+		License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+		This is free software: you are free to change and redistribute it.
+		There is NO WARRANTY, to the extent permitted by law.
+		Type "show copying" and "show warranty" for details.
+		This GDB was configured as "--host=x86_64-w64-mingw32 --target=arm-none-eabi".
+		Type "show configuration" for configuration details.
+		For bug reporting instructions, please see:
+		<https://www.gnu.org/software/gdb/bugs/>.
+		Find the GDB manual and other documentation resources online at:
+		<http://www.gnu.org/software/gdb/documentation/>.
+		
+		For help, type "help".
+		Type "apropos word" to search for commands related to "word".
+		add-symbol-file "D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug/NUCLEO-F303_OPT3001.elf" 
+		add symbol table from file "D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug/NUCLEO-F303_OPT3001.elf"
+		(y or n) [answered Y; input not from terminal]
+		Reading symbols from D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug/NUCLEO-F303_OPT3001.elf...
+		Debugger connected
+		Waiting for debugger connection...
+		0x0800167c in __RBIT (value=134223565) at D:/STM32_Projects/NUCLEO-F303_OPT3001/cmake/stm32cubemx/../../Drivers/CMSIS/Include/cmsis_gcc.h:988
+		988	   __ASM volatile ("rbit %0, %1" : "=r" (result) : "r" (value) );
+		connected to remote target localhost:61234
+		tbreak main
+		Temporary breakpoint 1 at 0x8002bd6: file D:/STM32_Projects/NUCLEO-F303_OPT3001/Core/Src/main.c, line 80.
+		Note: automatically using hardware breakpoints for read-only addresses.
+		load "D:/STM32_Projects/NUCLEO-F303_OPT3001/build/Debug/NUCLEO-F303_OPT3001.elf" 
+		Loading section .isr_vector, size 0x194 lma 0x8000000
+		Loading section .text, size 0x2f5c lma 0x8000194
+		Loading section .rodata, size 0x38 lma 0x80030f0
+		Loading section .init_array, size 0x4 lma 0x8003128
+		Loading section .fini_array, size 0x4 lma 0x800312c
+		Loading section .data, size 0xc lma 0x8003130
+		-------------------------------------------------------------------
+		STM32CubeProgrammer v2.22.0                  
+		-------------------------------------------------------------------
+		3
+		
+		Log output file:   C:\Users\casti\AppData\Local\Temp\STM32CubeProgrammer_a05412.log
+		ST-LINK SN  : 066AFF484971754867123220
+		ST-LINK FW  : V2J46M31
+		Board       : NUCLEO-F303RE
+		Voltage     : 3.25V
+		SWD freq    : 4000 KHz
+		Connect mode: Under Reset
+		Reset mode  : Hardware reset
+		Device ID   : 0x446
+		Revision ID : Rev Y
+		Device name : STM32F302xE/F303xE/F398xx
+		NVM size  : 512 KBytes
+		Device type : MCU
+		Device CPU  : Cortex-M4
+		BL Version  : 0x40
+		3
+		
+		Opening and parsing file: ST-LINK_GDB_server_a05412.srec
+		2
+		
+		Memory Programming ...
+		File          : ST-LINK_GDB_server_a05412.srec
+		Size          : 12.31 KB 
+		Address       : 0x08000000
+		2
+		
+		Erasing memory corresponding to segment 0:
+		Erasing internal memory sectors [0 6]
+		Download in Progress:
+		2
+		
+		File download complete
+		Time elapsed during download operation: 00:00:00.693
+		Start address 0x0800302c, load size 12604
+		Transfer rate: 6 KB/sec, 2100 bytes/write.
+		set *(int *)0xE000ED14=*(int *)0xE000ED14|0x10
+		set *(int *)0xE000EDFC=*(int *)0xE000EDFC|0x7f0
+		set *(unsigned int *)0xe0042004|=0x7
+		set *(unsigned int *)0xe0042008|=0x1800
+		
+		In the Debug Console view you can interact directly with GDB.
+		To display the value of an expression, type that expression which can reference
+		variables that are in scope. For example type '2 + 3' or the name of a variable.
+		Arbitrary commands can be sent to GDB by prefixing the input with a '>',
+		for example type '>show version' or '>help'.
+		
+		
+		Temporary breakpoint 1, main () at D:/STM32_Projects/NUCLEO-F303_OPT3001/Core/Src/main.c:80
+		80	  HAL_Init();
+	\end{lstlisting}
+	
+	\item Al finalizar la carga, observará que la aplicación se pausa en un punto de interrupción temporal, deteniendo la ejecución al inicio del código en la función \texttt{HAL\_Init()}. Utilice la barra de herramientas flotante de depuración de la parte superior para reanudar o controlar el flujo paso a paso (ver figura \ref{fig_stm32_14}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{stm32_14}
+		\caption{Barra flotante superior de control del depurador en VS Code.}\label{fig_stm32_14}
+	\end{figure}
+	
+	\item Presione el botón de \textbf{Continue} (o pulse la tecla \keys{F5}) para liberar la pausa de depuración. Inmediatamente después de esto, el firmware continuará su ciclo normal y verá cómo el LED verde integrado de su tarjeta física comienza a parpadear secuencialmente cada 100 ms.
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN: INTEGRACIÓN DE NUEVOS ARCHIVOS EN CMAKE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Integración de Controladores y Librerías Propias en CMake}
+Al trabajar bajo el entorno de compilación CMake en Visual Studio Code, el compilador no incluye automáticamente carpetas o archivos que se agreguen de manera manual al proyecto. Si se añade una carpeta de biblioteca (por ejemplo, el controlador del sensor \texttt{OPT3001} en la ruta \directory{Core/OPT3001} conteniendo las subcarpetas \directory{Inc} y \directory{Src}), se deben realizar modificaciones en el archivo \texttt{CMakeLists.txt} de la raíz para evitar errores de compilación por archivos faltantes.
+\subsection{Estructura del archivo CMakeLists.txt (Antes)}
+Originalmente, el archivo de configuración de CMake generado por STM32CubeMX define la estructura básica del proyecto, pero deja los campos de fuentes e inclusiones del usuario vacíos:
+\begin{lstlisting}[style=CMakeStyle]
+	cmake_minimum_required(VERSION 3.22)
+	#
+	# This file is generated only once,
+	# and is not re-generated if converter is called multiple times.
+	#
+	# User is free to modify the file as much as necessary
+	#
+	# Setup compiler settings
+	set(CMAKE_C_STANDARD 11)
+	set(CMAKE_C_STANDARD_REQUIRED ON)
+	set(CMAKE_C_EXTENSIONS ON)
+	# Define the build type
+	if(NOT CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE "Debug")
+	endif()
+	# Set the project name
+	set(CMAKE_PROJECT_NAME NUCLEO-F303_OPT3001)
+	# Enable compile command to ease indexing with e.g. clangd
+	set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+	# Core project settings
+	project(${CMAKE_PROJECT_NAME})
+	message("Build type: " ${CMAKE_BUILD_TYPE})
+	# Enable CMake support for ASM and C languages
+	enable_language(C ASM)
+	# Create an executable object type
+	add_executable(${CMAKE_PROJECT_NAME})
+	# Add STM32CubeMX generated sources
+	add_subdirectory(cmake/stm32cubemx)
+	# Link directories setup
+	target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
+	# Add user defined library search paths
+	)
+	# Add sources to executable
+	target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+	# Add user sources here
+	)
+	# Add include paths
+	target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+	# Add user defined include paths
+	)
+	# Add project symbols (macros)
+	target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+	# Add user defined symbols
+	)
+	# Remove wrong libob.a library dependency when using cpp files
+	list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
+	# Add linked libraries
+	target_link_libraries(${CMAKE_PROJECT_NAME}
+	stm32cubemx
+	# Add user defined libraries
+	)
+\end{lstlisting}
+\subsection{Modificación de Fuentes y Cabeceras (Después)}
+Para agregar la biblioteca del sensor de luz \texttt{OPT3001}, se debe editar el archivo \texttt{CMakeLists.txt} en dos bloques específicos:
+\begin{enumerate}
+	\item \textbf{target\_sources}: Se debe listar el archivo de implementación del sensor (\texttt{Core/OPT3001/Src/OPT3001.c}) para que CMake lo compile.
+	\item \textbf{target\_include\_directories}: Se debe indicar la ruta de las cabeceras (\texttt{Core/OPT3001/Inc}) para que las directivas \texttt{\#include} puedan localizar los archivos de cabecera \texttt{.h}.
+\end{enumerate}
+Las modificaciones específicas en dichos bloques se presentan de la siguiente manera:
+\begin{lstlisting}[style=CMakeStyle]
+	# Add sources to executable
+	target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+	# Add user sources here
+	Core/OPT3001/Src/OPT3001.c
+	)
+	# Add include paths
+	target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+	# Add user defined include paths
+	Core/OPT3001/Inc
+	)
+\end{lstlisting}
+\begin{InfoBox}{Reconfiguración del Proyecto}
+	Una vez que haya editado y guardado su archivo \texttt{CMakeLists.txt}, recuerde abrir la paleta de comandos de VS Code (\keys{Ctrl + Shift + P}) y ejecutar la tarea \textbf{CMake: Configure}. Esto refrescará la base de datos de compilación y preparará la extensión para compilar los nuevos archivos del sensor sin inconvenientes.
+\end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN: MONITOR SERIAL Y CONFIGURACIÓN DE PUNTO FLOTANTE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Configuración del Puerto Serie e Impresión de Valores Flotantes}
+
+Para validar el correcto funcionamiento de sensores analógicos o digitales que entreguen magnitudes físicas con decimales (como el sensor de luz \texttt{OPT3001}), es necesario enviar las lecturas a través de la interfaz USART hacia una terminal en la computadora.
+
+\subsection{Código de Prueba para el Sensor OPT3001}
+El siguiente código fuente en C para el archivo \directory{Core/Src/main.c} realiza la inicialización del sensor a través del bus \texttt{I2C1}, configura sus límites de lux inferior y superior, y transmite de forma periódica las lecturas del registro de configuración y los valores calculados de lux (en formato de punto flotante) a través de la interfaz \texttt{USART2}:
+
+\begin{lstlisting}[style=CMakeStyle]
+	/* USER CODE BEGIN Header */
+	/**
+	******************************************************************************
+	* @file           : main.c
+	* @brief          : Main program body
+	******************************************************************************
+	* @attention
+	*
+	* Copyright (c) 2026 STMicroelectronics.
+	* All rights reserved.
+	*
+	* This software is licensed under terms that can be found in the LICENSE file
+	* in the root directory of this software component.
+	* If no LICENSE file comes with this software, it is provided AS-IS.
+	*
+	******************************************************************************
+	*/
+	/* USER CODE END Header */
+	/* Includes ------------------------------------------------------------------*/
+	#include "main.h"
+	#include "stm32f3xx_hal.h"
+	
+	/* Private includes ----------------------------------------------------------*/
+	/* USER CODE BEGIN Includes */
+	#include <string.h>
+	#include <stdio.h>
+	#include <OPT3001.h>
+	/* USER CODE END Includes */
+	
+	/* Private typedef -----------------------------------------------------------*/
+	/* USER CODE BEGIN PTD */
+	OPT3001_HandleTypeDef opt3001;
+	/* USER CODE END PTD */
+	
+	/* Private define ------------------------------------------------------------*/
+	/* USER CODE BEGIN PD */
+	
+	/* USER CODE END PD */
+	
+	/* Private macro -------------------------------------------------------------*/
+	/* USER CODE BEGIN PM */
+	
+	/* USER CODE END PM */
+	
+	/* Private variables ---------------------------------------------------------*/
+	I2C_HandleTypeDef hi2c1;
+	
+	UART_HandleTypeDef huart2;
+	
+	/* USER CODE BEGIN PV */
+	char msg[50];
+	static uint16_t config     = 0;
+	static double lowLimitLux  = 0.0;
+	static double highLimitLux = 0.0;
+	static double lowLimit     = 100.0;
+	static double highLimit    = 2000.0;
+	static double lux          = 0.0;
+	/* USER CODE END PV */
+	
+	/* Private function prototypes -----------------------------------------------*/
+	void SystemClock_Config(void);
+	static void MX_GPIO_Init(void);
+	static void MX_USART2_UART_Init(void);
+	static void MX_I2C1_Init(void);
+	/* USER CODE BEGIN PFP */
+	
+	/* USER CODE END PFP */
+	
+	/* Private user code ---------------------------------------------------------*/
+	/* USER CODE BEGIN 0 */
+	
+	/* USER CODE END 0 */
+	
+	/**
+	* @brief  The application entry point.
+	* @retval int
+	*/
+	int main(void)
+	{
+		
+		/* USER CODE BEGIN 1 */
+		
+		/* USER CODE END 1 */
+		
+		/* MCU Configuration--------------------------------------------------------*/
+		
+		/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+		HAL_Init();
+		
+		/* USER CODE BEGIN Init */
+		
+		/* USER CODE END Init */
+		
+		/* Configure the system clock */
+		SystemClock_Config();
+		
+		/* USER CODE BEGIN SysInit */
+		
+		/* USER CODE END SysInit */
+		
+		/* Initialize all configured peripherals */
+		MX_GPIO_Init();
+		MX_USART2_UART_Init();
+		MX_I2C1_Init();
+		/* USER CODE BEGIN 2 */
+		OPT3001_Init(&opt3001, &hi2c1);
+		OPT3001_SetLowLimit(&opt3001, lowLimit);
+		OPT3001_SetHighLimit(&opt3001, highLimit);
+		/* USER CODE END 2 */
+		
+		/* Infinite loop */
+		/* USER CODE BEGIN WHILE */
+		while (1)
+		{
+			config = OPT3001_GetConfiguration(&opt3001);
+			sprintf(msg, "CONFIGURATION Register = 0x%04X \r\n", config);
+			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+			
+			lowLimitLux = OPT3001_GetLowLimitLux(&opt3001);
+			sprintf(msg, "Low Limit Lux = %.2f \r\n", lowLimitLux);
+			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+			
+			highLimitLux = OPT3001_GetHighLimitLux(&opt3001);
+			sprintf(msg, "High Limit Lux = %.2f \r\n", highLimitLux);
+			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+			
+			lux = OPT3001_GetLux(&opt3001);
+			sprintf(msg, "Lux = %.2f \r\n", lux);
+			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+			
+			HAL_Delay(1000);
+			/* USER CODE END WHILE */
+			
+			/* USER CODE BEGIN 3 */
+		}
+		/* USER CODE END 3 */
+	}
+	
+	/**
+	* @brief System Clock Configuration
+	* @retval None
+	*/
+	void SystemClock_Config(void)
+	{
+		RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+		RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+		RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+		
+		/** Initializes the RCC Oscillators according to the specified parameters
+		* in the RCC_OscInitTypeDef structure.
+		*/
+		RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+		RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+		RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+		RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+		RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+		RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+		RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+		if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+		{
+			Error_Handler();
+		}
+		
+		/** Initializes the CPU, AHB and APB buses clocks
+		*/
+		RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+		|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+		RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+		RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+		RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+		RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+		
+		if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+		{
+			Error_Handler();
+		}
+		PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1;
+		PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+		PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+		if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+		{
+			Error_Handler();
+		}
+	}
+	
+	/**
+	* @brief I2C1 Initialization Function
+	* @param None
+	* @retval None
+	*/
+	static void MX_I2C1_Init(void)
+	{
+		hi2c1.Instance = I2C1;
+		hi2c1.Init.Timing = 0x00201D2B;
+		hi2c1.Init.OwnAddress1 = 0;
+		hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+		hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+		hi2c1.Init.OwnAddress2 = 0;
+		hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+		hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+		hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+		if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+		{
+			Error_Handler();
+		}
+		
+		/** Configure Analogue filter
+		*/
+		if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+		{
+			Error_Handler();
+		}
+		
+		/** Configure Digital filter
+		*/
+		if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+		{
+			Error_Handler();
+		}
+	}
+	
+	/**
+	* @brief USART2 Initialization Function
+	* @param None
+	* @retval None
+	*/
+	static void MX_USART2_UART_Init(void)
+	{
+		huart2.Instance = USART2;
+		huart2.Init.BaudRate = 115200;
+		huart2.Init.WordLength = UART_WORDLENGTH_8B;
+		huart2.Init.StopBits = UART_STOPBITS_1;
+		huart2.Init.Parity = UART_PARITY_NONE;
+		huart2.Init.Mode = UART_MODE_TX_RX;
+		huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+		huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+		huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+		huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+		if (HAL_UART_Init(&huart2) != HAL_OK)
+		{
+			Error_Handler();
+		}
+	}
+	
+	/**
+	* @brief GPIO Initialization Function
+	* @param None
+	* @retval None
+	*/
+	static void MX_GPIO_Init(void)
+	{
+		GPIO_InitTypeDef GPIO_InitStruct = {0};
+		
+		/* GPIO Ports Clock Enable */
+		__HAL_RCC_GPIOC_CLK_ENABLE();
+		__HAL_RCC_GPIOF_CLK_ENABLE();
+		__HAL_RCC_GPIOA_CLK_ENABLE();
+		__HAL_RCC_GPIOB_CLK_ENABLE();
+		
+		/*Configure GPIO pin Output Level */
+		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+		
+		/*Configure GPIO pin : B1_Pin */
+		GPIO_InitStruct.Pin = B1_Pin;
+		GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+		GPIO_InitStruct.Pull = GPIO_NOPULL;
+		HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+		
+		/*Configure GPIO pin : LD2_Pin */
+		GPIO_InitStruct.Pin = LD2_Pin;
+		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+		GPIO_InitStruct.Pull = GPIO_NOPULL;
+		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+		HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+	}
+	
+	void Error_Handler(void)
+	{
+		__disable_irq();
+		while (1)
+		{
+		}
+	}
+\end{lstlisting}
+
+\subsection{Uso de la Extensión Serial Monitor en Visual Studio Code}
+Para leer la terminal serie de la tarjeta sin salir del editor ni depender de software de terceros (como PuTTY o RealTerm), se utiliza la extensión oficial de Microsoft llamada \textbf{Serial Monitor}. \\
+
+Cuando abre una nueva terminal en VS Code, aparecerá una pestaña dedicada titulada \textbf{SERIAL MONITOR}. Para inicializar la escucha del puerto COM al que está conectada su tarjeta, seleccione los parámetros correctos (Baud Rate: 115200) y haga clic sobre el botón \textbf{Start Monitoring} (tal como se ilustra en la figura \ref{fig_stm32_17}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{stm32_17}
+	\caption{Consola e inicio de monitoreo en la extensión Serial Monitor.}\label{fig_stm32_17}
+\end{figure}
+
+\subsection{El problema de la impresión de Punto Flotante}
+Una vez iniciado el monitoreo del puerto, observará que la consola imprime las cadenas, pero las variables decimales de tipo \texttt{double} o \texttt{float} se muestran completamente vacías en las llamadas de \texttt{sprintf}:
+
+\begin{lstlisting}[language=DOS]
+	---- Opened the serial port COM3 ----
+	CONFIGURATION Register = 0xCCA4 
+	Low Limit Lux =  
+	High Limit Lux =  
+	Lux =  
+\end{lstlisting}
+
+Esto ocurre porque la librería estándar compacta de C para microcontroladores ARM GCC (\textit{newlib-nano}) **deshabilita por defecto el formateo de punto flotante** en funciones como \texttt{printf} y \texttt{sprintf} para ahorrar memoria Flash en el chip.
+
+\subsection{Habilitación de Flotantes en el enlazador de CMake}
+Para habilitar el soporte de punto flotante, debemos modificar el archivo **\texttt{CMakeLists.txt}** principal de la raíz del proyecto para indicarle al enlazador del compilador GCC (\textit{linker}) que cargue la biblioteca con soporte para flotantes usando la bandera **\texttt{-u \_printf\_float}**.
+
+Abra su archivo **\texttt{CMakeLists.txt}** y agregue la siguiente directiva de opciones de enlace (\texttt{target\_link\_options}) debajo de la declaración del proyecto:
+
+\begin{lstlisting}[style=CMakeStyle]
+	# Habilitar el soporte de punto flotante para printf/sprintf (newlib-nano)
+	target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
+    -u_printf_float
+	-u_scanf_float
+	)
+\end{lstlisting}
+
+Una vez agregado este comando al archivo, guarde los cambios, reconfigure CMake y compile nuevamente el proyecto. Al iniciar el monitor serie, verá los valores de luz decimales medidos por el sensor \texttt{OPT3001} imprimiéndose correctamente.
+
+\begin{WarningBox}{¿Por qué son necesarias estas banderas?}
+Los microcontroladores tienen memoria Flash muy limitada. Por ello, la biblioteca estándar de C utilizada en sistemas embebidos (newlib-nano) viene optimizada de fábrica:
+\begin{itemize}
+	\item Por defecto, deshabilita el soporte para formatear números con decimales (\texttt{\textbf{float}} y \texttt{\textbf{double}}) en funciones de texto para ahorrar entre 10 KB y 15 KB de memoria Flash.
+	\item Si intentas usar \texttt{\textbf{\%f}} en un \texttt{sprintf} o \texttt{\textbf{\%lf}} en un \texttt{sscanf} sin estas banderas, tu programa no podrá imprimir ni leer los decimales (se mostrarán vacíos o la función fallará).
+\end{itemize}
+\end{WarningBox}
+
+El comportamiento y la función técnica de cada una de estas directivas de enlace se detalla a continuación:
+\begin{description}
+	\item[\texttt{-u \_printf\_float}:] Fuerza al enlazador (\textit{linker}) a cargar el símbolo y la versión de las funciones de salida de texto (\texttt{printf}, \texttt{sprintf}, \texttt{snprintf}) compatibles con magnitudes decimales. Esto habilita el formateo correcto de especificadores como \texttt{\%f}, \texttt{\%e} y \texttt{\%g}.\\
+	Permite que puedas hacer \textbf{\texttt{sprintf(msg, "Voltaje = \%.2f V\textbackslash r\textbackslash n", 3.32)}}; y que se imprima "Voltaje = 3.32 V" en la consola serie en lugar de salir vacío.
+	
+	\item[\texttt{-u \_scanf\_float}:] Fuerza al enlazador a inyectar el soporte de punto flotante en las funciones de análisis e ingreso de datos (\texttt{scanf}, \texttt{sscanf}). Esto permite que el sistema pueda interpretar y parsear magnitudes decimales representadas en formato de texto a variables reales en memoria (usando especificadores como \texttt{\%f} o \texttt{\%lf}).\\
+	 Permite que la línea \textbf{\texttt{sscanf(rxBuffer, "SET:\%d:\%lf", \&max\_i, \&shunt\_r)};} pueda extraer con éxito un valor decimal (como 0.00512 de resistencia shunt) a tu variable double. Si no tuvieras activada esta bandera, sscanf fallaría y nunca actualizaría la calibración del sensor.
+\end{description}
+
+%----------------------------------------------------------------------------------------
+%	SUBSECCIÓN: COMPARATIVA DE MÉTODOS PARA HABILITAR FLOTANTES
+%----------------------------------------------------------------------------------------
+\subsection{Comparativa de Métodos para Habilitar Punto Flotante}
+
+Existen dos alternativas viables para indicarle al compilador GCC que incluya el soporte de punto flotante en las funciones de formateo (\texttt{printf}/\texttt{sprintf}). Ambos métodos logran el mismo resultado físico (inyectar la bandera \texttt{-u \_printf\_float} en el linker), pero difieren en el nivel de configuración:
+
+\begin{description}
+	\item[Método A: Modificación en la Toolchain (\texttt{gcc-arm-none-eabi.cmake})]~\\
+	Consiste en editar el archivo de configuración del compilador ubicado en \directory{cmake/gcc-arm-none-eabi.cmake}, modificando la definición de las banderas de enlace globales de la siguiente manera:
+	
+	\begin{lstlisting}[style=CMakeStyle]
+# Antes:
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --specs=nano.specs")
+		
+# Después:
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --specs=nano.specs -u _printf_float")
+	\end{lstlisting}
+	
+	\begin{itemize}
+		\item \textbf{Ventajas:} Mantiene el script de construcción principal \texttt{CMakeLists.txt} limpio de directivas de compilación específicas de la arquitectura de hardware.
+		\item \textbf{Desventajas:} Si en el futuro realiza cambios de hardware en STM32CubeMX y regenera el proyecto, existe el riesgo de que los archivos de la carpeta \directory{cmake/} se sobreescriban y se pierda la configuración.
+	\end{itemize}
+	
+	\item[Método B: Modificación en el Proyecto (\texttt{CMakeLists.txt})]~\\
+	Consiste en agregar la opción de enlace directamente sobre el objetivo ejecutable en el archivo principal de la raíz:
+	
+	\begin{lstlisting}[style=CMakeStyle]
+# Habilitar soporte de flotantes en el proyecto principal
+target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -u _printf_float)
+	\end{lstlisting}
+	
+	\begin{itemize}
+		\item \textbf{Ventajas:} Sigue los estándares modernos de desarrollo en CMake (\textit{target-centric}), es visible inmediatamente al abrir el proyecto y es completamente persistente ante cualquier regeneración de código de CubeMX.
+		\item \textbf{Desventajas:} Mezcla banderas específicas del compilador GCC dentro del archivo de construcción principal.
+	\end{itemize}
+\end{description}
+
+\begin{InfoBox}{Recomendación Práctica}
+	Aunque ambos métodos producen exactamente el mismo binario final, el \textbf{Método B} (modificar el archivo \texttt{CMakeLists.txt}) es el más recomendado para tus proyectos, ya que te garantiza que no perderás la visualización de decimales si necesitas volver a configurar pines o relojes en STM32CubeMX más adelante.
+\end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+%\bibliographystyle{unsrt}
+
+%\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

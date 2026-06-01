@@ -1,0 +1,7 @@
+\contentsline {section}{\numberline {1}BackEnd}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Etapa de desarrollo}{1}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Front End}{3}{section.2}%
+\contentsline {section}{\numberline {3}Referencias a documentos y conexiones}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Referencias}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Conexiones}{4}{subsection.3.2}%
+\contentsfinish 

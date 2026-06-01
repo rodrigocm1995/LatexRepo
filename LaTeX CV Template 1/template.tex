@@ -1,0 +1,156 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stylish Curriculum Vitae
+% LaTeX Template
+% Version 1.1 (September 10, 2021)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Stefano (https://www.kindoblue.nl)
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper, oneside, final]{scrartcl} % Paper options using the scrartcl class
+
+\usepackage{scrlayer-scrpage} % Provides headers and footers configuration
+\usepackage{titlesec} % Allows creating custom \section's
+\usepackage{marvosym} % Allows the use of symbols
+\usepackage{tabularx,colortbl} % Advanced table configurations
+\usepackage{ebgaramond} % Use the EB Garamond font
+\usepackage{microtype} % To enable letterspacing
+\usepackage[dvipsnames]{xcolor}
+\colorlet{icnclr}{gray}
+\usepackage{fontawesome5}
+\usepackage[bookmarks=false]{hyperref} % [imp!]
+\hypersetup{ 
+	colorlinks=true,
+	urlcolor=Sepia,
+	pdftitle={My Resume},
+}
+
+\titleformat{\section}{\large\scshape\raggedright}{}{0em}{}[\titlerule] % Section formatting
+
+\pagestyle{scrheadings} % Print the headers and footers on all pages
+
+\addtolength{\voffset}{-0.5in} % Adjust the vertical offset - less whitespace at the top of the page
+\addtolength{\textheight}{2cm} % Adjust the text height - less whitespace at the bottom of the page
+
+\newcommand{\gray}{\rowcolor[gray]{.90}} % Custom highlighting for the work experience and education sections
+
+%----------------------------------------------------------------------------------------
+%	FOOTER SECTION
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\headfont}{\normalfont\rmfamily\scshape} % Font settings for footer
+
+\cofoot{
+\fontsize{12.5}{17}\selectfont % Letter spacing and font size
+
+\textls[150]{123 Broadway {\large\textperiodcentered} City {\large\textperiodcentered} Country 12345}\\ % Your mailing address
+{\Large\Letter} \textls[150]{john@smith.com \ {\Large\Telefon} (000) 111-1111} % Your email address and phone number
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{center} % Center everything in the document
+
+%----------------------------------------------------------------------------------------
+%	HEADER SECTION
+%----------------------------------------------------------------------------------------
+
+{\fontsize{32}{32}\selectfont\scshape\textls[200]{Rodrigo \textbf{Castillejos Malpica}}} % Your name at the top
+
+\begin{center}
+	Electronic Engineer
+\end{center}
+	\begin{center}      
+
+	{\color{icnclr}\faMapMarker} El Salto, Jalisco \quad 
+	{\color{icnclr}\faEnvelope[regular]} \href{mailto:myaname@email.com}{castillejosm.rodrigo@gmail.com} \quad
+	{\color{icnclr}\faIcon{mobile-alt}} \href{tel:+920000000000}{+52 33-1837-5719} 
+	% You can also put your LinkedIn or website address
+	% {\color{icnclr}\faLinkedinIn} \href{https://www.linkedin.com/}{linkedin.com/in/username}
+\end{center}
+
+\vspace{0.3cm} % Extra whitespace after the large name at the top
+
+%----------------------------------------------------------------------------------------
+%	OBJECTIVE
+%----------------------------------------------------------------------------------------
+
+\section{About me}
+
+A position in the field of computers with special interests in business applications \\ programming, information processing, and management systems.
+
+%----------------------------------------------------------------------------------------
+%	WORK EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+\section{Work Experience}
+
+\begin{tabularx}{0.97\linewidth}{>{\raggedleft\scshape}p{2cm}X}
+\gray Period & \textbf{March 2012 --- Present}\\
+\gray Employer & \textbf{Layer BV} \hfill Amsterdam, The Netherlands\\
+\gray Job Title & \textbf{J2EE Analyst programmer}\\
+\gray Languages & \textbf{J2EE}\\
+       & Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et auctor neque. Nullam ultricies sem sit amet magna tristique imperdiet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus eget mollis nunc.
+\end{tabularx}
+
+\vspace{12pt}
+
+\begin{tabularx}{0.97\linewidth}{>{\raggedleft\scshape}p{2cm}X}
+\gray Period & \textbf{March 2009 --- August 2010 (Part Time)}\\
+\gray Employer & \textbf{Buy More} \hfill New York, USA\\
+\gray Job Title & \textbf{Supermarket Clerk}\\
+       & Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et auctor neque. Nullam ultricies sem sit amet magna tristique imperdiet.
+\end{tabularx}
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+
+\section{Education}
+
+\begin{tabularx}{0.97\linewidth}{>{\raggedleft\scshape}p{2cm}X}
+\gray Period & \textbf{January 2011 --- February 2012}\\
+\gray Degree & \textbf{Master of Science in Computer Science}\\
+\gray Rank & \textbf{First Class Honours}\\
+\gray University & \textbf{The University of California} \hfill Los Angeles, USA\\
+%& Extra information about degree
+\end{tabularx}
+
+\vspace{12pt}
+
+\begin{tabularx}{0.97\linewidth}{>{\raggedleft\scshape}p{2cm}X}
+\gray Period & \textbf{August 2008 --- September 2010}\\
+\gray Degree & \textbf{Bachelor of Science in Computer Science}\\
+\gray Rank & \textbf{With Distinction}\\
+\gray University & \textbf{New York University} \hfill New York, USA\\
+%& Extra information about degree
+\end{tabularx}
+
+%----------------------------------------------------------------------------------------
+%	SKILLS
+%----------------------------------------------------------------------------------------
+
+\section{Skills}
+
+\begin{tabular}{ @{} >{\bfseries}l @{\hspace{6ex}} l }
+Computer Languages & Prolog, Haskell, AWK, Erlang, Scheme, ML \\
+Protocols \& APIs & XML, JSON, SOAP, REST \\
+Databases & MySQL, PostgreSQL, Microsoft SQL \\
+Tools & SVN, Vim, Emacs
+\end{tabular}
+
+%----------------------------------------------------------------------------------------
+
+\end{center}
+
+\end{document}

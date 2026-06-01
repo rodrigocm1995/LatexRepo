@@ -1,0 +1,317 @@
+%----------------------------------------------------------------------------------------
+%	LISTINGS CONFIGURATIONS AND CUSTOM STYLES
+%----------------------------------------------------------------------------------------
+
+% --- COLORES PARA CÓDIGO ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{HTML}{C42043}
+\definecolor{backcolour}{HTML}{F2F2F2}
+\definecolor{bookColor}{cmyk}{0,0,0,0.90}  
+\color{bookColor}
+
+\definecolor{csKeyword}{RGB}{0,0,255}
+\definecolor{csString}{RGB}{163,21,21}
+\definecolor{csComment}{RGB}{0,128,0}
+\definecolor{csAttribute}{RGB}{128,0,0}
+\definecolor{csIdentifier}{RGB}{43,145,175}
+\definecolor{csBackground}{RGB}{250,250,250}
+
+\definecolor{vscodeBg}{HTML}{1E1E1E}
+\definecolor{vscodeFg}{HTML}{D4D4D4}
+\definecolor{vscodeString}{HTML}{CE9178}
+\definecolor{vscodeKeyword}{HTML}{569CD6}
+\definecolor{vscodeNumber}{HTML}{B5CEA8}
+\definecolor{vscodePunctuation}{HTML}{D4D4D4}
+
+\definecolor{vsorange}{RGB}{214,157,86} % Naranja tipo VS Code
+\definecolor{vsredorange}{RGB}{240, 80, 50} % Rojo-anaranjado estilo Coral
+
+
+% --------------------------------------------------------------------------------------
+%						COLORES ESTILO VS CODE DARK
+%---------------------------------------------------------------------------------------
+\definecolor{vsback}{RGB}{30,30,30}       % Fondo oscuro (#1e1e1e)
+\definecolor{vstext}{RGB}{212,212,212}     % Texto normal (#d4d4d4)
+\definecolor{vskey}{RGB}{86,156,214}       % Palabras clave estándar (Azul #569cd6)
+\definecolor{vscontrol}{RGB}{197,134,192}  % Control de flujo (Rosa/Morado #c586c0)
+\definecolor{vstype}{RGB}{78,201,176}      % Tipos y Clases (Turquesa #4ec9b0)
+\definecolor{vsstring}{RGB}{206,145,120}    % Cadenas/Strings (Naranja/Marrón #ce9178)
+\definecolor{vscomment}{RGB}{106,153,85}    % Comentarios (Verde #6a9955)
+\definecolor{vsgutter}{RGB}{133,133,133}    % Números de línea (Gris #858585)
+\definecolor{vsframe}{RGB}{60,60,60}        % Borde del marco (#3c3c3c)
+
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{220,220,220}
+\definecolor{codecomment}{RGB}{0,128,0}
+\definecolor{codetext}{RGB}{40,40,40}
+\definecolor{codelinenum}{RGB}{130,130,130}
+% --------------------------------------------------------------------------------------
+%						END OF COLORES ESTILO VS CODE DARK
+%---------------------------------------------------------------------------------------
+
+% --- DEFINICIONES DE LENGUAJE ---
+
+% Lenguaje: DOS
+\lstdefinelanguage{DOS}
+{
+	backgroundcolor=\color{black},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+}
+
+% Lenguaje: POWERSHELL
+\lstdefinelanguage{POWERSHELL}
+{
+	backgroundcolor=\color{DarkBlue},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+    emph={New,Service},
+	emphstyle={\color{yellow}},
+}
+
+% Lenguaje: XML
+\lstdefinelanguage{XML}
+{
+	basicstyle=\ttfamily\footnotesize,
+	backgroundcolor = \color{LightGrey!10},
+	morestring=[b]",
+	moredelim=[s][\bfseries\color{Maroon}]{<}{\ },
+	moredelim=[s][\bfseries\color{Maroon}]{</}{>},
+	moredelim=[l][\bfseries\color{Maroon}]{/>},
+	moredelim=[l][\bfseries\color{Maroon}]{>},
+	morecomment=[s]{<?}{?>},
+	morecomment=[s]{<!--}{-->},
+	commentstyle=\color{DarkOliveGreen},
+	stringstyle=\color{blue},
+	showstringspaces=false,
+	identifierstyle=\color{red},
+	breaklines=true,
+	numbers=left
+}
+
+% Lenguaje: C# estilo VS Code
+\lstdefinelanguage{CSharpVSCode}{
+	% Clase 1: Palabras clave estándar (Azul)
+	morekeywords=[1]{
+		using, namespace, class, public, private, protected, internal,
+		readonly, static, void, string, int, bool, object, out, var,
+		new, null, byte, short, long, float, double, decimal, char,
+		struct, enum, delegate, event, interface, get, set, value,
+		this, override, virtual, abstract, partial, false, true
+	},
+	% Clase 2: Control de flujo y modificadores (Rosa/Morado)
+	morekeywords=[2]{
+		if, else, while, for, foreach, try, catch, finally, throw, return,
+		break, continue, lock, await, async, in, switch, case, default
+	},
+	% Clase 3: Clases y Tipos específicos detectados en el archivo (Turquesa)
+	morekeywords=[3]{
+		SerialService, SerialHub, IHubContext, ILogger, SerialPort, Thread,
+		Exception, TimeoutException, Task, Path, AppDomain, File,
+		JsonSerializer, JsonSerializerOptions, SettingsData, Array,
+		StringComparison, Action, Console, TaskRun
+	},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+	morestring=[b]'
+}
+
+% Lenguaje sencillo para texto tipo .gitignore
+\lstdefinelanguage{plaintext}{
+	morecomment=[l]{\#}
+}
+
+% Lenguaje: SQL
+\lstdefinelanguage{SQL}	
+{
+	basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{backcolour},   
+	commentstyle=\color{green},
+	keywordstyle=\color{Maroon},
+	numberstyle=\numberstyle,
+	stringstyle=\color{codepurple},
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+}
+
+% Lenguaje: C# Personalizado
+\lstdefinelanguage{CSharpCustom}{
+	language=[Sharp]C,
+	morekeywords={ApiController,Route,HttpGet,IActionResult,Ok,ControllerBase,public,class,return},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+}
+
+% Lenguaje: JSON
+\lstdefinelanguage{json}{
+	basicstyle=\ttfamily\small\color{vscodeFg},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	frame=single,
+	backgroundcolor=\color{vscodeBg},
+	string=[s]{"}{"},
+	stringstyle=\color{vscodeString},
+	comment=[l]{//},
+	commentstyle=\color{gray},
+	morecomment=[s]{/*}{*/},
+	keywordstyle=\color{vscodeKeyword},
+	keywords={true,false,null},
+	morekeywords={name,path},
+	literate=
+	*{0}{{{\color{vscodeNumber}0}}}{1}
+	{1}{{{\color{vscodeNumber}1}}}{1}
+	{2}{{{\color{vscodeNumber}2}}}{1}
+	{3}{{{\color{vscodeNumber}3}}}{1}
+	{4}{{{\color{vscodeNumber}4}}}{1}
+	{5}{{{\color{vscodeNumber}5}}}{1}
+	{6}{{{\color{vscodeNumber}6}}}{1}
+	{7}{{{\color{vscodeNumber}7}}}{1}
+	{8}{{{\color{vscodeNumber}8}}}{1}
+	{9}{{{\color{vscodeNumber}9}}}{1}
+	{:}{{{\color{vscodePunctuation}{:}}}}{1}
+	{,}{{{\color{vscodePunctuation}{,}}}}{1}
+	{\}}{{\color{vscodePunctuation}\}}}{1}
+	{[}{{\color{vscodePunctuation}[}}{1}
+	{]}{{\color{vscodePunctuation}]}}{1},
+}
+
+% --- ESTILOS DE LISTADO ---
+
+% Estilo: VS Code Dark
+\lstdefinestyle{VSCodeDark}{
+	language=CSharpVSCode,
+	backgroundcolor=\color{vsback},
+	basicstyle=\color{vstext}\ttfamily\small,
+	keywordstyle=[1]\color{vskey}\bfseries,
+	keywordstyle=[2]\color{vscontrol}\bfseries,
+	keywordstyle=[3]\color{vstype},
+	stringstyle=\color{vsstring},
+	commentstyle=\color{vscomment}\itshape,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	numberstyle=\tiny\color{vsgutter},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4,
+	frame=single,
+	rulecolor=\color{vsframe},
+	frameround=tttt,
+	columns=flexible
+}
+
+% Estilo Claro
+\lstdefinestyle{miestiloclaro}{
+	language=plaintext,
+	basicstyle=\ttfamily\small\color{codetext},
+	backgroundcolor=\color{codebg},
+	frame=single,
+	rulecolor=\color{codeframe},
+	frameround=tttt,
+	framesep=6pt,
+	xleftmargin=8pt,
+	xrightmargin=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	breakatwhitespace=false,
+	commentstyle=\color{codecomment}\itshape,
+	numbers=left,
+	numberstyle=\tiny\color{codelinenum},
+	numbersep=8pt,
+	tabsize=2,
+	keepspaces=true
+}
+
+% Estilo C# estándar
+\lstdefinestyle{csharpStyle}{
+	language=CSharpCustom,
+	backgroundcolor=\color{csBackground},
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{csKeyword}\bfseries,
+	stringstyle=\color{csString},
+	commentstyle=\color{csComment}\itshape,
+	identifierstyle=\color{black},
+	showstringspaces=false,
+	columns=fullflexible,
+	keepspaces=true,
+	breaklines=true,
+	frame=single,
+	rulecolor=\color{gray!40},
+	tabsize=4
+}
+
+% --- DEFINICIÓN DE LENGUAJE CMAKE AL ESTILO VS CODE ---
+\lstdefinelanguage{CMakeVSCode}{
+	morekeywords=[1]{
+		cmake_minimum_required, set, if, endif, project, message, 
+		enable_language, add_executable, add_subdirectory, 
+		target_link_directories, target_sources, target_include_directories, 
+		target_compile_definitions, list, target_link_libraries
+	},
+	morekeywords=[2]{
+		VERSION, PRIVATE, REQUIRED, ON, TRUE, STATUS, static, void, double
+	},
+	morekeywords=[3]{ 
+		uint16_t, uint8_t, uint32_t
+	},
+	morekeywords=[4]{ 
+		0
+	},
+	sensitive=false,
+	morecomment=[l]{\#},
+	morestring=[b]"
+}
+% --- ESTILO CMAKE CON FONDO NEGRO ---
+\lstdefinestyle{CMakeStyle}{
+	language=CMakeVSCode,
+	backgroundcolor=\color{vsback},             % Fondo oscuro (#1e1e1e)
+	basicstyle=\color{vstext}\ttfamily\small,   % Texto normal (#cccccc)
+	keywordstyle=[1]\color{vskey}\bfseries,     % Comandos CMake en azul
+	keywordstyle=[2]\color{vscontrol}\bfseries, % Modificadores (como PRIVATE) en rosa/morado
+	keywordstyle=[3]\color{vsorange}\bfseries,  % colorea el grupo 3 en naranja
+	keywordstyle=[4]\color{vsredorange}\bfseries,  % colorea el grupo 4 
+	stringstyle=\color{vsstring},               % Cadenas en color naranja/salmón
+	commentstyle=\color{vscomment}\itshape,     % Comentarios en verde
+	breakatwhitespace=false,
+	breaklines=true,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	numberstyle=\tiny\color{vsgutter},
+	showstringspaces=false,
+	frame=single,
+	rulecolor=\color{vsframe},
+	frameround=tttt,
+	columns=flexible,
+}
+
+
+% --- AUXILIARES ---
+\newcommand\numberstyle[1]{%
+	\footnotesize
+	\color{codegray}%
+	\ttfamily
+	\ifnum#1<10 0\fi#1 |%
+}

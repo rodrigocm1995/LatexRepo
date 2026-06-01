@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\title{Análisis de circuitos eléctricos}
+\author{Belmont Dubois}
+\date{Agosto 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Resolución de ejercicio 1}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+	\end{tabular}
+	
+	\section*{Ejercicio 1}
+	Un multímetro en particular se conecta a un divisor de tensión como el que se muestra a continuación. La lectura de voltaje esperada es de 10.2V, sin embargo, el multímetro muestra una lectura de 7.61V. La resistencia interna del multímetro de gran valor, pero finita está "cargando" el divisor de tensión y causando una lectura errónea. ¿Cuál es el valor de la resistencia interna ($R_M$) del multímetro? 
+ 	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\draw[blue, fill=blue!5, dashed, thick, ] (7,-0.5) rectangle (10,5.5);
+			\draw (0,0) to[V, l2=$V_{IN}$  and \qty{15}{\volt}] (0,5)
+				  to[R, l=$R_1$, a=\qty{4.7}{\mega\ohm}, -*] ++(5,0) coordinate (p1)
+				  to[R, l=$R_2$, a=\qty{10}{\mega\ohm}] ++(0,-5)
+				  to[short] (0,0);
+			\draw (p1) to[short] ++(4,0)
+				  to[R, a=$R_M$] ++(0,-5)
+				  to[short, -*] ++(-4,0);
+			\draw (p1) node[above right, xshift=-20pt]{$V_{1} = \qty{7.61}{\volt}$};
+		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\section*{Respuesta}
+	La resistencia desconocida $R_M$ se encuentra en paralelo con el resistor $R_2$. Dado que los voltajes a través de los elementos en paralelo son iguales, el voltaje $V_1$ aparece a través de ambas resistencias. Definimos primero la resistencia equivalente $R_{EQ} = R_M || R_2$ como
+
+	\begin{align}
+		R_{EQ} = \frac{R_2 R_M}{R_2 + R_M}
+	\end{align}
+	
+	Escribimos la regla de división de voltaje en términos de $R_{EQ}$ como 
+		\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\draw (0,0) to[V, l2=$V_{IN}$  and \qty{15}{\volt}] (0,5)
+			to[R, l=$R_1$, a=\qty{4.7}{\mega\ohm}, ] ++(5,0) coordinate (p1)
+			to[R, l=$R_{EQ}$, v=$V_1$] ++(0,-5)
+			to[short] (0,0);
+		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura2}
+	\end{figure}
+	\begin{align}
+		V_1 = \frac{R_{EQ}}{R_{EQ} + R_1} V_{IN} = \qty{7.61}{\volt}
+	\end{align}
+	
+	Al resolver la ecuación (2) en términos de $R_{EQ}$ obtenemos
+	
+	\begin{align}
+		R_{EQ}V_{IN} = 	V_1(R_{EQ} + R_1) \nonumber \\
+		R_{EQ}V_{IN} = R_{EQ}V_1 + R_1V_1 \nonumber \\
+		(V_{IN} - V_1)R_{EQ} = R_1V_1 \nonumber \\
+		R_{EQ} = \frac{R_1V_1}{V_{IN} - V_1} 
+	\end{align}
+	
+	Por lo tanto
+	
+	\begin{align}
+		R_{EQ} = \qty{4.84}{\mega\ohm}
+	\end{align}
+	 
+	 Ahora substituimos el valor que obtuvimos en (4) en la ecuación (1) y resolvemos para $R_2$
+
+	
+	\begin{align}
+		R_2R_M = R_{EQ}(R_2 + R_M) \nonumber \\
+		R_2R_M = R_2R_{EQ} + R_MR_{EQ} \nonumber \\
+		(R_2 - R_{EQ})R_M = R_2R_{EQ} \nonumber
+	\end{align}
+	 
+	 \begin{align}
+	 	R_M = \frac{R_2R_{EQ}}{R_2 - R_{EQ}}
+	 \end{align}
+
+Finalmente
+
+\begin{align}
+	R_M = \frac{(\qty{10}{\mega\ohm}) (\qty{4.84}{\mega\ohm})}{\qty{10}{\mega\ohm} - \qty{4.84}{\mega\ohm}} = \qty{9.3798}{\mega\ohm}
+\end{align}
+	
+\end{document}

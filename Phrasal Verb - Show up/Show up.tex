@@ -1,0 +1,364 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	SETTINGS
+%----------------------------------------------------------------------------------------
+
+
+
+%\lstdefinestyle{DOS}
+%{
+%	backgroundcolor=\color{black},
+%	basicstyle=\scriptsize\color{white}\ttfamily
+%}
+
+\lstdefinelanguage{DOS}
+{
+	backgroundcolor=\color{black},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+}
+
+\lstdefinelanguage{POWERSHELL}
+{
+	backgroundcolor=\color{DarkBlue},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+    emph={New,Service},
+	emphstyle={\color{yellow}},
+}
+
+\lstdefinelanguage{XML}
+{
+	basicstyle=\ttfamily\footnotesize,
+	backgroundcolor = \color{LightGrey!10},
+	basicstyle=\ttfamily\footnotesize,
+	morestring=[b]",
+	moredelim=[s][\bfseries\color{Maroon}]{<}{\ },
+	moredelim=[s][\bfseries\color{Maroon}]{</}{>},
+	moredelim=[l][\bfseries\color{Maroon}]{/>},
+	moredelim=[l][\bfseries\color{Maroon}]{>},
+	morecomment=[s]{<?}{?>},
+	morecomment=[s]{<!--}{-->},
+	commentstyle=\color{DarkOliveGreen},
+	stringstyle=\color{blue},
+	showstringspaces=false,
+	identifierstyle=\color{red},
+	breaklines=true,
+	numbers=left
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{HTML}{C42043}
+\definecolor{backcolour}{HTML}{F2F2F2}
+\definecolor{bookColor}{cmyk}{0,0,0,0.90}  
+\color{bookColor}
+
+\lstdefinelanguage{SQL}	
+{
+	basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{backcolour},   
+	commentstyle=\color{green},
+	keywordstyle=\color{Maroon},
+	numberstyle=\numberstyle,
+	stringstyle=\color{codepurple},
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+}
+
+\newcommand\numberstyle[1]{%
+	\footnotesize
+	\color{codegray}%
+	\ttfamily
+	\ifnum#1<10 0\fi#1 |%
+}
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{InfoBox}[1]{
+	colframe=brandblue, 
+	base={#1}
+}
+
+\newtcolorbox{WarningBox}[1]{
+	%colback=yellow!5!white,
+	colframe=yellow!60!white,
+	base={#1}
+}
+
+\newtcolorbox{ErrorBox}[1]{
+	%colback=yellow!5!white,
+	colframe=red!60!white,
+	base={#1}
+}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{Phrasal Verb - Show Up}} % The article title
+
+%\subtitle{Subtitle} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+\maketitle % Print the title/author/date block
+
+\setcounter{tocdepth}{3} % Set the depth of the table of contents to show sections and subsections only
+
+\tableofcontents % Print the table of contents
+
+%\newpage
+%\listoffigures % Print the list of figures
+
+%\listoftables % Print the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\newpage
+%\section*{Resumen} % This section will not appear in the table of contents due to the star (\section*)
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR AFFILIATIONS
+%----------------------------------------------------------------------------------------
+
+%\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+
+%\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+
+%----------------------------------------------------------------------------------------
+
+\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+
+%----------------------------------------------------------------------------------------
+%	DESINSTALACIÓN DE COMPONENTES
+%----------------------------------------------------------------------------------------
+
+\section{SHOW UP}
+El \textit{phrasal verb} \textbf{show up} tiene un matiz diferente al verbo \textit{arrive} (llegar). mientras que \textit{arrive} es simplemente trasladarse del punto A al punto B, \textbf{show up} significa "aparecer", "presentarse" o "hacer acto de presencia" en un lugar.
+
+\section{Conjugación del verbo (show)}
+
+\begin{description}
+	\item[Base/Presente] Show up (I show up)
+	\item[Tercera persona presente] Shows up (He/She/It shows up)
+	\item[Pasado simple] Showed up (I showep up)
+	\item[Gerundio/Continuo] Showing up (I am showing up)
+	\item[Participio] Shown up (I have shown up)
+\end{description}
+
+\begin{WarningBox}{\faIcon{triangle-exclamation} \, Advertencia} 
+	\textbf{La regla del infinitivo:} Recuerda que cuando usas la palabra \textbf{"to"} como propósito de conexión de verbos (Ejemplo: I want to / I expect to), el verbo debe ir en su forma base, incluso si la frase habla en pasado. 
+\end{WarningBox}
+
+\begin{itemize}
+	\item \textcolor{red}{\faIcon{xmark}} \textit{I expected him to showed up}
+	\item \textcolor{green}{\faIcon{circle-check}} \textit{I expected him to \textbf{show up}}
+\end{itemize}
+
+\newpage
+\section{Reto de traducción}
+
+\begin{enumerate}
+	\item \textbf{Él no apareció en la reunión esta mañana}
+	\begin{itemize}
+		\item \textit{He didn't show up to the meeting this morning.}
+	\end{itemize}
+	\item \textbf{Siempre apareces tarde cuando necesitamos ayuda.}
+	\begin{itemize}
+		\item \textit{You always show up late when we need help.}
+	\end{itemize}
+	\item \textbf{Estuvimos esperando por dos horas, pero el técnico nunca llegó.}
+	\begin{itemize}
+		\item \textit{We were waiting for two hours, but the technicion never showed up.}
+	\end{itemize}
+	\item \textbf{Asegúrate de presentarte a la entrevista con un traje.}
+	\begin{itemize}
+		\item \textit{Make sure to show up to the interview wearing a suit.}
+	\end{itemize}
+	\item \textbf{No esperaba que ella apareciera en la fiesta}
+	\begin{itemize}
+		\item \textit{I didn't expect her to show up to the party.}
+	\end{itemize}
+	\item \textbf{Siempre me pongo nervioso cuando el jefe aparece sin avisar.}
+	\begin{itemize}
+		\item \textit{I always get nervous when the boss shows up unannounced.}
+	\end{itemize}
+	\item \textbf{Si no apareces a tiempo, perderemos nuestra reservación.}
+	\begin{itemize}
+		\item \textit{If you don't show up on time, we will lose our reservation.}
+	\end{itemize}
+	\item \textbf{¿A qué hora apareció ella en la oficina hoy?}
+	\begin{itemize}
+		\item \textit{What time did she show up at the office today?}
+	\end{itemize}
+	\item \textbf{Es muy grosero invitar a alguien y luego no aparecer.}
+	\begin{itemize}
+		\item \textit{It's very rude to invite someone and then not show up.}
+	\end{itemize}
+	\item \textbf{Me sorprendió que tanta gente apareciera en el evento.}
+	\begin{itemize}
+		\item \textit{I was surprised that so many people showed up at the event.}
+	\end{itemize}
+\end{enumerate}
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+%\bibliographystyle{unsrt}
+
+%\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

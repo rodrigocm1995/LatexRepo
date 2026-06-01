@@ -1,0 +1,29 @@
+\documentclass[12pt, letterpaper]{report}
+\usepackage{graphicx}
+\usepackage[Lenny]{fncychap}
+\renewcommand{\chaptername}{ Capítulo}
+
+\usepackage{titlesec}
+\titleformat{\section}[frame]{\normalfont}
+{\footnotesize \enspace SECTION \thesection
+	\enspace}{6pt}{\large\bfseries\filcenter}
+\titlespacing*{\section}{1pc}{*4}{*2.3}[1pc]
+
+\graphicspath{{images/}}
+
+\title{My First LaTeX document}
+\author{Rodrigo Castillejos}
+\date{December 2022}
+
+\begin{document}
+	\maketitle
+	\newpage
+	
+	\chapter{A Package Test}
+	
+	\section{A title Test}
+	
+	First document. This is a simple example, with no extra parameters or packages included
+	
+	\includegraphics{indice}
+\end{document}

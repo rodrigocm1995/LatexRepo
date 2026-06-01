@@ -1,0 +1,163 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lachaise Assignment
+% LaTeX Template
+% Version 1.0 (26/6/2018)
+%
+% This template originates from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Marion Lachaise & François Févotte
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{steinmetz}
+\graphicspath{{images/}}
+\usepackage{float} 
+\usepackage{mathtools}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usetikzlibrary{spy,shapes,arrows, arrows.meta, bending}
+\pgfplotsset{width=10cm,compat=1.18}
+\input{structure.tex} % Include the file specifying the document structure and custom commands
+%\renewcommand{\figurename}{Figura}
+\usepackage{tcolorbox}
+\usepackage{lipsum}
+\tcbuselibrary{listings,theorems,skins,vignette,raster,breakable,magazine,poster,fitting,hooks}
+\usepackage{svg}
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Método de superposición} % Title of the assignment
+\author{Belmont Dubois} % Author name and email address
+
+%----------------------------------------------------------------------------------------
+
+
+\makeatletter
+\pgfcircdeclarebipole{}{\ctikzvalof{bipoles/vsourcesin/height}}{sVpm}{\ctikzvalof{bipoles/vsourcesin/height}}{\ctikzvalof{bipoles/vsourcesin/width}}{
+	
+	\pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+	\pgfpathellipse{\pgfpointorigin}{\pgfpoint{0}{\pgf@circ@res@up}}{\pgfpoint{\pgf@circ@res@left}{0}}
+	\pgfusepath{draw}     
+	\pgftext[bottom,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@down]{\scriptsize$-$}
+	\pgftext[top,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@up]{\scriptsize$+$}
+	
+	\pgf@circ@res@up = .35\pgf@circ@res@up
+	\pgfscope
+	\pgftransformrotate{90}
+	\pgfpathmoveto{\pgfpoint{-\pgf@circ@res@up}{0cm}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfusepath{draw}
+	\endpgfscope
+}
+\def\pgf@circ@sVpm@path#1{\pgf@circ@bipole@path{sVpm}{#1}}
+\compattikzset{sinusoidal voltage source pm/.style = {\circuitikzbasekey, /tikz/to path=\pgf@circ@sVpm@path, \circuitikzbasekey/bipole/is voltage=true, \circuitikzbasekey/bipole/is voltageoutsideofsymbol=true, v=#1 }}
+\compattikzset{sVpm/.style = {\comnpatname sinusoidal voltage source pm = #1}}
+
+\pgfcircdeclarebipole{}{\ctikzvalof{bipoles/vsourcesin/height}}{sVpmh}{\ctikzvalof{bipoles/vsourcesin/height}}{\ctikzvalof{bipoles/vsourcesin/width}}{
+	
+	\pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+	\pgfpathellipse{\pgfpointorigin}{\pgfpoint{0}{\pgf@circ@res@up}}{\pgfpoint{\pgf@circ@res@left}{0}}
+	\pgfusepath{draw}     
+	\pgftext[center,x=0.2\pgf@circ@res@down-\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@down]{\scriptsize$-$}
+	\pgftext[top,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@up]{\scriptsize$+$}
+	
+	\pgf@circ@res@up = .35\pgf@circ@res@up
+	\pgfscope
+	\pgftransformrotate{90}
+	\pgfpathmoveto{\pgfpoint{-\pgf@circ@res@up}{0cm}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfusepath{draw}
+	\endpgfscope
+}
+\def\pgf@circ@sVpmh@path#1{\pgf@circ@bipole@path{sVpmh}{#1}}
+\compattikzset{sinusoidal voltage source pmh/.style = {\circuitikzbasekey, /tikz/to path=\pgf@circ@sVpmh@path, \circuitikzbasekey/bipole/is voltage=true, \circuitikzbasekey/bipole/is voltageoutsideofsymbol=true, v=#1 }}
+\compattikzset{sVpmh/.style = {\comnpatname sinusoidal voltage source pmh = #1}}
+\makeatother
+
+\begin{document}
+	
+	\maketitle % Print the title
+	
+	%----------------------------------------------------------------------------------------
+	%	INTRODUCTION
+	%----------------------------------------------------------------------------------------
+	
+	\section*{Análisis de circuito con superposición} % Unnumbered section
+	
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[R, l2=$R_{1}$ and \SI{20}{\ohm}] ++(0,4)
+		to[short] ++(4,0) coordinate(n1)
+		to[R, l2=$R_{2}$ and \SI{10}{\ohm}] ++(0,-4)
+		to[short] ++(-4,0);
+		\draw (n1) to[short, *-] ++(4,0) coordinate(n2)
+		to[R, l2=$R_{3}$ and \SI{4}{\ohm}, *-*] ++(0,-4)
+		to[short, -*] ++(-4,0);
+		\draw (n1) to[short] ++(0,4)
+		to[I, invert, l=$I_{2}$, a=\SI{3}{\ampere}] ++(4,0)
+		to[short] ++(0,-4);
+		\draw (n2) to[short] ++(4,0)
+		to[I, invert, l2=$I_{1}$ and \SI{1}{\ampere}] ++(0,-4)
+		to[short] ++(-4,0);
+		\draw[->]   (2,2.5) arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_1$};
+		\draw[->]   (6,2.5) arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_2$};
+		\draw[->]   (10,2.5) arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_3$};
+		\draw[->]   (6,6.5)arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_3$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[R, l2=$R_{1}$ and \SI{20}{\ohm}, v=$V_2$] ++(0,4)
+		to[short, i=$I_1$] ++(4,0) coordinate(n1)
+		to[R, l2=$R_{2}$ and \SI{10}{\ohm}, v=$V_2$, i>^=$I_a$] ++(0,-4)
+		to[short, ] ++(-4,0);
+		\draw (n1) to[short, i=$I_z$, *-] ++(4,0) coordinate(n2)
+		to[R, l2=$R_{3}$ and \SI{4}{\ohm}, i>^=$I_b$, v=$V_3$, *-*] ++(0,-4)
+		to[short, -*] ++(-4,0);
+		\draw (n1) to[short, i<=$I_x$] ++(0,4)
+		to[I, invert, l=$I_{X}$, a=\SI{3}{\ampere}] ++(4,0)
+		to[short] ++(0,-4);
+		\draw (n2) to[short] ++(4,0)
+		to[I, invert, l2=$I_{1}$ and \SI{1}{\ampere}] ++(0,-4)
+		to[short] ++(-4,0);
+		\draw[->]   (2,2.5) arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_1$};
+		\draw[->]   (6,2.5) arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_2$};
+		\draw[->]   (10,2.5) arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_3$};
+		\draw[->]   (6,6.5)arc(110:-110:5mm) node[midway, left, font=\footnotesize] {$I_4$};
+		\draw (n1) node[above left] {$V_2$};
+		\draw (n2) node[above right] {$V_3$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura2}
+\end{figure}
+\end{document}
+
+

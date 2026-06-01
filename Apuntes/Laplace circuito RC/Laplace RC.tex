@@ -1,0 +1,375 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{pdfpages}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{filecontents}
+\usepackage{nicematrix}
+\graphicspath{{images/}}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{schemabloc}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage[scr]{rsfso}
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{$#2$}}%
+\newcommand*{\Resize}[2]{\resizebox{#1}{!}{$#2$}}%
+
+\newcommand{\Laplace}{\mathscr{L}}
+
+\title{Análisis de circuito RC con Laplace}
+\author{Rodrigo}
+\date{Agosto 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Análisis de circuito RC con Laplace}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+\renewcommand{\figurename}{Figure}
+%---------------------------------------------------
+\tikzset{flipflop myRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, tu={\ctikztextnot{RST}}, nu=1, n4=1 }}
+}
+
+\tikzset{flipflop myFFRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, n4=1 }}
+}
+%---------------------------------------------------
+
+\makeatletter
+\newcommand*{\underarrow}{\def\@underarrow{\relax}\@ifstar{\@@underarrow}{\def\@underarrow{\hidewidth}\@@underarrow}}
+\newcommand*{\@@underarrow}[2][]{\underset{\@underarrow\substack{\uparrow\if\relax\detokenize{#1}\relax\else\\#1\fi}\@underarrow}{#2}}
+
+\newcommand*{\overarrow}{\def\@overarrow{\relax}\@ifstar{\@@overarrow}{\def\@overarrow{\hidewidth}\@@overarrow}}
+\newcommand*{\@@overarrow}[2][]{\overset{\@overarrow\substack{\if\relax\detokenize{#1}\relax\else#1\\\fi\downarrow}\@overarrow}{#2}}
+\makeatother
+
+\makeatletter
+\newcounter{elimination@steps}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash$}p{#1}<{$}}
+\def\elimination@num@rights{}
+\def\elimination@num@variables{}
+\def\elimination@col@width{}
+\newenvironment{elimination}[4][0]
+{
+	\setcounter{elimination@steps}{0}
+	\def\elimination@num@rights{#1}
+	\def\elimination@num@variables{#2}
+	\def\elimination@col@width{#3}
+	\renewcommand{\arraystretch}{#4}
+	\start@align\@ne\st@rredtrue\m@ne
+}
+{
+	\endalign
+	\ignorespacesafterend
+}
+\newcommand{\eliminationstep}[2]
+{
+	\ifnum\value{elimination@steps}>0\sim\quad\fi
+	\left[
+	\ifnum\elimination@num@rights>0
+	\begin{array}
+		{@{}*{\elimination@num@variables}{R{\elimination@col@width}}
+			|@{}*{\elimination@num@rights}{R{\elimination@col@width}}}
+		\else
+		\begin{array}
+			{@{}*{\elimination@num@variables}{R{\elimination@col@width}}}
+			\fi
+			#1
+		\end{array}
+		\right]
+		& 
+		\begin{array}{l}
+			#2
+		\end{array}
+		&%                                    moved second & here
+		\addtocounter{elimination@steps}{1}
+	}
+	\makeatother
+	
+	\makeatletter
+	\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+		\hskip -\arraycolsep
+		\let\@ifnextchar\new@ifnextchar
+		\array{#1}}
+	\makeatother
+	
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+
+	\end{tabular}
+
+	
+	\section*{Analysis}
+	Sea el circuito RC que se muestra en la siguiente figura, el cual es excitado con una fuente senoidal $V_m \sin (\omega t) \mathrm{V}$. Asuma que el capacitor $C$ tiene un voltaje inicial de $V_0 \,  \mathrm{V}$
+	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\ctikzset{bipoles/thickness=4}
+			\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+			\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+			\draw (0,0) to[sV, l=$V_i(t)$] ++(0,5)
+			to[R, l=$R$, f=$i(t)$] ++(5,0)
+			to[cC, l_=$C$, v^=$V_o(t)$] ++(0,-5)
+			to[short] (0,0);
+		\end{tikzpicture}
+		\caption{Circuito RC}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\section*{Solución}
+	Transformamos el circuito de la figura 1 en el dominio de $s$.
+	
+	\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		\ctikzset{bipoles/thickness=4}
+		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+		\draw (0,0) to[sV, l=$V_i(s)$] ++(0,7)
+		to[R, l=$R$] ++(5,0) coordinate(p1)
+		to[cC, l_=$\frac{1}{sC}$] ++(0,-4)
+		to[V, invert, l_=$\frac{V_0}{s}$] ++(0,-3)
+		to[short] (0,0);
+		\draw (p1)++(1.5,0) to[open, v=$V_o$] ++(0,-7);
+		\draw[->]   (2,3.2) arc(110:-110:8mm) node[midway, left, font=\footnotesize] {$I_1(s)$};
+	\end{tikzpicture}
+	\caption{Circuito RC en el dominio de $s$}	
+	\label{fig:figura2}
+	\end{figure}
+
+\noindent Empleamos la LTK sobre la malla del circuito de la figura 2
+
+\begin{align}
+	V_i(s) - RI(s) - \frac{1}{sC}I(s) - \frac{V_0}{s} = 0 \nonumber \\
+	- \left( R + \frac{1}{sC} \right)I(s) = - V_i (s) + \frac{V_0}{s} \nonumber \\
+	\left( \frac{RCs + 1}{sC} \right)I(s) = \frac{V_m \omega}{s^2 + \omega^2} - \frac{V_0}{s} \nonumber \\
+	\left( \frac{RCs + 1}{sC} \right)I(s) = \frac{\omega V_m s - V_0(s^2 + \omega^2)}{s(s^2 + \omega^2)} \nonumber \\
+	I(s) = \left(  \frac{sC}{RCs + 1} \right) \left[ \frac{\omega V_m s - V_0(s^2 + \omega^2)}{s(s^2 + \omega^2)} \right] \nonumber \\
+	I(s) = \left[ \frac{sC}{RC(s + \frac{1}{RC})} \right] \left[ \frac{\omega V_m s - V_0s^2 - \omega^2 V_0}{s(s^2 + \omega^2)} \right] \nonumber \\
+	I(s) = \left[ \frac{\frac{1}{R}}{s + \frac{1}{RC}} \right] \left[ \frac{\omega V_m s - V_0s^2 - \omega^2 V_0}{s^2 + \omega^2} \right]
+\end{align}
+
+\noindent Usamos la expansión en fracciones parciales para separar $I(s)$ de la ecuación (1) en términos más simples. Sea
+
+\begin{align}
+	I(s) = \frac{ -\frac{V_0}{R}s^2 + \frac{\omega V_m}{R}s - \frac{\omega^2 V_0}{R} }{\left( s + \frac{1}{RC} \right) \left( s^2 + \omega^2 \right)} = \frac{\alpha_1}{s + \frac{1}{RC}} + \frac{\alpha_2 s + \omega \alpha_3}{s^2 + \omega^2}
+\end{align}
+
+\noindent Donde $\alpha_1, \alpha_2$ y $\alpha_3$ son las constantes por determinar. Utilizamos el método algebraico y multiplicamos ambos lados de la ecuación (2) por $(s + 1/RC)(s^2 + \omega^2)$ el cual produce:
+
+\begin{align}
+	-\frac{V_0}{R}s^2 + \frac{\omega V_m}{R}s - \frac{\omega^2 V_0}{R} &= \alpha_1 (s^2 + \omega^2) + (\alpha_2 s + \omega \alpha_3)\left( s + \frac{1}{RC} \right) \nonumber \\
+	&= \alpha_1 s^2 + \omega^2 \alpha_1 + \alpha_2 s^2 + \frac{1}{RC}\alpha_2 s + \omega \alpha_3 s + \frac{\omega}{RC} \alpha_3 \nonumber \\
+	&= (\alpha_1 + \alpha_2)s^2 + \left( \frac{1}{RC} \alpha_2 + \omega \alpha_3 \right)s + \left( \omega ^2 \alpha_1 + \frac{\omega}{RC}\alpha_3 \right)    
+\end{align}
+
+Al igualar los coeficientes de potencias iguales de $s$ se obtiene
+
+\begin{elimination}[3]{3}{2.6em}{1.8}% Decreased from 1.75em
+	\eliminationstep
+	{
+		1 & 1 & 0 & -\frac{V_0}{R}  \\
+		0 & \frac{1}{RC} & \omega & \frac{\omega V_m}{R} \\
+		\omega ^2 & 0 & \frac{\omega}{RC} & -\frac{\omega^2 V_0}{R}
+	}
+	{
+		R_3 \rightarrow R_3 - \omega^2  R_1 \\
+	} \\[10pt]
+	\eliminationstep
+	{
+		1 & 1 & 0 & -\frac{V_0}{R}  \\
+		0 & \frac{1}{RC} & \omega & \frac{\omega V_m}{R} \\
+		0 & -\omega ^2 & \frac{\omega}{RC} & 0
+	}
+	{
+		R_2 \rightarrow RC R_2 \\
+	} \\[10pt]
+	\eliminationstep
+	{
+		1 & 1 & 0 & -\frac{V_0}{R}  \\
+		0 & 1 & \omega RC & \omega C V_m \\
+		0 & -\omega ^2 & \frac{\omega}{RC} & 0
+	}
+	{
+		R_1 \rightarrow R_1 - R_2 \\
+		R_3 \rightarrow R_3 + \omega ^2 R_2
+	} \\[10pt]
+\end{elimination}
+
+\begin{elimination}[3]{3}{3.6em}{1.8}% Decreased from 1.75em
+	\eliminationstep
+{
+	1 & 0 & -\omega RC & { \displaystyle \scriptstyle -\frac{V_0}{R} - \omega CV_m }  \\
+	0 & 1 & \omega RC & \omega C V_m \\
+	0 & 0 & \frac{\omega + \omega^3 R^2 C^2}{RC} & \omega^3 C V_m
+}
+{
+	R_3 \rightarrow {\displaystyle \left( \frac{RC}{\omega + \omega^3 R^2 C^2} \right) }  R_3
+} \\[10pt]
+	\eliminationstep
+{
+	1 & 0 & -\omega RC & { \displaystyle \scriptstyle -\frac{V_0}{R} - \omega CV_m }  \\
+	0 & 1 & \omega RC & \omega C V_m \\
+	0 & 0 & 1 & {\displaystyle \scriptstyle \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2} }
+}
+{
+	R_1 \rightarrow R_1 + \omega RC R_3 \\
+	R_2 \rightarrow R_2 - \omega RC R_3
+} 
+\end{elimination}
+
+\begin{elimination}[3]{3}{6.6em}{1.8}% Decreased from 1.75em
+	\eliminationstep
+{
+	1 & 0 & 0 & { \displaystyle \scriptscriptstyle -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) }  \\
+	0 & 1 & \omega RC & \omega C V_m \\
+	0 & 0 & 1 & {\displaystyle \scriptstyle \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2} }
+}
+{
+	a
+} \\[10pt]
+\end{elimination}
+
+Así
+
+
+\begin{align}
+\begin{NiceArray}{[ccc|c]}
+1 & 0 & 0  &  { \displaystyle -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) } \\ 
+0 & 1 & 0  & { \displaystyle \omega C V_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right)  }   \\
+0 & 0 & 1 & {\displaystyle  \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2}}
+\end{NiceArray} \nonumber	
+\end{align}
+
+
+
+\noindent Se puede ver de inmediato que la solución es
+
+\begin{align}
+	\alpha_1 = -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \\
+	\alpha_2 = \omega C V_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \\
+	\alpha_3 = \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2}
+\end{align}
+
+Al sustituir (4), (5) y (6) en (2) obtenemos
+\begin{equation}\begin{split}
+		I(s) = \left[ -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right]  \left( \frac{1}{s + \frac{1}{RC}} \right)  \\+ \left[ \omega C V_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right]  \left( \frac{s}{s^2  + \omega^2} \right) \\ +  \left( \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2} \right) \left( \frac{\omega}{s^2 + \omega ^2} \right) 
+\end{split}\end{equation}
+
+Al tomar la transformada inversa de Laplace en (7) obtenemos
+
+\begin{equation}\begin{split}
+		\Laplace^{-1} \left\{ I(s) \right\} = \Laplace^{-1} \left\{   \left[ -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right]  \left( \frac{1}{s + \frac{1}{RC}} \right) \right\}  \\ + \Laplace^{-1} \left\{   \left[ \omega C V_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right]  \left( \frac{s}{s^2  + \omega^2} \right) \right\} \\ + \Laplace^{-1} \left\{   \left( \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2} \right) \left( \frac{\omega}{s^2 + \omega ^2} \right) \right\}
+\end{split}\end{equation}
+
+
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+\begin{equation}\begin{split}
+		i(t) = \left[ -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right] e^{-\frac{t}{RC}}  + \left[ \omega C V_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right] \cos (\omega t) \\
+		+ \left( \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2} \right) \sin (\omega t)
+\end{split}\end{equation}
+\end{tcolorbox}
+
+\section*{Ejemplo 1}
+Halle la corriente para el circuito de la figura 1, sea $V_m = \qty{5}{\volt}, R = \qty{1}{\kilo \ohm}, C = \qty{1}{\micro \farad}$, $f = \qty{100}{\hertz}$, asuma que el capacitor se encuentra inicialmente descargado, es decir $V_0 = \qty{0}{\volt}$
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin=0, xmax=0.03,
+			ymin=-0.003, ymax=0.003,
+			title=Capacitor current,
+			xlabel={time (s)},
+			ylabel={current (A)},
+			%legend entries={$V_o$,$V_c$},
+			%legend columns=-1, % to set one line legend
+			%legend style={at={(0.5,1)},anchor=center}, 
+			ymajorgrids
+			]
+			\addplot[magenta, thick] table [x=time, y=IC1, col sep=tab] {circuitoRC.txt};
+			%\addplot[red, thick] table [x=time, y=V2, col sep=tab] {data1.txt};
+			%\legend{Vo, Vc}
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+
+\noindent Una vez encontrada la corriente, hallamos el voltaje de salida
+
+\begin{equation}\begin{split}
+	V_o(s) &= \frac{V_0}{s} + \frac{1}{sC}I(s) \nonumber \\
+	&= \frac{V_0}{s} + \frac{1}{sC}  \bigg \{ \left[ -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right]  \left( \frac{1}{s + \frac{1}{RC}} \right)  \\&+ \left[ \omega C V_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right]  \left( \frac{s}{s^2  + \omega^2} \right) \\ &+  \left( \frac{\omega^2 R C^2 V_m}{1 + \omega^2 R^2 C^2} \right) \left( \frac{\omega}{s^2 + \omega ^2} \right) \bigg \}
+\end{split}\end{equation}
+
+En el dominio del tiempo
+
+\begin{equation}\begin{split}
+		V_o(t) = V_0 &+ R \left[ -\frac{V_0}{R} - \omega CV_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \right] \left[ 1 - e^{-\frac{t}{RC}} \right] \\
+		&+  V_m \left( 1 - \frac{\omega^2 R^2 C^2}{1 + \omega^2 R^2 C^2}  \right) \sin (\omega t) \\
+		&+ 	\left( \frac{\omega^2 R C V_m}{1 + \omega^2 R^2 C^2} \right) \left[ 1 - \cos (\omega t) \right]
+\end{split}\end{equation}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin=0, xmax=0.03,
+			ymin=-5, ymax=5,
+			title=Capacitor voltage,
+			xlabel={time (s)},
+			ylabel={voltage (V)},
+			%legend entries={$V_o$,$V_c$},
+			%legend columns=-1, % to set one line legend
+			%legend style={at={(0.5,1)},anchor=center}, 
+			ymajorgrids
+			]
+			\addplot[magenta, thick] table [x=time, y=Vout, col sep=tab] {circuitoRCVolt.txt};
+			%\addplot[red, thick] table [x=time, y=V2, col sep=tab] {data1.txt};
+			%\legend{Vo, Vc}
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+
+\end{document}

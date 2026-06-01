@@ -1,0 +1,5 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{SHOW UP}}{2}{section.1}%
+\contentsline {section}{\numberline {2}{Conjugación del verbo (show)}}{2}{section.2}%
+\contentsline {section}{\numberline {3}{Reto de traducción}}{3}{section.3}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -1,0 +1,866 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	SETTINGS
+%----------------------------------------------------------------------------------------
+
+
+
+%\lstdefinestyle{DOS}
+%{
+%	backgroundcolor=\color{black},
+%	basicstyle=\scriptsize\color{white}\ttfamily
+%}
+
+\lstdefinelanguage{DOS}
+{
+	backgroundcolor=\color{black},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+}
+
+\lstdefinelanguage{POWERSHELL}
+{
+	backgroundcolor=\color{DarkBlue},
+	basicstyle=\scriptsize\color{white}\ttfamily,
+	stringstyle=\color{white},
+	breaklines=true,
+    emph={New,Service},
+	emphstyle={\color{yellow}},
+}
+
+\lstdefinelanguage{XML}
+{
+	basicstyle=\ttfamily\footnotesize,
+	backgroundcolor = \color{LightGrey!10},
+	basicstyle=\ttfamily\footnotesize,
+	morestring=[b]",
+	moredelim=[s][\bfseries\color{Maroon}]{<}{\ },
+	moredelim=[s][\bfseries\color{Maroon}]{</}{>},
+	moredelim=[l][\bfseries\color{Maroon}]{/>},
+	moredelim=[l][\bfseries\color{Maroon}]{>},
+	morecomment=[s]{<?}{?>},
+	morecomment=[s]{<!--}{-->},
+	commentstyle=\color{DarkOliveGreen},
+	stringstyle=\color{blue},
+	showstringspaces=false,
+	identifierstyle=\color{red},
+	breaklines=true,
+	numbers=left
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{HTML}{C42043}
+\definecolor{backcolour}{HTML}{F2F2F2}
+\definecolor{bookColor}{cmyk}{0,0,0,0.90}  
+\color{bookColor}
+
+\lstdefinelanguage{SQL}	
+{
+	basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{backcolour},   
+	commentstyle=\color{green},
+	keywordstyle=\color{Maroon},
+	numberstyle=\numberstyle,
+	stringstyle=\color{codepurple},
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+}
+
+\newcommand\numberstyle[1]{%
+	\footnotesize
+	\color{codegray}%
+	\ttfamily
+	\ifnum#1<10 0\fi#1 |%
+}
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+\newtcolorbox{InfoBox}[1]{
+	colframe=brandblue, 
+	base={#1}
+}
+
+\newtcolorbox{WarningBox}[1]{
+	%colback=yellow!5!white,
+	colframe=yellow!60!white,
+	base={#1}
+}
+
+\newtcolorbox{ErrorBox}[1]{
+	%colback=yellow!5!white,
+	colframe=red!60!white,
+	base={#1}
+}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{Phrasal Verbs}} % The article title
+
+%\subtitle{Subtitle} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+\maketitle % Print the title/author/date block
+
+\setcounter{tocdepth}{3} % Set the depth of the table of contents to show sections and subsections only
+
+\tableofcontents % Print the table of contents
+
+%\newpage
+%\listoffigures % Print the list of figures
+
+%\listoftables % Print the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\newpage
+%\section*{Resumen} % This section will not appear in the table of contents due to the star (\section*)
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR AFFILIATIONS
+%----------------------------------------------------------------------------------------
+
+%\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+
+%\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+
+%----------------------------------------------------------------------------------------
+
+\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+
+%----------------------------------------------------------------------------------------
+%	DESINSTALACIÓN DE COMPONENTES
+%----------------------------------------------------------------------------------------
+
+\section{Get along}
+El \textit{phrasal verb} \textbf{get along} es fundamental en el inglés social y corporativo.
+\begin{description}
+	\item[Significado] Llevarse bien (tener una buena relación o armonía con alguien)
+\end{description}
+
+\begin{InfoBox}{\textcolor{Goldenrod}{\faIcon{trophy}} \, La regla de uso} 
+	\begin{enumerate}
+		\item Con \textbf{"With"}: Si en la oración vas a mencionar específicamente a la otra persona con la que te llevas bien, es obligatorio conectarlo con la preposición \textbf{with}.
+		\begin{itemize}
+			\item \textit{I get along \textbf{with} my boss.} (Me llevo bien con mi jefe.)
+		\end{itemize}
+		\item Sin \textbf{"With"}: Si el sujeto de la oración es plural (embas partes están incluidas en el sujeto, como "ellos", "nosotros", "tú y yo"), simplemente terminas con el verbo.
+		\begin{itemize}
+			\item \textit{My syster and I don't \textbf{get along}.} (Mi hermana y yo no nos llevamos bien.)
+		\end{itemize}
+	\end{enumerate}
+\end{InfoBox}
+
+\subsection{Reto de traducción}
+
+\begin{enumerate}
+	\item \textbf{Me llevo muy bien con mis nuevos compañeros de trabajo.}
+	\begin{itemize}
+		\item \textit{I get along very well with my new coworkers.}
+	\end{itemize}
+	\item \textbf{A pesar de sus diferencias, ellos se llevan bien.}
+	\begin{itemize}
+		\item \textit{Despite their differences, they get along.}
+	\end{itemize}
+	\item \textbf{Él no se lleva bien con su suegro.}
+	\begin{itemize}
+		\item \textit{He doesn't get along with his father-in-law.}
+	\end{itemize}
+	\item \textbf{¿Tú y tu hermano se llevan bien?}
+	\begin{itemize}
+		\item \textit{Do you and your brother get along?}
+	\end{itemize}
+	\item \textbf{Espero que los dos equipos se lleven bien durante el proyecto.}
+	\begin{itemize}
+		\item \textit{I hope both teams get along during the project.}
+	\end{itemize}
+	\item \textbf{Al principio no nos llevábamos bien, pero ahora somos grandes amigos y pasamos mucho tiempo juntos.}
+	\begin{itemize}
+		\item \textit{At the beginning we didn't get along, but now we are great friends and we spend a lot of time together.}
+	\end{itemize}
+	\item \textbf{¿Cómo te llevas con el nuevo gerente que contrataron la semana pasada?}
+	\begin{itemize}
+		\item \textit{How do you get along with the new supervisor that they hired last week?}
+	\end{itemize}
+	\item \textbf{Mi perro y mi gato finalmente se llevan bien después de pelear durante tres meses.}
+	\begin{itemize}
+		\item \textit{Mi dog and my cat finally get along after fighting for three months.}
+	\end{itemize}
+	\item \textbf{Es crucial que los departamentos de ventas y marketing se lleven bien para alcanzar los objetivos anuales.}
+	\begin{itemize}
+		\item \textit{It is crucial that the sales and marketing departments get along to reach the annual goals.}
+	\end{itemize}
+	\item \textbf{A pesar de que tienen personalidades completamente diferentes, se llevan bien la mayor parte del tiempo.}
+	\begin{itemize}
+		\item \textit{Even though they have completely different personalities, they get along most of the time.}
+	\end{itemize}
+	\item \textbf{Pensé que no me llevaría bien con ella porque parecía muy estricta el primer día.}
+	\begin{itemize}
+		\item \textit{I thought I wouldn't get along with her because she seemed very strict the first day.}
+	\end{itemize}
+	\item \textbf{ Siempre me he llevado bien con personas que comparten mi pasión por la tecnología.}
+	\begin{itemize}
+		\item \textit{I have always gotten along with people that share my passion for technology.}
+	\end{itemize}
+	\item \textbf{Si no logran llevarse bien, tendremos que reasignarlos a diferentes proyectos inmediatamente.}
+	\begin{itemize}
+		\item \textit{If they can't manage to get along, we will have to reassign them to different projects immediately.}
+	\end{itemize}
+	\item \textbf{Me sorprendió mucho descubrir que ellos dos se llevan tan bien fuera de la oficina.}
+	\begin{itemize}
+		\item \textit{I was very surprised to find out that they get along so well outside the office. }
+	\end{itemize}
+	\item \textbf{Para ser un buen líder, debes asegurarte de llevarte bien con todos los miembros de tu equipo.}
+	\begin{itemize}
+		\item \textit{To be a good lead, you must make sure to get along with every member of your team.}
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+\section{Show up}
+El \textit{phrasal verb} \textbf{show up} tiene un matiz diferente al verbo \textit{arrive} (llegar). mientras que \textit{arrive} es simplemente trasladarse del punto A al punto B, \textbf{show up} significa "aparecer", "presentarse" o "hacer acto de presencia" en un lugar.
+
+\subsection{Conjugación del verbo (show)}
+
+\begin{description}
+	\item[Base/Presente] Show up (I show up)
+	\item[Tercera persona presente] Shows up (He/She/It shows up)
+	\item[Pasado simple] Showed up (I showep up)
+	\item[Gerundio/Continuo] Showing up (I am showing up)
+	\item[Participio] Shown up (I have shown up)
+\end{description}
+
+\begin{WarningBox}{\faIcon{triangle-exclamation} \, Advertencia} 
+	\textbf{La regla del infinitivo:} Recuerda que cuando usas la palabra \textbf{"to"} como propósito de conexión de verbos (Ejemplo: I want to / I expect to), el verbo debe ir en su forma base, incluso si la frase habla en pasado. 
+\end{WarningBox}
+
+\begin{itemize}
+	\item \textcolor{red}{\faIcon{xmark}} \textit{I expected him to showed up}
+	\item \textcolor{green}{\faIcon{circle-check}} \textit{I expected him to \textbf{show up}}
+\end{itemize}
+
+\newpage
+\subsection{Reto de traducción}
+
+\begin{enumerate}
+	\item \textbf{Él no apareció en la reunión esta mañana}
+	\begin{itemize}
+		\item \textit{He didn't show up to the meeting this morning.}
+	\end{itemize}
+	\item \textbf{Siempre apareces tarde cuando necesitamos ayuda.}
+	\begin{itemize}
+		\item \textit{You always show up late when we need help.}
+	\end{itemize}
+	\item \textbf{Estuvimos esperando por dos horas, pero el técnico nunca llegó.}
+	\begin{itemize}
+		\item \textit{We were waiting for two hours, but the technicion never showed up.}
+	\end{itemize}
+	\item \textbf{Asegúrate de presentarte a la entrevista con un traje.}
+	\begin{itemize}
+		\item \textit{Make sure to show up to the interview wearing a suit.}
+	\end{itemize}
+	\item \textbf{No esperaba que ella apareciera en la fiesta}
+	\begin{itemize}
+		\item \textit{I didn't expect her to show up to the party.}
+	\end{itemize}
+	\item \textbf{Siempre me pongo nervioso cuando el jefe aparece sin avisar.}
+	\begin{itemize}
+		\item \textit{I always get nervous when the boss shows up unannounced.}
+	\end{itemize}
+	\item \textbf{Si no apareces a tiempo, perderemos nuestra reservación.}
+	\begin{itemize}
+		\item \textit{If you don't show up on time, we will lose our reservation.}
+	\end{itemize}
+	\item \textbf{¿A qué hora apareció ella en la oficina hoy?}
+	\begin{itemize}
+		\item \textit{What time did she show up at the office today?}
+	\end{itemize}
+	\item \textbf{Es muy grosero invitar a alguien y luego no aparecer.}
+	\begin{itemize}
+		\item \textit{It's very rude to invite someone and then not show up.}
+	\end{itemize}
+	\item \textbf{Me sorprendió que tanta gente apareciera en el evento.}
+	\begin{itemize}
+		\item \textit{I was surprised that so many people showed up at the event.}
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+
+\section{Run out of}
+El phrasal verb \textbf{run out of} es indispensable en el inglés cotidiano. Se utiliza para indicar que una reserva, suministro o cantidad de algo se ha agotado o consumido por completo.
+
+\subsection{Conjugación del verbo}
+A diferencia de los verbos regulares, "run" es un verbo irregular. Su conjugación es importante para dominar los distintos tiempos verbales.
+
+\begin{description}
+	\item[Base/Presente] Run (I/You/We/They run out of)
+	\item[Tercera persona presente] Runs (He/She/It runs out of...)
+	\item[Pasado simple] Ran (I ran out of...)
+	\item[Gerundio/Continuo] Running (I am running out of...)
+	\item[Participios (tiempos perfectos)] Run (I have run out of...)
+\end{description}
+
+\subsection{Usos y contextos}
+Este verbo es sumamente versátil y no se limita a objetos físicos. Los nativos lo aplican a tres categorías principales.
+
+\begin{enumerate}[label=\Alph*.]
+	\item Suministros físicos y objetos. \\\\
+	Se utiliza para cosas tangibles que se consumen o se gastan. \\
+	\begin{itemize}
+		\item \textit{We \textbf{ran out of} milk this morning.} (Se nos acabó la leche esta mañana).
+		\item \textit{My phone \textbf{ran out of} battery.} (Mi teléfono se quedó sin batería).
+		\item \textit{They are \textbf{running out of} gas.} (Se están quedando sin gasolina).
+	\end{itemize}
+	\item Conceptos abstractos (Tiempo y Dinero) \\\\
+	Es la forma estándar de hablar sobre límites de tiempo o presupuestos.\\
+	\begin{itemize}
+		\item \textit{Hurry up! We are \textbf{running out of} time.} (¡Apresúrate! Nos estamos quedando sin tiempo.)
+		\item \textit{If we buy that car, we will \textbf{run out of} money.} (Si compramos ese auto, nos quedaremos sin dinero.)
+	\end{itemize}
+	\item Emociones y estados mentales \\\\
+	Se usa de forma figurativa para emociones o recursos cognitivos. \\
+	\begin{itemize}
+		\item \textit{I am \textbf{running out of} patience.} (Me estoy quedando sin paciencia).
+		\item \textit{The writes \textbf{ran out of} ideas.} (Los escritores se quedaron sin ideas).
+		\item \textit{He is \textbf{running out of} luck.} (Se le está acabando la suerte.)
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+\subsection{Reto de traducción}
+
+\begin{enumerate}
+	\item \textbf{Me quedé sin baterías en medio de la llamada.}
+	\begin{itemize}
+		\item \textit{I ran out of batteries in the middle of the call.}
+	\end{itemize}
+	\item \textbf{Se nos está acabando la leche, ¿puedes comprar más?}
+	\begin{itemize}
+		\item \textit{We are running out of milk. Can you buy more?.}
+	\end{itemize}
+	\item \textbf{El proyexto fracasó porque se quedaron sin dinero.}
+	\begin{itemize}
+		\item \textit{The project failed because they ran out of money.}
+	\end{itemize}
+	\item \textbf{Me estoy quedando sin paciencia contigo.}
+	\begin{itemize}
+		\item \textit{I'm running out of patiente with you.}
+	\end{itemize}
+	\item \textbf{Se han quedado sin ideas para el nuevo producto.}
+	\begin{itemize}
+		\item \textit{They have run out of ideas for the new product.}
+	\end{itemize}
+	\item \textbf{Si no nos apuramos, nos quedaremos sin tiempo.}
+	\begin{itemize}
+		\item \textit{If we don't hurry up, we will run out of time.}
+	\end{itemize}
+	\item \textbf{Se nos acabó la gasolina a tres millas del pueblo.}
+	\begin{itemize}
+		\item \textit{We ran out of gas three miles from town.}
+	\end{itemize}
+	\item \textbf{La impresora se quedó sin papel ayer.}
+	\begin{itemize}
+		\item \textit{The printer ran out of paper yesterday.}
+	\end{itemize}
+	\item \textbf{Espero que no nos quedemos sin suerte.}
+	\begin{itemize}
+		\item \textit{I hope we don't run out of luck.}
+	\end{itemize}
+	\item \textbf{¡Ayuda! Me estoy quedando sin espacio en mi teléfono.}
+	\begin{itemize}
+		\item \textit{Help! I'm running out of storage on my phone.}
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+\section{Figure out}
+El phrasal verb \textbf{figure out} es uno de los verbos más importantes en el entorno profesional y cotidiano. Los nativos rara vez usan verbos latinos formales como \textit{solve} (resolver), \textit{understand} (entender) o \textit{discover} (descubrir) en el habla diaria; en su lugar, casi siempre prefieren figure out.
+
+\begin{description}
+	\item[Significado] Averiguar, resolver (un problema analítico o técnico), descifrar, o llegar a entender cómo funciona algo después de analizarlo.
+\end{description}
+
+\subsection{Conjugación}
+\begin{description}
+	\item[Base/Presente] Figure out
+	\item[Tercera persona] Figures out
+	\item[Pasado simple] Figured out
+	\item[Gerundio] Figuring out
+	\item[Participio] Figured out
+\end{description}
+
+\begin{InfoBox}{\textcolor{Goldenrod}{\faIcon{trophy}} \, La regla de oro} 
+	"Figure out" es un phrasal verb \textbf{separable}. Esto significa que el objeto de la oración puede ir después de la preposición o en medio de las dos palabras.
+	
+	\begin{itemize}
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{I will figure out \textbf{the problem}}
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{I will figure \textbf{the problem} out}
+	\end{itemize}
+\end{InfoBox}
+
+¡ALERTA CON LOS PRONOMBRES! Si reemplazas el objeto de la oración por un pronombre (como it o them), la regla gramatical exige que el pronombre SIEMPRE vaya obligatoriamente en el medio. Nunca al final.
+
+\begin{itemize}
+	\item \textcolor{red}{\faIcon{xmark}} \textit{I will figure out it} (Suena muy mal para un nativo)
+	\item \textcolor{green}{\faIcon{circle-check}} \textit{I will figure \textbf{it} out.} (Lo resolveré/Lo averiguaré.)
+\end{itemize}
+
+\subsection{Reto de traducción}
+\begin{enumerate}
+	\item \textbf{Todavía estoy tratando de averiguar cómo funciona este nuevo software.}
+	\begin{itemize}
+		\item \textit{I'm still trying to figure out how this new software works.}
+	\end{itemize}
+	\item \textbf{No pudimos resolver el problema, así que llamamos a soporte técnico.}
+	\begin{itemize}
+		\item \textit{We couldn't figure out the problem, so we called tech support.}
+	\end{itemize}
+	\item \textbf{Dame unos minutos, averiguaré dónde está el restaurante.}
+	\begin{itemize}
+		\item \textit{Give me a few minutes, I will figure out where the restaurant is.}
+	\end{itemize}
+	\item \textbf{Es difícil descifrar lo que él realmente quiere.}
+	\begin{itemize}
+		\item \textit{It is hard to figure out what he really wants.}
+	\end{itemize}
+	\item \textbf{Me tomó mucho tiempo, pero finalmente logré descifrar este código.}
+	\begin{itemize}
+		\item \textit{It took me a lot of time, but I finally managed to figure out this code.}
+	\end{itemize}
+	\item \textbf{Necesito que averigües por qué el servidor falló anoche.}
+	\begin{itemize}
+		\item \textit{I need you to figure out why the server failed last night.}
+	\end{itemize}
+	\item \textbf{ Es imposible descifrar cómo encender esta máquina sin leer el manual primero.}
+	\begin{itemize}
+		\item \textit{It is impossible to figure out how to turn on this machine without reading the manual first.}
+	\end{itemize}
+	\item \textbf{Nos tomó tres horas, pero finalmente descubrimos cómo conectar la base de datos.}
+	\begin{itemize}
+		\item \textit{It took us three hours, but we finally figure out how to connect the database.}
+	\end{itemize}
+	\item \textbf{Si hay un error de sintaxis en el código, estoy seguro de que ella lo resolverá.}
+	\begin{itemize}
+		\item \textit{If there is a sintax error in the code, I'm sure that she will figure it out.}
+	\end{itemize}
+	\item \textbf{Nunca pudimos entender por qué el cliente canceló el proyecto repentinamente.}
+	\begin{itemize}
+		\item \textit{We never could figured out why the client canceled the project suddenly.}
+	\end{itemize}
+	\item \textbf{Mientras intentaba descifrar este problema matemático, me quedé dormido en mi escritorio.}
+	\begin{itemize}
+		\item \textit{While trying to figure out this math problem, I fell asleep at my desk.}
+	\end{itemize}
+	\item \textbf{Asegúrate de averiguar a qué hora sale nuestro vuelo mañana por la mañana.}
+	\begin{itemize}
+		\item \textit{Make sure to figure out what time our flight leaves tomorrow morning.}
+	\end{itemize}
+	\item \textbf{Acabo de descifrar cómo reducir el consumo de memoria en nuestra aplicación web.}
+	\begin{itemize}
+		\item \textit{I just figured out how to reduce the memory consumption in our web app.}
+	\end{itemize}
+	\item \textbf{No te preocupes por el presupuesto en este momento; lo resolveremos más tarde.}
+	\begin{itemize}
+		\item \textit{Don't worry about the budget right now, we will figure it out later.}
+	\end{itemize}
+	\item \textbf{Antes de tomar una decisión final, necesito que averigüen qué competidores ofrecen los mejores precios.}
+	\begin{itemize}
+	\item \textit{Before making a final decision, I need you to figure out what competitors offers the best prices.}
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+
+\section{Run into}
+El \textit{phrasal verb} \textbf{run into} es una estructura lingüística altamente versátil, frecuentemente utilizada tanto en comunicaciones corporativas informales como en documentación técnica y diagnósticos de ingeniería.
+
+\subsection{Significados principales}
+\begin{enumerate}
+	\item \textbf{Contexto Social:} Encontrarse con alguien por casualidad (toparse con alguien).
+	\begin{itemize}
+		\item \textit{I ran into John} (Me topé con John / Me encontré a John de casualidad).
+	\end{itemize}
+	\item \textbf{Contexto Profesional/técnico:} Toparse con un problema, dificultad o error inesperado.
+	\begin{itemize}
+		\item We ran into an error. (Nos topamos con un error).
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Conjugación}
+\begin{description}
+	\item[Base/Presente] Run into
+	\item[Tercera persona] Runs into
+	\item[Pasado simple] Ran into
+	\item[Gerundio] Running into
+	\item[Participio] Run into
+\end{description}
+
+\begin{InfoBox}{\textcolor{Goldenrod}{\faIcon{trophy}} \, La regla de oro} 
+	A diferencia de "figure out", este verbo es inseparable. El objeto (la persona o el problema con el que te topas) SIEMPRE va después de la palabra into. No puedes poner nada en medio.
+	
+	\begin{itemize}
+		\item \textcolor{red}{\faIcon{xmark}} \textit{I ran \textbf{her} into .}
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{I ran into \textbf{her}.} 
+	\end{itemize}
+\end{InfoBox}
+
+\subsection{Reto de traducción}
+\begin{enumerate}
+	\item \textbf{Me encontré por casualidad con mi profesor en el supermercado ayer.}
+	\begin{itemize}
+		\item \textit{I ran into my teacher at the supermarket yesterday.}
+	\end{itemize}
+	\item \textbf{Topamos (nos encontramos) con algunos problemas durante la instalación.}
+	\begin{itemize}
+		\item \textit{We ran into some problems during the installation.}
+	\end{itemize}
+	\item \textbf{Si te topas con algún error en el código, avísame.}
+	\begin{itemize}
+		\item \textit{If you run into any error in the code, let me know.}
+	\end{itemize}
+	\item \textbf{Espero no encontrarme con mi exnovia en la fiesta de esta noche.}
+	\begin{itemize}
+		\item \textit{I hope I don't run into my ex-girlfriend at the party tonight}
+	\end{itemize}
+	\item \textbf{El proyecto se retrasó porque nos topamos con dificultades financieras.}
+	\begin{itemize}
+		\item \textit{The project was delayed because we ran into financial difficulties.}
+	\end{itemize}
+	\item \textbf{Pensé que el lanzamiento del software sería fácil, pero nos topamos con varios problemas de compatibilidad.}
+	\begin{itemize}
+		\item \textit{I thought the software deployment would be easy, but we ran into several compatibility problems.}
+	\end{itemize}
+	\item \textbf{Ojalá no me tope con mi jefe en el pasillo, porque olvidé enviar su informe.}
+	\begin{itemize}
+		\item \textit{I hope I don't run into my boss in the ahllway, because I forgot to send the report.}
+	\end{itemize}
+	\item \textbf{Acabo de encontrarme de casualidad con un antiguo colega mientras caminaba por el parque.}
+	\begin{itemize}
+		\item \textit{I just ran into a former colleague while walking through the park.}
+	\end{itemize}
+	\item \textbf{Si te topas con algún comportamiento extraño en la interfaz de usuario, abre un ticket inmediatamente.}
+	\begin{itemize}
+		\item \textit{If you run into a weird behavior in the UI, open a ticker immediately.}
+	\end{itemize}
+	\item \textbf{La empresa se topó con un problema legal masivo el año pasado debido a la infracción de patentes.}
+	\begin{itemize}
+		\item \textit{The company ran into a massive legal problem last year due to patent infringement.}
+	\end{itemize}
+	\item \textbf{No esperaba encontrarme de casualidad con la misma solución que tú sugeriste.}
+	\begin{itemize}
+		\item \textit{I didn't expect to run into the same situation that you suggested.}
+	\end{itemize}
+	\item \textbf{El equipo de hardware se topó con una limitación crítica al probar el nuevo procesador.}
+	\begin{itemize}
+		\item \textit{The hardware team run into a critical limitationb when testing the new processor.}
+	\end{itemize}
+	\item \textbf{¿Alguna vez te has topado con alguien famoso en el aeropuerto?}
+	\begin{itemize}
+		\item \textit{Have you ever run into someone famous at the airport?}
+	\end{itemize}
+	\item \textbf{Teníamos todo planeado, pero nos topamos con una tormenta terrible de camino a las montañas.}
+	\begin{itemize}
+		\item \textit{We had everything planned, but we ran into a terrible storm on the way to the mountains.}
+	\end{itemize}
+	\item \textbf{Asegúrate de hacer una copia de seguridad de la base de datos por si nos topamos con errores de corrupción durante la migración.}
+	\begin{itemize}
+		\item \textit{Make sure to do a database backup in case we run into security problems during the migration.}
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+
+\section{Point out}
+El \textit{phrasal verb} \textbf{point out} es tu mejor amigo en el mundo corporativo y en las reuniones de trabajo. Literalmente significa "apuntar con el dedo", pero en un contexto profesional se traduce como \textbf{hacer notar}, \textbf{señalar un hecho}, o \textbf{mencionar algo importante que a otros se les pasó}.
+
+\subsection{Conjugación}
+\begin{description}
+	\item[Base/Presente] Point out
+	\item[Tercera persona] Points out
+	\item[Pasado simple] Pointed out
+	\item[Gerundio] Pointing out
+	\item[Participio] Pointed out
+\end{description}
+
+\begin{InfoBox}{\textcolor{Goldenrod}{\faIcon{trophy}} \, La regla de oro: \textbf{Phrasal verb separable}} 
+	"Point out" sigue la famosa regla de los phrasal verbs \textbf{separables} que vimos con figure out.
+	
+	\begin{itemize}
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{I want to point out \textbf{the error}.}
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{I want to point \textbf{the error} out.} 
+	\end{itemize}
+	
+	\begin{description}
+		\item[Regla de los pornombres] Si reemplazas la "cosa" que quieres señalar por el pronombre it (o them en plural), obligatoriamente debe ir en medio:
+	\end{description}
+	
+	\begin{itemize}
+		\item \textcolor{red}{\faIcon{xmark}} \textit{Please point out it.} (Suena terrible para un nativo)
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{Please point \textbf{it} out} (Correcto: Por favor, hazlo notar / señálalo).
+	\end{itemize}
+\end{InfoBox}
+
+
+\subsection{Reto de traducción}
+
+\begin{enumerate}
+	\item \textbf{Me gustaría señalar (hacer notar) que no tenemos suficiente presupuesto.}
+	\begin{itemize}
+		\item \textit{I would like to point out that we don't have enough budget.}
+	\end{itemize}
+	\item \textbf{Como señaló John en la reunión, necesitamos más desarrolladores.}
+	\begin{itemize}
+		\item \textit{As John pointed out at the meeting, we need more developers.}
+	\end{itemize}
+	\item \textbf{El cliente señaló un error en la interfaz de usuario de la aplicación.}
+	\begin{itemize}
+		\item \textit{The client pointed out an error in tha application UI.}
+	\end{itemize}
+	\item \textbf{Si ves algún problema en el código, por favor señálalo (hazlo notar).}
+	\begin{itemize}
+		\item \textit{If you see any problem in the code, please point it out.}
+	\end{itemize}
+	\item \textbf{Ella siempre señala mis errores cuando hablamos en inglés.}
+	\begin{itemize}
+		\item \textit{She always points out my mistakes when we talk in English.}
+	\end{itemize}
+	\item \textbf{Es importante señalar que esta actualización podría causar tiempo de inactividad del servidor.}
+	\begin{itemize}
+		\item \textit{It's important to point out that this update might cause server downtime.}
+	\end{itemize}
+	\item \textbf{El Analista de Negocios señaló varias inconsistencias en los datos proporcionados por el cliente.}
+	\begin{itemize}
+		\item \textit{The business analyst pointed out several inconsistencies in the data provided by the client.}
+	\end{itemize}
+	\item \textbf{Como usted señaló amablemente en su correo electrónico, necesitamos cambiar la arquitectura del sistema.}
+	\begin{itemize}
+		\item \textit{As you kindly pointed out in your email, we need to change the system architecture.}
+	\end{itemize}
+	\item \textbf{Si encuentro algún riesgo de cumplimiento durante la auditoría, lo señalaré inmediatamente.}
+	\begin{itemize}
+		\item \textit{If I find any compliance risk during the audit, I will point it out immediately.}
+	\end{itemize}
+	\item \textbf{Me gustaría señalar el hecho de que ya hemos gastado el 80\% del presupuesto.}
+	\begin{itemize}
+		\item \textit{I'd like to point out the fact that we have already spent 80\% of the budget.}
+	\end{itemize}
+	\item \textbf{Antes de proceder, debemos hacer notar que los recursos actuales no son suficientes.}
+	\begin{itemize}
+		\item \textit{Before proceeding, we must point out that the current resources are not enough.}
+	\end{itemize}
+	\item \textbf{Ella fue quien señaló la falla de seguridad en el código heredado.}
+	\begin{itemize}
+		\item \textit{She was the one who pointed out the security flaw in the legacy code.}
+	\end{itemize}
+	\item \textbf{¿Puedes hacer notar exactamente dónde ocurre el error en el flujo de trabajo?}
+	\begin{itemize}
+		\item \textit{Can you point out exactly where the error occurs in the workflow?}
+	\end{itemize}
+	\item \textbf{No quiero ser la persona que señale lo obvio, pero nuestra fecha límite es mañana.}
+	\begin{itemize}
+		\item \textit{I don't want to be the one who points out the obvious, but our deadline is tomorrow.}
+	\end{itemize}
+	\item \textbf{Los usuarios de prueba señalaron algunas fallas críticas durante la fase de prueba de aceptación.}
+	\begin{itemize}
+		\item \textit{The test users pointed out some critical bugs during the UAT phase.}
+	\end{itemize}
+\end{enumerate}
+
+\newpage
+
+\section{Look into}
+
+El phrasal verb look into es el pan de cada día para un Analista o un Técnico de Diagnóstico. Cuando alguien te reporta una falla, un requerimiento extraño o un problema, tú no dices "I will investigate", tú dices "I will look into it".
+
+\begin{description}
+	\item[Significado] Investigar, examinar o revisar algo detalladamente para encontrar la causa, la verdad o la solución.
+\end{description}
+
+\subsection{Conjugación}
+\begin{description}
+	\item[Base/Presente] Look into
+	\item[Tercera persona] Looks into
+	\item[Pasado simple] Looked into
+	\item[Gerundio] Looking into
+	\item[Participio] Looked into
+\end{description}
+
+\begin{InfoBox}{\textcolor{Goldenrod}{\faIcon{trophy}} \, La regla de oro: \textbf{Phrasal verb inseparable}} 
+	¡Cuidado! A diferencia de los últimos verbos que hemos visto, "Look into" es un verbo inseparable. Esto significa que el objeto del problema (o el pronombre "it") \textbf{SIEMPRE} va al final, después de la palabra into.
+	
+	\begin{itemize}
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{I will look into \textbf{the problem}. }
+		\item \textcolor{red}{\faIcon{xmark}} \textit{I will look \textbf{the problem} into} 
+	\end{itemize}
+	
+	\textbf{Regla de los pronombres:}
+	
+	\begin{itemize}
+		\item \textcolor{green}{\faIcon{circle-check}} \textit{I will look into it. } (Correcto: Lo investigaré / Lo revisaré).
+		\item \textcolor{red}{\faIcon{xmark}} \textit{I will look it into.} (Totalmente incorrecto).
+	\end{itemize}
+\end{InfoBox}
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+%\bibliographystyle{unsrt}
+
+%\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

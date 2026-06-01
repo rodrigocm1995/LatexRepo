@@ -1,0 +1,128 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lachaise Assignment
+% LaTeX Template
+% Version 1.0 (26/6/2018)
+%
+% This template originates from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Marion Lachaise & François Févotte
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{float} 
+\usepackage{tikz, tikz-cd}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usetikzlibrary{spy}
+\pgfplotsset{width=10cm,compat=1.18}
+\input{structure.tex} % Include the file specifying the document structure and custom commands
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{EL TRANSISTOR COMO DIODO} % Title of the assignment
+
+\author{Rodrigo Castillejos} % Author name and email address
+
+\date{castillejosm.rodrigo@gmail.com} % University, school and/or department name(s) and a date
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+
+\section*{Diodos en circuitos integrados bipolares} % Unnumbered section
+En circuitos integrados a menudo se desea que las características del diodo coincida con las del BJT tanto como sea posible. Es decir, toma casi la misma cantidad o porción de área fabricar un diodo como un transistor. Por estas razones, es usual formar un diodo conectando las terminales de base y colector  como se muestra en la figura \ref{fig:figura1}. Esta conexión fuerza que $v_{BC}=0$
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{figura1}
+	\caption{Transistor conectado como diodo}
+	\label{fig:figura1}
+\end{figure}
+
+\noindent Usando las ecuaciones del modelo de transporte para el BJT nos da una expresión para la terminal de corriente del "diodo"
+
+\begin{align}
+	i_D = (i_C +i_B) = \left( I_S + \frac{I_S}{\beta_F} \right)\left[ \exp\left( \frac{v_{BE}}{V_T} \right) - 1 \right] = \frac{I_S}{\alpha}\left[ \exp\left( \frac{v_D}{V_T} \right) - 1 \right]
+\end{align}
+
+\noindent La terminal de corriente tiene una característica $i-v$ correspondiente a las de un diodo con una corriente de saturación en inversa determinada por los parámetros del BJT. Esta técnica se usa a menudo tanto en el diseño de circuitos digitales como analógicos
+
+% Command-line "screenshot"
+\begin{example}
+	¿Cuál es la corriente de saturación del diodo de la figura \ref{fig:figura1} si el transistor está descrito por $I_S = 2 \times 10^{-14} A$ y $\alpha=0.95$?
+	
+	Calculamos la corriente de saturación del "diodo" a partir de la ecuación 1:
+	\begin{align}
+		\frac{I_S}{\alpha} = \frac{2\times 10^{-14}}{0.95} = 21\, fA \nonumber
+	\end{align} 
+\end{example}
+
+
+\begin{warn}[The Bipolar Transistor PTAT Cell:\\]
+	Usando dos transistores bipolares idénticos como los mostrados en la figura \ref{fig:figura2} es posible generar una celda PTAT, la cual genera un voltaje de salida proporcional a la temperatura absoluta (\textbf{P}roportional \textbf{T}o \textbf{A}bsolute \textbf{T}emperature, por sus siglas en inglés). Estos transistores están polarizados en la región activa con fuentes de corriente con una razón de 10:1.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.8]{figura2}
+		\caption{Celda PTAT con transistor bipolar}
+		\label{fig:figura2}
+	\end{figure}
+	
+	\noindent El voltaje PTAT está dado por
+	\begin{align}
+		V_{PTAT} = V_{BE1} - V_{BE2} = V_{CC} - V_{E1} - (V_{CC} - V_{E2}) = V_{E2} - V_{E1}
+	\end{align}
+
+	\noindent Recordemos que las corrientes del transistor se pueden expresar como:
+	\begin{align}
+		i_C = I_S\exp\left(\frac{v_{BE}}{V_T}\right)\\
+		i_E = \frac{I_S}{\alpha_F}\exp\left(\frac{v_{BE}}{V_T}\right)\\
+		i_B = \frac{I_S}{\beta_F}\exp\left(\frac{v_{BE}}{V_T}\right)
+	\end{align}
+	
+\noindent La corriente que nos interesa es la corriente que circula por la terminal de emisor, por lo tanto, si despejamos $v_{BE}$ de la ecuación (4) obtenemos
+\begin{align}
+	v_{BE} = V_T \ln\left[ \frac{I_E}{I_S/\alpha} \right]
+\end{align}
+
+
+\end{warn}
+
+\noindent Donde el término $I_S/\alpha$ se supone que es la corriente de saturación del "diodo". Si sustituimos la ecuación (6) en (2) obtenemos:
+\begin{align}
+	V_{PTAT} &= V_T \ln \left[ \frac{10I}{I_S/\alpha} \right] - V_T \ln \left[ \frac{I}{I_S/\alpha} \right]\nonumber\\
+	&= V_T \left[ \ln(10I) - \ln(I_S/\alpha) - \ln(I) + \ln(I_S/\alpha) \right]\nonumber\\
+	&= V_T \left[ \ln 10I  -\ln I \right]\nonumber\\
+	&= V_T \ln\left( \frac{10I}{I} \right) = V_T\ln\left( 10 \right)\nonumber\\
+	&= \frac{kT}{q}\ln(10)
+\end{align}
+
+\noindent Para saber cuánto cambia el voltaje con cada incremento de la temperatura, derivamos el voltaje con respecto a la temperatura:
+\begin{align}
+	\frac{dV_{PTAT}}{dT} = \frac{d}{dT}\frac{kT}{q}\ln(10) = \frac{k}{q}\ln(10)\frac{d}{dT}T= \frac{k}{q}\ln(10)\nonumber
+\end{align}
+
+\begin{align}
+	\frac{dV_{PTAT}}{dT} = \frac{6.82 \times 10^{-5} \, eV/K}{1.602 \times 10^{-19} \, C}\left( \frac{1 \, C}{6.24 \times 10^{18} \, e} \right)(\ln10) = \frac{198 \, uV}{K}
+\end{align}
+\end{document}

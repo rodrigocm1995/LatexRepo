@@ -1,0 +1,94 @@
+%----------------------------------------------------------------------------------------
+%	VS CODE DARK MODERN THEME FOR LATEX LISTINGS
+%----------------------------------------------------------------------------------------
+
+% --- COLORES OFICIALES DEL TEMA VS CODE "DARK MODERN" ---
+\definecolor{vscBack}{RGB}{30,30,30}          % Fondo oscuro del editor (#1e1e1e)
+\definecolor{vscText}{RGB}{204,204,204}        % Texto normal (#cccccc)
+\definecolor{vscKeyword}{RGB}{86,156,214}      % Palabras clave estándar - azul (#569cd6)
+\definecolor{vscControl}{RGB}{197,134,192}     % Control de flujo (if, return) - rosa/morado (#c586c0)
+\definecolor{vscType}{RGB}{78,201,176}         % Clases, estructuras y tipos - turquesa (#4ec9b0)
+\definecolor{vscString}{RGB}{206,145,120}       % Cadenas/Strings - salmón/naranja (#ce9178)
+\definecolor{vscComment}{RGB}{106,153,85}       % Comentarios - verde apagado (#6a9955)
+\definecolor{vscNumber}{RGB}{181,206,168}       % Dígitos y números - verde claro (#b5cea8)
+\definecolor{vscFunction}{RGB}{220,220,170}     % Métodos y nombres de función - amarillo (#dcdcaa)
+\definecolor{vscGutter}{RGB}{133,133,133}       % Color para números de línea (#858585)
+\definecolor{vscFrame}{RGB}{60,60,60}           % Bordes/Marco del código (#3c3c3c)
+
+% --- CONFIGURACIÓN DE FUENTES (Sugerencia) ---
+% Si compilas con pdfLaTeX:
+% Puedes instalar/usar el clon libre de Consolas llamado 'inconsolata':
+% \usepackage[varqu]{zi4} 
+%
+% Si compilas con XeLaTeX o LuaLaTeX (Recomendado para fuentes del sistema):
+% Puedes usar directamente la tipografía Consolas de tu máquina:
+% \usepackage{fontspec}
+% \setmonofont{Consolas}
+
+% --- DEFINICIÓN DE LENGUAJE C# ESTILO VS CODE ---
+\lstdefinelanguage{CSharpVSCode}{
+	% Clase 1: Palabras clave estándar (Azul)
+	morekeywords=[1]{
+		using, namespace, class, public, private, protected, internal,
+		readonly, static, void, string, int, bool, object, out, var,
+		new, null, byte, short, long, float, double, decimal, char,
+		struct, enum, delegate, event, interface, get, set, value,
+		this, override, virtual, abstract, partial, false, true
+	},
+	% Clase 2: Control de flujo y modificadores (Rosa/Morado)
+	morekeywords=[2]{
+		if, else, while, for, foreach, try, catch, finally, throw, return,
+		break, continue, lock, await, async, in, switch, case, default
+	},
+	% Clase 3: Clases y Tipos específicos (Turquesa)
+	morekeywords=[3]{
+		SerialService, SerialHub, IHubContext, ILogger, SerialPort, Thread,
+		Exception, TimeoutException, Task, Path, AppDomain, File,
+		JsonSerializer, JsonSerializerOptions, SettingsData, Array,
+		StringComparison, Action, Console, TaskRun
+	},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+	morestring=[b]'
+}
+
+% --- ESTILO DE LISTING PRINCIPAL (VSCodeDark) ---
+\lstdefinestyle{VSCode}{
+	language=CSharpVSCode,
+	backgroundcolor=\color{vscBack},
+	basicstyle=\color{vscText}\ttfamily\small,
+	keywordstyle=[1]\color{vscKeyword}\bfseries,
+	keywordstyle=[2]\color{vscControl}\bfseries,
+	keywordstyle=[3]\color{vscType},
+	stringstyle=\color{vscString},
+	commentstyle=\color{vscComment}\itshape,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=10pt,
+	numberstyle=\tiny\color{vscGutter},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4,
+	frame=single,
+	rulecolor=\color{vscFrame},
+	frameround=tttt,
+	columns=flexible,
+	% Regla de reemplazo para pintar números enlistings
+	literate=*{\%}{{{\color{vscControl}\%}}}{1}
+		{0}{{{\color{vscNumber}0}}}{1}
+		{1}{{{\color{vscNumber}1}}}{1}
+		{2}{{{\color{vscNumber}2}}}{1}
+		{3}{{{\color{vscNumber}3}}}{1}
+		{4}{{{\color{vscNumber}4}}}{1}
+		{5}{{{\color{vscNumber}5}}}{1}
+		{6}{{{\color{vscNumber}6}}}{1}
+		{7}{{{\color{vscNumber}7}}}{1}
+		{8}{{{\color{vscNumber}8}}}{1}
+		{9}{{{\color{vscNumber}9}}}{1}
+}

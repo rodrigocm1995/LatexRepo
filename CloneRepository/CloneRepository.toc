@@ -1,0 +1,13 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{Clonar el repositorio localmente}}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}{Prerrequisitos indispensables}}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}{Procedimiento detallado paso a paso}}{4}{subsection.1.2}%
+\contentsline {section}{\numberline {2}{Creación de Ramas Secundarias y Sincronización de Cambios en GitHub}}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}{Flujo de trabajo: ¿Cuándo crear la rama secundaria?}}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}{Procedimiento gráfico en Visual Studio Code}}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}{Procedimiento equivalente mediante la Terminal}}{7}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}{Análisis del comando de creación de ramas}}{7}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}{Análisis del comando de preparación de archivos (Stage)}}{8}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}{Análisis del comando de confirmación de cambios (Commit)}}{8}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.4}{Análisis del comando de subida de cambios (Push)}}{9}{subsubsection.2.3.4}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

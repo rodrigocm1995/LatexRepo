@@ -1,0 +1,54 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{Fundamentos de Librerías en C para Sistemas Embebidos}}{4}{section.1}%
+\contentsline {section}{\numberline {2}{Estructura Estándar de Archivos Header (\texttt {.h}) y Source (\texttt {.c})}}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}{Estructura de un Archivo de Cabecera (\texttt {.h})}}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}{Estructura de un Archivo de Código Fuente (\texttt {.c})}}{5}{subsection.2.2}%
+\contentsline {section}{\numberline {3}{Análisis Detallado del Archivo de Cabecera (\texttt {INA236.h})}}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}{Constantes y Macros de Utilidad}}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}{Definición del Mapa de Registros}}{7}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}{Máscaras y Posiciones de Bits}}{8}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}{Tipos de Datos Enumerados (\texttt {enum})}}{10}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}{La Estructura de Control Principal (\texttt {INA236\_HandleTypeDef})}}{11}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}{Prototipos de las Funciones del API}}{12}{subsection.3.6}%
+\contentsline {section}{\numberline {4}{El Sensor de Monitoreo de Corriente y Potencia INA236}}{14}{section.4}%
+\contentsline {subsection}{\numberline {4.1}{Especificaciones Técnicas Clave}}{14}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}{Mapa de Registros Internos}}{14}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}{Matemáticas de Calibración del Sensor}}{15}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}{Cálculo del $Current\_LSB$ Mínimo}}{15}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}{Cálculo del Registro $SHUNT\_CAL$}}{15}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}{Fórmulas de Conversión a Magnitudes Físicas en STM32}}{15}{subsubsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.4}{El Problema de Lecturas Nulas en Potencia ante Bajas Magnitudes}}{16}{subsection.4.4}%
+\contentsline {section}{\numberline {5}{Análisis Detallado de las Funciones de la Librería INA236}}{17}{section.5}%
+\contentsline {subsection}{\numberline {5.1}{Funciones de Comunicación de Bajo Nivel}}{17}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}{Función \texttt {INA236\_WriteRegister}}}{17}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}{Función \texttt {INA236\_ReadRegister}}}{18}{subsubsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.2}{Inicialización y Calibración Física del Sensor}}{19}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}{Función \texttt {INA236\_Init}}}{19}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}{Función \texttt {INA236\_RoundCurrentLsb} (Auxiliar Privada)}}{20}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}{Función \texttt {INA236\_SetCalibration}}}{21}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}{Función \texttt {INA236\_ResetDevice}}}{22}{subsubsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.3}{Funciones de Configuración de Periféricos}}{22}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}{Función \texttt {INA236\_SetMode}}}{22}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}{Función \texttt {INA236\_SetShuntConvTime}}}{23}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}{Función \texttt {INA236\_SetBusConvTime}}}{23}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}{Función \texttt {INA236\_SetAverage}}}{24}{subsubsection.5.3.4}%
+\contentsline {subsubsection}{\numberline {5.3.5}{Función \texttt {INA236\_SetAdcRange}}}{24}{subsubsection.5.3.5}%
+\contentsline {subsection}{\numberline {5.4}{Funciones de Gestión de Alertas por Hardware}}{25}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {5.4.1}{Configuración de Polaridad del Pin ALERT}}{25}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.2}{Configuración de Alerta por Conversión Completa}}{26}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.3}{Funciones de Selección de Límites de Alerta}}{26}{subsubsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.4}{Función \texttt {INA236\_SetAlertLimit}}}{29}{subsubsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.5}{Funciones de Lectura de Diagnóstico e Identificación}}{30}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}{Lectura de Banderas de Conversión y Desbordamiento}}{30}{subsubsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.2}{Lectura de Identificadores del Dispositivo}}{31}{subsubsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.3}{Lectura de Registros Internos de Configuración y Calibración}}{31}{subsubsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.6}{Funciones de Instrumentación y Medida Física}}{32}{subsection.5.6}%
+\contentsline {subsubsection}{\numberline {5.6.1}{Lectura de Tensión de Shunt}}{32}{subsubsection.5.6.1}%
+\contentsline {subsubsection}{\numberline {5.6.2}{Lectura de Tensión de Bus}}{32}{subsubsection.5.6.2}%
+\contentsline {subsubsection}{\numberline {5.6.3}{Lectura de Corriente}}{33}{subsubsection.5.6.3}%
+\contentsline {subsubsection}{\numberline {5.6.4}{Lectura de Potencia Consumida}}{33}{subsubsection.5.6.4}%
+\contentsline {section}{\numberline {6}{Integración de la Librería en CMake y Soporte de Punto Flotante}}{34}{section.6}%
+\contentsline {subsection}{\numberline {6.1}{Modificación del archivo \texttt {CMakeLists.txt}}}{34}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}{Habilitación de Punto Flotante en la Toolchain (Newlib-nano)}}{34}{subsection.6.2}%
+\contentsline {section}{Anexo: Manipulación de Bits en Lenguaje C para Sistemas Embebidos}{35}{lstnumber.-31.4}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

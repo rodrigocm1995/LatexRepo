@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}{Introducción}}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}{¿Qué es un amplificador de detección de corriente?}}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}{Parámetros clave}}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}{Tipos de mediciones de corriente}}{3}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}{Medición en el lado alto (high-side)}}{3}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}{Medición en el lado bajo}}{4}{subsubsection.1.3.2}%
+\contentsline {section}{\numberline {2}{Diseño de librería para el INA236}}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}{Headers}}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}{Desarrollando la estructura del header para el INA236}}{7}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}{header}}{7}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}{.c file}}{12}{subsection.2.4}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

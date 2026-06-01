@@ -1,0 +1,436 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\usepackage{geometry}
+\geometry{
+	top=2.5cm,      % Margen superior
+	bottom=2.5cm,   % Margen inferior
+	left=3cm,       % Margen izquierdo
+	right=3cm,      % Margen derecho
+	% headheight=15pt % Opcional: Aumentar espacio para el encabezado si LaTeX da un Warning
+}
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	END OF PACKAGES
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	INPUTS
+%----------------------------------------------------------------------------------------
+\input{listings_config.tex}
+\input{vscode_theme.tex}
+\input{custom_boxes.tex}
+%----------------------------------------------------------------------------------------
+%	END INPUTS
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+\lstset{
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1
+	{é}{{\'e}}1
+	{í}{{\'i}}1
+	{ó}{{\'o}}1
+	{ú}{{\'u}}1
+	{ñ}{{\~n}}1
+	{Á}{{\'A}}1
+	{É}{{\'E}}1
+	{Í}{{\'I}}1
+	{Ó}{{\'O}}1
+	{Ú}{{\'U}}1
+	{Ñ}{{\~N}}1
+	{¿}{{\textquestiondown}}1
+	{¡}{{\textexclamdown}}1
+}
+%----------------------------------------------------------------------------------------
+%	END OF ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{USO DE LATEX EN VISUAL STUDIO CODE}} % The article title
+
+\subtitle{Guía Completa de Configuración de Entorno, Configuración de LaTeX Workshop y Resolución del Error de Perl en latexmk} % Subtitle
+
+\author{Rodrigo Castillejos} % The article author(s)
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	PORTADA PERSONALIZADA
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\centering
+	\vspace*{2cm}
+	
+	\vspace{1cm}
+	
+	% Título Principal
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Guía de Configuración:}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{LaTeX en VS Code}}\\[0.5cm]
+	
+	% Subtítulo
+	{\Large\spacedlowsmallcaps{Manual metodológico para la instalación del entorno, configuración de la extensión LaTeX Workshop, resolución del error de Perl y comparación de motores de compilación}}\\[1.5cm]
+	
+	% Línea divisoria elegante
+	\rule{\linewidth}{1pt}\\[2cm]
+	
+	% Información del Autor y detalles del curso/institución
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushleft} \large
+			\emph{Autor:}\\
+			Rodrigo \spacedlowsmallcaps{Castillejos}
+		\end{flushleft}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushright} \large
+			\emph{Proyecto:}\\
+			Documentación Técnica
+		\end{flushright}
+	\end{minipage}
+	
+	\vfill
+	\vspace{3cm}
+	
+	% Fecha
+	{\large\today}\\[1cm]
+\end{titlepage}
+\newpage % Forza el salto de página después de la portada
+
+\setcounter{tocdepth}{3}
+
+%----------------------------------------------------------------------------------------
+%	RESUMEN (SUMMARY / ABSTRACT)
+%----------------------------------------------------------------------------------------
+\section*{Resumen}
+Este manual técnico describe los pasos y consideraciones indispensables para configurar Visual Studio Code como el editor de texto principal para LaTeX en el sistema operativo Windows. Se detallan las herramientas necesarias (VS Code, MiKTeX, Strawberry Perl), la instalación de la extensión LaTeX Workshop y el flujo de preparación del entorno de compilación en tiempo real. Adicionalmente, se explica cómo diagnosticar y resolver el bloqueo común del compilador \texttt{latexmk} derivado de la ausencia de un intérprete de Perl, ofreciendo dos soluciones prácticas (la instalación de Perl y la reconfiguración directa a \texttt{pdflatex}). Por último, se presenta un análisis comparativo y recomendaciones de uso entre los motores de compilación \texttt{latexmk} y \texttt{pdflatex}.
+\newpage
+
+\tableofcontents % Print the table of contents
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 1: INTRODUCCIÓN
+%----------------------------------------------------------------------------------------
+\section{Introducción al Entorno de LaTeX en VS Code}
+
+Escribir documentos científicos y técnicos en LaTeX tradicionalmente requería el uso de editores dedicados como TeXstudio o TeXmaker. No obstante, en el desarrollo contemporáneo, la integración de LaTeX en editores multiplataforma y multipropósito como \textbf{Visual Studio Code} (VS Code) se ha consolidado como la opción preferida por los desarrolladores. 
+
+La combinación de VS Code con extensiones especializadas proporciona ventajas críticas de productividad, entre las que destacan el autocompletado inteligente de comandos, el formateo en tiempo real, el resaltado de errores en el código fuente, la sincronización de visualización (SyncTeX) y una visualización integrada del PDF final lado a lado con el código fuente.
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 2: INSTALACIÓN Y REQUISITOS
+%----------------------------------------------------------------------------------------
+\section{Prerrequisitos de Aplicaciones y Extensiones}
+
+Para habilitar un espacio de trabajo completo y funcional de LaTeX en VS Code, es necesario instalar tres componentes principales en tu sistema operativo:
+
+\subsection{Aplicaciones necesarias (Software del sistema)}
+\begin{enumerate}
+	\item \textbf{Visual Studio Code:} El entorno o editor de texto base. Descárgalo de su página oficial: \href{https://code.visualstudio.com/}{code.visualstudio.com}.
+	\item \textbf{Distribución de LaTeX (MiKTeX o TeX Live):} Los editores de texto no pueden compilar archivos por sí solos; necesitan los binarios y paquetes del compilador LaTeX. Para Windows, la distribución recomendada es \textbf{MiKTeX} por su sistema de instalación automática de paquetes bajo demanda. Descárgala desde \href{https://miktex.org/}{miktex.org} e instálala en tu sistema.
+	\item \textbf{Intérprete de Perl (Opcional, pero recomendado):} Requerido únicamente si deseas usar la herramienta de automatización por defecto \texttt{latexmk}. En Windows, la distribución recomendada es \textbf{Strawberry Perl}. Se puede descargar desde \href{https://strawberryperl.com/}{strawberryperl.com} o instalar directamente a través de la terminal.
+\end{enumerate}
+
+\subsection{Extensiones necesarias en VS Code}
+Abre Visual Studio Code, accede al panel de extensiones (\keys{Ctrl + Shift + X}), busca e instala la siguiente extensión imprescindible:
+\begin{itemize}
+	\item \textbf{LaTeX Workshop} (creada por James Yu): Esta extensión dota a VS Code de un entorno integrado de LaTeX, incluyendo compilación automática al guardar, visualizador de PDF interactivo, herramientas de autocompletado para bibliografía, etiquetas y citas, y visualización de fórmulas matemáticas al pasar el cursor.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 3: PREPARACIÓN DEL AMBIENTE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Preparación y Uso del Entorno de Trabajo}
+
+Una vez instalado el compilador (MiKTeX) y la extensión en el editor (LaTeX Workshop), el entorno está listo para ser utilizado:
+
+\subsection{Visualización en tiempo real (Visualizador de PDF)}
+LaTeX Workshop incluye un lector de PDF integrado que sincroniza automáticamente los cambios realizados en el archivo \texttt{.tex} cada vez que guardas el documento:
+\begin{itemize}
+	\item Abre tu archivo \texttt{.tex} en el editor.
+	\item Compila el archivo por primera vez usando la combinación \keys{Ctrl + Alt + B} (o haz clic en el icono verde de "Play" arriba a la derecha).
+	\item Para abrir la vista previa del PDF en una pestaña de VS Code al lado de tu código, presiona la combinación \keys{Ctrl + Alt + V} (o haz clic en el icono del PDF en la esquina superior derecha).
+\end{itemize}
+
+\subsection{Sincronización Bidireccional (SyncTeX)}
+SyncTeX es una herramienta que conecta de forma exacta la posición de tu cursor en el código fuente con la página correspondiente en el visualizador PDF y viceversa:
+\begin{itemize}
+	\item \textbf{De código a PDF (Forward Sync):} Si estás editando un párrafo de código y deseas ver cómo se renderiza en el PDF, mantén presionada la tecla \keys{Ctrl} y haz clic izquierdo con el ratón en la línea de código correspondiente (o presiona \keys{Ctrl + Alt + J}). El visor de PDF se desplazará de inmediato y resaltará temporalmente la zona correspondiente en el PDF.
+	\item \textbf{De PDF a código (Backward Sync):} Si estás observando el visor PDF de VS Code y notas un error en un párrafo, mantén presionada la tecla \keys{Ctrl} y haz doble clic izquierdo sobre el texto en el PDF. El cursor de tu editor se trasladará de inmediato a la línea exacta de código fuente.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 4: RESOLUCIÓN DE CONFLICTOS (EL ERROR DE PERL)
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Diagnóstico y Resolución del Error de `latexmk`}
+
+Al intentar compilar un proyecto recién creado en VS Code, es muy común encontrarse con el siguiente mensaje de error en la esquina inferior derecha o en los logs de salida del editor:
+
+\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+Sorry, but latexmk did not succeed for the following reason:
+  MiKTeX could not find the script engine 'perl' which is required to execute 'latexmk'.
+Remedy:
+  Make sure 'perl' is installed on your system.
+The log file hopefully contains the information to get MiKTeX going again:
+  C:\Users\casti\AppData\Local\MiKTeX\miktex\log\latexmk.log
+For more information, visit: https://miktex.org/kb/fix-script-engine-not-found
+\end{lstlisting}
+
+\subsection{¿A qué se debe este error?}
+Por defecto, la extensión \textbf{LaTeX Workshop} utiliza el motor de automatización llamado \texttt{latexmk} para compilar los documentos. Dado que \texttt{latexmk} es un script escrito en el lenguaje de programación \textbf{Perl}, necesita un intérprete de Perl instalado en el sistema operativo para poder ejecutarse. Windows no incluye Perl por defecto, por lo que la compilación se bloquea de inmediato.
+
+Dispones de dos soluciones distintas para corregir este comportamiento:
+
+\subsection{Solución A: Instalar Perl en Windows (Recomendada)}
+Esta es la solución definitiva si deseas conservar el flujo inteligente de compilación automática que proporciona `latexmk`.
+
+\begin{enumerate}
+	\item \textbf{Instalar mediante consola (Método rápido):} Abre una terminal de PowerShell o CMD y ejecuta el siguiente comando oficial del administrador de paquetes de Windows:
+	\begin{lstlisting}[language=DOS]
+	winget install StrawberryPerl.StrawberryPerl
+	\end{lstlisting}
+	\item \textbf{Instalar mediante la web:} Si prefieres el método manual, ve al sitio oficial \href{https://strawberryperl.com/}{strawberryperl.com}, descarga el instalador con extensión \texttt{.msi} para tu arquitectura y ejecútalo en Windows.
+	\item \textbf{Reinicio crítico:} Una vez finalizada la instalación, \textbf{debes cerrar completamente Visual Studio Code y volverlo a abrir}. Esto recarga las variables de entorno del sistema operativo, permitiendo que VS Code reconozca la ruta de Perl en el \texttt{PATH}.
+\end{enumerate}
+
+\subsection{Solución B: Cambiar el motor a `pdflatex` directamente (Sin instalar Perl)}
+Si no deseas instalar aplicaciones adicionales en tu máquina como Perl y prefieres un entorno portátil o simple, puedes configurar la extensión para que use el compilador `pdflatex` de MiKTeX directamente en lugar de `latexmk`:
+
+\begin{enumerate}
+	\item En VS Code, abre la paleta de comandos globales presionando \keys{Ctrl + Shift + P}.
+	\item Escribe la directiva \texttt{Preferences: Open User Settings (JSON)} y presiona \keys{Enter}.
+	\item Dentro de las llaves principales del archivo \texttt{settings.json}, añade las siguientes líneas de configuración:
+	
+	\begin{lstlisting}[language=json]
+{
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "pdflatex -> bibtex -> pdflatex x2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ]
+}
+	\end{lstlisting}
+	
+	\item Guarda el archivo de configuración con \keys{Ctrl + S} y cierra la pestaña. Al volver a compilar tu archivo LaTeX, se procesará con \texttt{pdflatex} sin pedirte Perl.
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 5: COMPARATIVA DE MOTORES
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Comparativa de Motores: `latexmk` vs `pdflatex`}
+
+Es crucial entender la diferencia técnica entre ambos métodos para elegir la opción adecuada según la complejidad de tus proyectos académicos o profesionales.
+
+\subsection{El motor pdflatex}
+\textbf{pdflatex} es el binario básico del compilador. Toma directamente el archivo de texto fuente \texttt{.tex} y lo traduce a código de máquina PDF.
+\begin{itemize}
+	\item \textbf{Mecanismo:} Compila de manera secuencial y ejecuta exactamente una pasada. 
+	\item \textbf{El problema de referencias vacías:} Si agregas una sección nueva, referencias cruzadas (\texttt{\textbackslash label} y \texttt{\textbackslash ref}) o bibliografía (BibTeX), \texttt{pdflatex} no resolverá los enlaces en la primera pasada, dejando marcas en su lugar (signos de interrogación \textbf{??}). Se requiere ejecutar manualmente el comando de 2 a 3 veces consecutivas para actualizar los archivos auxiliares (\texttt{.aux}, \texttt{.toc}, \texttt{.bbl}) y que los enlaces aparezcan correctamente.
+\end{itemize}
+
+\subsection{El script latexmk}
+\textbf{latexmk} es un envoltorio o script de automatización inteligente escrito en Perl que gestiona el proceso completo de compilación de forma autónoma.
+\begin{itemize}
+	\item \textbf{Mecanismo:} Analiza el archivo fuente y examina el contenido de los archivos auxiliares generados en cada compilación. \texttt{latexmk} detecta si hay dependencias sin resolver o índices que necesitan actualización, y ejecuta internamente \texttt{pdflatex}, \texttt{bibtex} o \texttt{makeindex} la cantidad exacta de veces necesarias de forma totalmente transparente para el usuario.
+\end{itemize}
+
+\subsection{Tabla comparativa sintética}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{4.5cm} p{5.5cm} p{5.5cm}}
+		\hline
+		\textbf{Característica} & \textbf{Motor \texttt{pdflatex}} & \textbf{Script \texttt{latexmk}} \\
+		\hline
+		\textbf{Naturaleza} & Compilador binario nativo. & Script de automatización (Perl). \\
+		\textbf{Dependencias externas} & Ninguna (incluido en MiKTeX). & Requiere intérprete de Perl. \\
+		\textbf{Resolución de índices} & Requiere múltiples ejecuciones manuales. & Automatizada y resuelta en una sola ejecución. \\
+		\textbf{Bibliografía (BibTeX)} & Requiere llamadas externas e independientes. & Vinculación y re-compilación transparentes. \\
+		\textbf{Velocidad} & Muy rápido para documentos sencillos de una pasada. & Ligeramente más lento al comprobar dependencias de archivos. \\
+		\textbf{Configuración} & Directa y sin requerir herramientas extra. & Requiere configurar y validar Perl en el PATH. \\
+		\hline
+	\end{tabular}
+	\caption{Comparativa técnica de herramientas de compilación de LaTeX.}
+	\label{tab:comparativa}
+\end{table}
+
+\subsection{Conclusión: ¿Cuál de los dos es mejor utilizar?}
+\begin{itemize}
+	\item \textbf{Usa \texttt{latexmk} (Recomendado) si:} Trabajas en proyectos grandes de múltiples páginas (libros, tesis o reportes extensos) que cuenten con una amplia cantidad de referencias cruzadas, listas de imágenes, índices alfabéticos y bases de datos bibliográficas complejas (\texttt{.bib}). La automatización te ahorrará tiempo y evitará PDFs rotos o incompletos.
+	\item \textbf{Usa \texttt{pdflatex} si:} Estás realizando documentos simples, de una o pocas páginas (como cartas, tareas rápidas, CVs sencillos), o si estás trabajando en computadoras con restricciones de seguridad donde no tienes permisos para instalar programas adicionales como Perl.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,34 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{Clonación Local de un Repositorio}}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}{Procedimiento detallado}}{4}{subsection.1.1}%
+\contentsline {section}{\numberline {2}{Gestión de Ramas Secundarias (Feature Branches)}}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}{Comandos para la creación e inicio de ramas}}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}{Análisis comparativo de flujos de trabajo}}{5}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}{Método A: Creación anticipada de la rama (Recomendado)}}{5}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}{Método B: Desarrollo local y ramificación posterior}}{5}{subsubsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.3}{Confirmación y publicación de la nueva rama}}{5}{subsection.2.3}%
+\contentsline {section}{\numberline {3}{Cambio de Ramas y Resolución de Bloqueos de Compilación}}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}{El problema de archivos de compilación rastreados}}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}{La Solución: Limpieza forzada (\texttt {git reset -{}-hard})}}{7}{subsection.3.2}%
+\contentsline {section}{\numberline {4}{Eliminación de Archivos del Historial y el uso de .gitignore}}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}{El comando de remoción del índice (\texttt {git rm -{}-cached})}}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}{Flujo completo de limpieza permanente}}{8}{subsection.4.2}%
+\contentsline {section}{\numberline {5}{Integración de Cambios: Fusión (Merge) a la Rama Principal}}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}{Flujo de comandos estándar para el Merge}}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}{El concepto de fusión automática y resolución de conflictos}}{9}{subsection.5.2}%
+\contentsline {section}{\numberline {6}{Extracción Selectiva de Archivos entre Ramas (Operaciones Quirúrgicas)}}{10}{section.6}%
+\contentsline {subsection}{\numberline {6.1}{Ejemplo de uso práctico}}{10}{subsection.6.1}%
+\contentsline {section}{\numberline {7}{Actualización de la Dirección del Servidor Remoto (Remote URL)}}{11}{section.7}%
+\contentsline {section}{\numberline {8}{Publicación de un Directorio Local en un Nuevo Repositorio}}{12}{section.8}%
+\contentsline {subsection}{\numberline {8.1}{¿Es necesario crearlo desde la web de GitHub?}}{12}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}{¿Qué es GitHub CLI y cómo verificar su instalación?}}{12}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}{Método 1: Creación del Repositorio desde la Web de GitHub (Tradicional)}}{12}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}{Método 2: Creación y Publicación usando GitHub CLI (\texttt {gh})}}{13}{subsection.8.4}%
+\contentsline {subsubsection}{\numberline {8.4.1}{¿Qué es gh auth login y cómo autenticarse?}}{13}{subsubsection.8.4.1}%
+\contentsline {section}{\numberline {9}{Eliminación de un Repositorio de GitHub}}{16}{section.9}%
+\contentsline {subsection}{\numberline {9.1}{Método 1: Eliminación desde la Aplicación Web de GitHub}}{16}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}{Método 2: Eliminación usando la Consola (GitHub CLI)}}{16}{subsection.9.2}%
+\contentsline {subsubsection}{\numberline {9.2.1}{Ejemplo práctico para eliminar `LatexRepository`:}}{16}{subsubsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.3}{Resolución del Error de Permisos (HTTP 403: delete\_repo scope)}}{17}{subsection.9.3}%
+\contentsline {subsubsection}{\numberline {9.3.1}{Cómo resolverlo:}}{17}{subsubsection.9.3.1}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

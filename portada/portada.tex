@@ -1,0 +1,71 @@
+\documentclass[a4paper, 12pt]{article}
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{calc, backgrounds}
+\usepgflibrary {shadings}
+\usepackage{tikzpagenodes}
+\usepackage{atbegshi}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{graphicx} % to add images 
+\graphicspath{{images/}} % path to save the images
+%\setlength{\headsep}{3.5cm}
+\usepackage{geometry}
+\geometry{
+	hmargin=1cm,
+	bmargin=3cm,
+	tmargin=4.5cm,
+	centering
+}
+\usepackage{moresize}
+\usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{xcolor}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage[framemethod=tikz]{mdframed} % Allows defining custom boxed/framed environments
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage[explicit]{titlesec}
+\usepackage{blindtext}
+
+
+%----------------------------------------------------------------------------------------
+%	COLORS
+%----------------------------------------------------------------------------------------
+\definecolor{darkBlue}{RGB}{0,61,107}
+\definecolor{red1}{RGB}{178,41,41}
+\definecolor{red2}{RGB}{229,23,23}
+\definecolor{myBlue}{HTML}{0088FF}
+\definecolor{darkBlue}{RGB}{0,61,107}
+
+\begin{document}
+
+	\begin{titlepage}
+		\begin{tikzpicture}[remember picture, overlay]
+			\begin{scope}[every path/.append style={draw=white,top color=orange, bottom color=orange!50, opacity=.8}]
+				\draw[line width=0mm] ([xshift=-6cm]current page.center) -- ++(60:6cm) -- ++(1cm,0) -- ++(60:-6cm) coordinate (P1) -- ++(-60:6cm) coordinate (P2) -- ++(-1cm,0) -- ++(-60:-6cm);
+			\end{scope}
+			\begin{scope}[every path/.append style={draw=white, ,top color=black, bottom color=black!80, opacity=1}]
+				\draw (current page.north east) -- ++(-7cm,0) -- (P1) -- ($(P2) + (-60:14.5cm)$) -- ++(7cm,0);
+			\end{scope}
+			\begin{scope}[every path/.append style={draw=white,top color=orange, bottom color=orange!50, opacity=.8}]
+				\draw[line width=0mm] ([xshift=-5cm]current page.center) -- ++(60:6cm) -- ++(1cm,0) -- ++(60:-6cm) -- ++(-60:6cm) -- ++(-1cm,0) -- ++(-60:-6cm);
+			\end{scope}
+			\node[font=\rmfamily\bfseries\color{white},anchor=center,
+			xshift=3.5cm,yshift=1.5cm] at (current page.center)
+			{{\fontsize{50pt}{50pt}\selectfont Estándar de}};
+			\node[font=\rmfamily\bfseries\color{white},anchor=center,
+			xshift=3.5cm,yshift=-0.5cm] at (current page.center)
+			{{\fontsize{50pt}{50pt}\selectfont Desarrollo}};
+			\draw[line width=1mm, white] ([xshift=1cm,yshift=-2cm]current page.center) -- ++(7cm,0);
+			\node[font=\rmfamily\bfseries\color{white},anchor=center,
+			xshift=6.5cm,yshift=-2.8cm] at (current page.center)
+			{{\fontsize{15pt}{50pt}\selectfont MFG Team}};
+		\end{tikzpicture}
+	\end{titlepage}
+	
+	Hola
+\end{document}

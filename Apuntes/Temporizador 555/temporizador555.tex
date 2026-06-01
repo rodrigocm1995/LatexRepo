@@ -1,0 +1,363 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{bm}
+\usepackage{steinmetz}
+\usepackage{enumitem}
+\graphicspath{{images/}}
+\usepackage{float}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+	pdftitle={Overleaf Example},
+	pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+\usepackage{mathtools}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+%\usepgfplotslibrary{groupplots,units}
+\usepackage{siunitx}
+\usetikzlibrary{spy,shapes,arrows, arrows.meta, bending, decorations.markings}
+\pgfplotsset{width=10cm,compat=1.18}
+\usepackage{lmodern} % package for changing font size
+\usepackage{lastpage}
+\renewcommand{\figurename}{Figura}
+\usepackage{tcolorbox}
+\usepackage{lipsum}
+%\usepackage{enumerate} % Custom item numbers for enumerations
+\usepackage[ruled]{algorithm2e} % Algorithms
+\usepackage[framemethod=tikz]{mdframed} % Allows defining custom boxed/framed environments
+\usepackage{listings} % File listings, with syntax highlighting
+%\lstset{basicstyle=\ttfamily,} % Typeset listings in monospace font
+\usepackage{lipsum}
+\tcbuselibrary{listings,theorems,skins,vignette,raster,breakable,magazine,poster,fitting,hooks}
+\usepackage[T1]{fontenc}
+\usepackage{tgbonum}
+ \fontfamily{garamond}
+\definecolor{myblue}{RGB}{24, 51, 73}
+%----------------------------------------------------------------------------------------
+%	DOCUMENT MARGINS
+%----------------------------------------------------------------------------------------
+
+\usepackage{geometry} % Required for adjusting page dimensions and margins
+\geometry{
+	paper=a4paper, % Paper size, change to letterpaper for US letter size
+	top=2.5cm, % Top margin
+	bottom=3cm, % Bottom margin
+	left=2cm, % Left margin
+	right=2.5cm, % Right margin
+	headheight=14pt, % Header height
+	footskip=1.5cm, % Space from the bottom margin to the baseline of the footer
+	headsep=1.2cm, % Space from the top margin to the baseline of the header
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+%----------------------------------------------------------------------------------------
+%	FONTS
+%----------------------------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{XCharter} % Use the XCharter fonts
+\usepackage{tgbonum}
+
+\makeatletter
+\pgfcircdeclarebipole{}{\ctikzvalof{bipoles/vsourcesin/height}}{sVpm}{\ctikzvalof{bipoles/vsourcesin/height}}{\ctikzvalof{bipoles/vsourcesin/width}}{
+	
+	\pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+	\pgfpathellipse{\pgfpointorigin}{\pgfpoint{0}{\pgf@circ@res@up}}{\pgfpoint{\pgf@circ@res@left}{0}}
+	\pgfusepath{draw}     
+	\pgftext[bottom,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@down]{\scriptsize$-$}
+	\pgftext[top,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@up]{\scriptsize$+$}
+	
+	\pgf@circ@res@up = .35\pgf@circ@res@up
+	\pgfscope
+	\pgftransformrotate{90}
+	\pgfpathmoveto{\pgfpoint{-\pgf@circ@res@up}{0cm}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfusepath{draw}
+	\endpgfscope
+}
+\def\pgf@circ@sVpm@path#1{\pgf@circ@bipole@path{sVpm}{#1}}
+\compattikzset{sinusoidal voltage source pm/.style = {\circuitikzbasekey, /tikz/to path=\pgf@circ@sVpm@path, \circuitikzbasekey/bipole/is voltage=true, \circuitikzbasekey/bipole/is voltageoutsideofsymbol=true, v=#1 }}
+\compattikzset{sVpm/.style = {\comnpatname sinusoidal voltage source pm = #1}}
+
+\pgfcircdeclarebipole{}{\ctikzvalof{bipoles/vsourcesin/height}}{sVpmh}{\ctikzvalof{bipoles/vsourcesin/height}}{\ctikzvalof{bipoles/vsourcesin/width}}{
+	
+	\pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+	\pgfpathellipse{\pgfpointorigin}{\pgfpoint{0}{\pgf@circ@res@up}}{\pgfpoint{\pgf@circ@res@left}{0}}
+	\pgfusepath{draw}     
+	\pgftext[center,x=0.2\pgf@circ@res@down-\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@down]{\scriptsize$-$}
+	\pgftext[top,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@up]{\scriptsize$+$}
+	
+	\pgf@circ@res@up = .35\pgf@circ@res@up
+	\pgfscope
+	\pgftransformrotate{90}
+	\pgfpathmoveto{\pgfpoint{-\pgf@circ@res@up}{0cm}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfusepath{draw}
+	\endpgfscope
+}
+\def\pgf@circ@sVpmh@path#1{\pgf@circ@bipole@path{sVpmh}{#1}}
+\compattikzset{sinusoidal voltage source pmh/.style = {\circuitikzbasekey, /tikz/to path=\pgf@circ@sVpmh@path, \circuitikzbasekey/bipole/is voltage=true, \circuitikzbasekey/bipole/is voltageoutsideofsymbol=true, v=#1 }}
+\compattikzset{sVpmh/.style = {\comnpatname sinusoidal voltage source pmh = #1}}
+\makeatother
+
+%\tikzset{flipflop AB/.style = {flipflop,
+%flipflop def={t1=S, t3=R, tu=RST, t6=Q, t4={\ctikztextnot{Q}},
+%}}
+
+
+\tikzset{flipflop customRS/.style={flipflop,
+		flipflop def= {t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}},
+			 tu=RST},
+		}}
+%----------------------------------------------------------------------------------------
+%	BEGIN DOCUMENT
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+	%\thispagestyle{empty}
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[anchor=north west, inner sep=0pt] at (current page.north west) {\includegraphics[width=\paperwidth, height=.5\paperheight]{picture1}};
+	\end{tikzpicture}
+
+	\vspace{13cm}
+	\noindent \textcolor{myblue}{\fontsize{40pt}{40pt}\selectfont \textbf{El temporizador con 555}}\\\\\\
+	{\fontsize{18pt}{18pt}\selectfont 20 de julio del 2024} 
+	
+	\newpage
+	\section*{El temporizador 555}
+	El temporizador 555 es un dispositivo versátil y muy utilizado, porque puede ser configurado de dos modos distintos, bien como multivibrador monoestable o como multivibrador astable (oscilador). Un multivibrador astable no tiene estados estables y varía (oscila), por tanto, una y otra vez entre dos estados inestables, sin utilizar un circuito de disparo externo. 
+	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8, voltage shift=1]
+			\draw (0,0) node[npn, xscale=-1](Q){} coordinate(Q1);
+			\draw (Q1) node[left]{$Q_1$};
+			\draw (Q.B) to[R=$R_1$] ++(5,0)
+			to[short] ++(0,-6)
+			to[short] ++(-3,0) node[flipflop customRS, anchor=pin 4](RS){}; 
+			\draw (RS.pin 6) to[short, -o] ++(5,0) coordinate(out);
+			\draw (Q.C) to[short, -o] ++(-3,0) coordinate(dis);
+			\draw (RS.up) to[short, -o] ++(0,5);
+			\draw (Q.E)  node[ground]{};
+			%\draw (-5,6) node[flipflop customRS]{};
+		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura110}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8, voltage shift=1]
+			\draw (0,0) ++(2.5,0) coordinate(n0) to[D*, l=$D_4$] ++(0,4) coordinate(n1)
+						to[sVpm, l=$V_s$, f<^=$i_S$] ++(4,0) coordinate(n2)
+						to[D*, invert, l=$D_2$, -*] ++(0,-4) coordinate(n4)
+						to[short] ++(-4,0);
+			\draw (n1)  to[D*,l=$D_1$, *-] ++(0,4)
+						to[short] ++(4,0) coordinate(n3)
+						to[D*, invert, l=$D_3$, -*] (n2);
+			\draw (n3)  to[short, *-] ++(4,0) coordinate(n5) 
+						to[C, v=$v_c$, l=$C$, -*] (n5 |- n4) coordinate(n7) -- (n4);
+			\draw (n5)  to[short, f=$i_O$, *-] ++(4,0) coordinate(n6)
+						to[R, l_=$R_L$, v^={$v_O = v_C$}] (n6 |- n7) coordinate(n11) -- (n7);
+			\coordinate (M) at ($(n0)!0.5!(n11)$);
+			\draw (M) node[below=0.2cm]{$\texttt{(a) circuito}$};
+			\draw (0,0) ++(0,-6) coordinate(p1) to[sVpm, invert, l=$V_s$] ++(0,4)
+						to[D*, l=$D_1$] ++(3,0)
+						to[D*, l=$D_2$] ++(3,0) coordinate(n8)
+						to[C, -*, v=$v_C$, l=$C$] ++(0,-4) coordinate(n9)
+						to[short] ++(-6,0);
+			\draw (n8)  to[short, *-, f=$i_O$] ++(4,0) coordinate(n10)
+						to[R, l=$R_L$] (n10 |- n9) coordinate(p2) -- (n9);
+			\coordinate (M1) at ($(p1)!0.5!(p2)$);
+			\draw (M1) node[below=0.2cm]{$\texttt{(b) carga}$};
+			\draw (n10) ++(3,0) to[short, f=$i_O$] ++(4,0)
+					    to[R, l=$R_L$] ++(0,-4) coordinate(p3)
+					    to[short] ++(-4,0) coordinate(p4)
+					    to[C, l=$C$, v>=$v_m$] ++(0,4);
+			\coordinate (M2) at ($(p3)!0.5!(p4)$);
+			\draw (M2) node[below=0.2cm]{$\texttt{(c) descarga}$};
+		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\noindent Sin embargo, si la magnitud del voltaje $v_S$ cae por debajo del voltaje instantáneo del capacitor C los diodos ($D_1$ y $D_2$ o $D_3$ y $D_4$) estarán polarizados en inversa y el capacitor C se descargará a través de la resistencia de carga $R_L$. El voltaje del capacitor $v_C$ variará entre un valor mínimo $V_{o(min)}$ y un valor máximo $V_{o(max)}$. Las formas de onda del voltaje de salida $v_O$ y el voltaje de rizado $v_r$ se muestran en la figura 2. Si $f$ es la frecuencia de la fuente de entrada, entonces el periodo del voltaje de entrada es $T=1/f$.
+	
+	
+	
+	\noindent Para un rectificador de media onda el periodo del voltaje de rizado será el mismo que el periodo $T$ de la fuente de entrada. Sin embargo, para un rectificador de onda completa, el periodo del voltaje de rizado es $T/2$. La operación de salida se puede dividir en dos intervalos: intervalo 1 para la carga y el intervalo 2 para la descarga.\\
+	
+	\noindent El circuito equivalente para el tiempo de carga del capacitor se muestra en la figura 1(b). el capacitor se carga (casi) hasta el voltaje instantáneo de la fuente de aimentación $v_S$, es decir, el capacitor $C$ se cargará aproximadamente al voltaje pico $V_m$ de la fuente de entrada, de tal manera que $v_C (\omega t=\pi/2)=V_m$. La figura 1(c) muestra el circuito equivalente durante la descarga. El capacitor se descarga exponencialmente a través de $R_L$. Cuando uno de los dos pares de diodos está conduciendo el capacitor C extrae un pulso de la corriente de carga desde la fuente de alimentación como se muestra en la figura 2. Como resultado, el rectificador genera una corriente armónica dentro de la fuente de AC. Para aplicaciones de gran potencia normalmente se requiere un filtro de entrada para reducir la cantidad de armónicos que se inyectan en la fuente de AC. Por la tanto, os rectificadores con un filtro $C$ se usan sólo para aplicaciones de baja potencia.\\
+	
+	\noindent Durante el intervalo de carga, y bajo condiciones de estado estable el capacitor se carga desde $V_{o(min)}$  hasta $V_m$. Asumimos que el voltaje de entrada positivo es igual al voltaje mínimo del capacitor $V_{o(min)}$ en un ángulo $\alpha$ (rad/s). Dado que el voltaje de entrada crece senoidalmente desde cero hasta $V_m$, en el primer ciclo el ángulo $\alpha$ puede determinarse como
+	
+	\begin{align}
+		V_{o(min)} = V_m\sin{\alpha}
+	\end{align}
+	
+	\noindent o
+	
+	\begin{align}
+		\frac{V_{o(min)}}{V_m} = \sin{\alpha}\nonumber
+	\end{align}
+	
+	\noindent Por lo tanto
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+		\begin{equation}
+			\alpha = \arcsin \left( {\frac{V_{o(min)}}{V_m}} \right) 
+		\end{equation}
+	\end{tcolorbox}
+	
+	Si redefinimos el tiempo de origen $(\omega t = 0)$ en $\pi / 2$ como el inicio del intervalo 1 podemos deducir la corriente de descarga [figura 1(c)] como
+	
+	\begin{align}
+		v_c(t) - v_{RL} = 0
+		-\frac{i}{C}\int i_o dt + v_c (t=0) - R_L i_O = 0
+	\end{align}
+	
+	\noindent El cual, con una condición inicial de $v_c (\omega t = 0) = V_m$ da
+	
+	\begin{align}
+		-\frac{i}{C}\int i_o dt + V_m - R_L i_O = 0
+	\end{align}
+	
+	\noindent Para un mayor entendimiento podemos representar el circuito de la figura 1(c) por su equivalente en el dominio de$s$ como se muestra en la figura 3
+	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8, voltage shift=1]
+			\draw (0,0) to[V, l=$\frac{V_m}{s}$] ++(0,3) 
+						to[C, l=$\frac{1}{sC}$] ++(0,3)
+						to[short, f=$i_O$] ++(6,0)
+						to[R, l=$R_L$] ++(0,-6)
+						to[short] ++(-6,0);
+ 		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura3}
+	\end{figure}
+	
+	\noindent Empleando la LTK sobre el lazo de la figura 3 obtenemos
+	\begin{align*}
+		\frac{V_m}{s} - \frac{1}{sC}I_o(s) - R_LI_o(s) = 0\\
+		\frac{1}{sC}I_o(s) +R_L I_o(s) = \frac{V_m}{s}\\
+		\left( \frac{1}{sC} +R_L \right)I_o(s) = \frac{V_m}{s}\\
+		\left( \frac{1 +sR_L C}{sC} \right)I_o(s) = \frac{V_m}{s}\\
+		I_o(s) = \left( \frac{sC}{1 + sR_LC} \right) \left( \frac{V_m}{s} \right)\\
+		I_o(s) = \frac{CV_m}{1 + sR_L C}\\
+		I_o(s) = \frac{CV_m}{R_L C \left( s + \frac{1}{R_L C} \right)}
+	\end{align*}
+	
+	\noindent Por lo tanto
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+		\begin{equation}
+			I_o(s) = \frac{\frac{V_m}{R_L}}{s + \frac{1}{R_L C}}
+		\end{equation}
+	\end{tcolorbox}
+	
+	\noindent Al emplear la transformada inversa de Laplace sobre la ecuación (5) obtenemos
+	\begin{align}
+		i_o = \frac{V_m}{R_L} \, e^{ -\frac{t}{R_L C} }, \quad  0 \leq t \leq t_d  
+	\end{align}
+	
+	\noindent El voltaje $v_O$ durante el periodo de descarga se puede establecer como
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+		\begin{equation}
+			v_O(t) = R_L i_O(t) = V_m \, e^{ -\frac{t}{R_L C} }
+		\end{equation}
+	\end{tcolorbox}
+	
+	\noindent De la figura 2, podemos encontrar el tiempo de descarga (o el ángulo de descarga $\beta$) como
+	
+	\begin{equation}
+		\omega t_d = \beta =  
+		\begin{cases}
+			\frac{\pi}{2} + \alpha, \quad & \texttt{rectificador de onda completa}\\
+			\frac{3\pi}{2} + \alpha, \quad & \texttt{rectificador de media onda}
+		\end{cases}\,.
+	\end{equation}
+	
+	\noindent En $t = t_d$, $v_O(t)$ en la ecuación (7) se vuelve igual a $V_{o(min)}$ y podemos relacionar $t_d$ con $V_{o(min)}$ como
+	\begin{align}
+		v_O (t = t_d) = V_{o(min)} = V_m \, e^{ -\frac{t_d}{R_L C} }
+	\end{align}
+	
+	\noindent Despejando para $t_d$ obtenemos
+	
+	\begin{align*}
+		\frac{V_{o(min)}}{V_m} = e^{ -\frac{t_d}{R_L C} }\\
+		\ln{ \left( \frac{V_{o(min)}}{V_m} \right) } = - \frac{t_d}{R_L C}\\
+		t_d = -R_L C \ln{ \left( \frac{V_{o(min)}}{V_m} \right) }\\
+		t_d = -R_L C \left[ \ln( V_{o(min)} )- \ln (V_m) \right]
+	\end{align*}
+	
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+		\begin{equation}
+			t_d = R_L C\ln \left( \frac{V_m}{V_{o(min)}} \right)
+		\end{equation}
+	\end{tcolorbox}
+	
+	\noindent Al igualar $t_d$ en la ecuación (10) con $t_d$ de la ecuación obtenemos
+	\begin{equation}
+		\omega R_L C\ln \left( \frac{V_m}{V_{o(min)}} \right) =  
+		\begin{cases}
+			\frac{\pi}{2} + \alpha = \frac{\pi}{2} + \arcsin\left(  \frac{V_{o(min)}}{V_m}\right) \quad &\texttt{onda completa}\\
+			\frac{3\pi}{2} + \alpha = \frac{3\pi}{2} + \arcsin\left(  \frac{V_{o(min)}}{V_m}\right) \quad &\texttt{media onda}
+		\end{cases}\,.
+	\end{equation}
+	
+	\noindent Al despejar $C$ en la ecuación (11) obtenemos
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+		\begin{equation}
+			C = 
+			\begin{cases}
+				\frac{\frac{\pi}{2} + \arcsin \left( \frac{V_{o(min)}}{V_m} \right) }{\omega R_L \ln \left( \frac{V_m}{V_{o(min)}} \right)} \quad & \texttt{rectificador de onda completa}\\
+				\frac{\frac{3\pi}{2} + \arcsin \left( \frac{V_{o(min)}}{V_m} \right) }{\omega R_L \ln \left( \frac{V_m}{V_{o(min)}} \right)} \quad & \texttt{rectificador de media onda}
+			\end{cases}\,.
+		\end{equation}
+	\end{tcolorbox}
+	
+	\noindent Si asumimos que el tiempo de carga $t_c$ es pequeño comparado con el tiempo de descarga  $t_d$ (es decir, $t_d \gg t_c$, el cual generalmente es el caso), podemos entonces relaciones $t_c$ y $t_d$ con el periodo $T$ de la fuente de entrada como
+	
+	\begin{equation}
+		t_d =  
+		\begin{cases}
+			\frac{T}{2} - t_c \simeq \frac{T}{2} = \frac{1}{2f}\\
+			T - t_c  \simeq T = \frac{1}{f}
+		\end{cases}\,.
+	\end{equation}
+	
+	\noindent Usando la expansión en series de Taylor de $e^{-x} = 1-x$ para pequeños valores de $x \ll 1$ podemos simplificar la ecuación (9) como
+	
+	\begin{align}
+		V_{o(min)} = V_m \, e^{- \frac{t_d}{R_L C}} = V_m \left( 1 - \frac{t_d}{R_L C} \right)
+	\end{align}
+	
+	\noindent Esto nos da el voltaje pico a pico del voltaje de rizado $V_{r(pp)}$ como
+	\begin{equation}
+		V_{r(pp)} = V_m  - V_{o(min)} =   
+		\begin{cases}
+		V_m \left( \frac{t_d}{R_L C} \right)= \frac{V_m}{2fR_L C} \quad & \texttt{rectificador de onda completa}\\
+			\frac{V_m}{fR_L C} \quad & \texttt{rectificador de media onda}
+		\end{cases}\,.
+	\end{equation}
+	
+\end{document}

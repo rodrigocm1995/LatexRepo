@@ -1,0 +1,192 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+	pdftitle={Overleaf Example},
+	pdfpagemode=FullScreen,
+}
+
+\urlstyle{same}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\title{Análisis de circuitos eléctricos}
+\author{Belmont Dubois}
+\date{Agosto 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Resolución de ejercicio 2}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+	\end{tabular}
+	
+	\section*{Ejercicio 2}
+	Se desea manejar una carga de $\qty{1}{\kilo \ohm}$ desde una batería de carro como se muestra a continuación. La carga necesita $\qty{5}{\volt}$ para operar correctamente. En qué posición debería estar la perilla del potenciómetro, es decir, ¿cuál sería el valor de $R_x$ para poder obtener el valor de voltaje de salida deseado?
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\ctikzset{resistors/width=1.5, resistors/zigs=9}
+			\draw (0,0)   to[V, l={\qty{12}{\volt}}] (0,5)
+				  to[short] ++(4,0)
+				  to[potentiometer, name=P, -*] ++(0,-5);
+		    \draw (P.wiper) node[xshift=-40]{$\qty{5}{\kohm}$};
+			\ctikzset{resistors/width=0.8, resistors/zigs=3}
+			\draw (P.wiper) to [short] ++(3,0)
+				  to[R, v={\qty{5}{\volt}}, l={\qty{1}{\kohm}}] ++(0,-2.5)
+				  to[short] (0,0);
+			\draw[|<->, 
+			transform canvas={yshift=-1.5mm, xshift=1.5mm}] (4.7,0.4) -- node[fill=white, inner sep=0pt] {$R_{\mathrm{x}}$} (P.wiper);		 
+		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\section*{Respuesta}
+	
+	Para analizar este circuito, requerimos primero conocer el modelo equivalente de un potenciómetro. El potenciómetro no es más que un resistor con un tercer contacto conocido como "wiper" en inglés, el cual es el contacto deslizante que hace las conexiones con la banda resistiva y permite variar la resistencia de un valor mínimo a un valor máximo. Para modelar un potenciómetro, son necesarios dos parámetros: $R_p$ y $\alpha$. El parámetro $R_p$ especifica la resistencia total del potenciómetro ($R_p > 0$). El parámetro $\alpha$ representa la posición del contacto deslizante (la perilla del potenciómetro) y toma valores en el rango de $0 \leq \alpha \leq 1$. Los valores $\alpha = 0$ y $\alpha = 1$ corresponden a las posiciones extremas de la perilla.
+	La figura 1 muestra el modelo para el potenciómetro que consiste de dos resistores.
+		\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\draw (0,0) to[R, o-*, l_=$\alpha R_p$] ++(0,-4) coordinate (p1)
+			      to[R, l_=$(1-\alpha) R_p$, -o] ++(0,-4);
+			\draw (p1) to[short, -o] ++(1,0);
+		\end{tikzpicture}
+		\caption{
+		}	
+		\label{fig:figura2}
+	\end{figure}
+	
+	Frecuentemente, la posición del contacto deslizante corresponde a una posición angular de la perilla del potenciómetro. Suponga que $\theta$ es el ángulo en grados y $0 \leq \theta \leq 360$. Entonces:
+	
+	\begin{align}
+		\alpha = \frac{\theta}{360}
+	\end{align}
+	
+	Al reemplazar el circuito de la figura 1 con el modelo del potenciómetro obtenemos:
+	\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[V, l={\qty{12}{\volt}}] (0,6)
+			  to[short] ++(5,0)
+			  to[R, -*, l={$\alpha R_p$}, i>_=$I_1$] ++(0,-3) coordinate(p1)
+			  to[R, l={$(1-\alpha) R_p$}, -*, i>_=$I_2$] ++(0,-3);
+		\draw (p1) to[short] ++(4,0)
+			  to[R, l={\qty{1}{\kohm}}, v={\qty{5}{\volt}}, i>^=$I_3$] ++(0,-3)
+			  to [short] (0,0);
+		\draw (p1) node[above right]{$V_{1}$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura3}
+\end{figure}	
+	
+	Donde $R_p$ es la resistencia total del potenciómetro, es decir $R_p = \qty{5}{\kilo \ohm}$. Al aplicar la LCK sobre el nodo $V_1$ obtenemos
+	
+	\begin{align}
+		I_1 = I_2 + I_3 \nonumber
+	\end{align}
+	
+	\begin{align}
+	\frac{\qty{12}{\volt} - \qty{5}{\volt}}{\alpha R_p} = \frac{\qty{5}{\volt}}{(1-\alpha)R_p} + \frac{\qty{5}{\volt}}{\qty{1}{\kohm}} \nonumber \\
+	\frac{\qty{7}{\volt}}{\alpha R_p} = \frac{\qty{5}{\volt}}{(1-\alpha)R_p} + \qty{5}{\milli\ampere} \nonumber \\
+	\frac{\qty{7}{\volt}}{\alpha R_p} - \frac{\qty{5}{\volt}}{(1-\alpha)R_p} = \qty{5}{\milli\ampere} \nonumber
+\end{align}
+
+	\begin{align}
+		\frac{7(1 - \alpha) - 5\alpha}{\alpha (1 - \alpha) R_p} = \qty{5}{\milli\ampere} \nonumber \\
+\frac{7 - 7\alpha - 5\alpha}{\alpha (1 - \alpha) R_p} = \qty{5}{\milli\ampere} \nonumber \\
+\frac{7 - 12 \alpha}{\alpha (1 - \alpha) R_p} = \qty{5}{\milli\ampere} \nonumber \\
+7 - 12\alpha = 0.005\alpha (1-\alpha)R_p \nonumber \\
+7 - 12\alpha = 25\alpha - 25 \alpha ^2 \nonumber \\
+25 \alpha ^2 - 37\alpha + 7 = 0
+	\end{align}
+	
+	Al resolver la ecuación cuadrática obtenemos
+	
+	\begin{align}
+		\alpha_1 = 1.2573 \nonumber \\
+		\alpha_2 = 0.2227 \nonumber
+	\end{align}
+	
+	Sabemos que el valor de alfa no puede tomar valores mayores que 1, por lo que la solución de esta ecuación es $\alpha=0.2227$.
+	
+	\begin{align}
+		R_x = (1 - \alpha) R_p = (1 - 0.2227)(\qty{5}{\kohm}) = \qty{3886.5}{\ohm} \nonumber
+	\end{align}
+	
+	Al despejar $\theta$ de la ecuación 1 obtenemos:
+	\begin{align}
+		\theta = 360 \alpha
+	\end{align}
+	
+	Por lo que el ángulo en el cual debe estar la perilla del potenciómetro es:
+	\begin{align}
+		\theta = 360(0.2227) = 80.172^{\circ} \nonumber
+	\end{align}
+	
+	Sin embargo, la ecuación (1) aplicaría para potenciómetros multivuelta por ejemplo, en dónde sí es posible que la perilla gire los $360^{\circ}$, no obstante, sabemos que los potenciómetros con los que trabajamos diariamente, éstos no logran alcanzar una revolución completa. De acuerdo al datasheet de estos potenciómetros, en el apartado de \textit{características mecánicas} se observa que el ángulo mecánico alcanza solamente $300^{\circ}$, por lo que podemos adaptar la ecuación (1) como:
+	
+	\begin{align}
+		\alpha = \frac{\theta}{300}
+	\end{align}
+	
+	Por lo tanto
+	
+	\begin{align}
+		\theta = 300 \alpha
+	\end{align}
+	
+	Es decir, el ángulo de la perilla sería de
+	
+	\begin{align}
+		\theta = 300(0.2227) = 66.81^{\circ} \nonumber
+	\end{align}
+	
+	\section*{Apéndice}
+	\url{https://www.bourns.com/docs/Product-Datasheets/PDB18.pdf}
+	
+\end{document}

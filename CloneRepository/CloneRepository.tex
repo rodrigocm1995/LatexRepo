@@ -1,0 +1,536 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\usepackage{geometry}
+\geometry{
+	top=2.5cm,      % Margen superior
+	bottom=2.5cm,   % Margen inferior
+	left=3cm,       % Margen izquierdo
+	right=3cm,      % Margen derecho
+	% headheight=15pt % Opcional: Aumentar espacio para el encabezado si LaTeX da un Warning
+}
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	END OF PACKAGES
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	INPUTS
+%----------------------------------------------------------------------------------------
+\input{listings_config.tex}
+\input{vscode_theme.tex}
+\input{custom_boxes.tex}
+%----------------------------------------------------------------------------------------
+%	END INPUTS
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+\lstset{
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1
+	{é}{{\'e}}1
+	{í}{{\'i}}1
+	{ó}{{\'o}}1
+	{ú}{{\'u}}1
+	{ñ}{{\~n}}1
+	{Á}{{\'A}}1
+	{É}{{\'E}}1
+	{Í}{{\'I}}1
+	{Ó}{{\'O}}1
+	{Ú}{{\'U}}1
+	{Ñ}{{\~N}}1
+	{¿}{{\textquestiondown}}1
+	{¡}{{\textexclamdown}}1
+}
+%----------------------------------------------------------------------------------------
+%	END OF ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{STM32 NUCLEO - INTERFAZ DE CONTROL DE LED}} % The article title
+
+%\subtitle{Subtitle} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+%\maketitle % Print the title/author/date block
+%----------------------------------------------------------------------------------------
+%	PORTADA PERSONALIZADA
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\centering
+	\vspace*{2cm}
+	
+	% Si deseas agregar un logo o imagen (por ejemplo, el logo de tu universidad o de STM32), 
+	% coloca la imagen en la carpeta Figures/ y descomenta la siguiente línea:
+	% \includegraphics[width=0.4\textwidth]{tu_logo.png}\\[1cm]
+	
+	\vspace{1cm}
+	
+	% Título Principal
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Cómo clonar un}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{repositorio}}\\[0.5cm]
+	
+	% Subtítulo
+	{\Large\spacedlowsmallcaps{en Visual Studio Code}}\\[1.5cm]
+	
+	% Línea divisoria elegante
+	\rule{\linewidth}{1pt}\\[2cm]
+	
+	% Información del Autor y detalles del curso/institución
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushleft} \large
+			\emph{Autor:}\\
+			Rodrigo \spacedlowsmallcaps{Castillejos}
+		\end{flushleft}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushright} \large
+			\emph{Proyecto:}\\
+			Control de Dispositivos Embebidos
+		\end{flushright}
+	\end{minipage}
+	
+	\vfill
+	\vspace{3cm}
+	
+	% Fecha
+	{\large\today}\\[1cm]
+\end{titlepage}
+\newpage % Forza el salto de página después de la portada
+
+\setcounter{tocdepth}{3} % Set the depth of the table of contents to show sections and subsections only
+
+%----------------------------------------------------------------------------------------
+%	RESUMEN (SUMMARY / ABSTRACT) - COLOCAR ANTES DEL ÍNDICE
+%----------------------------------------------------------------------------------------
+\section*{Resumen}
+
+\newpage % Salto de página para que el índice (Table of Contents) inicie en una hoja limpia
+
+\tableofcontents % Print the table of contents
+
+%\newpage
+%\listoffigures % Print the list of figures
+
+%\listoftables % Print the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\newpage
+%\section*{Resumen} % This section will not appear in the table of contents due to the star (\section*)
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR AFFILIATIONS
+%----------------------------------------------------------------------------------------
+
+%\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+
+%\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+
+%----------------------------------------------------------------------------------------
+
+\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+
+
+
+%----------------------------------------------------------------------------------------
+%	CLONACIÓN LOCAL DE REPOSITORIO (DETALLADO)
+%----------------------------------------------------------------------------------------
+\section{Clonar el repositorio localmente}
+
+Este es el método de trabajo estándar, más eficiente y recomendado en la programación cotidiana. Consiste en descargar una copia completa del repositorio (incluyendo todo su historial de cambios, ramas, confirmaciones y metadatos) directamente a tu almacenamiento local (disco duro). 
+
+Esto te otorga total autonomía para compilar, probar y modificar los archivos de código de forma local sin requerir una conexión permanente a internet, habilitando además la sincronización directa (envío de \textit{commits} y descarga de actualizaciones) con el servidor remoto de GitHub una vez que recuperes la conexión.
+
+\subsection{Prerrequisitos indispensables}
+Para que este flujo funcione sin problemas, asegúrate de cumplir con lo siguiente antes de proceder:
+\begin{itemize}
+	\item Tener instalado la herramienta de control de versiones \textbf{Git} en tu sistema operativo Windows.
+	\item Contar con una cuenta activa en \textbf{GitHub} y tener iniciada la sesión correspondiente dentro de tu editor Visual Studio Code.
+\end{itemize}
+
+\subsection{Procedimiento detallado paso a paso}
+
+Sigue atentamente cada uno de los pasos para realizar la clonación:
+
+\begin{enumerate}
+	\item \textbf{Obtener la dirección del repositorio en GitHub:}
+	Abre tu navegador de internet y navega hasta la página principal del repositorio que deseas descargar (por ejemplo: \href{https://github.com/tu_usuario/Libraries}{\texttt{github.com/tu\\\_usuario/Libraries}}).
+	\begin{itemize}
+		\item Localiza y haz clic en el botón verde titulado \textbf{Code} (ubicado en la parte superior derecha de la sección de archivos).
+		\item En el menú desplegable que se abre, selecciona la pestaña etiquetada como \textbf{HTTPS} (es la más sencilla y estándar).
+		\item Haz clic en el icono del portapapeles a la derecha del cuadro de texto para copiar la dirección URL de clonación (la cual tendrá una estructura como: \texttt{https://github.com/tu\\\_usuario/Libraries.git}), tal como se visualiza en la figura \ref{fig1}.
+		
+			\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{clone_1}
+			\caption{Clonación del repositorio usando la URL web.}\label{fig1}
+		\end{figure}
+	\end{itemize}
+	
+	\item \textbf{Invocar la orden de clonación en Visual Studio Code:}
+	Abre tu editor \textbf{Visual Studio Code} y ejecuta el asistente integrado de Git:
+	\begin{itemize}
+		\item Abre la paleta de comandos globales presionando la combinación de teclas \keys{Ctrl + Shift + P}.
+		\item Escribe la directiva \texttt{Git: Clone} y presiona la tecla \keys{Enter}.
+		\item \textit{Ruta alternativa:} También puedes abrir el panel de \textbf{Source Control} (Control de código fuente) en el menú lateral izquierdo (\keys{Ctrl + Shift + G}) y hacer clic en el botón directo titulado \textbf{Clone Repository}.
+	\end{itemize}
+	
+	\item \textbf{Introducir la dirección del repositorio:}
+	En la barra de entrada de texto que aparecerá de forma flotante en la parte superior de VS Code, pega la URL que copiaste en el paso 1 y presiona la tecla \keys{Enter} para confirmar.
+	
+	\item \textbf{Seleccionar el directorio de destino local:}
+	Se abrirá de manera automática una ventana del explorador de archivos de Windows:
+	\begin{itemize}
+		\item Navega hasta la carpeta de tu computadora donde sueles organizar tus proyectos de software (por ejemplo, \directory{D:/Proyectos\_Programacion}).
+		\item Haz clic en el botón \textbf{Select Repository Location} (Seleccionar ubicación del repositorio).
+		\item \textbf{Nota de organización:} No te preocupes por el orden de los archivos; Visual Studio Code creará de forma automática una subcarpeta con el mismo nombre del repositorio (por ejemplo, una nueva carpeta llamada \texttt{Libraries/}) dentro del directorio seleccionado para alojar todo el código de forma independiente.
+	\end{itemize}
+	
+	\item \textbf{Autenticación y Credenciales (Si es requerido):}
+	Si el repositorio es de carácter \textbf{privado}, o si es la primera vez que interactúas con GitHub desde el editor en esta máquina:
+	\begin{itemize}
+		\item Visual Studio Code te mostrará una notificación flotante pidiendo autorización para conectarse a tu cuenta de GitHub.
+		\item Haz clic en \textbf{Allow} (Permitir) para abrir el navegador web.
+		\item Inicia sesión en GitHub en tu navegador si no lo has hecho, confirma los permisos haciendo clic en \textbf{Authorize Visual-Studio-Code} y permite que el navegador redireccione de vuelta a VS Code.
+	\end{itemize}
+	
+	\item \textbf{Cargar el proyecto en el espacio de trabajo activo:}
+	Una vez finalizada la transferencia y descarga de archivos, aparecerá un recuadro de notificación en la esquina inferior derecha con la leyenda \textit{"Would you like to open the cloned repository?"}. Haz clic sobre el botón \textbf{Open} (Abrir) para cargar de inmediato los archivos clonados en tu explorador.
+\end{enumerate}
+
+\begin{InfoBox}{Verificación de la clonación correcta}
+	Puedes cerciorarte de que la clonación local y vinculación de Git se efectuaron de manera exitosa observando tres indicadores visuales clave en el editor:
+	\begin{enumerate}
+		\item El explorador de archivos lateral izquierdo (\keys{Ctrl + Shift + E}) te mostrará la estructura completa de carpetas (por ejemplo: \directory{C++/} y \directory{C/}).
+		\item En el extremo izquierdo de la \textbf{barra de estado inferior} del editor, observarás el nombre de la rama actual (típicamente \texttt{main} o \texttt{master}), acompañada del icono de una bifurcación de Git.
+		\item Al dirigirte al panel de \textbf{Source Control} (\keys{Ctrl + Shift + G}), verás la lista de cambios vacía y lista para registrar tus próximas modificaciones de código sin necesidad de inicializaciones manuales extra.
+	\end{enumerate}
+\end{InfoBox}
+
+\newpage
+%----------------------------------------------------------------------------------------
+%	SECCIÓN: GESTIÓN DE RAMAS Y SUBIDA DE CAMBIOS EN GIT
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Creación de Ramas Secundarias y Sincronización de Cambios en GitHub}
+
+Una de las mejores prácticas fundamentales en el control de versiones con Git es evitar subir modificaciones directamente a la rama principal (típicamente llamada \texttt{main} o \texttt{master}), especialmente cuando se trabaja en la actualización o creación de nuevas funciones para bibliotecas (como los archivos \directory{C/INA236/INA236.c} y \directory{C/INA236/INA236.h}, por poner un ejemplo). En su lugar, se utilizan ramas secundarias o de desarrollo (\textit{feature branches}), las cuales se fusionan posteriormente tras una revisión.
+
+\subsection{Flujo de trabajo: ¿Cuándo crear la rama secundaria?}
+La directiva estándar es crear la rama secundaria \textbf{antes de iniciar cualquier modificación} física sobre los archivos. Esto garantiza que tu espacio de trabajo local esté asignado al objetivo correcto desde el primer commit.
+
+Sin embargo, si has realizado modificaciones en tu código y olvidaste crear la rama de antemano, Git es sumamente flexible: los cambios locales que aún no hayan sido confirmados (\textit{uncommitted changes}) se trasladarán de forma automática contigo en el momento en que crees y te cambies a la nueva rama.
+
+\subsection{Procedimiento gráfico en Visual Studio Code}
+Visual Studio Code proporciona una interfaz visual intuitiva para realizar operaciones de Git sin necesidad de abrir una terminal de comandos. El procedimiento completo se describe a continuación:
+
+\begin{enumerate}
+	\item \textbf{Crear y activar la rama secundaria:}
+	\begin{itemize}
+		\item Dirígete al extremo izquierdo de la \textbf{barra de estado inferior} de Visual Studio Code, donde se indica el nombre de la rama actual (por ejemplo, \texttt{main}).
+		\item Haz clic sobre el nombre de la rama activa para desplegar el menú de selección superior.
+		\item Elige la opción \textbf{Create new branch...} (Crear nueva rama...).
+		\item Escribe un nombre descriptivo para tu rama (por ejemplo: \texttt{desarrollo-ina236} o \texttt{feature/update-ina236}) y presiona la tecla \keys{Enter}. Observarás que el indicador de rama en la barra de estado inferior se actualiza de forma inmediata.
+	\end{itemize}
+	
+	\item \textbf{Realizar las modificaciones y guardar:}
+	\begin{itemize}
+		\item Abre los archivos de la biblioteca (en este caso, \directory{C/INA236/INA236.c} y \directory{C/INA236/INA236.h}) en el editor.
+		\item Aplica los cambios correspondientes en el código fuente.
+		\item Guarda las ediciones presionando la combinación de teclas \keys{Ctrl + S}.
+	\end{itemize}
+	
+	\item \textbf{Confirmar los cambios localmente (Commit):}
+	\begin{itemize}
+		\item Dirígete al panel de \textbf{Source Control} (Control de código fuente) en el menú lateral izquierdo (\keys{Ctrl + Shift + G}).
+		\item Identifica tus archivos editados bajo la sección de cambios (\textbf{Changes}). Pasa el cursor sobre la palabra \textit{Changes} y haz clic en el icono de suma \textbf{\keys{+}} (\textit{Stage All Changes}) para preparar todos los archivos.
+		\item Introduce un comentario breve y explicativo en la caja de texto superior etiquetada como \textit{Message} (por ejemplo: \texttt{Actualizacion de funciones en biblioteca INA236}).
+		\item Haz clic en el botón azul **Commit** (o presiona la combinación \keys{Ctrl + Enter}) para registrar el cambio local.
+	\end{itemize}
+	
+	\item \textbf{Subir la rama al servidor remoto (Push):}
+	\begin{itemize}
+		\item Dado que la nueva rama se ha creado inicialmente solo en tu equipo, debes publicarla en el servidor de GitHub.
+		\item Haz clic en el botón azul titulado \textbf{Publish Branch} (Publicar rama) que aparece en el panel lateral de Source Control.
+		\item Visual Studio Code se autenticará con tus credenciales de GitHub (solicitando confirmación en el navegador web si es la primera vez que realizas este proceso) y subirá la rama remota de manera transparente.
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Procedimiento equivalente mediante la Terminal}
+Si prefieres utilizar la terminal integrada de Visual Studio Code (\keys{Ctrl + \textasciitilde}), puedes conseguir exactamente el mismo resultado ejecutando la siguiente secuencia de comandos de Git:
+
+\begin{lstlisting}[style=CMakeStyle]
+	# 1. Crear y cambiar a la rama secundaria de desarrollo
+	git checkout -b desarrollo-ina236
+	
+	# [Realiza las modificaciones necesarias en tus archivos y guardalos]
+	
+	# 2. Agregar los archivos INA236 modificados al area de preparacion (Stage)
+	git add C/INA236/INA236.c C/INA236/INA236.h
+	
+	# 3. Registrar el commit localmente con un mensaje descriptivo
+	git commit -m "Actualizacion de funciones en biblioteca INA236"
+	
+	# 4. Subir la rama y establecer la conexion de seguimiento (upstream) con GitHub
+	git push -u origin desarrollo-ina236
+\end{lstlisting}
+
+\begin{InfoBox}{El Flujo del Pull Request en GitHub}
+	Una vez que hayas subido la rama secundaria de forma exitosa (ya sea por el botón \textbf{Publish Branch} o por comando en la terminal), si accedes a la página web de tu repositorio en GitHub, observarás un banner interactivo que te invita a crear un \textbf{Pull Request} (Petición de extracción). 
+	
+	Esta funcionalidad web te permite contrastar los cambios de tu rama secundaria con la rama principal \texttt{main}, facilitando la revisión detallada del código antes de autorizar su integración definitiva.
+\end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	SUBSUBSECTION: DETALLE DEL COMANDO DE CREACIÓN DE RAMAS
+%----------------------------------------------------------------------------------------
+\subsubsection{Análisis del comando de creación de ramas}
+El comando abreviado empleado para la inicialización y migración de la rama de trabajo es el siguiente:
+\begin{lstlisting}[language=DOS]
+	git checkout -b feature/update-INA236
+\end{lstlisting}
+Esta instrucción condensa dos operaciones independientes de Git en una sola línea de comandos. Su desglose sintáctico y funcional se describe a continuación:
+\begin{description}
+	\item[\texttt{git}:] Invoca el motor del sistema de control de versiones Git en el sistema operativo.
+	\item[\texttt{checkout}:] Le indica a Git que quieres cambiar de contexto o moverte (en este caso, cambiar de rama).
+	\item[\texttt{-b}:] Parámetro (\textit{flag}) que ordena la creación de una nueva rama. Le indica a Git que la rama a la que se desea conmutar no existe previamente en el repositorio local y debe ser inicializada en ese instante.
+	\item[\texttt{desarrollo-ina236}:] Nombre de cadena asignado a la nueva rama secundaria para tus modificaciones.
+\end{description}
+Bajo el capó, ejecutar esta instrucción abreviada equivale exactamente a realizar por separado los siguientes dos comandos tradicionales de Git:
+\begin{lstlisting}[style=CMakeStyle]
+	# 1. Crear la rama local a partir del estado de la rama activa actual
+	git branch desarrollo-ina236
+	# 2. Desplazar el area de trabajo activa hacia la rama recien creada
+	git checkout desarrollo-ina236
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+%	SUBSUBSECTION: DETALLE DEL COMANDO DE PREPARACIÓN DE ARCHIVOS
+%----------------------------------------------------------------------------------------
+\subsubsection{Análisis del comando de preparación de archivos (Stage)}
+
+El comando empleado para colocar las modificaciones de la biblioteca en el área de preparación es el siguiente:
+\begin{lstlisting}[style=CMakeStyle]
+	git add C/INA236/INA236.c C/INA236/INA236.h
+\end{lstlisting}
+
+Esta instrucción registra de forma selectiva los cambios locales para ser incluidos en la próxima confirmación histórica. Su desglose sintáctico es el siguiente:
+
+\begin{description}
+	\item[\texttt{git}:] Invoca la herramienta del sistema de control de versiones Git.
+	\item[\texttt{add}:] Comando de Git encargado de indexar y trasladar los cambios del directorio de trabajo local hacia el **Área de Preparación** (\textit{Staging Area}).
+	\item[\texttt{C/INA236/INA236.c C/INA236/INA236.h}:] Rutas relativas a los archivos específicos de la biblioteca del sensor que se desean preparar. Al listarlos de forma explícita y separados por un espacio, Git los seleccionará de forma exclusiva.
+\end{description}
+
+\begin{InfoBox}{El Área de Preparación (Staging Area)}
+	El \textit{Staging Area} funciona como un borrador o sala de espera intermedia en Git. Permite estructurar confirmaciones atómicas y organizadas. Si realizas cambios en múltiples archivos del proyecto, pero solo deseas guardar en el historial la actualización de la biblioteca del sensor \texttt{INA236}, puedes ejecutar \texttt{git add} únicamente sobre estos archivos. Cualquier otra modificación permanecerá intacta en tu espacio de trabajo local pero quedará excluida del siguiente \textit{commit}.
+\end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	SUBSUBSECTION: DETALLE DEL COMANDO DE CONFIRMACIÓN DE CAMBIOS (COMMIT)
+%----------------------------------------------------------------------------------------
+\subsubsection{Análisis del comando de confirmación de cambios (Commit)}
+
+El comando utilizado para consolidar y guardar de manera permanente las modificaciones en el historial local del proyecto es el siguiente:
+\begin{lstlisting}[style=CMakeStyle]
+	git commit -m "Actualizacion de funciones en biblioteca INA236"
+\end{lstlisting}
+
+Esta instrucción crea una instantánea (\textit{snapshot}) o punto de restauración de todos los archivos que fueron indexados en el área de preparación. Su desglose sintáctico se explica a continuación:
+
+\begin{description}
+	\item[\texttt{git}:] Invoca la herramienta del sistema de control de versiones Git.
+	\item[\texttt{commit}:] Acción que guarda y empaqueta las modificaciones preparadas en el repositorio local. Cada commit genera un identificador único (hash SHA-1) para rastrear el cambio.
+	\item[\texttt{-m}:] Bandera de mensaje (\textit{message}). Permite añadir una descripción breve al commit directamente desde la terminal, evitando abrir un editor de texto interactivo del sistema.
+	\item[\texttt{"Actualizacion..."}:] Cadena de texto descriptiva. Es una buena práctica escribir mensajes claros en tiempo presente que sinteticen los cambios introducidos.
+\end{description}
+
+%----------------------------------------------------------------------------------------
+%	SUBSUBSECTION: DETALLE DEL COMANDO DE SUBIDA DE CAMBIOS (PUSH)
+%----------------------------------------------------------------------------------------
+\subsubsection{Análisis del comando de subida de cambios (Push)}
+
+El comando utilizado para subir tus confirmaciones locales al repositorio en la nube de GitHub es el siguiente:
+\begin{lstlisting}[style=CMakeStyle]
+	git push -u origin feature/desarrollo-INA26
+\end{lstlisting}
+
+Esta instrucción transfiere los commits guardados localmente hacia el servidor remoto de almacenamiento. Su desglose sintáctico se detalla a continuación:
+
+\begin{description}
+	\item[\texttt{git}:] Invoca la herramienta del sistema de control de versiones Git.
+	\item[\texttt{push}:] Comando encargado de empujar o enviar las confirmaciones locales de la rama activa hacia el servidor remoto.
+	\item[\texttt{-u}:] Bandera de vinculación de rama origen (\textit{set upstream}). Establece un vínculo permanente entre tu rama local y la rama remota. Esto te permite usar simplemente \texttt{git push} o \texttt{git pull} en el futuro, sin necesidad de especificar el servidor ni el nombre de la rama.
+	\item[\texttt{origin}:] Nombre o alias por defecto asignado a la dirección del servidor remoto desde el cual clonaste el proyecto (en este caso, tu repositorio en GitHub).
+	\item[\texttt{feature/desarrollo-INA26}:] Nombre de la rama específica que deseas subir al servidor.
+\end{description}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+%\bibliographystyle{unsrt}
+
+%\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

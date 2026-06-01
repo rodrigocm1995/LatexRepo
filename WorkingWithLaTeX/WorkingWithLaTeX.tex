@@ -1,0 +1,88 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+%\usepackage{tgtermes}
+\usepackage{array}
+%----------------------------------------------------------------------------------------
+\usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+\renewcommand*\oldstylenums[1]{{\AlegreyaOsF #1}} %necessary to use Alegreya
+%----------------------------------------------------------------------------------------
+\usepackage[parfill]{parskip}
+\usepackage{lipsum} % Un poco de texto de relleno
+\def\x{\lipsum[1]~\thepage~}
+\def\xx{\x\x\x\x\x\x\x\x\x\x}
+\usepackage{tikzpagenodes}
+\usetikzlibrary{calc}
+\usepackage{lmodern}
+\usepackage{atbegshi}
+%----------------------------------------------------------------------------------------
+%	DOCUMENT MARGINS
+%----------------------------------------------------------------------------------------
+\usepackage{geometry}
+\geometry{
+	hmargin=2cm,
+	bmargin=3cm,
+	tmargin=4.5cm,
+	centering
+}
+
+%----------------------------------------------------------------------------------------
+
+\usepackage{graphicx} % to add images 
+\usepackage{tcolorbox}
+\graphicspath{{images/}} % path to save the images
+%\usepackage{fancyhdr} %header and footer
+%\pagestyle{fancy}
+
+%insert the header
+%\lhead{\includegraphics[width=6cm]{picture1}}
+\usepackage[abspage,user,lastpage]{zref}
+\makeatother
+
+\definecolor{darkBlue}{RGB}{0,61,107}
+\definecolor{skyBlue}{RGB}{21,190,240}
+\newcommand\Header{%
+	\begin{tikzpicture}[remember picture,overlay]
+		\fill[darkBlue]
+		(current page.north west) -- (current page.north east) --
+		([yshift=50pt]current page.north east|-current page text area.north east) --
+		([yshift=50pt,xshift=-3cm]current page.north|-current page text area.north) --
+		([yshift=10pt,xshift=-5cm]current page.north|-current page text area.north) --
+		([yshift=10pt]current page.north west|-current page text area.north west) -- cycle;
+		\node[font=\sffamily\bfseries\color{white},anchor=west,
+		xshift=0.5cm,yshift=-1.2cm] at (current page.north west)
+		{\fontsize{50}{60}\selectfont MFG Team};
+		\node[xshift=-4.5cm,yshift=-1cm] (myfirstpic) at (current page.north east) {\includegraphics[width=6cm]{jabilLogo2}};
+		\node[xshift=-5cm,yshift=-2cm] (secondpic) at (current page.north east) {\includegraphics[width=5cm]{jabilLogo4}};
+	\end{tikzpicture}%
+}
+\newcommand\Footer{%
+	\begin{tikzpicture}[remember picture,overlay]
+		\fill[darkBlue]
+		(current page.south west) -- (current page.south east) --
+		([yshift=-40pt]current page.south east|-current page text area.south east) --
+		([yshift=-40pt,xshift=-3cm]current page.south|-current page text area.south) --
+		([xshift=-5cm,yshift=-10pt]current page.south|-current page text area.south) --
+		([yshift=-10pt]current page.south west|-current page text area.south west) -- cycle;
+		\node[yshift=0.75cm,font=\ttfamily\bfseries\color{white}] at (current page.south) {\fontsize{20}{24}\selectfont www.stackexchange.com};
+		\node[font=\sffamily\bfseries\color{white},anchor=west,
+		xshift=0.5cm,yshift=-1.2cm] at (current page.north west)
+		{\fontsize{50}{60}\selectfont };
+	\end{tikzpicture}%
+}
+
+\pagestyle{empty}
+\AtBeginShipout{\Header\Footer}
+\AtBeginShipoutFirst{\Header\Footer}
+
+\begin{document}
+	\begin{tcolorbox}[colback=gray!5!white,
+		rounded corners=northwest ]
+		This is a \textbf{tcolorbox}.
+	\end{tcolorbox}
+	\begin{multicols}{2}
+		\lipsum[1-5]
+	\end{multicols}
+	
+	\lipsum[1-20]
+\end{document}

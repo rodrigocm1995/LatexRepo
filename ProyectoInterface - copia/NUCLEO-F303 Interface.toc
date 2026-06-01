@@ -1,0 +1,32 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{Configuración del espacio de trabajo}}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}{Requisitos Previos del Sistema}}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}{Verificación de .NET SDK 9}}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}{Verificación de Node.js}}{3}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}{Comprobar la versión de Node.js}}{3}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}{Comprobar la versión de npm}}{3}{subsubsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.4}{Verificación de Git}}{3}{subsection.1.4}%
+\contentsline {section}{\numberline {2}{Estructura de carpetas y creación del proyecto}}{5}{section.2}%
+\contentsline {section}{\numberline {3}{Inicialización del backend (C\# .NET 9 Web API)}}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}{Desde la terminal}}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}{Crear el proyecto Web API de forma visual}}{9}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}{Instalar el paquete System.IO.Ports}}{11}{subsubsection.3.2.1}%
+\contentsline {section}{\numberline {4}{Inicialización del Frontend}}{13}{section.4}%
+\contentsline {section}{\numberline {5}{Gestión de espacios de trabajo (workspaces)}}{15}{section.5}%
+\contentsline {subsection}{\numberline {5.1}{El archivo Workspace de VS Code}}{15}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}{Crear archivo .gitignore}}{16}{subsection.5.2}%
+\contentsline {section}{\numberline {6}{Compilación y ejecución del proyecto}}{18}{section.6}%
+\contentsline {subsection}{\numberline {6.1}{Compilación y ejecución del backend}}{18}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}{Compilación y ejecución del frontend}}{18}{subsection.6.2}%
+\contentsline {section}{\numberline {7}{title}}{19}{section.7}%
+\contentsline {subsection}{\numberline {7.1}{Crear el Servicio Serial (SerialService)}}{19}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}{Namespaces}}{20}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}{Declaración de variables}}{21}{subsubsection.7.1.2}%
+\contentsline {subsubsection}{\numberline {7.1.3}{Constructor de la clase}}{23}{subsubsection.7.1.3}%
+\contentsline {subsubsection}{\numberline {7.1.4}{Contenido de la clase}}{25}{subsubsection.7.1.4}%
+\contentsline {subsubsection}{\numberline {7.1.5}{Código completo}}{38}{subsubsection.7.1.5}%
+\contentsline {subsection}{\numberline {7.2}{Crear el Hub de SignalR (\texttt {SerialHub.cs})}}{43}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}{¿Qué significan los componentes de este código?}}{44}{subsubsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.3}{Crear el controlador API (\texttt {SerialController.cs})}}{45}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}{Configuración del archivo \texttt {Program.cs}}}{47}{subsection.7.4}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

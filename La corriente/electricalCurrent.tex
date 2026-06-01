@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+
+\title{Advances in Single and Multi-Antenna Technologies for Energy-Efficient IoT
+}
+\author{Gilles Callebaut}
+\date{November 2022}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Description of Assignment}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Student & \theauthor\\
+		Promotor &  dr. Gilles Callebaut\\
+		Co-promotors & ing. Jarne Van Mulders, ing. Guus Leenders
+	\end{tabular}
+	
+	\section*{La Corriente Eléctrica}
+	En cursos de física anteriores se aprendió que en situaciones donde la cargas eléctricas se encuentran en reposo, no puede haber un campo eléctrico \boldmath{$\vec{E}$} en el interior de un material conductor; de otra manera, las cargas móviles en el conductor se moverían, y ya no estaríamos hablando de cargas en reposo o electrostática.
+	
+	En ingeniería eléctrica/electrónica se enfatiza en las situaciones en la cual existe un campo eléctrico dentro de un conductor, causando movimiento de las cargas libres dentro de los conductores. Una \textbf{corriente} (también denominada como \textit{corriente eléctrica}) es cualquier movimiento de la carga de una región a otra en un conductor. Para mantener un flujo estable de carga en un conductor, debemos mantener una fuerza estable sobre las cargas móviles. En el estudio de la corriente eléctrica, asumiremos que existe un campo eléctrico \boldmath{$\vec{E}$} dentro del conductor, por lo que una fuerza \boldmath{$\vec{F}$} $=q\vec{E}$ actúa sobre una partícula con carga $q$.
+	
+	Para ayudar a visualizar la corriente, pensemos en conductores con forma de alambre. La corriente se define como la cantidad de carga que se mueve a través de la sección transversal de un conductor por unidad de tiempo. Así, si una carga neta $\Delta Q$ fluye a través de una sección transversal durante un tiempo $\Delta t$, la corriente a través de esa área, denotada por $I$ se define como:
+	
+	
+	\section*{Objectives}
+	\lipsum[3-3]
+	
+	\section*{Plan}
+	\lipsum[4-4]
+	
+	
+	
+\end{document}

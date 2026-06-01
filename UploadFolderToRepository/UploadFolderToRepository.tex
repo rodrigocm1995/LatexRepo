@@ -1,0 +1,476 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\usepackage{geometry}
+\geometry{
+	top=2.5cm,      % Margen superior
+	bottom=2.5cm,   % Margen inferior
+	left=3cm,       % Margen izquierdo
+	right=3cm,      % Margen derecho
+	% headheight=15pt % Opcional: Aumentar espacio para el encabezado si LaTeX da un Warning
+}
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	END OF PACKAGES
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	INPUTS
+%----------------------------------------------------------------------------------------
+\input{listings_config.tex}
+\input{vscode_theme.tex}
+\input{custom_boxes.tex}
+%----------------------------------------------------------------------------------------
+%	END INPUTS
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+\lstset{
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1
+	{é}{{\'e}}1
+	{í}{{\'i}}1
+	{ó}{{\'o}}1
+	{ú}{{\'u}}1
+	{ñ}{{\~n}}1
+	{Á}{{\'A}}1
+	{É}{{\'E}}1
+	{Í}{{\'I}}1
+	{Ó}{{\'O}}1
+	{Ú}{{\'U}}1
+	{Ñ}{{\~N}}1
+	{¿}{{\textquestiondown}}1
+	{¡}{{\textexclamdown}}1
+}
+%----------------------------------------------------------------------------------------
+%	END OF ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+	
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{INTEGRACIÓN DE PROYECTOS EXTERNOS EN REPOSITORIOS GITHUB}} % The article title
+
+\subtitle{Guía Metodológica de Control de Versiones para STM32CubeIDE y Controladores Modulares} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	PORTADA PERSONALIZADA
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\centering
+	\vspace*{2cm}
+	
+	\vspace{1cm}
+	
+	% Título Principal
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Integración de}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{proyectos}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{en Repositorios de}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{GITHUB}}\\[0.5cm]
+	% Subtítulo
+	{\Large\spacedlowsmallcaps{Guía metodológica para el despliegue de proyectos STM32CubeIDE y control de versiones modular}}\\[1.5cm]
+	
+	% Línea divisoria elegante
+	\rule{\linewidth}{1pt}\\[2cm]
+	
+	% Información del Autor y detalles del curso/institución
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushleft} \large
+			\emph{Autor:}\\
+			Rodrigo \spacedlowsmallcaps{Castillejos}
+		\end{flushleft}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushright} \large
+			\emph{Proyecto:}\\
+			Control de Dispositivos Embebidos
+		\end{flushright}
+	\end{minipage}
+	
+	\vfill
+	\vspace{3cm}
+	
+	% Fecha
+	{\large\today}\\[1cm]
+\end{titlepage}
+\newpage % Forza el salto de página después de la portada
+
+\setcounter{tocdepth}{3} % Set the depth of the table of contents to show sections and subsections only
+
+%----------------------------------------------------------------------------------------
+%	RESUMEN (SUMMARY / ABSTRACT) - COLOCAR ANTES DEL ÍNDICE
+%----------------------------------------------------------------------------------------
+\section*{Resumen}
+Este documento describe de manera exhaustiva el procedimiento técnico para integrar de manera limpia un proyecto de software externo (desarrollado de forma local fuera del espacio del control de versiones) dentro de un repositorio de GitHub previamente establecido. Para ilustrar el flujo de trabajo práctico, se detalla paso a paso la incorporación del proyecto firmware \texttt{NUCLEO-F303\_TMP117} (compilado en STM32CubeIDE en la unidad \texttt{D:}) dentro del repositorio modular de librerías locales ubicado en la ruta \texttt{C:\string\Users\string\casti\string\OneDrive\string\Documentos\string\GitHub\string\Libra\\ries\string\Libraries}.\\
+
+A lo largo del documento se abordan consideraciones clave como el particionamiento de los espacios de trabajo, la transferencia recursiva y limpia de archivos mediante terminal de línea de comandos en Windows PowerShell, las directrices óptimas de filtrado mediante el uso y fusión de archivos \texttt{.gitignore} para evitar el almacenamiento innecesario de archivos binarios e intermedios de compilación pesados, y la secuencia completa de comandos Git en la rama de desarrollo \texttt{feature/update-TMP117} para la fase de preparación, registro y publicación remota.
+\newpage % Salto de página para que el índice (Table of Contents) inicie en una hoja limpia
+
+\tableofcontents % Print the table of contents
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 1: INTRODUCCIÓN Y OBJETIVOS
+%----------------------------------------------------------------------------------------
+\section{Introducción y Objetivos}
+
+En el desarrollo profesional de firmware para sistemas embebidos, es habitual mantener dos espacios de trabajo separados: uno local dedicado a la experimentación activa, prueba de hardware y compilación rápida (usualmente ubicado en una ruta temporal de desarrollo del IDE), y un segundo espacio de trabajo integrado en la estructura organizada de un sistema de control de versiones centralizado como Git.
+
+La correcta integración de proyectos generados por entornos de desarrollo como STM32CubeIDE dentro de un repositorio de Git requiere cumplir con objetivos metodológicos fundamentales:
+
+\begin{itemize}
+	\item \textbf{Seguridad y Trazabilidad:} Asegurar que la lógica del firmware, configuraciones del microcontrolador y dependencias queden almacenadas en la rama correspondiente del repositorio (por ejemplo, \texttt{feature/update-TMP117}).
+	\item \textbf{Limpieza de Repositorios (Exclusión de Compilación):} Evitar estrictamente la carga en la nube de archivos binarios temporales pesados (como \texttt{.elf}, \texttt{.hex}, y archivos objeto \texttt{.o}) generados en cada compilación por la cadena de herramientas GCC del IDE.
+	\item \textbf{Compartición de Configuración:} Compartir los parámetros lógicos esenciales del entorno de compilación (como la carpeta \texttt{.settings} o los archivos de proyecto del IDE \texttt{.project} y \texttt{.cproject}) para garantizar que cualquier otro desarrollador pueda clonar e importar el proyecto de forma inmediata y sin reconfiguraciones.
+\end{itemize}
+
+Esta guía metodológica detalla precisamente cómo lograr una transferencia de proyecto robusta, ordenada e indolora cumpliendo con estas normas críticas de diseño de software.
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 2: ARQUITECTURA DE DIRECTORIOS Y ESPACIOS DE TRABAJO
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Arquitectura de Directorios y Espacios de Trabajo}
+
+Para llevar a cabo el proceso de manera segura, se definen dos rutas clave en el almacenamiento del sistema operativo Windows:
+
+\begin{description}
+	\item[Directorio de Trabajo Local (Origen):] \texttt{D:\string\STM32\_Projects\string\NUCLEO-F303\_TMP117}\\
+	Es la carpeta donde reside el proyecto físico que se está desarrollando y probando con el microcontrolador en STM32CubeIDE. Es una ruta fuera del control de Git.
+	\item[Directorio del Repositorio Git (Destino):] \texttt{C:\string\Users\string\casti\string\OneDrive\string\Documentos\string\GitHub\\\string\Libraries\string\Libraries}\\
+	Es la raíz física del repositorio local donde se encuentra la carpeta oculta \texttt{.git} y la estructura modularizada de librerías en lenguaje C.
+\end{description}
+
+La estructura de carpetas final que se desea obtener dentro del repositorio se describe en la figura \ref{fig_arbol_repo}.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.95\textwidth}
+		\dirtree{%
+			.1 {/Libraries (Raíz de Git)}.
+			.2 {.git/ (Carpeta oculta de control)}.
+			.2 {Libraries/ (Directorio de Código)}.
+			.3 {C/}.
+			.4 {TMP117/}.
+			.5 {TMP117/}.
+			.6 {TMP117.c (Controlador fuente)}.
+			.6 {TMP117.h (Controlador cabecera)}.
+			.6 {NUCLEO-F303\_TMP117/ (Proyecto STM32)}.
+			.7 {Core/ (Código de aplicación)}.
+			.8 {Src/ (main.c, etc.)}.
+			.8 {Inc/ (main.h, etc.)}.
+			.7 {Drivers/ (HAL y CMSIS)}.
+			.7 {.project (Configuración de Eclipse)}.
+			.7 {.cproject (Configuración de C/C++)}.
+			.7 {.gitignore (Reglas de filtrado del proyecto)}.
+		}
+	\end{minipage}
+	\caption{Estructura final del proyecto modularizado dentro del repositorio.}\label{fig_arbol_repo}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 3: PASO 1 - COPIA FÍSICA DE ARCHIVOS
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Copia Física de Archivos mediante PowerShell}
+
+El primer paso consiste en transferir toda la estructura de archivos desde el directorio de compilación local en el disco \texttt{D:} hacia la subcarpeta del sensor de temperatura \texttt{TMP117} del repositorio en el disco \texttt{C:}.
+
+Para realizar esto con precisión evitando la omisión accidental de archivos ocultos o del sistema, se recomienda utilizar el entorno de línea de comandos \textbf{Windows PowerShell}.
+
+\subsection{Comandos de Transferencia}
+Abre PowerShell y ejecuta la siguiente secuencia de comandos:
+
+\begin{lstlisting}[language=POWERSHELL]
+# 1. Crear el directorio de destino exacto en el repositorio de Git
+New-Item -ItemType Directory -Force -Path "C:\Users\casti\OneDrive\Documentos\GitHub\Libraries\Libraries\C\TMP117\TMP117\NUCLEO-F303_TMP117"
+
+# 2. Copiar de forma recursiva y forzada todo el contenido del proyecto
+Copy-Item -Path "D:\STM32_Projects\NUCLEO-F303_TMP117\*" -Destination "C:\Users\casti\OneDrive\Documentos\GitHub\Libraries\Libraries\C\TMP117\TMP117\NUCLEO-F303_TMP117" -Recurse -Force
+\end{lstlisting}
+
+\begin{InfoBox}{Explicación de modificadores en PowerShell}
+	\begin{itemize}
+		\item \texttt{-Force}: Obliga a la creación de carpetas o sobreescritura de archivos existentes sin pedir confirmaciones interactivas.
+		\item \texttt{-Recurse}: Indica a \texttt{Copy-Item} que debe procesar recursivamente todas las subcarpetas y archivos en el árbol del proyecto origen de forma automática.
+		\item El asterisco (\texttt{*}) al final de la ruta origen copia los elementos contenidos en ella y no la carpeta padre por duplicado.
+	\end{itemize}
+\end{InfoBox}
+
+\subsection{Método Gráfico mediante el Explorador de Archivos (Sin Consola)}
+Si prefieres no utilizar la consola de comandos de PowerShell, puedes realizar la transferencia de forma gráfica utilizando el \textbf{Explorador de Archivos de Windows}. Este método es más intuitivo, pero requiere especial atención a los archivos ocultos de configuración del IDE.
+
+Sigue estos pasos para realizar la copia:
+\begin{enumerate}
+	\item \textbf{Copiar el proyecto origen:} Abre el Explorador de Archivos, navega hasta la carpeta \texttt{D:\textbackslash STM32\_Projects\textbackslash}, haz clic derecho sobre la carpeta \texttt{NUCLEO-F303\_TMP117} y selecciona \textbf{Copiar} (o presiona \keys{\ctrl\ + C}).
+	\item \textbf{Pegar en el destino:} Navega hasta la ruta del repositorio local en:
+		\begin{center}
+			\texttt{C:\textbackslash Users\textbackslash casti\textbackslash OneDrive\textbackslash Documentos\textbackslash GitHub\textbackslash Libraries\textbackslash Libraries\textbackslash C\textbackslash TMP117\textbackslash TMP117\textbackslash}
+		\end{center}
+		Haz clic derecho en un espacio vacío dentro de esa carpeta y selecciona \textbf{Pegar} (o presiona \keys{\ctrl\ + V}).
+\end{enumerate}
+
+\begin{WarningBox}{Advertencia sobre Archivos Ocultos en el Explorador}
+	Los entornos de desarrollo basados en Eclipse (como STM32CubeIDE) almacenan metadatos y configuraciones cruciales en archivos y carpetas ocultas cuyos nombres inician con un punto (por ejemplo, \texttt{.project}, \texttt{.cproject} y la carpeta \texttt{.settings/}).
+	
+	Si utilizas el Explorador de Archivos, asegúrate de tener activada la opción \textbf{"Elementos ocultos"} (en la pestaña \textit{Vista} del explorador) para garantizar que estos elementos se copien de manera correcta. Sin ellos, el proyecto no podrá ser importado de vuelta en el IDE por otros usuarios.
+\end{WarningBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 4: PASO 2 - CONFIGURACIÓN Y FUSIÓN DE REGLAS .GITIGNORE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Configuración y Fusión de Reglas .gitignore}
+
+Un aspecto fundamental del control de versiones en firmware es evitar que archivos generados dinámicamente entren al repositorio. Los proyectos de STM32CubeIDE contienen archivos autogenerados que cambian en cada compilación. Subirlos causa \textit{commits} redundantes masivos y desperdicia espacio.
+
+\subsection{El archivo .gitignore Existente}
+Si el proyecto ya contenía un archivo \texttt{.gitignore} básico al momento de la copia con las siguientes directrices:
+\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+build
+mx.scratch
+!.settings
+\end{lstlisting}
+
+\begin{itemize}
+	\item \texttt{build}: Ignora la carpeta temporal utilizada en sistemas de construcción con CMake.
+	\item \texttt{mx.scratch}: Archivo temporal generado por STM32CubeMX para rastrear cambios en la generación del hardware.
+	\item \texttt{!.settings}: El signo de exclamación (\texttt{!}) es una regla de exclusión negativa; indica que **sí** se debe realizar el seguimiento de la carpeta de configuraciones de eclipse (\texttt{.settings}), lo cual es correcto para guardar las vistas y perfiles del programador.
+\end{itemize}
+
+\subsection{Fusión con Reglas de Compilación Embebidas}
+Para garantizar la limpieza completa ante una compilación típica basada en la herramienta interna de STM32CubeIDE (que suele generar la carpeta \texttt{Debug} o \texttt{Release}), debemos fusionar la lista de exclusiones añadiendo reglas para bloquear ejecutables y archivos de objeto:
+
+El contenido final del archivo \texttt{C:\string\Users\string\casti\string\OneDrive\string\Documentos\string\GitHub\string\Libraries\string\Libra\\ries\string\C\string\TMP117\string\TMP117\string\NUCLEO-F303\_TMP117\string\.gitignore} debe configurarse de la siguiente manera:
+
+\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+build
+mx.scratch
+!.settings
+
+# Excluir carpetas de compilación típicas de STM32CubeIDE
+Debug/
+Release/
+
+# Excluir ejecutables y archivos intermedios de GCC
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+*.o
+*.su
+*.d
+*.o.d
+\end{lstlisting}
+
+\begin{WarningBox}{Por qué excluir *.elf y *.o}
+	Los archivos \texttt{.elf} y \texttt{.hex} son los binarios finales compilados listos para cargarse al microcontrolador. Pueden llegar a medir varios megabytes y cambian cada vez que modificas aunque sea una línea de comentarios en el código. Excluirlos previene el crecimiento exponencial e innecesario de la base de datos de Git.
+\end{WarningBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 5: PASO 3 - OPERACIONES CON GIT (ADD, COMMIT Y PUSH)
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Operaciones con Git (Add, Commit y Push)}
+
+Una vez que los archivos han sido físicamente copiados y el archivo \texttt{.gitignore} se encuentra debidamente fusionado y guardado, se debe proceder a registrar y subir los cambios a la rama remota de GitHub.
+
+\subsection{Flujo de Comandos de Git}
+Abre una terminal de Git Bash (o usa la terminal en VS Code) en la raíz física del repositorio y ejecuta los siguientes comandos de forma secuencial:
+
+\begin{lstlisting}[language=DOS]
+# 1. Navegar a la raíz física del repositorio local (donde se encuentra .git)
+cd C:\Users\casti\OneDrive\Documentos\GitHub\Libraries\Libraries
+
+# 2. Verificar el estado del repositorio y listar archivos no rastreados
+git status
+
+# 3. Cambiarse a la rama de desarrollo específica del sensor
+git checkout feature/update-TMP117
+
+# 4. Añadir el proyecto recién copiado de forma relativa al área de preparación
+git add C/TMP117/TMP117/NUCLEO-F303_TMP117
+
+# 5. Confirmar los cambios localmente con un mensaje descriptivo
+git commit -m "Add NUCLEO-F303_TMP117 STM32CubeIDE project"
+
+# 6. Subir la rama y los cambios al repositorio remoto en GitHub
+git push origin feature/update-TMP117
+\end{lstlisting}
+
+\subsection{Explicación de Pasos Críticos}
+\begin{enumerate}
+	\item \textbf{Ubicación de la Raíz:} Es fundamental ejecutar los comandos desde \texttt{Libraries\string\Libraries}. Si se ejecutan en una ruta superior o incorrecta, Git arrojará la advertencia \texttt{fatal: not a git repository}.
+	\item \textbf{Uso de Rutas Relativas:} Dado que ya te encuentras en la raíz del repositorio, la ruta en el comando \texttt{git add} inicia directamente con \texttt{C/TMP117/\dots} y no incluye el prefijo de la carpeta del repositorio.
+	\item \textbf{Verificación con git status:} Al ejecutar \texttt{git status} antes de hacer el commit, notarás que Git solo registrará el archivo \texttt{.gitignore}, los archivos del proyecto (\texttt{.project}, \texttt{.cproject}) y la carpeta de código \texttt{Core/}. Las carpetas \texttt{Debug/} o \texttt{build/} no deben aparecer en la lista gracias a las reglas configuradas en el paso anterior.
+\end{enumerate}
+
+\begin{InfoBox}{El comando git push origin}
+	El comando \texttt{git push origin feature/update-TMP117} indica a Git que debe enviar el historial de commits locales de tu rama activa hacia el servidor remoto configurado con el alias \texttt{origin} (que apunta a tu cuenta de GitHub) directamente en la rama remota llamada \texttt{feature/update-TMP117}.
+\end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 6: CONCLUSIONES Y BUENAS PRÁCTICAS
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Conclusiones y Buenas Prácticas}
+
+Integrar proyectos externos a GitHub es una tarea recurrente en el desarrollo de software que requiere orden y apego a estándares de Git para evitar "ensuciar" el repositorio. Siguiendo este flujo de trabajo, se logran las siguientes buenas prácticas en la gestión de firmware:
+
+\begin{itemize}
+	\item \textbf{Independencia de Entornos de Compilación:} Al mantener el proyecto configurado únicamente con sus archivos de orígenes y directivas de exclusión, cualquier miembro del equipo puede importar el proyecto en su respectivo STM32CubeIDE de manera local.
+	\item \textbf{Historial de Commits Limpio:} Al excluir archivos compilados en el archivo \texttt{.gitignore}, cada commit en Git representará exclusivamente cambios en el código lógico fuente (\texttt{.c} y \texttt{.h}), haciendo que las revisiones de código sean claras, concisas y fáciles de analizar.
+	\item \textbf{Control de Ramas Organizado:} Trabajar bajo ramas de características (como \texttt{feature/upda\\te-TMP117}) en lugar de directamente sobre la rama principal (\texttt{main} o \texttt{master}) permite experimentar, desarrollar y probar de forma segura sin peligro de romper código estable hasta que los cambios estén listos para una fusión (\textit{Pull Request}) definitiva.
+\end{itemize}
+
+\end{document}

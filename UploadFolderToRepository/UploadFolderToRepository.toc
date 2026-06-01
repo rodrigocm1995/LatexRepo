@@ -1,0 +1,14 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{Introducción y Objetivos}}{4}{section.1}%
+\contentsline {section}{\numberline {2}{Arquitectura de Directorios y Espacios de Trabajo}}{5}{section.2}%
+\contentsline {section}{\numberline {3}{Copia Física de Archivos mediante PowerShell}}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}{Comandos de Transferencia}}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}{Método Gráfico mediante el Explorador de Archivos (Sin Consola)}}{6}{subsection.3.2}%
+\contentsline {section}{\numberline {4}{Configuración y Fusión de Reglas .gitignore}}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}{El archivo .gitignore Existente}}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}{Fusión con Reglas de Compilación Embebidas}}{7}{subsection.4.2}%
+\contentsline {section}{\numberline {5}{Operaciones con Git (Add, Commit y Push)}}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}{Flujo de Comandos de Git}}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}{Explicación de Pasos Críticos}}{9}{subsection.5.2}%
+\contentsline {section}{\numberline {6}{Conclusiones y Buenas Prácticas}}{10}{section.6}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

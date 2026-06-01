@@ -1,0 +1,23 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{Get along}}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}{Reto de traducción}}{2}{subsection.1.1}%
+\contentsline {section}{\numberline {2}{Show up}}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}{Conjugación del verbo (show)}}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}{Reto de traducción}}{5}{subsection.2.2}%
+\contentsline {section}{\numberline {3}{Run out of}}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}{Conjugación del verbo}}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}{Usos y contextos}}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}{Reto de traducción}}{7}{subsection.3.3}%
+\contentsline {section}{\numberline {4}{Figure out}}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}{Conjugación}}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}{Reto de traducción}}{8}{subsection.4.2}%
+\contentsline {section}{\numberline {5}{Run into}}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}{Significados principales}}{10}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}{Conjugación}}{10}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}{Reto de traducción}}{10}{subsection.5.3}%
+\contentsline {section}{\numberline {6}{Point out}}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}{Conjugación}}{12}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}{Reto de traducción}}{12}{subsection.6.2}%
+\contentsline {section}{\numberline {7}{Look into}}{14}{section.7}%
+\contentsline {subsection}{\numberline {7.1}{Conjugación}}{14}{subsection.7.1}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

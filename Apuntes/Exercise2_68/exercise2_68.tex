@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\title{The Analysis and Design of Linear Circuits  }
+\author{Rodrigo Castillejos}
+\date{July 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Problem Resolution}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+		Chapter &  Basic Circuit Analysis\\
+		Problem & 2.68
+	\end{tabular}
+	
+	\section*{Exercise 2-64}
+	Ideally, a voltmeter has infinite internal resistance and can be placed across any device to read the voltage without affecting the result. A particular digital multimeter (DMM), a common laboratory tool, is connected across the circuit shown in figure 1. The expected voltage was \qty{10.2}{\volt}. However, the DMM reads \qty{7.61}{\volt}. The large, but finite, internal resistance of the DMM was "loading" the circuit and causing a wrong measurement to be made. Find the value of the internal resistance $R_M$ of this DMM.
+ 	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\draw[blue, fill=blue!5, dashed, thick, ] (7,-0.5) rectangle (10,5.5);
+			\draw (0,0) to[V, l2=$V_{IN}$  and \qty{15}{\volt}] (0,5)
+				  to[R, l=$R_1$, a=\qty{4.7}{\mega\ohm}, -*] ++(5,0) coordinate (p1)
+				  to[R, l=$R_2$, a=\qty{10}{\mega\ohm}] ++(0,-5)
+				  to[short] (0,0);
+			\draw (p1) to[short] ++(4,0)
+				  to[R, a=$R_M$] ++(0,-5)
+				  to[short, -*] ++(-4,0);
+			\draw (p1) node[above right, xshift=-20pt]{$V_{1} = \qty{7.61}{\volt}$};
+		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\section*{Answer}
+	The unknown resistor $R_M$ is in parallel with $R_2$ resistor. Since voltages across parallel elements are equal, the voltage $V_1$ appears across both. We first define an equivalent resistance $R_{EQ} = R_M || R_2$ as
+	
+	\begin{align}
+		R_{EQ} = \frac{R_2 R_M}{R_2 + R_M}
+	\end{align}
+	
+	We write the voltage division rule in terms of $R_{EQ}$ as
+	
+	\begin{align}
+		V_1 = \frac{R_{EQ}}{R_{EQ} + R_1} V_{IN} = \qty{7.61}{\volt}
+	\end{align}
+	
+	Solving equation (2) for $R_{EQ}$ yields
+	
+	\begin{align}
+		R_{EQ}V_{IN} = 	V_1(R_{EQ} + R_1) \nonumber \\
+		R_{EQ}V_{IN} = R_{EQ}V_1 + R_1V_1 \nonumber \\
+		(V_{IN} - V_1)R_{EQ} = R_1V_1 \nonumber \\
+		R_{EQ} = \frac{R_1V_1}{V_{IN} - V_1} 
+	\end{align}
+	
+	Therefore
+	
+	\begin{align}
+		R_{EQ} = \qty{4.84}{\mega\ohm}
+	\end{align}
+	 
+	Then, we sustitute the value presented in (4) on equation (1) ans solving for $R_2$
+	
+	\begin{align}
+		R_2R_M = R_{EQ}(R_2 + R_M) \nonumber \\
+		R_2R_M = R_2R_{EQ} + R_MR_{EQ} \nonumber \\
+		(R_2 - R_{EQ})R_M = R_2R_{EQ} \nonumber
+	\end{align}
+	 
+	 \begin{align}
+	 	R_M = \frac{R_2R_{EQ}}{R_2 - R_{EQ}}
+	 \end{align}
+
+so
+
+\begin{align}
+	R_M = \frac{(\qty{10}{\mega\ohm}) (\qty{4.84}{\mega\ohm})}{\qty{10}{\mega\ohm} - \qty{4.84}{\mega\ohm}} = \qty{9.3798}{\mega\ohm}
+\end{align}
+	
+\end{document}

@@ -1,0 +1,284 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem}
+%Set page layout parameters
+\usepackage[
+top=4cm,
+bottom=2cm,
+left=2cm,
+right=2cm,
+headheight=2cm,
+footskip=1cm,
+marginparwidth=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+% To use color boxes
+\usepackage{tcolorbox}
+\usepackage{lipsum}
+\tcbuselibrary{listings,theorems,skins,vignette,raster,breakable,magazine,poster,fitting,hooks}
+\newcounter{ejemplo}
+%Images path
+\graphicspath{{images/}}
+\usepackage{float} %provide us with the option H
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{tikzpagenodes}
+%to redefine figure caption 
+\renewcommand{\figurename}{Figura}
+%change text font
+\usepackage[T1]{fontenc}
+\usepackage{tgbonum} % LaTeX will use the TEX Gyre Bonum font family
+
+\definecolor{subtitle_yellow}{RGB}{252,213,129}
+\definecolor{title_yellow}{RGB}{249,175,16}
+\definecolor{steel_blue_title}{RGB}{93,138,168}
+\definecolor{pewter_blue_subtitle}{RGB}{149,178,198}
+\definecolor{ecru_circle}{RGB}{215,190,130}
+\definecolor{ecru_circle1}{RGB}{68,148,173}
+
+\newcommand{\myfirststyle}{%
+	\begin{tikzpicture}[remember picture, overlay]
+		
+		%top border
+		\fill[fill=steel_blue_title](current page.north west) rectangle ([yshift=-15mm]current page.north east);
+		
+		\fill[fill=pewter_blue_subtitle]([yshift=-17mm]current page.north west) rectangle ([yshift=-30mm]current page.north east);
+		
+		%page box
+		%\draw[lightgray, fill=Rhodamine, fill opacity=0.05, line width=1mm, rounded corners=3mm] ([xshift=-5mm,yshift=5mm]current page text area.north west) rectangle ([xshift=5mm,yshift=-5mm]current page text area.south east);
+		
+		%bottom box
+		\fill[fill=pewter_blue_subtitle](current page.south west) rectangle ([yshift=10mm]current page.south east);
+		
+		%page circle
+		\draw[white,fill=ecru_circle1,line width=2mm] ([xshift=-5mm,yshift=25mm]current page text area.north east) circle (1); 
+		
+		
+		%page number text        
+		%\node[anchor=center] at ([xshift=-5mm,yshift=25mm]current page text area.north east) {\Huge\bfseries\sffamily\color{white}{\thepage}};
+		
+		%title text
+		\node[anchor=west] at ([yshift=32mm]current page text area.north west) {\Huge\bfseries\sffamily\color{white}{Filtro C}};
+		
+		%subtitle text
+		\node[anchor=west] at ([xshift=10mm,yshift=16mm]current page text area.north west) {\Large\bfseries\sffamily\color{white}{}};
+		
+		%footer text
+		\node[anchor=center] at ([yshift=-15mm]current page text area.south) {\large\bfseries\sffamily\color{white}{Created by: Rodrigo Castillejos}};
+		
+	\end{tikzpicture}
+}
+
+
+%create page style
+\fancypagestyle{MyFirstStyle}{%
+	\fancyhf{}
+	\fancyhead[C]{\myfirststyle}
+	\renewcommand{\headrulewidth}{0pt}
+}%
+
+\pagestyle{MyFirstStyle}
+
+\colorlet{colexam}{red!75!black}
+\newtcolorbox[use counter=ejemplo]{myexample}{%
+	empty,title={Ejemplo \thetcbcounter},attach boxed title to top left,
+	boxed title style={empty,size=minimal,toprule=2pt,top=4pt,
+		overlay={\draw[colexam,line width=2pt]
+			([yshift=-1pt]frame.north west)--([yshift=-1pt]frame.north east);}},
+	coltitle=colexam,fonttitle=\Large\bfseries,
+	before=\par\medskip\noindent,parbox=false,boxsep=0pt,left=0pt,right=3mm,top=4pt,
+	breakable,pad at break*=0mm,vfill before first,
+	overlay unbroken={\draw[colexam,line width=1pt]
+		([yshift=-1pt]title.north east)--([xshift=-0.5pt,yshift=-1pt]title.north-|frame.east)
+		--([xshift=-0.5pt]frame.south east)--(frame.south west); },
+	overlay first={\draw[colexam,line width=1pt]
+		([yshift=-1pt]title.north east)--([xshift=-0.5pt,yshift=-1pt]title.north-|frame.east)
+		--([xshift=-0.5pt]frame.south east); },
+	overlay middle={\draw[colexam,line width=1pt] ([xshift=-0.5pt]frame.north east)
+		--([xshift=-0.5pt]frame.south east); },
+	overlay last={\draw[colexam,line width=1pt] ([xshift=-0.5pt]frame.north east)
+		--([xshift=-0.5pt]frame.south east)--(frame.south west);},%
+}
+
+
+\begin{document}
+	Un capacitor es un elemento de almacenamiento de energía, este intenta mantener un voltaje constante, previniendo por o tanto cualquier cambio en el voltaje a través de la carga. Un capacitor $C$ puede conectarse a través de la carga para mantener un voltaje continuo de salida constante $v_o$ como se muestra en la figura 1. Bajo condiciones de estado estable el capacitor tendrá un voltaje finito inicial. Cuando el voltaje instantáneo de la magnitud de la fuente de alimentación $v_s$ sea mayor que el voltaje instantáneo del capacitor $v_c$, los diodos ($D_1$ y $D_2$ o $D_3$ y $D_4$) conducirán y el capacitor se cargará a través de la fuente de entrada.\\
+	
+	Sin embargo, si la magnitud de voltaje $v_s$ cae por debajo del voltaje instantáneo decl capacitor $C$ los diodos ($D_1$ y $D_2$ o $D_3$ y $D_4$) estarán polarizados en inversa y el capacitor $C$ se descargará a través de la resistencia de carga $R_L$. El voltaje del capacitor $v_c$ variará entre un valor mínimo $v_{o(min)}$ y un valor máximo $v_{o(max)}$. Las formas de onda del voltaje de salida $v_o$ y el voltaje de rizado $v_r$ se muestran en la figura 2. Si $f$ es la frecuencia de la fuente de entrada, entonces el periodo del voltaje de entrada es $T=1/f$.\\
+	
+	Para un rectificador de media onda, el periodo del voltaje de rizado será el mismo que el periodo $T$ de la fuente de entrada. Sin embargo, para un rectificador de onda completa, el periodo del voltaje de rizado es de $T/2$. La operación de salida se puede dividir en dos intervalos: intervalo 1 para la carga del capacitor y el intervalo 2 para la descarga del capacitor.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1]{figura1}
+		\caption{Simulación del circuito del ejemplo 1}
+		\label{fig:pic1}
+	\end{figure}
+
+	\newpage
+	El circuito equivalente para el tiempo de carga del capacitor se muestra en la figura 1(b). El capacitor se carga (casi) hasta el voltaje instantáneo de la fuente de alimentación $v_s$, es decir, el capacitor $C$ se cargará aproximadamente al voltaje pico $V_m$ de la fuente de entada, de tal manera que $v_c(\omega t = \pi / 2) = V_m$. La figura 1(c) muestra el circuito equivalente durante la descarga. El capacitor se descarga exponencialmente a través de $R_L$. Cuando uno de los pares de diodos esté conduciendo, el capacitor $C$ extrae un pulso de la corriente de carga de la fuente de alimentación como se muestra en la figura 2. Como resultado, el rectificador genera una corriente armónica dentro de la fuente de AC. Para aplicaciones de gran potencia normalmente se requiere un filtro de entrada para reducir la cantidad de armónicos que se inyectan en la fuente de AC. Por lo tanto, los rectificadores con un filtro $C$ se usan sólo para aplicaciones de baja potencia.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.8]{figura2}
+		\caption{}
+		\label{fig:Formas de onda}
+	\end{figure}
+	
+	Durante el intervalo de carga, y bajo condiciones de estado estable el capacitor se carga desde $V_{o(min)}$ hasta $V_m$. Asumimos que el voltaje de entrada positivo es igual al voltaje mínimo del capacitor $V_{o(min)}$ en un ángulo $\alpha$ (rad/s). Dado que el voltaje de entrada crece senoidalmente desde cero hasta $V_m$ en el primer ciclo el ángulo $\alpha$ puede determinarse como
+	
+	\begin{align}
+		V_{o(min)} = V_m sen(\alpha)
+	\end{align}
+
+	o bien
+	
+	\begin{align}
+		\frac{V_{o(min)}}{V_m} = sen(\alpha)\nonumber 
+	\end{align}
+	
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,width=(\linewidth+0.45cm)]
+		\begin{equation}
+			\alpha = sen^{-1} \left( \frac{V_{o(min)}}{V_m} \right)
+		\end{equation}
+	\end{tcolorbox}
+
+	Si redefinimos el tiempo de origen $(\omega t = 0)$ en $\pi / 2$ como el inicio del intervalo 1 podemos deducir la corriente de descarga (figura 1(c)) como
+	
+	\begin{align}
+		v_c(t) - v_{RL} = 0\nonumber\\
+		- \frac{1}{C} \int{i_o dt} + v_c(t=0) - R_L i_o  = 0\nonumber 
+	\end{align}
+	
+	El cual, con una condición inicial de $v_c(\omega t = 0) = V_m$ da 
+	
+	\begin{align}
+		 - \frac{1}{C} \int{i_o dt} + V_m - R_L i_o  = 0\nonumber
+	\end{align}
+
+	Para un mayor entendimiento podemos representar el circuito de la figura 1(c) por su equivalente en el dominio de $s$ como se muestra en la figura 3.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{figura3}
+		\caption{}
+		\label{fig:}
+	\end{figure}
+
+	\newpage
+	Empleando la LTK (Ley de Tensión de Kirchhoff) sobre el lazo de la figura 3	obtenemos
+	\begin{subequations}
+		\begin{align}
+			\frac{V_m}{s} - \frac{1}{sC}I_o(s) - R_LI_o(s) = 0\nonumber\\
+			\frac{1}{sC}I_o(s) + R_LI_o(s) = \frac{V_m}{s}\nonumber\\
+			\left( \frac{1}{sC} \right) I_o(s) = \frac{V_m}{s}\nonumber\\
+			\left( \frac{1 +sR_LC}{sC} \right) I_o(s) =  \frac{V_m}{s}\nonumber\\
+			I_o(s) = \left( \frac{sC}{1 + sR_LC} \right) \left( \frac{V_m}{s} \right)\nonumber\\
+			I_o(s) = \frac{V_m C}{1 + sR_LC}\nonumber\\
+			I_o(s) = \frac{V_m C}{R_LC \left( s + \frac{1}{R_LC} \right)} \nonumber
+		\end{align}	
+	\end{subequations}
+	
+	Por lo tanto
+	
+	\begin{align}
+		I_o(s) = \frac{ \frac{Vm}{R_L}}{s + \frac{1}{R_LC}}
+	\end{align}
+
+	Al emplear la transformada inversa de Laplace sobre la ecuación (4) obtenemos
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,width=(\linewidth+0.45cm)]
+		\begin{equation}
+			i_o(t) = \frac{V_m}{R_L}e^{-t/R_LC}, \,\,\,\,\, 0<t<t_d
+		\end{equation}
+	\end{tcolorbox}
+
+	El voltaje instantáneo (o el voltaje en el capacitor) $v_o$ durante el periodo de descarga puede ser encontrado como
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,width=(\linewidth+0.45cm)]
+		\begin{equation}
+			v_o(t) = R_Li_o = V_m e^{-t/R_LC}, \,\,\,\,\, 0<t<t_d
+		\end{equation}
+	\end{tcolorbox}
+	
+	De la figura 1, podemos encontrar el tiempo de descarga $t_d$ o el ángulo de descarga $\beta$ (rad/s) como
+	
+	\begin{subequations}
+		\begin{align}
+		\omega t_d &= \beta = \frac{\pi}{2}\,\,\, \text{rectificador de onda completa} \\
+		&= \frac{3\pi}{2} + \alpha\,\,\, \text{rectificador de media onda}
+	\end{align}
+	\end{subequations}
+
+	En $t=t_d$, $v_o(t)$ en la ecuación (6) se vuelve igual a $V_{o(min)}$, y podemos relacionar $t_d$ con $V_{o(min)}$ como
+	
+	\begin{align}
+		v_o(t=t_d) = V_{o(min)} = V_m e^{-t_d/R_LC}
+	\end{align}
+
+	Del cual podemos obtener el tiempo de descarga de la ecuación (8) como
+	\begin{align}
+		\frac{V_{o(min)}}{V_m} = e^{-t_d/R_LC}\nonumber\\
+		\ln \left| {\frac{V_{o(min)}}{V_m}} \right| = - \frac{t_d}{R_LC}\nonumber\\
+		t_d = -R_LC \ln{\left| {\frac{V_{o(min)}}{V_m}} \right|} \nonumber
+	\end{align} 
+
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,width=(\linewidth+0.45cm)]
+		\begin{equation}
+			t_d = R_LC \ln \left( \frac{V_m}{V_{o(min)}} \right)
+		\end{equation}
+	\end{tcolorbox}
+
+	Igualando $t_d$ en la ecuación de la ecuación (9) con la ecuación (7) obetenemos
+	\begin{subequations}
+		\begin{align}
+			\omega R_LC \ln \left( \frac{V_m}{V_{o(min)}} \right) &= \frac{\pi}{2} + \alpha = \frac{\pi}{2} + sen^{-1}\left( \frac{V_{o(min)}}{V_m} \right) \,\, FWR\\
+			&= \frac{3\pi}{2} + \alpha = \frac{3\pi}{2} + sen^{-1}\left( \frac{V_{o(min)}}{V_m} \right)\,\, HWR
+		\end{align}	
+	\end{subequations}
+	
+	Por lo tanto, el capacitor $C$ puede encontrarse como
+	\begin{subequations}
+		\begin{align}
+			C &= \frac{ \frac{\pi}{2} +  sen^{-1}\left( \frac{V_{o(min)}}{V_m} \right)  }{\omega R_L \ln \left( \frac{V_m}{V_{o(min)}} \right)} \,\,\, \text{Rectificador de onda completa}\\
+			 &= \frac{ \frac{3\pi}{2} +  sen^{-1}\left( \frac{V_{o(min)}}{V_m} \right)  }{\omega R_L \ln \left( \frac{V_m}{V_{o(min)}} \right)} \,\,\, \text{Rectificador de media completa}
+		\end{align}	
+	\end{subequations}
+
+	Si asumimos que el tiempo de carga $t_c$ es pequeño comparado con el tiempo de descarga $t_d$ (es decir, $t_d >> t_c$, el cual generalmente es el caso), podemos relacionar $t_c$ y $t_d$ con el periodo $T$ de la fuente de alimentación de la entrada como
+	\begin{subequations}
+		\begin{align}
+			t_d &= \frac{T}{2} - t_c \simeq \frac{T}{2} = \frac{1}{2f}\,\,\, \text{Rectificador de onda completa} \\
+			&= T - t_c \simeq T = \frac{1}{f}\,\,\, \text{Rectificador de media completa}
+		\end{align}	
+	\end{subequations}
+	
+	Usando la expación en series de Taylor de $e^{-x} = 1 - x$ para pequeños valores de $x<<1$, podemos simplificar la ecuación (8) a
+	
+	\begin{align}
+		V_{o(min)} = V_m e^{-t_d/R_LC} =  V_m \left( 1 - \frac{t_d}{R_LC} \right)
+	\end{align}
+	
+	Con esto podemos encontrar el voltaje de rizado pico a pico $V_{r(pp)}$ como
+	\begin{subequations}
+		\begin{align}
+			V_{r(pp)} = V_m - V_{o(min)} = \frac{V_m t_d}{R_LC} &= \frac{V_m}{2fR_LC}\,\,\, \text{Rectificador de onda completa}\\
+			&=\frac{V_m}{fR_LC}\,\,\, \text{Rectificador de media completa}
+		\end{align}	
+	\end{subequations}
+
+	Redefiniendo el tiempo de origen $(\omega t = 0)$ en $\pi / 2$ cuando el tiempo de descarga comienza, podemos encontrar el voltaje promedio de salida $V_{o(av)}$ como
+	\begin{align}
+		V_{o(av)} = \frac{V_m}{\pi} \left[ \int_{0}^{\beta} e^{-(\omega t)/R_LC}d(\omega t) + \int_{\beta}^{\pi} cos (\omega t) d(\omega t) \right]\nonumber
+	\end{align}
+	
+	\begin{myexample}
+		Diseño de un filtro C.
+		
+		El rectificador de onda completa de la figura (1) se alimenta directamente desde una fuente de $120 \, V, 60 \, Hz$ sin ningún transformador de entrada. La resistencia de carga es $R_L = 500 \Omega$.
+		\begin{enumerate}[bullet, noitemsep]
+			\item Diseñe un filtro $C$ tal que el valor pico a pico del voltaje de rizado $V_{r(pp)}$ esté dentro del 10\% de $V_m$.
+			\item Con el valor de $C$ de la parte (a) calcule el voltaje de salida actual $V_{o(av)}$ y el voltaje del capacitor si se desconecta la resistencia de carga.
+		\end{enumerate}
+	
+		
+	\end{myexample}
+\end{document} 
+
+	

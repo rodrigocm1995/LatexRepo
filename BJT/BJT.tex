@@ -1,0 +1,105 @@
+\documentclass[12pt,a4paper]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{tgtermes}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{float} %provide us with the option H
+\usepackage{lipsum} %for dummy text
+\usepackage{tcolorbox}
+\newtcolorbox{titlecolorbox}[1]{ %the box around chapter
+	coltext=white,
+	colframe=black,
+	colback=black,
+	boxrule=0pt,
+	arc=0pt,
+	notitle,
+	width=4.8em,
+	height=2.4ex,
+	before=\hfill
+}
+\usepackage{chngcntr}
+\counterwithin{figure}{chapter}
+\usepackage{fancyhdr}
+\renewcommand{\chaptername}{Capítulo}
+\usepackage{xcolor}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\chapter}[display]
+{\sffamily\Huge}
+{}
+{0pt}
+{\begin{titlecolorbox}{}
+		{\large\sffamily\MakeUppercase{\chaptername}}
+	\end{titlecolorbox}
+	\vspace*{-4.5ex}\noindent\rule{\textwidth}{0.4pt}
+	\parbox[b]{\dimexpr\textwidth-4.8em\relax}{\raggedright\MakeUppercase{#1}}{\hfill\fontsize{60}{80}\selectfont\thechapter}
+}
+[]
+
+\titleformat{name=\chapter,numberless}[display]
+{\sffamily\Huge}
+{}
+{0pt}
+{\begin{titlecolorbox}{}
+		{\large\sffamily\MakeUppercase{\chaptername}}
+	\end{titlecolorbox}
+	\vspace*{-4.19ex}\noindent\rule{\textwidth}{0.4pt}
+	\parbox[b]{\dimexpr\textwidth-4.8em\relax}{\raggedright\MakeUppercase{#1}}
+}
+[]
+
+\titleformat{\section}[display]
+{\sffamily\large}
+{}
+{0pt}
+{\hrule\vspace*{0.25ex}\parbox[b]{\dimexpr\textwidth\relax}{\textcolor{darkgray}{\thesection}\quad\raggedright\bfseries\MakeUppercase{#1}}}
+[\hrule]
+
+\begin{document}
+	
+	\setcounter{chapter}{0}
+	
+	\chapter{Transistores de Unión Bipolar (BJT\lowercase{s})}
+	
+	Después de su invención y demostración a finales de la década de los 40s por Bardeen, Brattain, y Shockley dentro de Bell Telephone Laboratories, el \textbf{transistor de unión bipolar}, o \textbf{BJT}, se convirtió en el primer dispositivo de estado sólido de tres terminales comercialmente exitoso. El resultado no fue sólo el reemplazo de los tubos de vacío por transistores en radios y televisores, sino el estallido de una revolución electrónica que condujo a grandes cambios en la forma en la que trabajamos, jugamos e incluso vivimos.
+	
+	El transistor bipolar disfrutó de casi tres décadas como el dispositivo de elección en el diseño de circuitos tanto discretos como integrados. A pesar de que el MOSFET se inventó aproximadamente 10 años después, no fue hasta las décadas de los 70s y 80s que se convirtió en un serio competidor del BJT. Para el 2014, el MOSFET fue indudablemente el dispositivo electrónico más utilizado, y la tecnología CMOS, fue la tecnología de elección en el diseño de circuitos integrados. No obstante, el BJT sigue siendo un dispositivo significativo que sobresale en ciertas aplicaciones.
+	
+	El BJT se mantiene popular en el diseño de circuitos discretos, usado con otros componentes discretos como resistores y capacitores. También es el dispositivo de preferencia en algunas aplicaciones de circuitos integrados analógicas y digitales, especialmente en circuitos integrados de alta velocidad y de alta frecuencia.En particular, existe una familia lógica de circuitos basada en transistores bipolares llamada \textit{lógica de emisor acoplado} o emiiter-coupled logic. Además los transistores bipolares pueden combinarse con MOSFETs para crear circuitos innovadores que toman la ventaja de la alta impedancia de entrada y el bajo consumo de potencia de los MOSFETs y la operación a muy altas frecuencias y la capacidad de alto manejo de corriente de los transistores bipolares. Esta tecnología resultante se le conoce como BiCMOS y encuentra áreas de aplicación cada vez más grandes.
+	\section{INTRODUCCIÓN}
+	Los dispositivos de tres terminales son por lejos más convenientes que los dispositivos de dos terminales, como los diodos, porque estos pueden ser usados en una multitud de aplicaciones, desde la amplificación de señales hasta el diseño de lógica digital y circuitos con memoria. El principio básico involucrado en estos dispositivos es el uso de voltaje entre dos de sus terminales para controlar el flujo de corriente en su tercera terminal. De esta forma, un dispositivo de tres terminales se puede usar para realizar una fuente controlada, la cual es la base para el diseño de amplificadores.
+	
+	Internamente, los amplificadores usan uno o más transistores bipolares como dispositivos de amplificación, y estos transistores son polarizados desde una fuente de DC para operar apropiadamente en un punto $Q$ deseado. Con el uso de transistores bipolares, podemos construir amplificadores para una ganancia de voltaje (o corriente) dada, una alta impedancia de entrada, o una alta (o baja) impedancia de salida.
+	
+	 Los transistores bipolares son dispositivos activos con características altamente no lineales. Por lo tanto, para analizar y diseñar un determinado circuito con transistores necesitamos realizar un  modelo de estos. La creación de modelos precisos requiere de un conocimiento detallado de la operación física de los transistores y sus parámetros así como técnicas analíticas sofisticadas.
+	 
+	 \section{Estructura física del transistor bipolar}
+	 La estructura del transistor bipolar consiste de tres capas alternadas de material semiconductor tipo $n$ y tipo $p$. Estas capas se definen como \textbf{emisor} (\textbf{E}), \textbf{base} (\textbf{B}), y \textbf{colector} (\textbf{C}). Hay dos tipos de transistores: \textit{npn} y \textit{pnp}. El término bipolar se refiere al uso tanto de huecos como de electrones como portadores de corriente.
+	 
+	 La estructura básica de los transistores \textit{npn} y \textit{pnp} se muestra en la figura \ref{fig:pic1.1}[(a) y (b)] y sus símbolos en la figura \ref{fig:pic1.1}[(b) y (c)]. La dirección de la punta de la flecha en el emisor determina si el transistor se es del tipo $npn$ o $pnp$. Los diagramas de bloque de la figura \ref{fig:pic1.1} están simplificados con el fin de entender más ampliamente los conceptos de la teoría del transistor.
+	 El comportamiento del dispositivo puede ser visto desde la sección transversal simplificada del transistor $npn$ de la figura \ref{fig:pic1.2}(a).
+	 	 
+	 \begin{figure}[H]
+	 	\centering
+	 	\includegraphics[scale=0.6]{figure2}
+	 	\caption{Estructura básica y símbolos del BJT.}
+	 	\label{fig:pic1.1}
+	 \end{figure}
+	 %\vspace{-6.8cm}
+	 Durante su operación normal, la mayoría de la corriente entra por la terminal de colector, cruza la región de base y sale por la terminal de emisor. La figura \ref{fig:pic1.1}(b) muestra la compleja estructura física para realizar un transistor en forma de circuito integrado. Un ejemplo de la característica de salida del transistor bipolar aparece en la figura \ref{fig:pic1.1}(c), el cual grafica la corriente de colector $i_C$ contra el voltaje colector-emisor $v_{CE}$ con la corriente de base como parámetro.
+	 \begin{figure}[H]
+	 	\includegraphics[scale=0.7]{figure1}
+	 	\caption{(a) sección transversal simplificada de un transistor $npn$ con las corrientes que ocurren durante una operación "normal"; (b) vista tridimensional de un BJT $npn$; (c) característica de salida de un transistor $npn$}
+	 	\label{fig:pic1.2}
+	 \end{figure}
+	 \section{Características de entrada y salida}
+	 Para iniciar apropiadamente el flujo de corriente, un transistor debe ser polarizado
+	\newpage
+	 
+	  
+	
+ 	
+\end{document}

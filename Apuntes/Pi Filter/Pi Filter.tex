@@ -1,0 +1,258 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{pdfpages}
+\usepackage{filecontents}
+\graphicspath{{images/}}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{schemabloc}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+
+\title{Passive $\pi$ Filter Analysis}
+\author{Rodrigo}
+\date{Agosto 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Passive $\pi$ Filter Analysis}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+\renewcommand{\figurename}{Figure}
+%---------------------------------------------------
+\tikzset{flipflop myRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, tu={\ctikztextnot{RST}}, nu=1, n4=1 }}
+}
+
+\tikzset{flipflop myFFRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, n4=1 }}
+}
+%---------------------------------------------------
+
+\makeatletter
+\newcommand*{\underarrow}{\def\@underarrow{\relax}\@ifstar{\@@underarrow}{\def\@underarrow{\hidewidth}\@@underarrow}}
+\newcommand*{\@@underarrow}[2][]{\underset{\@underarrow\substack{\uparrow\if\relax\detokenize{#1}\relax\else\\#1\fi}\@underarrow}{#2}}
+
+\newcommand*{\overarrow}{\def\@overarrow{\relax}\@ifstar{\@@overarrow}{\def\@overarrow{\hidewidth}\@@overarrow}}
+\newcommand*{\@@overarrow}[2][]{\overset{\@overarrow\substack{\if\relax\detokenize{#1}\relax\else#1\\\fi\downarrow}\@overarrow}{#2}}
+\makeatother
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+
+	\end{tabular}
+
+	
+	\section*{Analysis}
+	Select a value for $L$ in the $\pi$ filter showed in figure 1 so that $V_o = \frac{1}{10} V_{in}$ at $f = \qty{100}{\hertz}$. Select $C = \qty{10}{\micro \farad}$
+	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\def\x{2.1*pi}% scalebar-x at golden ratio of x=1728px
+			\def\y{320}% scalebar-y at 90% of height of y=356px
+			\ctikzset{bipoles/thickness=4}
+			\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+			\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+			\draw (0,0) to[sV, l=$V_i$] ++(0,5)
+			      to[short] ++(5,0) coordinate (p1)
+			      to[cC, *-*, l=$C$] ++(0,-5);
+			\draw (p1) to[L, l=$L$] ++(5,0) coordinate (p2)
+			      to[cC, l=$C$] ++(0,-5) coordinate(p3);
+			\draw (p3) to[short] (0,0);
+			\draw (p2) to[short, *-o] ++(3,0) coordinate (x1);
+			\draw (p3) to[short, *-o] ++(3,0);
+			\draw (x1) to[open, v=$V_o$] ++(0,-5);
+			\draw[->]   (2,3.2) arc(110:-110:8mm) node[midway, left, font=\footnotesize] {$i_1(t)$};
+			\draw[->]   (7,3.2) arc(110:-110:8mm) node[midway, left, font=\footnotesize] {$i_2(t)$};
+		\end{tikzpicture}
+		\caption{passive $\pi$ filter}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\section*{Solution}
+	In this example, we find the transfers funcion by first transforming the circuit into the $s$ domain
+	
+		\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\def\x{2.1*pi}% scalebar-x at golden ratio of x=1728px
+			\def\y{320}% scalebar-y at 90% of height of y=356px
+			\ctikzset{bipoles/thickness=4}
+			\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+			\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+			\draw (0,0) to[sV, l=$V_i(s)$] ++(0,5)
+			to[short] ++(5,0) coordinate (p1)
+			to[cC, *-*, l=$\frac{1}{sC}$] ++(0,-5);
+			\draw (p1) to[L, l=$sL$] ++(5,0) coordinate (p2)
+			to[cC, l=$\frac{1}{sC}$] ++(0,-5) coordinate(p3);
+			\draw (p3) to[short] (0,0);
+			\draw (p2) to[short, *-o] ++(3,0) coordinate (x1);
+			\draw (p3) to[short, *-o] ++(3,0);
+			\draw (x1) to[open, v=$V_o(s)$] ++(0,-5);
+			\draw[->]   (2,3.2) arc(110:-110:8mm) node[midway, left, font=\footnotesize] {$I_1(s)$};
+			\draw[->]   (7,3.2) arc(110:-110:8mm) node[midway, left, font=\footnotesize] {$I_2(s)$};
+		\end{tikzpicture}
+		\caption{passive $\pi$ filter}	
+		\label{fig:figura2}
+		\end{figure}
+
+	By KVL (Kirchhoff Voltage Law), the sum of voltage transforms around the loop is
+	\begin{align}
+		V_i(s) - \frac{1}{sC} (I_1(s) - I_2(s)) &= 0 \nonumber \\
+		V_i(s) - \frac{1}{sC}I_1(s) + \frac{1}{sC}I_2(s) &= 0 \nonumber \\
+		\frac{1}{sC}I_1(s) -  \frac{1}{sC}I_2(s)  &=  V_i(s)
+	\end{align}
+		
+	the same step for loop 2 gives
+	
+	\begin{align}
+		-\frac{1}{sC} [I_2 (s) - I_1 (s)]  - sLI_2(s) - \frac{1}{sC}I_2(s) = 0 \nonumber \\
+		-\frac{1}{sC}I_2 (s) + \frac{1}{sC} I_1 (s) - sLI_2(s) - \frac{1}{sC}I_2(s) = 0  \nonumber \\
+		\frac{1}{sC} I_1 (s) - \left[sL +  \frac{1}{sC} + \frac{1}{sC} \right]I_2(s) = 0 \nonumber \\
+		\frac{1}{sC} I_1 (s) - \left[ sL + \frac{2}{sC} \right]I_2(s)  = 0
+	\end{align}	
+
+\noindent From (1) and (2)
+
+\begin{align}
+	v_O= \left\{ 
+	\begin{array}{lc} \frac{1}{sC}I_1(s) -  \frac{1}{sC}I_2(s)  =  V_i(s) \\\\
+		\frac{1}{sC} I_1 (s) - \left[ sL + \frac{2}{sC} \right]I_2(s)  = 0
+	\end{array} \right.
+\end{align}
+
+\noindent We have a 2x2 linear system, solving for $I_1(s)$ in 3(b) we get
+
+\begin{align}
+	\frac{1}{sC} I_1 (s) = \left[ sL + \frac{2}{sC} \right]I_2(s) \nonumber \\
+	I_1 (s) = sC\left[ sL + \frac{2}{sC} \right]I_2(s) \nonumber \\
+	I_1 (s) = (s^2CL + 2)I_2(s)
+\end{align}
+
+\noindent Replacing (4) in (3a) yields
+
+\begin{align}
+	\frac{1}{sC} \left[ s^2CL + 2 \right]I_2(s) - \frac{1}{sC}I_2(s)  =  V_i(s) \nonumber \\
+	 \left[ sL + \frac{2}{sC} \right] I_2(s) - \frac{1}{sC}I_2(s)  =  V_i(s) \nonumber \\
+	 \left[ \frac{s^2LC + 2}{sC} \right]I_2(s) -\frac{1}{sC}I_2(s)  =  V_i(s) \nonumber \\
+	 \left[ \frac{s^2LC + 2 - 1}{sC} \right] I_2(s) = V_i(s) \nonumber \\
+	 I_2(s) = \frac{sC}{1 + s^2LC}V_i(s)
+\end{align} 
+
+\noindent Now, the output voltage is
+
+\begin{align}
+	V_o(s) = \frac{1}{sC}I_2(s)
+\end{align}
+
+\noindent Replacing (5) in (6) yields
+\begin{align}
+	V_o(s) = \frac{1}{sC} \left[ \frac{sC}{1 + s^2LC} \right]V_i(s) = \left[ \frac{1}{1 + s^2 LC} \right]
+\end{align}
+
+\noindent The transfer funcion is
+
+\begin{align}
+	H(s) = \frac{V_o(s)}{V_i(s)} = \frac{1}{1 + s^2 LC}
+\end{align}
+
+\noindent The frequency response is obtained by substituting $s=j\omega$ into $H(s)$
+
+\begin{align}
+	H(\omega) = H(s) \bigg\rvert_{s = j\omega} = \frac{1}{1 + (j \omega)^2LC} = \frac{1}{1 - \omega^2LC}
+\end{align}
+
+\noindent The magnitude response is given by the aboslute value of $H(\omega)$
+
+\begin{align}
+	A_v = |H(\omega)| = \bigg\rvert \frac{1}{1 - \omega^2LC} \bigg\rvert = \frac{1}{\sqrt{ 1 + (\omega^2 LC)^2 }} = \frac{1}{\sqrt{ 1 + \left( \frac{\omega L}{ \frac{1}{\omega C} } \right)^2  }} = \frac{1}{\sqrt{ 1 + \left( \frac{Z_L}{Z_C} \right)^2  }}
+\end{align}
+
+Solving (10) for $L$
+
+\begin{align}
+	A_v \sqrt{ 1 + \left( \frac{\omega L}{ \frac{1}{\omega C} } \right)^2  }	= 1 \nonumber \\
+	\sqrt{ 1 + \left( \frac{\omega L}{ \frac{1}{\omega C} } \right)^2  } = \frac{1}{A_v} \nonumber \\
+	1 + \left( \frac{\omega L}{ \frac{1}{\omega C} } \right)^2 = \left( \frac{1}{A_v} \right)^2 \nonumber \\
+	\left( \frac{\omega L}{ \frac{1}{\omega C} } \right)^2 = \left( \frac{1}{A_v} \right)^2 - 1 \nonumber \\
+	 \frac{\omega L}{ \frac{1}{\omega C}} = \sqrt{ \left( \frac{1}{A_v} \right)^2 - 1 } \nonumber \\
+	 \omega L  = \frac{1}{\omega C} \sqrt{ \left( \frac{1}{A_v} \right)^2 - 1 } \nonumber \\
+\end{align}
+
+So
+
+\begin{align}
+	L = \frac{1}{\omega^2 C} \sqrt{ \left( \frac{1}{A_v} \right)^2 - 1 }
+\end{align}
+
+\noindent For $f = \qty{100}{Hz}$, $A_v = 0.1 $ and $C = \qty{100}{\micro \farad}$
+
+\begin{align}
+	L = \frac{1}{2\pi \cdot (100)^2 \cdot (100 \times 10^{-6}) } \sqrt{ \left( \frac{1}{0.1} \right)^2 - 1 } \approx \qty{2.52}{\henry}
+\end{align}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[clip, trim=0cm 9cm 0cm 7cm, width=\textwidth]{circuito}
+	\caption{}	
+	\label{fig:figura11}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[clip, trim=0cm 0.5cm 0cm 0cm, scale=0.7]{grafica}
+	\caption{}	
+	\label{fig:figura12}
+\end{figure}
+
+\noindent A we can see in the graph on bottom left side, the V(n002) probe shows that at $\qty{100}{\hertz}$ the gain in dB is ( $-19.2$ $\approx -20 dB$)
+
+\noindent Remember that the Gain in dB is given by 
+\begin{align}
+	G_{dB} = 20 \log_{10} A_v
+\end{align}
+
+\noindent Solving for $A_v$
+\begin{align}
+	A_v = 10^{\frac{G_{db}}{20}} = 10 ^{\frac{-20 dB}{20}} = 0.1 
+\end{align}
+
+\end{document}

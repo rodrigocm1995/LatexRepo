@@ -1,0 +1,308 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\graphicspath{{images/}}
+\usepackage{svg}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{tcolorbox}
+\usepackage{pdfpages}
+\title{Conversiones Y-$\Delta$}
+%\author{Rodrigo Castillejos}
+\author{Rodrigo}
+\date{Enero 2025}
+
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Temporizador 555}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\renewcommand{\figurename}{Figura}
+%\usepackage[color=ForestGreen!15,angle=45]{draftwatermark}
+%\SetWatermarkText{CONFIDENTIAL\\COPY FOR\\ POCA POCA}
+%\SetWatermarkScale{2.5}
+
+\usepackage{lipsum}  
+%\usepackage{cmbright}
+%\usepackage{mathpazo}
+%\usepackage{ccfonts,eulervm}
+ \usepackage[T1]{fontenc}
+ \usepackage{ccfonts}
+%\usepackage[math]{anttor}
+%\usepackage{antpolt}
+ %\usepackage{fouriernc}
+%\usepackage[utopia]{mathdesign}
+%---------------------------------------------------
+\tikzset{flipflop myRS/.style={flipflop,
+		 flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, tu={\ctikztextnot{RST}}, nu=1, n4=1 }}
+	}
+	
+\tikzset{flipflop myFFRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, n4=1 }}
+}
+%---------------------------------------------------
+\setlength\parindent{0pt}
+
+
+ \def\normalcoord(#1){coordinate(#1)}
+ \def\showcoord(#1){coordinate(#1) node[circle, red, draw, inner sep=1pt, pin={[red, overlay, inner sep=0.5pt, font=\tiny, pin distance=0.1cm, pin edge={red, overlay}]45:#1}](){}}
+ \let\coord=\normalcoord
+ \let\coord=\showcoord
+
+\begin{document}
+	
+\maketitle
+	
+\noindent\begin{tabular}{@{}ll}
+Author & \theauthor\\
+\end{tabular}
+	
+\section*{Introducción}
+Con frecuencia se encuentran configuraciones de circuito en las que los resistores no aparecen estar en serie o en paralelo. Bajo estas condiciones, podría ser necesario convertir el circuito de una forma u otra para resolver algunas cantidades desconocidas si no se aplica el análisis de nodos o de mallas. Dos configuraciones de circuito que, por lo general presentan dificultades son las configuraciones (Y) y delta ($\Delta$) ilustradas en la figura 1. También se denominan como configuración en "T" y "$\pi$", respectivamente. Observe que la configuración $\pi$ es en realidad una $\Delta$ invertida.
+
+\begin{figure}[H]
+	\begin{tikzpicture}[scale=0.75, transform shape, use fpu reciprocal]
+		\ctikzset{bipoles/thickness=4}
+		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+		\draw (0,0) to[R,o-, l=$R_1$] ++(3,-2.5) coordinate (x1)
+		      to[R,-o, l=$R_3$] ++(0,-3)
+		(x1) to[R, -o, l=$R_3$] ++(3,2.5);
+		%\path (x1) \coord(x1);
+		\draw (6,-5.5) coordinate (d1) to[R, l=$R_C$, o-o] ++(5,0) coordinate (d2);
+		%\path (d1) \coord(d1);
+		%\path (d2) \coord(d2);
+		\draw (d1) to[R, l=$R_B$, o-o] ++(2.5,5.5) 
+		      to[R, l=$R_A$, o-o] (d2);
+		\draw (11,0) to[R, o-, l=$R_1$] ++(3,0) coordinate (t1)
+			  to[R, -o, l=$R_3$] ++(0,-5.5)
+			  (t1) to[R, -o, l=$R_2$] ++(3,0);
+		\draw (18,0) to[short, o-*] ++(1,0) coordinate (pi1)
+			  to[R, -o, l=$R_B$] ++(0,-5.5)
+	    (pi1) to[R, -*, l=$R_C$] ++(3,0) coordinate (pi2)
+	    	  to[R, -o, l=$R_A$] ++(0,-5.5)
+	    (pi2) to[short, *-o] ++(1,0);
+			  
+	\end{tikzpicture}
+	\caption{Configuraciones Y(T) y $\Delta$ ($\pi$)}	
+	\label{fig:figura1}
+\end{figure}
+
+ El objetivo es desarrollar las ecuaciones para convertir de la configuración $\Delta$ a la configuración Y y viceversa. Refiriéndose a la figura 2, con las terminales $a$, $b$ y $c$ mantenidas, si se deseara la configuración en Y \textit{en lugar de} la configuración $\Delta$, sólo sería necesario una aplicación directa de las ecuaciones que a continuación se desarrollarán. \\
+ 
+ El propósito de este análisis es encontrar alguna expresión para $R_1$, $R_2$ y $R_3$ en términos de $R_A$, $R_B$ y $R_C$ y viceversa. Así, si se desea encontrar la resistencia equivalente entre dos terminales cualquiera de la configuración en $Y$ se tendrá la certeza de que esa resistencia equivalente será la misma que la de la configuración en $\Delta$ y viceversa.
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\begin{tikzpicture}[scale=1, transform shape, use fpu reciprocal]
+ 		\ctikzset{bipoles/thickness=4}
+ 		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+ 		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+ 		\draw (0,0) node[left,color=red]{$a$} to[R, l=$R_C$, *-*]  ++(6,0) coordinate (p1) node[color=red,right]{$b$}
+ 			  to[R, l=$R_A$, *-*] ++(-3,-6) coordinate (p3) node[below,color=red]{$c$}
+ 			  to[R, l=$R_b$] (0,0);
+ 		\draw (0,0) to[R, l=$R_1$, *-*] ++(3,-1.5) coordinate (p2)
+ 			  to[R, l=$R_2$] (p1)
+ 		(p2) to[R, l=$R_3$] (p3);
+ 		
+ 	\end{tikzpicture}
+ 	\caption{Introducción del concepto de conversiones $\Delta$-$Y$ o $Y$-$\Delta$}	
+ 	\label{fig:figura2}
+ \end{figure}
+ 
+Considere lass terminales $a-c$ en las configuraciones $\Delta$ y $Y$ de la figura 3.
+
+ \begin{figure}[H]
+	\begin{tikzpicture}[scale=0.8, transform shape, use fpu reciprocal]
+		\ctikzset{bipoles/thickness=4}
+		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{nodes width=0.07}%small
+		%\ctikzset{open poles fill=cyan!10}
+		components, big nodes
+		\node[draw,minimum width=7cm,minimum height=6cm, anchor=north west, fill=cyan!10, draw=cyan!10] at (-0.5,0.5){};
+		\draw (0,0) node[above]{$a$} to[R, l=$R_1$, o-] ++(3,-2) coordinate (y1)
+			  to[R, l=$R_2$, -o] ++(3,2) node[above]{$b$}
+	    (y1) to[R, l=$R_3$, -o] ++(0,-3) coordinate (y2) node[below=0.1cm]{$c$};
+	    \draw (0,0) to[short, o-o] ++(-1,0) coordinate (p1);
+	    \draw (y2) to[short, o-o] ++(-4,0) coordinate (p2);
+	    \coordinate (M) at ($(p1)!0.5!(p2)$);
+	    %\draw (M) node[above]{hola};
+	    \draw  [magenta, ->] (M)++(-1,0) node[magenta,above right]{$R_{a-c}$} -- ++(1,0) ;
+	    \draw  [<-] (4.8,-1.5) -- ++(0, -1) node[align=left,right=0.2cm,below=0.1cm]{Externa a la\\ trayectoria de\\ medición};
+	    
+	    \node[draw,minimum width=5cm,minimum height=6cm, anchor=north west, fill=cyan!10, draw=cyan!10] at (8,0.5){};
+	    \draw (8.5,0) coordinate (o1) node[above]{$a$} to[R, o-o, l_=$R_C$] ++(4,0) node[above]{$b$}
+	    	  to[R, o-o, l=$R_A$] ++(-2,-5) coordinate (d1);
+	    \draw(8.5,0) to[R, o-o, l=$R_B$] (d1) node[below=0.1cm]{$c$};
+	    \draw  [magenta, ->] (M)++(7.8,0) node[magenta,above right]{$R_{a-c}$} -- ++(1,0) ;
+	    \draw (o1) to[short, o-o] ++(-1,0) coordinate (o2);
+	    \draw (d1) to[short,o-o] (d1 -| o2);
+	    
+	    \node[draw,minimum width=5cm,minimum height=6cm, anchor=north west, fill=cyan!10, draw=cyan!10] at (14.8,0.5){};
+	    \draw (o1)++(7,-1) coordinate (c1) to[R, l=$R_B$, o-o] ++(2,-4) coordinate(c2);
+	    \draw (c1) node[above]{$a$} to[short,o-] ++(2,1) coordinate(c4);
+	    \draw (c2) to[short,o-] ++(2,1) coordinate (c3);
+	    \coordinate (M1) at ($(c4)!0.5!(c3)$);
+	    \draw (c4) to[R, -o, l=$R_C$] (M1) node[,right=0.1cm,above]{$b$} to[R,o-, l=$R_A$] (c3);
+	    \draw (c1) to[short, o-o] ++(-1,0) coordinate (o3);
+	    \draw (c2) node[below=0.1cm]{$c$} to[short, o-o] (c2 -| o3);
+	    \draw  [magenta, ->] (M)++(14.5,0) node[magenta,above right]{$R_{a-c}$} -- ++(1,0) ;
+	    %\path (o1) \coord(o1);
+	    %\path (c1) \coord(c1);
+	    %\path (c2) \coord(c2);
+	    %\path (c3) \coord(c3);
+	    %\path (c4) \coord(c4);
+	\end{tikzpicture}
+	\caption{Descubirmiento de la resistencia $R_{a-c}$ para las configuraciones $Y$ y $\Delta$.}	
+	\label{fig:figura3}
+\end{figure}
+ 
+Primero, se supone que sedea convertir la configuración $\Delta$ ($R_A$, $R_B$, $R_C$) a la configuración  $Y$ ($R_1$, $R_2$, $R_3$). Esto requiere tener una relación para $R_1$, $R_2$ y $R_3$ en términos de $R_A$, $R_B$ y $R_C$. Para ambas configuraciones ($\Delta$ y $Y$) debe cumplirse que la resistencia entre las terminales $a \text{-} c$ sea la misma, es decir:
+
+\begin{align}
+	R_{a \text{-} c}(Y) = R_1 + R_3
+\end{align}
+
+\begin{align}
+	R_{a \text{-} c}(\Delta) = R_B \parallel (R_A + R_C) = \frac{R_B (R_A + R_C)}{R_A + R_B + R_C}
+\end{align}
+
+Por lo tanto
+
+\begin{align}
+		R_{a \text{-} c}(Y) = R_{a \text{-} c}(\Delta)
+\end{align}
+
+O bien
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		R_{a \text{-} c}= R_1 + R_3 = \frac{R_B (R_A + R_C)}{R_A + R_B + R_C}
+	\end{equation}
+\end{tcolorbox}
+
+Se obtienen las siguientes relaciones utilizando el mismo método para $a \text{-} b$ y $b \text{-} c$ 
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		R_{a \text{-} b}= R_1 + R_2 = \frac{R_C (R_A + R_B)}{R_A + R_B + R_C}
+	\end{equation}
+\end{tcolorbox}
+
+y
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		R_{b \text{-} c}= R_2 + R_3 = \frac{R_A (R_B + R_C)}{R_A + R_B + R_C}
+	\end{equation}
+\end{tcolorbox}
+
+¿Y cómo obtenemos los valores individuales para $R_1$, $R_2$ y $R_3$? Primero restamos la ecuación (5) de la ecuación (4), es decir:
+
+\begin{align}
+	(R_1 + R_2) - (R_1 + R_3) &= \frac{R_C (R_A + R_B)}{R_A + R_B + R_C} - \frac{R_B (R_A + R_C)}{R_A + R_B + R_C} \\
+	R_2 - R_3 &= \frac{R_C(R_A + R_B) - R_B(R_A + R_C)}{R_A + R_B + R_C} \\
+	R_2 - R_3 &= \frac{R_AR_C + R_BR_C - R_AR_B - R_BR_C}{R_A + R_B + R_C}
+\end{align}
+
+Dando como resultado
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		R_2 - R_3 = \frac{R_A(R_C - R_B)}{R_A + R_B + R_C}
+	\end{equation}
+\end{tcolorbox}
+
+Ahora restamos la ecuación (6) de la ecuación (10)
+
+\begin{align}
+	(R_2 + R_3) - (R_2 - R3) &=  \frac{R_A (R_B + R_C)}{R_A + R_B + R_C} - \frac{R_A(R_C - R_B)}{R_A + R_B + R_C} \\
+	2R_3 &= \frac{R_A(R_B + R_C) - R_A(R_C - R_B)}{R_A + R_B + R_C} \\
+	2R_3 &= \frac{R_A(R_B + R_C - (R_C - R_B))}{R_A + R_B + R_C} \\
+	2R_3 &= \frac{R_A(2R_B)}{R_A + R_B + R_C} \\
+\end{align}
+
+De manera que
+
+\begin{align}
+	2R_3 = \frac{2R_AR_B}{R_A + R_B + R_C}
+\end{align}
+
+Dando por resultado la siguiente expresión para $R_3$ en términos de $R_A$, $R_B$ y $R_C$
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		R_3 = \frac{R_AR_B}{R_A + R_B + R_C}
+	\end{equation}
+\end{tcolorbox}
+
+Despejamos $R_2$ de la ecuación (10) para obtener:
+\begin{align}
+	R_2 = \frac{R_A(R_C - R_B)}{R_A + R_B + R_C} + R_3
+\end{align}
+
+Sustituimos la ecuación (17) en (18)
+\begin{align}
+	R_2 = \frac{R_A(R_C - R_B)}{R_A + R_B + R_C} + \frac{R_AR_B}{R_A + R_B + R_C}
+\end{align}
+
+Donde
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		R_2 = \frac{R_AR_C}{R_A + R_B + R_C}
+	\end{equation}
+\end{tcolorbox}
+
+Por último, podemos despejar $R_1$ de la ecuación (5)
+
+\begin{align}
+	R_1 = \frac{R_B(R_A + R_B)}{R_A + R_B + R_C} - R_2
+\end{align}
+
+Ahora sustituimos la ecuación (20) en (21)
+
+\begin{align}
+R_1 = \frac{R_C(R_A + R_B)}{R_A + R_B + R_C} - \frac{R_AR_C}{R_A + R_B + R_C}
+\end{align}
+
+Dando como resultado
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		R_1 = \frac{R_bR_C}{R_A + R_B + R_C}
+	\end{equation}
+\end{tcolorbox}
+
+
+\end{document}

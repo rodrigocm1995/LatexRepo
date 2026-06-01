@@ -1,0 +1,192 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\title{Power Electronics Circuit Analysis and Design  }
+\author{Rodrigo}
+\date{Agosto 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Problem Resolution}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+		Chapter &  2 - Review of Switching Concepts and Power Semiconductor Devices\\
+		Example & 2.4 - pp. 45
+	\end{tabular}
+	
+	\section*{Ejercicio 2-4}
+	Una de las aplicaciones crecientes en la electrónica de potencia es la atenuación de luz, donde la potencia promedio aplicada a la lámpara varía para cambiar la intensidad de la luz. La figura 1 muestra un circuito simplificado el cual atenua la intensidad de luz de una lámpara incandescente. La figura 1(b) muestra las formas de onda típica del voltaje de entrada y salida. Al variar el ángulo de fase $\alpha$ se puede mostrar que la potencia promedio liberada a la lámpara puede variar de $0\%$ a $100\%$. Así, se puede lograr de manera teórica una atenuación en el rango entero. Asuma que la lámpara incandescente actúa como una carga puramente resistiva, sea el voltaje de entrada $v_s(t) = V_p \sin \omega t = 120 \sqrt{2} \sin (120 \pi t) V$ y la máxima potencia de la lámpara es $P_{L, max} = \qty{100}{\watt}$. \\
+	
+	\noindent Determine la expresión para el valor rms del voltaje de salida 
+	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\draw (0,0)++(0,-3) coordinate (ori) to[sV, l=$V_{s}(t)$] ++(0,5)
+			      to[short, i=$i_s(t)$] ++(3,0) node[cuteopenswitchshape, anchor=in](sw){};
+			\draw[{Latex[length=3mm]}-](sw.mid)-- ++(0,-1.5) coordinate(p1); %vo
+			\draw (sw.mid) to[short] ++(0,-1);
+			\draw [black,thick] (p1)++(-1.5,0) rectangle ++(3,-1.2); 
+			\path (p1)++(-1.5,0) node [below right] {$control \, the$};
+			\path (p1)++(-1.5,-0.5) node [below right] {$phase \, angle \, \alpha$};
+			\draw (sw.out) to[short] ++(3,0)
+			      to[bulb, v^=$v_o(t)$] ++(0,-5) -- (ori);
+			      %to[short] ++(0,-1.8) node[bulbshape, anchor=left, rotate=-90](b1){};
+			%\draw (b1.right) to[short] (b1.right |- ori) -- (0,0);
+			\path (sw.mid) node [above=0.3cm] {$sw$};
+			
+			\pgfplotsset{width=9cm,compat=1.18}
+			\begin{axis}[xshift=10cm,
+				yshift=0cm,
+				clip=false,
+				axis y line=left,
+				axis x line=middle,
+				xlabel=$\omega t$,
+				ylabel=$v_s(t)$, 
+				axis y line= center,
+				xmin=0,xmax=3*pi,
+				ymin=-1.5,ymax=1.5,
+				xtick={0.7,3.1416,6.2831, 6.9831},
+				xticklabels={$\,\,\,\,\,\,\alpha$,$\,\,\,\,\,\, \pi$,$\,\,\,\,\,2\pi$,$\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, 2\pi + \alpha$},
+				ytick={1},
+				yticklabels={$V_p$},
+				]
+				\addplot[smooth, magenta,thick, mark=none, domain=0:2.5*pi, samples=200] {sin(deg(x))};
+				\addplot[color = black, dashed, thick] coordinates {(0.7,0.6442) (0.7,-3)}; %vertical1 alpha
+				\addplot[color = black, dashed, thick] coordinates {(3.84159,-0.6442) (3.84159,-4)}; %vertical2 pi + alpha
+				\addplot[color = black, dashed, thick] coordinates {(3.14159,0) (3.14159,-3.35)}; %vertical3 pi
+				\addplot[color = black, dashed, thick] coordinates {(1.57079,1) (1.57079,-2.4)}; %vertical4 pi/2
+				\addplot[color = black, dashed, thick] coordinates {(4.71238,-1) (4.71238,-4.4)}; %vertical5 3pi/2
+				\addplot[color = black, dashed, thick] coordinates {(2*pi,0) (2*pi,-3.35)}; %vertical5 2pi
+				\addplot[color = black, dashed, thick] coordinates {(6.98318,0.6442) (6.98318,-3.35)}; %vertical5 2pi + alpha
+				%\draw[<-](0.55, 0.05)--(0.7, 0.3); %vo
+				%\node[anchor=west] at (axis cs:0.6,0.4){$\beta V_{CC}$};
+				%\addplot[color = black, dashed, thick] coordinates {(0.5,1) (1,1)}; %horizontal1
+				%\node[anchor=west] at (axis cs:1,1){$V_{CC}$};
+			\end{axis}
+			
+			\pgfplotsset{width=9cm,compat=1.18}
+			\begin{axis}[xshift=10cm,
+				yshift=-7cm,
+				clip=false,
+				axis y line=left,
+				axis x line=middle,
+				xlabel=$\omega t$,
+				ylabel=$v_o(t)$, 
+				axis y line= center,
+				xmin=0,xmax=3*pi,
+				ymin=-1.5,ymax=1.5,
+				xtick={0.7,3.1416,6.2831, 6.9831},
+				xticklabels={$\,\,\,\,\,\,\alpha$,$\,\,\,\,\,\, \pi$,$\,\,\,\,\,2\pi$,$\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, 2\pi + \alpha$},
+				ytick={1},
+				yticklabels={$V_p$},
+				]
+				\addplot[smooth, magenta, thick, mark=none, domain=0.7:pi, samples=200] {sin(deg(x))};
+				\addplot[smooth, magenta, thick, mark=none, domain=3.8415926:2*pi, samples=200] {sin(deg(x))};
+				\addplot[smooth, magenta, thick, mark=none, domain=(2*pi + 0.7):(2*pi + 1.5), samples=200] {sin(deg(x))};
+				\addplot[color = magenta, thick] coordinates {(0,0) (0.7,0)}; %horizontal1
+				\addplot[color = magenta, thick] coordinates {(3.14159,0) (3.84159,0)}; %horizontal2
+				\addplot[color = magenta, thick] coordinates {(2*pi,0) (6.98318,0)}; %horizontal3
+				\addplot[color = magenta, thick] coordinates {(0.7,0) (0.7,0.6442)}; %vertical1
+				\addplot[color = magenta, thick] coordinates {(3.84159,0) (3.84159,-0.6442)}; %vertical2
+				\addplot[color = magenta, thick] coordinates {(6.98318,0) (6.98318,0.6442)}; %vertical3
+				%\draw[<-](0.55, 0.05)--(0.7, 0.3); %vo
+				%\node[anchor=west] at (axis cs:0.6,0.4){$\beta V_{CC}$};
+				%\node[anchor=west] at (axis cs:1,1){$V_{CC}$};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\section*{Answer}
+	La corriente fluye en ambas direcciones dado que la carga (la lámpara incandescente) es puramente resistiva. Esto significa que el interruptor debería permitir un flujo de corriente bidireccional. Además, cuando el interruptor no esté conduciendo, este debería ser capáz de bloquear los semiciclos positivos y negativos de voltaje. Afortunadamente existe un dispositivo capaz de soportar un flujo de corriente bidireccional así como bloquear los voltajes bidireccionales. Este dispositivo es conocido como TRIAC.
+	
+	El voltaje de salida $v_o(t)$ se obtiene por inspección como sigue
+	
+	\begin{align}
+			v_O= \left\{ 
+		    \begin{array}{lccc} 
+		       0, & 0 \leq \omega t \leq \alpha & and  & \pi \leq \omega t \leq \pi + \alpha \\
+			   v_s(t), & \alpha \leq \omega t \leq \pi & and  & \pi + \alpha \leq \omega t \leq 2\pi 
+		    \end{array} \right.
+	\end{align}
+	
+	\noindent Debido a la simetría de $v_o(t)$, el voltaje rms de la señal de salida se puede escribir como
+	
+	\begin{align}
+		V_{o(rms)} = \sqrt{\frac{1}{T} \int_{0}^{T}v_o^2 (t) dt}
+	\end{align}
+	
+	\noindent O bien
+	
+	\begin{align}
+		V_{o(rms)} = \sqrt{\frac{1}{\pi} \int_{\alpha}^{\pi}V_p^2 \sin (\omega t) d(\omega t)}
+	\end{align}
+	
+	\noindent Dada una inetgral de la forma $\int {\sin^m v \, dv}$, en estas integrales cuando la potencia es un número par, se utilizan las identidades trigonométricas del doble de un ángulo
+	
+	\begin{align}
+		\sin^2 v = \frac{1}{2} - \frac{1}{2} \cos 2v 
+	\end{align} 
+	
+	\noindent Por lo tanto la integral $\int \sin ^2 (\omega t) \, d (\omega t)$ puede expresarse como
+	
+	\begin{align}
+		\int \sin ^2 (\omega t) \, d (\omega t) &= \int  \left[ \frac{1}{2} - \frac{1}{2} \cos (2\omega t) \right] = \int {\frac{1}{2} d(\omega t) - \frac{1}{2} \int {\cos (2\omega t) d(\omega t)}  } \nonumber\\
+		&= \frac{1}{2} (\omega t) - \frac{1}{4}\sin(2 \omega t)
+	\end{align}
+	
+	\noindent Al sustituir el resultado de la ecuación (5) en (3) obtenemos
+	
+	\begin{align}
+			V_{o(rms)} &= \sqrt{\frac{V_p^2}{\pi} \left.{\left[ \frac{1}{2} (\omega t) -  \frac{1}{4} \sin (2\omega t) \right]}\right|_{\;\alpha}^{\;\pi}} = \sqrt{\frac{V_p^2}{\pi} \left[ \frac{\pi}{2} - \frac{\sin (2\pi)}{4} - \frac{\alpha}{2}  + \frac{\sin (2 \alpha)}{4}\right]} \nonumber \\
+			&= V_p \sqrt{ \frac{1}{2} - \frac{\sin (2 \pi)}{4 \pi} - \frac{\alpha}{2 \pi} + \frac{sin (2\alpha)}{4 \pi} } = V_p \sqrt{ \frac{1}{2} \left[1 - \frac{\sin (2 \pi)}{2 \pi} - \frac{\alpha}{\pi} + \frac{sin (2\alpha)}{2 \pi} \right]  } \nonumber
+	\end{align}
+	
+	Es decir
+	
+	\begin{align}
+		\frac{V_p}{\sqrt{2}} \sqrt{1 - \frac{\alpha}{\pi} + \frac{\sin (2 \alpha)}{2 \pi}} = V_{s(rms)} \sqrt{1 - \frac{\alpha}{\pi} + \frac{\sin (2 \alpha)}{2 \pi}}
+	\end{align}
+\end{document}

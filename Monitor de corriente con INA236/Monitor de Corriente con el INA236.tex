@@ -1,0 +1,752 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+\usepackage{siunitx}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\setlength{\parindent}{0pt}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\newcommand{\listingsttfamily}{\fontfamily{NotoSansMono-TLF}\small}
+\lstdefinestyle{CStyle}{
+	language=C,
+	backgroundcolor=\color{backgroundColour},   
+	commentstyle=\color{mGreen},
+	stringstyle=\color{mPurple},
+	keywordstyle=\color{magenta},
+	keywordstyle = [2]{\color{blue}},
+	keywordstyle = [3]{\color{blue}},
+	numberstyle=\tiny\color{mGray},
+	otherkeywords = {uint8_t,uint16_t,_Bool},
+	morekeywords = [2]{uint8_t,uitn16_t},
+	morekeywords = [3]{.},
+	basicstyle=\listingsttfamily,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=1,
+}
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{Proyecto - Monitor de corriente con el INA236}} % The article title
+
+%\subtitle{Subtitle} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+\maketitle % Print the title/author/date block
+
+\setcounter{tocdepth}{2} % Set the depth of the table of contents to show sections and subsections only
+
+\tableofcontents % Print the table of contents
+
+\listoffigures % Print the list of figures
+
+\listoftables % Print the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\newpage
+\section*{Resumen} % This section will not appear in the table of contents due to the star (\section*)
+
+Este documento presenta el diseño e implementación de un sistema de medición de corriente basado en el monitor de potencia, corriente y voltaje ultra preciso de 16 bits con interfaz $I^2C$, el INA236 de Texas Instruments. Se abordará la creación de una librería en lenguaje C para la correcta comunicación entre el INA236 y una placa de desarrollo de STMicroelectronics (Nucleo 64) equipada con el microcontrolador STM32F303XX, aprovechando sus periféricos $I^2C$ y sus capacidades de procesamiento para aplicaciones de adquisición de datos. La librería permitirá no solo la lectura de corriente, voltaje y potencia, sino también la configuración dinámica del valor del resistor shunt , lo que facilita la adaptación del sistema a diferentes rangos de corriente sin modificar el hardware. \\
+El diseño incluirá el cálculo del resistor de shunt además de la configuración de los registros internos del INA236 para ajustar las resoluciones y los rangos dinámicos. Finalmente, se desarrollará un diseño de PCB en Altium Designer. Este trabajo integra hardware, software y diseño electrónico para ofrecer una solución robusta en aplicaciones de monitoreo energético.
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR AFFILIATIONS
+%----------------------------------------------------------------------------------------
+
+\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+
+\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+
+%----------------------------------------------------------------------------------------
+
+\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+
+\section{Introducción}
+
+\subsection{¿Qué es un amplificador de detección de corriente?}
+Los amplificadores de detección de corriente (\textit{current sense amplifiers}), también llamados monitores de derivación de corriente (\textit{current shunt monitors}) son amplificadores diferenciales especializados con una red de ganancia resistiva adaptada con precisión con las siguientes características.
+
+\begin{itemize}
+	\item Diseñados para monitorear el flujo de corriente midiendo la caída de voltaje a través de un elemento sensor, generalmente una resistencia de derivación o resistencia \textit{shunt}.
+	
+	\item Suelen ser más fáciles de usar, más precisos y menos propensos al ruido. 
+	
+	\item Soporta corrientes desde decenas de $\mu A$ hasta cientos de $A$.
+	
+	\item Admite de forma nativa voltajes de modo común desde $-16$ a $+80 \, V$ y con circuitería adicional hasta cientos de volts.
+\end{itemize}
+
+\subsection{Parámetros clave}
+
+\begin{description}
+	\item[Rango de modo común] Esta especificación define el rango de voltaje de DC en la entrada del amplificador con respecto a tierra. Los amplificadores de detección de corriente se diseñan típicamente para soportar voltajes de modo común muy superiores a la tensión de alimentación del chip. Por ejemplo, el $INA240$ es capáz de soportar un voltaje de modo común de entre $\qty{-4}{\volt}$ hasta $\qty{+80}{\volt}$ mientras funciona con una fuente de alimentación de tan sólo $\qty{2.7}{\volt}$.
+	
+	\item[Voltaje de compensación (offset)] Este es un error diferencial de DC en la entrada del amplificador. Historicamente, para reducir el impacto de los amplificadores con desajustes (\textit{offset}) altos, se utilizaban resistencias \textit{shunt} de mayor valor para aumentar la caída de tensión medida. Hoy en día, se ofrecen amplificadores de detección de corriente con desfases de tan sólo $\qty{10}{\micro \volt}$, lo que permite mediciones de mayor precisión a bajas corrientes y el uso de resistencias \textit{shunt} de menor valor para mejorar la eficiencia del sistema.
+	
+	\item[Ganancia] Los amplificadores de detección de corriente incorporan diversas opciones de ganancia que ofrecen un rendimiento robusto frente a variaciones de temperatura y proceso, gracias a la integración de una red de ganancia resistiva de ajuste preciso. Las opciones de ganancia para amplificadores de ganancia fija varían de $\qty{0.125}{\volt/\volt}$ a $\qty{1000}{\volt/\volt}$ con errores de ganancia de tan sólo $\qty{0.01}{\percent}$
+	
+	\item[Estabilidad de temperatura] Los amplificadores de detección de corriente integran el amplificador con todas las resistencias de ajuste de ganancia, lo que permite una desviación de temperatura pequeña y uniforme. Esto permite mediciones de corrientes robustas en todo el rango de temperatura especificado. La estabilidad de temperatura lograda es una de las principales ventajas de los amplificadores de detección de corriente sobre las implementaciones discretas.
+\end{description}
+
+\subsection{Tipos de mediciones de corriente}
+
+\subsubsection{Medición en el lado alto (high-side)}
+Esta técnica permite monitorear la corriente colocando el elemento sensor entre lado positivo del voltaje de bus y la carga. \\
+
+\noindent \textbf{Ventajas}
+\begin{itemize}
+	\item Capaz de detectar cortocircuito a tierra en la carga.
+	\item La corriente se monitorea directamente desde la fuente.
+	\item Alta inmunidad a perturbaciones con respecto a tierra.
+\end{itemize}
+
+\noindent \textbf{Retos}
+
+\begin{itemize}
+	\item El alto voltaje de bus limita la disponibilidad de dispositivos con alto voltaje de entrada de modo común.
+\end{itemize}
+
+\noindent \textbf{Ventajas sobre circuitos de detección de corriente discretos}
+
+\begin{itemize}
+	\item Las resistencias de ganancia integradas proporcionan una excelente adaptación para permitir un mayor rendimiento.
+	\item Reducción en los requisitos de espacio en la placa.
+	\item La arquitectura de entrada única permite que el voltaje de modo común supere en gran medida el voltaje de alimentación del circuito.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[clip, trim=1cm 14cm 7cm 3cm, width=0.5\columnwidth]{high-side.pdf}
+	\caption[Ejemplo de medición de corriente de lado alto (high-side).]{Medición de corriente de lado alto.}	
+	\label{fig:figura1}
+\end{figure}
+
+\subsubsection{Medición en el lado bajo}
+Esta técnica permite monitorear la corriente colocando el elemento sensor entre la carga y tierra.
+
+\noindent \textbf{Ventajas}
+\begin{itemize}
+	\item Simple de implementar y solución de bajo costo.
+	\item Amplio rango de opciones disponibles.
+\end{itemize}
+
+\noindent \textbf{Retos}
+
+\begin{itemize}
+	\item Difícil de detectar cortocircuitos a tierra en la carga.
+	\item  Perturbaciones en el sistema a tierra por la resistencia de derivación.
+\end{itemize}
+
+\noindent \textbf{Ventajas sobre circuitos de detección de corriente discretos}
+
+\begin{itemize}
+	\item Las resistencias de ganancia integradas proporcionan una excelente adaptación para permitir un mayor rendimiento.
+	\item Reducción en los requisitos de espacio en la placa.
+	\item Detecta una verdadera medición diferencial a través de la resistencia \textit{shunt}.
+	\item Un $V_{OFFSET}$ más bajo ahoraa energía del sistema al permitir el uso de resistencias \textit{shunt} de menor valor para logar el mismo nivel de error.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[clip, trim=1cm 11cm 5cm 4cm, width=0.5\columnwidth]{low-side.pdf}
+	\caption[Ejemplo de medición de corriente de lado bajo (low-side).]{Medición de corriente de lado bajo.}	
+	\label{fig:figura2}
+\end{figure}
+
+Las mediciones de corriente se utilizan en sistemas electrónicos para proporcionar retroalimentación que verifique que el funcionamiento se encuentre dentro de los márgenes aceptables y para detectar posibles fallos. El análisis de nivel de corriente de un sistema permite diagnosticar modos de funcionamiento imprevistos o inesperados, lo que permite realizar ajustes para mejorar la fiabilidad o proteger los componentes del sistema contra daños. \\
+
+La corriente es una señal difícil de medir directamente. Sin embargo, existen varios métodos de medición que permiten medir el efecto del flujo de corriente. La corriente que pasa por un cable produce un campo magnético que puede detectarse mediante sensores magnéticos (por ejemplo, de efecto Hall y de compuerta de flujo). La corriente también puede medirse midiendo el voltaje que se desarrolla en una resistencia al pasar la corriente. Este tipo de resistencia se denomina resistencia de detección de corriente (\textit{current sensing}) o resistencia de derivación (\textit{shunt}). \\
+
+Para rangos de corriente de hasta 100 amperios en rangos de tensión inferiores a 100 voltios, se suele preferir la medición de corriente con resistencias en derivación. Este método suele proporcionar una medición físicamente más pequeña, más precisa y con mayor estabilidad térmica en comparación con una solución magnética. \\
+
+Para evaluar y analizar la información actual del sistema, es necesario digitalizarla y enviarla al controlador. Existen diversos métodos para medir y convertir la señal generada a través de la resistencia \textit{shunt}. El método más común consiste en utilizar un front-end analógico para convertir la señal diferencial de la resistencia de detección de corriente en una señal unipolar. Esta señal unipolar se conecta a un convertidor analógico-digital (ADC) conectado a un microcontrolador. La Figura 1 ilustra la cadena de señales de detección de corriente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[clip, trim=2cm 14cm 1cm 5cm, width=1.0\columnwidth]{currentMeasurement.pdf}
+	\caption[Ruta de la señal de detección de corriente]{Ruta de la señal de detección de corriente.}	
+	\label{fig:figura3}
+\end{figure}
+\newpage
+
+\section{Diseño de librería para el INA236}
+
+Uno de los beneficios de crear definiciones de clases es que, al empaquetarse correctamente, otros programadores pueden reutilizarlas.
+
+\subsection{Headers}
+Los archivos escritos en \texttt{C} o \texttt{C++} normalmente consisten de un archivo \texttt{.c} o \texttt{.cpp}, tambien conocidos como \textbf{archivo de código fuente} (source-code file) que contienen la definición de la función \texttt{main}, así como definiciones de \textit{clases} y otras funciones para la ejecución de un determinado programa.
+Al crear un programa orientado a objetos, se suele definir un código fuente reutilizable (como una clase) en un archivo que, por convención, tiene la extensión \texttt{.h} conocido como encabezado (\textit{header}). Los programas usan las directivas de preprocesador \texttt{\#include} para incluir encabezados y tomar ventaja de componentes de software reutilizables.
+
+\subsection{Desarrollando la estructura del header para el INA236}
+
+La directiva \texttt{\#ifndef} se utiliza para comprobar si no se ha definido una macro con anterioridad. Si el identificador especificado no está definido como una macro, las líneas de código inmediatamente después de la condición se pasan al compilador.
+
+Por lo tanto, para evitar incluir múltiples inclusiones del mismo header dentro de la unidad de compilación, incluya las siguientes definiciones. Estas serán las primeras líneas de cada encabezado.
+
+
+\begin{lstlisting}[firstnumber=1,style=CStyle]
+#ifndef _INA236_H_
+#define _INA236_H_
+
+// Declarations go here
+
+#endif
+\end{lstlisting}
+
+La directiva \texttt{\#endif} se usa para marcar el final del bloque de código que ha sido incluido condicionalmente por la directiva \texttt{\#ifndef}.
+Para el especificador, incluya un nombre acorde con el sensor, componente o módulo que esté desarrollando, y procure colocarlo en mayúsculas.
+
+Ahora definimos diferentes constantes y macros  
+
+\subsection{header}
+\begin{lstlisting}[firstnumber=1,style=CStyle]
+/**
+*******************************************************************
+* @file           : INA236.h
+* @brief          : INA236 Library
+*******************************************************************
+
+The INA236 is a 16-bit digital current monitor with an I2C interface that is compliant with a wide range of digital bus voltage such as 1.2V, 1.8V, 3.3V, and 5.0V. The device monitors the voltage across an external sense resistor and reports values for current, bus voltage, and power
+
+@details
+
+- High-side or low-side current sensing 
+- Operates from a 1.7V to 5.5V power supply
+- Reports current, voltage and power
+- Programmable full scale range: 20mV / 80mV
+- 16-bit ADC resolution
+- 0.1% gain error (maximum)
+- 5uV offset (maximum)
+- Low input bias current: 10nA (maximum)
+- Configurable averaging options
+- General call addressing allows convertion synchronization among devices
+- Alert limits for over and under current events
+- 1.2V compliant I2C bus, SMBus interface
+- Two device address options with a 4-pin selectable address
+- Operating temperature: -40 C y +125 C 
+ 
+* @example
+* INA236_CALIBRATION_REGISTER is calculated based on the next equation
+* SHUNT_CAL = 0.00512/(Current_LSB x Rshunt).......................(1)
+
+Where:
+*   0.00512 is an internal fixed value used to ensure scaling is maintained properly
+*   Current_LSB is a selected value for the current step size in A. Must be greater than or equal to CURRENT_LSB (minimum), but less than 8 x CURRENT_LSB (minimun) to  reduce resolution loss.
+*   The SHUNT_CAL must be divided by 4 for ADCRANGE = 1
+ 
+* CURRENT_LSB (minimum) = Maximum Expected Current / 2^15..........(2)
+ 
+* After programming the SHUNT_CAL register with the calculated value, the measured current in amperes can be read from the CURRENT register. Use equation (3) to calculate the final value scaled by the CURRENT_LSB:
+ 
+* Current[A] = CURRENT_LSB x CURRENT...............................(3)
+  
+Where:
+*   CURRENTis the value read from the CURRENT register
+ 
+@Design Parameters
+- Power Supply Voltage (Vs)        = 3.3V
+- Bus Supply  rail (VCM)           = 12V
+- Average Current                  = 6A
+- OverCurrent fault threshold      = 9A
+- Maximum current monitored (Imax) = 10A
+- ADC Range Selection (Vsense_max) = +-81.92mV 
+ 
+* 1. Select the Shunt Resistor
+* 
+* Rshunt < V_SENSE_MAX / I_MAX ....................................(4)
+* 
+*******************************************************************
+*/
+
+
+#ifndef INC_INA236_H_
+#define INC_INA236_H_
+
+#define INA236_DEFAULT_ADDRESS          0x40
+#define INA236_TRIALS                   5
+#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
+
+// Registers
+#define INA236_CONFIGURATION_REGISTER   0x00
+#define INA236_SHUNT_VOLTAGE_REGISTER   0x01
+#define INA236_BUS_VOLTAGE_REGISTER     0x02
+#define INA236_POWER_REGISTER           0x03
+#define INA236_CURRENT_REGISTER         0x04
+#define INA236_CALIBRATION_REGISTER     0x05
+#define INA236_MASK_ENABLE_REGISTER     0x06
+#define INA236_ALERT_LIMIT_REGISTER     0x07  // Contains the value used to compare to the register selected in the Mask/Enable Register to determine if a limit has been exceeded 
+#define MANUFACTURER_ID_REGISTER        0x3E  // Reset Value: 5449h
+#define DEVICE_ID_REGISTER              0x3F  // Reset Value: A080h
+
+#define INA236_CONFIG_RESERVED          0x4000
+
+// Mask_Enable Register
+#define INA236_SHUNT_OVER_LIMIT         0x8000 // Setting this bit high configures the ALERT pin to be asserted if the shunt voltage conversion result exceeds the value programmed in the LIMIT register
+#define INA236_SHUNT_UNDER_LIMIT        0x4000 // Setting this bit high configures the ALERT pin to be asserted if the shunt voltage conversion result is below the value programmed in the LIMIT register 
+#define INA236_BUS_OVER_LIMIT           0x2000 // Setting this bit high configures the ALERT pin to be asserted if the bus voltage conversion result exceeds the value programmed in the LIMIT Register.
+#define INA236_BUS_UNDER_LIMIT          0x1000 // Setting this bit high configures the ALERT pin to be asserted if the bus voltage conversion result is below the value programmed in the LIMIT register.
+#define INA236_POWER_OVER_LIMIT         0x0800 // Setting this bit high configures the ALERT pin to be asserted if the power result exceeds the value programmed in ther LIMIT register.
+#define INA236_CONVERSION_READY         0x0400 // Setting this bit high configures the ALERT pin to be asserted  when the Conversion Ready flag , bit 3, is asserted indicating that the device is ready for the next conversion.
+#define INA236_MEM_ERROR                0x0020 // CRC or ECC error
+#define INA236_ALERT_FUNCTION_FLAG      0x0010  
+#define INA236_CONVERSION_READY_FLAG    0x0008
+#define INA236_MATH_OVER_FLOW           0x0004 // This bit is set to '1' if an arithmetic operation resulted in an overflow error. It indicates that current and power data may be invalid
+#define INA236_ALERT_POLARITY           0x0002 // Alert polarity bit sets the alert pin polarity. 0b = Normal (Active-low open drain). 1b = Inverted (active-high)
+#define INA236_ALERT_LATCH_ENABLE       0X0001 // When the Alert latch Enable bit is set to Latch mode, the Alert pin and AFF bit remains active following a fault until this register flag has been read. This bit must be set to use the I2C Alert Response function   
+
+/**
+* Enables the selection of the shunt full scale input across IN+ and IN-
+*/
+typedef enum {
+	INA236_ADCRANGE_81DOT92_MILIVOLT    = 0x0000, // ADCRANGE = 0 (+-81.92mV). 2.5uV/LSB
+	INA236_ADCRANGE_20DOT48_MILIVOLT    = 0x1000  // ADCRANGE = 1 (+-20.48mV). 625nV/LSB      
+} AdcRange_t;
+
+typedef enum { 
+	INA236_1_SAMPLE                     = 0x0000,
+	INA236_4_SAMPLES                    = 0x0200,
+	INA236_16_SAMPLES                   = 0x0400,
+	INA236_64_SAMPLES                   = 0x0600,
+	INA236_128_SAMPLES                  = 0x0800,
+	INA236_256_SAMPLES                  = 0x0A00, 
+	INA236_512_SAMPLES                  = 0x0C00,
+	INA236_1024_SAMPLES                 = 0x0E00
+} Avg_t;
+
+typedef enum {
+	INA236_VBUSCT_140_US                = 0x0000,
+	INA236_VBUSCT_204_US                = 0x0040,
+	INA236_VBUSCT_332_US                = 0x0080,
+	INA236_VBUSCT_588_US                = 0x00C0,
+	INA236_VBUSCT_1100_US               = 0x0100,
+	INA236_VBUSCT_2116_US               = 0x0140,
+	INA236_VBUSCT_4156_US               = 0x0180,
+	INA236_VBUSCT_8244_US               = 0x01C0
+} VbusConvertionTime_t;
+
+typedef enum {
+	INA236_VSHCT_140_US                = 0x0000,
+	INA236_VSHCT_204_US                = 0x0008,
+	INA236_VSHCT_332_US                = 0x0010,
+	INA236_VSHCT_588_US                = 0x0018,
+	INA236_VSHCT_1100_US               = 0x0020,
+	INA236_VSHCT_2116_US               = 0x0028,
+	INA236_VSHCT_4156_US               = 0x0030,
+	INA236_VSHCT_8244_US               = 0x0038
+} ShuntConvertionTime_t;
+
+typedef enum {
+	INA236_SHUTDOWN_MODE               = 0x0000,
+	INA236_SHVOLT_TRIGGERED_ONE_SHOT   = 0x0001,
+	INA236_BUSVOLT_TRIGGERED_ONE_SHOT  = 0x0002,
+	INA236_SHUNTBUS_TRIGGERED_ONE_SHOT = 0X0003,
+	INA236_SHUNTDOWN                   = 0x0004,
+	INA236_CONTINUOUS_SHUNT_VOLTAGE    = 0x0005,
+	INA236_CONTINUOUS_BUS_VOLTAGE      = 0x0006,
+	INA236_CONTINUOUS_SHUNTBUS_VOLTAGE = 0x0007
+} Mode_t;
+
+typedef enum {
+	SOL = 1, // Shunt Over Limit
+	SUL = 2, // Shunt Under Limit
+	BOL = 3, // Bus Over limit
+	BUL = 4, // Bus Under Limit
+	POL = 5,  // Power Over Limit
+	CNVR = 6 // Conversion Ready
+} AlertType_t;
+
+typedef struct 
+{
+	I2C_HandleTypeDef *hi2c;
+	uint8_t            devAddress;
+	uint8_t            rangeAdc;
+	double             shuntResistor;
+	double             maximumCurrent;
+	double													shuntAdcRange;
+	double             currentLsbMin;
+	AlertType_t        alertType;
+} Ina236_t;
+
+
+
+void ina236writeRegister(Ina236_t *ina236, 
+					uint8_t registerAddress, 
+					uint16_t value);
+
+uint16_t ina236readRegister(Ina236_t *ina236,
+					uint8_t registerAddress);
+
+uint8_t ina236Init(Ina236_t *ina236,
+					I2C_HandleTypeDef *i2c,
+					uint8_t devAddress,
+					AdcRange_t adcRange,
+					Avg_t samples,
+					VbusConvertionTime_t busConvertionTime,
+					ShuntConvertionTime_t shuntConvertionTime,
+					Mode_t mode);
+
+
+uint8_t ina236DefaulInit(Ina236_t *ina236, I2C_HandleTypeDef *i2c, uint8_t devAddress);
+
+void ina236SetCalibration(Ina236_t *ina236, double rShuntValue, int maxCurrent);
+
+uint8_t ina236SetMaskRegister(Ina236_t *ina236, AlertType_t alertType); 
+
+void ina236ResetMaskRegister(Ina236_t *ina236);
+
+void ina236SetCurrentAlertLimit(Ina236_t *ina236, double currentLimit);
+
+double ina236ReadShuntVoltage(Ina236_t *ina236);
+
+double ina236ReadBusVoltage(Ina236_t *ina236);
+
+double ina236ReadCurrent(Ina236_t *ina236);
+
+double ina236ReadPower(Ina236_t *ina236);
+
+_Bool ina236AlertFunctionFlag(Ina236_t *ina236);
+
+_Bool ina236DataReady(Ina236_t *ina236);
+
+#endif
+
+\end{lstlisting}
+
+\subsection{.c file}
+
+\begin{lstlisting}[firstnumber=1,style=CStyle]
+#include "main.h"
+#include "math.h"
+#include "INA236.h"
+
+/**
+* @brief  Write an amount of data in blocking mode to a specific memory address
+* @param  ina219 Pointer to a I2C_HandleTypeDef structure that contains
+*                the configuration information for the specified I2C.
+* @param  registerAddress Target device address: The device 7 bits address value
+*         in datasheet must be shifted to the left before calling the interface
+* @param  value The data that must be written in the register
+*/
+void ina236writeRegister(Ina236_t *ina236, uint8_t registerAddress, uint16_t value)
+{
+	uint8_t address[2];
+	uint8_t isDeviceReady;
+	
+	address[0] = (value >> 8) & 0xFF;
+	address[1] = (value >> 0) & 0xFF;
+	
+	isDeviceReady = HAL_I2C_IsDeviceReady(ina236->hi2c, (ina236->devAddress) << 1, INA236_TRIALS, HAL_MAX_DELAY);
+	
+	if (isDeviceReady == HAL_OK)
+	{
+		HAL_I2C_Mem_Write(ina236->hi2c, (ina236->devAddress) << 1, registerAddress, I2C_MEMADD_SIZE_8BIT, (uint8_t*)address, I2C_MEMADD_SIZE_16BIT, HAL_MAX_DELAY);
+	}
+}
+
+/**
+* @brief  Read an amount of data in blocking mode from a specific memory address
+* @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
+*                the configuration information for the specified I2C.
+* @param  registerAddress Target device address: The device 7 bits address value
+* @retval 16-bit data read from register's device
+*/
+uint16_t ina236readRegister(Ina236_t *ina236, uint8_t registerAddress)
+{
+	uint8_t registerResponse[2];
+	uint8_t isDeviceReady;
+	
+	isDeviceReady = HAL_I2C_IsDeviceReady(ina236->hi2c, (ina236->devAddress) << 1, INA236_TRIALS, HAL_MAX_DELAY);
+	
+	if (isDeviceReady == HAL_OK)
+	{
+		HAL_I2C_Mem_Read(ina236->hi2c, (ina236->devAddress) << 1, registerAddress, I2C_MEMADD_SIZE_8BIT, registerResponse, sizeof(registerResponse), HAL_MAX_DELAY);
+	}
+	
+	return ((registerResponse[0] << 8) | registerResponse[1]);
+}
+
+/**
+* @brief  Initializes the CONFIGURATION register's device with default values 
+* @param  ina236 points to an object of the type Ina236_t 
+* @param  hi2c Pointer to a I2C_HandleTypeDef structure that contains
+*                the configuration information for the specified I2C.
+* @param  devAddress Target device address: The device 7 bits address value
+* @retval 16-bit data read from register's device
+*/
+uint8_t ina236DefaulInit(Ina236_t *ina236, I2C_HandleTypeDef *i2c, uint8_t devAddress)
+{
+	ina236->hi2c = i2c;
+	ina236->devAddress = devAddress;
+	ina236->shuntAdcRange = 2.5 * pow(10, -6);
+	uint16_t configValue;
+	uint8_t isDeviceReady;
+	
+	configValue = INA236_CONFIG_RESERVED | INA236_ADCRANGE_81DOT92_MILIVOLT | INA236_1_SAMPLE | INA236_VBUSCT_1100_US | INA236_VSHCT_1100_US | INA236_CONTINUOUS_SHUNTBUS_VOLTAGE;
+	isDeviceReady = HAL_I2C_IsDeviceReady(i2c, devAddress << 1, INA236_TRIALS, HAL_MAX_DELAY);
+	
+	if (isDeviceReady == HAL_OK)
+	{
+		//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+		ina236writeRegister(ina236, INA236_CONFIGURATION_REGISTER, configValue);
+		ina236ResetMaskRegister(ina236);
+		return 1;
+	}
+	
+	return 0;
+}
+
+uint8_t ina236Init(Ina236_t *ina236, I2C_HandleTypeDef *i2c, uint8_t devAddress, AdcRange_t adcRange, Avg_t samples, VbusConvertionTime_t busConvertionTime, ShuntConvertionTime_t shuntConvertionTime, Mode_t mode)
+{
+	ina236->hi2c = i2c;
+	ina236->devAddress = devAddress;
+	uint16_t configValue;
+	uint8_t isDeviceReady;
+	
+	if (adcRange == INA236_ADCRANGE_81DOT92_MILIVOLT)
+	{
+		ina236->shuntAdcRange = 2.5 * pow(10, -6);
+		ina236->rangeAdc = 0;
+	}
+	else if (adcRange == INA236_ADCRANGE_20DOT48_MILIVOLT)
+	{
+		ina236->shuntAdcRange = 625 * pow(10, -9);
+		ina236->rangeAdc = 1;
+	}
+	
+	configValue = INA236_CONFIG_RESERVED | adcRange | samples | busConvertionTime | shuntConvertionTime | mode;
+	isDeviceReady = HAL_I2C_IsDeviceReady(i2c, devAddress << 1, INA236_TRIALS, HAL_MAX_DELAY);
+	
+	if (isDeviceReady == HAL_OK)
+	{
+		//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+		ina236writeRegister(ina236, INA236_CONFIGURATION_REGISTER, configValue);
+		return 1;
+	}
+	
+	return 0; 
+}
+
+/**
+* @brief  Initializes the CONFIGURATION register's device with default values 
+* @param  ina236 points to an object of the type Ina236_t 
+* @param  rShuntValue Shunt Resistor's Value
+* @param  maxCurrent Maximum current monitored
+* @retval 
+*/
+void ina236SetCalibration(Ina236_t *ina236, double rShuntValue, int maxCurrent)
+{
+	ina236->shuntResistor = rShuntValue;
+	ina236->maximumCurrent = maxCurrent;
+	double currentLsbMinimum;
+	uint16_t shuntCal;
+	
+	currentLsbMinimum = maxCurrent / pow(2, 15);
+	if (maxCurrent < 3) currentLsbMinimum = 100.0 * pow(10, -6);
+	else if (maxCurrent > 3 && maxCurrent <= 6) currentLsbMinimum  = 200.0 * pow(10, -6);
+	else if (maxCurrent > 6 && maxCurrent <= 9) currentLsbMinimum  = 300.0 * pow(10, -6);
+	else if (maxCurrent > 9 && maxCurrent <= 13) currentLsbMinimum = 500.0 * pow(10, -6);
+	else if (maxCurrent > 13 && maxCurrent <= 16) currentLsbMinimum = 500.0 * pow(10, -6);
+	else if (maxCurrent > 16 && maxCurrent <= 19) currentLsbMinimum = 600.0 * pow(10, -6);
+	
+	ina236->currentLsbMin = currentLsbMinimum;
+	
+	shuntCal = 0.00512 / (currentLsbMinimum * rShuntValue);
+	
+	if (ina236->rangeAdc == 1)
+	{
+		shuntCal = shuntCal / 4;
+	}
+	
+	ina236writeRegister(ina236, INA236_CALIBRATION_REGISTER, shuntCal);
+}
+
+uint8_t ina236SetMaskRegister(Ina236_t *ina236, AlertType_t alertType)
+{
+	ina236->alertType = alertType;
+	uint16_t value;
+	
+	switch(alertType)
+	{
+		case 1:
+		value = INA236_SHUNT_OVER_LIMIT;
+		break;
+		case 2:
+		value = INA236_SHUNT_UNDER_LIMIT;
+		break;
+		case 3:
+		value = INA236_BUS_OVER_LIMIT;
+		break;
+		case 4: 
+		value = INA236_BUS_UNDER_LIMIT;
+		break;
+		case 5:
+		value = INA236_POWER_OVER_LIMIT;
+		break;
+		case 6:
+		value = INA236_CONVERSION_READY;
+		break;
+		default: return 0;
+		
+		
+	}
+	value = value | 0x0000;
+	ina236writeRegister(ina236, INA236_MASK_ENABLE_REGISTER, value);
+	return value;
+}
+
+void ina236ResetMaskRegister(Ina236_t *ina236)
+{
+	ina236writeRegister(ina236, INA236_MASK_ENABLE_REGISTER, 0x0000);
+}
+
+void ina236SetCurrentAlertLimit(Ina236_t *ina236, double currentLimit)
+{
+	double shuntVoltageLimit;
+	uint16_t alertValue;
+	
+	shuntVoltageLimit = currentLimit * (ina236->shuntResistor);
+	alertValue = shuntVoltageLimit / (ina236->shuntAdcRange);
+	ina236writeRegister(ina236, INA236_ALERT_LIMIT_REGISTER, alertValue);
+}
+
+double ina236ReadShuntVoltage(Ina236_t *ina236)
+{
+	double result = ina236readRegister(ina236, INA236_SHUNT_VOLTAGE_REGISTER);
+	result = result * (ina236->shuntAdcRange) * (1000.0);
+	
+	return result;
+}
+
+double ina236ReadBusVoltage(Ina236_t *ina236)
+{
+	double result = ina236readRegister(ina236, INA236_BUS_VOLTAGE_REGISTER);
+	result = result * (1.6) * pow(10, -3);
+	
+	return result;
+}
+
+double ina236ReadCurrent(Ina236_t *ina236)
+{
+	double rawCurrent = ina236readRegister(ina236, INA236_CURRENT_REGISTER);
+	double current = rawCurrent * (ina236->currentLsbMin) * (1000.0);
+	return current;
+}
+
+double ina236ReadPower(Ina236_t *ina236)
+{
+	double rawPower = ina236readRegister(ina236, INA236_POWER_REGISTER);
+	double power = 32.0 * rawPower * (ina236->currentLsbMin) * (1000.0);
+	return power;
+}
+
+_Bool ina236AlertFunctionFlag(Ina236_t *ina236)
+{
+	uint16_t result = ina236readRegister(ina236, INA236_MASK_ENABLE_REGISTER);
+	_Bool isAlertFunctionFlagTrue = CHECK_BIT(result, 4);
+	return isAlertFunctionFlagTrue;
+}
+
+_Bool ina236DataReady(Ina236_t *ina236)
+{
+	_Bool isDataReady;
+	
+	uint16_t conversionReady = ina236readRegister(ina236, INA236_MASK_ENABLE_REGISTER);
+	isDataReady = CHECK_BIT(conversionReady, 3);
+	
+	return isDataReady;
+}
+
+\end{lstlisting}
+
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+%\bibliographystyle{unsrt}
+
+%\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

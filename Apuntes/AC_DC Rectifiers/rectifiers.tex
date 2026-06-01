@@ -1,0 +1,588 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\title{Diodos rectificadores}
+\author{Rodrigo}
+\date{July 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Problem Resolution}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+		Chapter &  Basic Circuit Analysis\\
+		Problem & 2.68
+	\end{tabular}
+	
+	\section*{Resumen}
+	Los diodos son extremadamente usados en rectificadores, la mayoría de los equipos electrónicos y circuitos requieren de fuentes de DC para que operen correctamente. Las baterías recargables pueden ser usadas en estas aplicaciones, sin embargo, sólo ofrecerían una potencia limitada y un voltaje inestable conforme se vayan descargando las celdas. Las fuentes de alimentación de DC más comunes se realizan a partir de rectificadores AC/DC.
+	Un Rectificador es un circuito que convierte una señal de AC en una señal unidireccional. Los rectificadores AC/DC sin controlar usualmente consisten de circuitos con diodos los cuales pueden ser clasificados en los siguientes grupos.
+	
+	\begin{itemize}[noitemsep]
+		\item Rectificadores de media onda
+		\item Rectificadores de onda completa
+		\item Rectificadores de tres fases
+		\item Rectificadores multipulso
+		\item Rectificadores de Corrección de Factor de Potencia (PFC)
+		\item Rectificadores tipo boost modulados por ancho de pulso 
+	\end{itemize}
+
+	
+	\section*{Introducción}
+	La entrada de un diodo rectificador es un voltaje de AC, el cual puede ser un voltaje monofásico o trifásico, usualmente de una onda senoidal pura. Un voltaje de entrada monofásico $v(t)$ puede ser expresado como:
+	
+	\begin{align}
+		v(t) = \sqrt{2}V \sin{\omega t} = V_m \sin{\omega t}
+	\end{align}
+	
+	\noindent	Donde: \\
+	
+	\noindent\begin{tabular}{@{}ll}
+		$v(t)$ & Es el voltaje de entrada instantáneo\\
+		V &  Es el valor rms\\
+		$V_m$ & Es la amplitud\\
+		$\omega$ & Es la frecuencia angular donde $\omega= 2\pi f$ ($f$ es la frecuencia de la fuente)
+	\end{tabular}
+	
+	\section*{Rectificadores de media onda}
+	Un circuito rectificador de media onda consiste de un voltaje de entrada monofásico de AC y un diodo. El circuito se muestra en la figura 1.
+	
+	\begin{figure}[H]
+	\centering	
+	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[sV, l=${v=\sqrt{2}V \sin{\omega t} }$, i=$i$] ++(0,5)
+			  to[ccgsw] ++(3,0)
+			  to[D*, v=$v_D$, l=$D$] ++(3,0)
+			  to[R, v=$v_o$, l=$R$] ++(0,-5)
+			  to[short] (0,0); 
+			  
+		\pgfplotsset{width=9cm,compat=1.18}
+		\begin{axis}[xshift=9cm,
+			 yshift=-0.5,
+			 clip=false,
+			 axis y line=left,
+			 axis x line=middle, 
+			 xmin=0,xmax=2.2*pi,
+			 ymin=-1.5,ymax=1.5,
+			 xlabel=$\omega t$,
+			 xtick={3.14,6.28},
+			 xticklabels={$\pi\,$, $\,\,\,2\pi$},
+			 ytick={1},
+			 yticklabels={$\sqrt{2}V$},
+			 ]
+			\addplot[smooth, blue, mark=none, domain=0:2*pi, samples=200] {sin(deg(x))};
+		\end{axis}
+		
+		\draw (9.5,6) node[above right, xshift=-20pt]{$v$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura1}
+	\end{figure}
+	
+	\begin{figure}[H]
+	\centering	
+	
+	\begin{tikzpicture}[scale=0.8]
+			\pgfplotsset{width=9cm,compat=1.18}
+		\begin{axis}[
+			clip=false,
+			axis y line=left,
+			axis x line=middle, 
+			xmin=0,xmax=2*pi,
+			ymin=-1.5,ymax=1.5,
+			xlabel=$\omega t$,
+			xtick={3.14,6.28},
+			xticklabels={$\pi\,$, $\,\,\,2\pi$},
+			ytick={1},
+			yticklabels={$\sqrt{2}V$},
+			]
+			\addplot[smooth, blue, mark=none, domain=0:pi, samples=200] {sin(deg(x))};
+		\end{axis}
+		
+		\draw (0.3,6) node[above right, xshift=-20pt]{$v_o$};
+		
+		\pgfplotsset{width=9cm,compat=1.18}
+		\begin{axis}[xshift=9cm,
+			yshift=-0.5,
+			clip=false,
+			axis y line=left,
+			axis x line=middle, 
+			xmin=0,xmax=2*pi,
+			ymin=-1.5,ymax=1.5,
+			xlabel=$\omega t$,
+			xtick={3.14,6.28},
+			xticklabels={$\pi\,$, $\,\,\,2\pi$},
+			ytick={1},
+			yticklabels={$\frac{\sqrt{2}V}{R}$},
+			]
+			\addplot[smooth, blue, mark=none, domain=0:pi, samples=200] {sin(deg(x))};
+		\end{axis}
+		
+		\draw (9.5,6) node[above right, xshift=-20pt]{$i$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura2}
+\end{figure}
+
+	\begin{figure}[H]
+	\centering	
+	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[sV, l=${v=\sqrt{2}V \sin{\omega t} }$, i=$i$, v=$$] ++(0,5)
+		to[ccsw] ++(5,0)
+		to[R, v=$v_O$, l=$R$] ++(0,-5) coordinate(p1)
+		to[short] (0,0); 
+		\draw (2,-1) node[above right]{$v > 0$};
+		\draw (p1) ++(3,0) coordinate(p2) to[sV] ++(0,5)
+		to[cosw] ++(5,0)
+		to[R, v=$v_O$, l=$R$] ++(0,-5)
+		to[short] ++(-5,0);
+		\draw (10,-1) node[above right]{$v < 0$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura3}
+\end{figure}
+
+El diagrama del circuito del rectificador de media onda se muestra en la figura 1(a). Consideremos el intervalo 1 como $0 \leq \omega t \leq \pi $ durante el semiciclo positivo del voltaje de entrada. El diodo $D$ conduce y se comporta como un cortocircuito, como se muestra en la figura 3(a). El voltaje de entrada aparece a través de la resistencia $R$, esto es, el voltaje de salida sería:
+
+\begin{align}
+	v_O = V_m \sin{\omega t}, \quad 0 \leq \omega t \leq \pi
+\end{align}
+
+Si incluimos la caída de voltaje del diodo ($V_D = \qty{0.7}{\volt}$) el voltaje pico de salida $V_m$ sería reducido a ($V_m - V_D$) y el voltaje instantáneo de salida sería:
+
+\begin{align}
+	v_O = (V_m - V_D) \sin{\omega t}, \quad 0 \leq \omega t \leq \pi
+\end{align}
+
+Consideremos $\pi \leq \omega t \leq 2 \pi$ como el intervalo 2 durante el semiciclo negativo del voltaje de entrada. El diodo $D$ se encontrará polarizado en inversa, por lo que se comportará como un circuito abierto, como se muestra en la figura 3(b). Por lo tanto el voltaje de salida $v_O$ sería igual a cero, esto es:
+
+\begin{align}
+	v_O = 0, \quad \pi \leq \omega t \leq 2 \pi
+\end{align}
+
+El voltaje de salida promedio $V_{O(av)}$ se encuentar usando la siguiente ecuación:
+
+\begin{align}
+	V_{O(av)} = \frac{1}{T} \int_{0}^{T} f(t) d(\omega t)
+\end{align}
+
+Por lo tanto, a partir de la gráfica de la figura 2(a) y de las ecuaciones (2) y (4) podemos definir el voltaje de salida como
+
+\begin{align}
+	v_O= \left\{ 
+	\begin{array}{lc} V_m \sin{\omega t}, & 0 \leq \omega t \leq \pi \\
+	0, & \pi \leq \omega t \leq 2\pi
+	 \end{array} \right.
+\end{align}
+
+
+Así
+
+\begin{align}
+	V_{O(av)} &= \frac{1}{2\pi} \int_{0}^{\pi} V_m \sin{\omega t} \,\, d(\omega t) \nonumber \\
+	 &= \frac{V_m}{2\pi} \int_{0}^{\pi} \sin{\omega t} \,\, d(\omega t) \nonumber \\
+	&= - \left.{\left[ \frac{V_m}{2\pi} \cos({\omega t}) \right]}\right|_{\;0}^{\;\pi} \nonumber \\
+	&= - \frac{V_m}{2\pi} \left[ cos (\pi) - \cos(0) \right] \nonumber \\
+	&= - \frac{V_m}{2\pi} (-1 - 1) \nonumber \\
+	&= \frac{2 V_m}{2\pi} \nonumber
+\end{align}
+
+O bien
+
+\begin{align}
+	V_{O(av)} = \frac{V_m}{\pi} \approx 0.318V_m
+\end{align}
+
+Por lo tanto, la corriente promedio $I_{O(av)}$ en la resistencia de carga $R$ puede encontrarse mediante la ley de Ohm
+
+\begin{align}
+	I_{O(av)} = \frac{V_{O(av)}}{R} = \frac{V_m}{\pi R} = \frac{0.318V_m}{R}
+\end{align}
+
+El voltaje rms de una señal está dado por:
+
+\begin{align}
+	V_{rms} = \sqrt{\frac{1}{T} \int_{0}^{T} {f^2 (t) dt}}
+\end{align}
+
+Así, el voltaje rms de salida del rectificador de media onda puede escribirse como
+
+\begin{align}
+	V_{o(rms)} &= \sqrt{\frac{1}{2\pi} \int_{0}^{\pi} v_O^2 \, d(\omega t)} = \sqrt{\frac{1}{2\pi} \int_{0}^{\pi} V_m^2 \sin^2(\omega t) \, d(\omega t)} \nonumber \\
+	&= \sqrt{\frac{V_m^2}{2\pi} \int_{0}^{\pi} \left[\frac{1}{2} - \frac{1}{2} \cos(2 \omega t)\right] \, d(\omega t)} \nonumber
+\end{align}
+
+Donde
+
+\begin{align}
+	\int_{0}^{\pi} \left[\frac{1}{2} - \frac{1}{2} \cos (2\omega t) d(\omega t) \right] &= \int_{0}^{\pi} \frac{1}{2} d(\omega t) - \int_{0}^{\pi} \frac{1}{2} \cos (2\omega t) d(\omega t) \nonumber \\
+	&= \left.{\left[ \frac{\omega t}{2} \right]}\right|_{\;0}^{\;\pi} - \left.{\left[ \frac{1}{4} \sin (2\omega t) \right]}\right|_{\;0}^{\;\pi} \nonumber \\
+	&= \frac{\pi}{2} - \frac{1}{4} \sin (2\pi) + \frac{1}{4} \sin 0 = \frac{\pi}{2} \nonumber
+\end{align}
+
+Por último
+\begin{align}
+	V_{o(rms)} &= \sqrt{ \frac{V_m^2}{2\pi} \left( \frac{\pi}{2} \right) } = \sqrt{ \frac{V_m^2}{4}  } \nonumber
+\end{align}
+
+\begin{align}
+	V_{o(rms)} = \frac{V_m}{2} = 0.5V_m
+\end{align}
+
+Y la corriente rms de la carga $I_{o(rms)}$ está dada por
+
+\begin{align}
+	I_{o(rms)} = \frac{V_{o(rms)}}{R} = \frac{V_m}{2R} = \frac{0.5V_m}{R}
+\end{align}
+
+\subsection*{Rectificador de media onda con el diodo real}
+Asumiendo una aproximación lineal para el diodo en dirección directa, el diodo comienza a conducir en el medio ciclo positivo, cuando $V_m \sin \omega t = V_{D0}$, mientras el diodo conduce, la corriente en la carga será igual a:
+
+\begin{align}
+	i_L = \frac{V_m \sin \omega t - V_{D0}}{R_L + r_D}
+\end{align}
+
+El diodo parará de conducir cuando $V_m \sin \omega t$ iguale nuevamente a $V_{D0}$, permaneciendo apagado hasta el siguiente semiciclo positivo, y así sucesivamente (figura 4).
+
+	\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[sV, l=${v=V_m \sin{\omega t} }$, i=$i$] ++(0,5)
+		to[D] ++(2,0)
+		to[battery2, invert, l=$V_{D0}$] ++(2,0)
+		to[R, l=$r_D$] ++(2,0)
+		to[short] ++(0.5,0)
+		to[R, l_=$R_L$, v^=$v_O$, f>_=$i_L$] ++(0,-5)
+		to[short] (0,0);
+		
+		\pgfplotsset{width=9cm,compat=1.18}
+		\begin{axis}[xshift=9cm,
+			yshift=-0.5,
+			clip=false,
+			axis y line=left,
+			axis x line=middle, 
+			xmin=0,xmax=2.2*pi,
+			ymin=-1.5,ymax=1.5,
+			xlabel=$\omega t$,
+			xtick={0.3,3.14,6.28},
+			xticklabels={$\alpha$, $\pi\,$, $\,\,\,2\pi$},
+			ytick={0.3, 1},
+			yticklabels={$V_{D0}$, $V_m$},
+			]
+			\addplot[smooth, red, mark=none, domain=0:2*pi, samples=200, dashed] {sin(deg(x))};
+			\addplot[smooth, magenta, mark=none, domain=0.3:(pi - 0.3), samples=200] {sin(deg(x)) - 0.3};
+			\addplot[color = black, dashed, thick] coordinates {(0,1) (1.57, 1)};
+			\addplot[color = black, dashed, thick] coordinates {(0.3, 0) (0.3, 0.3) (0, 0.3)};
+			\addplot[color = black, dashed, thick] coordinates {(2.84, 0) (2.84, 0.3) (0, 0.3)};
+			\draw[->](2.6, -0.2)--(2.8, -0.05);
+			\draw[<-](1.57, 1.05)--(1.8, 1.2);
+			\draw[<-](2.4, 0.4)--(2.7, 0.7);
+			\node[anchor=west] at (axis cs:2.1,-0.3){$\pi - \alpha$};
+			\node[anchor=west] at (axis cs:1.2,1.3){$V_m \sin \omega t$};
+			\node[anchor=west] at (axis cs:2.6,0.8){$v_O$};
+		\end{axis}
+		\draw (9.5,6) node[above right, xshift=-20pt]{$v$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura4}
+\end{figure}
+
+Por lo tanto, el voltaje en la carga está dado por
+
+\begin{align}
+	v_O= \left\{ 
+	\begin{array}{lc} \frac{R_L}{R_L + r_D} \left( V_m \sin \omega t - V_{D0} \right), & 2m\pi + \alpha \leq \omega t \leq (2m + 1)\pi - \alpha \\
+		0, & otherwise
+	\end{array} \right.
+\end{align}
+
+Donde $\alpha = \sin ^{-1} (V_{D0}/V_m)$ y $m=0,1, 2, ...$ \\
+
+El ángulo $\alpha$ en el cual el diodo comienza a conducir puede hallarse con la siguiente condición
+
+\begin{align}
+	V_m \sin \alpha = V_{D0} \nonumber \\
+	\sin \alpha = \frac{V_{D0}}{V_m} \nonumber
+\end{align}
+
+o
+
+\begin{align}
+	\alpha = \sin ^{-1} \left( \frac{V_{D0}}{V_m} \right) 
+\end{align}
+
+El voltaje de DC o voltaje promedio en la carga está dado por
+
+\begin{align}
+	V_{O(avg)} &= \frac{1}{2\pi} \int_{\alpha}^{\pi - \alpha} v_L d(\omega t) = \frac{1}{2\pi} \int_{\alpha}^{\pi - \alpha} \frac{R_L}{R_L + r_D} \left( V_m \sin \omega t - V_{D0} \right) d(\omega t) \nonumber \\
+	&= \frac{R_L}{2\pi (R_L + r_D)} \left[ \int_{\alpha}^{\pi - \alpha} V_m \sin \omega t \, d(\omega t) - \int_{\alpha}^{\pi - \alpha} V_{D0} d(\omega t) \right] \nonumber \\
+	&= \frac{R_L}{2\pi (R_L + r_D)} \left[  \left.{\left( -V_m \cos \omega t \right)}\right|_{\;\alpha}^{\;\pi - \alpha} - \left.{\left( V_{D0}(\omega t) \right)}\right|_{\;\alpha}^{\;\pi - \alpha} \right] \nonumber \\
+	&= \frac{R_L}{2\pi (R_L + r_D)} \left[ -V_m \cos (\pi - \alpha) + V_m \cos \alpha - V_{D0}(\pi - \alpha) + \alpha V_{D0} \right] \nonumber \\
+	&= \frac{R_L}{2\pi (R_L + r_D)} \left[ -V_m (-\cos \alpha) + V_m \cos \alpha - \pi V_{D0} + \alpha V_{DO} + \alpha V_{DO} \right] \nonumber
+\end{align}
+
+Por lo tanto
+
+\begin{align}
+	V_{O(avg)} = \frac{R_L}{2\pi (R_L + r_D)} \left[ 2V_m \cos \alpha + (2\alpha - \pi)V_{D0} \right]
+\end{align}
+
+Cuando $V_{D0} \ll V_m$ y $r_D \ll R_L$, entonces $V_{D0}$ y $r_D$ pueden ser despreciados y $v_O$ puede ser reducido a la ecuación (7). Si se llegase a invertir la conexión del diodo, la conducción ocurriría en los semiciclos negativos lo cual invertiría a su vez la polaridads de VDC.
+
+\section*{Rectificador de onda completa}
+Un puente rectificador de onda completa monofásico requiere de 4 diodos como se muestra en la figura 5. Normalmente se suele utilizar un transformador en la entrada para satisfacer los requerimientos del voltaje de salida. Dado que $v_s$ es positivo desde $\omega t = 0$ a $\pi$ y negativo desde $\omega t = \pi$ a $2\pi$, la operación del circuito se puede dividir entonces en dos intervalos: intervalo 1 e intervalo 2.
+
+El intervalo 1 es el intervalo $0 \leq \omega t \leq \pi$ durante el semiciclo positivo del voltaje de entrada $v_s$. En este intervalo los diodos $D_3$ y  $D_4$ se encuentran polarizados en inversa. Asumiendo diodos ideales, los diodos $D_1$ y $D_2$ conducen y se comportan como corto cortocircuito. El voltaje de entrada $v_S = V_m \sin \omega t$ aparece a través de la resistencia de carga $R$. Esto es, el voltaje de salida sería:
+
+\begin{align}
+	v_O = V_m \sin \omega t, \quad 0 \leq \omega t \leq \pi
+\end{align}  
+
+El intervalo 2 es el intervalo $\pi \leq \omega t \leq 2\pi$ durante el semiciclo negativo del voltaje de entrada $v_S$. En esta ocasión los diodos $D_1$ y $D_2$ se encontrarán polarizados en inversa mientras que los diodos $D_3$ y $D_4$ conducirán, comportándose como cortocircuitos. El voltaje negativo de $v_S = V_m \sin \omega t$ aparecerá sobre la carga, es decir
+
+\begin{align}
+	v_O = -V_m \sin \omega t, \quad \pi \leq \omega t \leq 2\pi
+\end{align}
+
+
+	\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8, circuitikz/diodes/scale=0.5, circuitikz/straight=true]
+
+		\draw (0,0) to[sV, l=${v=V_m \sin{\omega t} }$] ++(0,2.62)
+			  to[short] ++(3,0) node[transformer core, anchor=A1](T){}
+			  (T.A2) to[short] (0,0);
+	    \draw (T.B1) to [open, v=$v_s$] (T.B2);
+		\draw (T.B1) to[short] ++(2,0) coordinate (top bridge);
+		\draw (top bridge) to [D*,  *-*] ++(1.2,-1.32) coordinate(right bridge)
+			  to[D*, *-*, invert] ++(-1.2,-1.32) coordinate (bottom bridge)
+			  to[D*, *-*, invert] ++(-1.2,1.32) coordinate (left bridge)
+			  to[D*, ] (top bridge);
+		\draw (T.B2) to[short] (bottom bridge);
+		\draw (right bridge) to[short, i=$i_O$] ++(2,0) coordinate (r1);
+		\draw (left bridge) to[short] ++(-0.5,0)
+			  to[short] ++(0,-3)
+			  to[short] ++(4.9,0) coordinate (r2);
+	    \draw (r1) to[R, v^=$v_O$, l_=$R$] (r2);
+	    \node[anchor=west] at (5.9,2){$D_3$};
+	    \node[anchor=west] at (8.5,2){$D_1$};
+	    \node[anchor=west] at (8.5,0.5){$D_4$};
+	    \node[anchor=west] at (5.9,0.5){$D_2$};
+	    %\draw (p1) node[above right, xshift=-20pt]{$V_{1} = \qty{7.61}{\volt}$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura5}
+\end{figure}
+
+
+	\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+
+		\pgfplotsset{width=9cm,compat=1.18}
+		\begin{axis}[
+			clip=false,
+			axis y line=left,
+			axis x line=middle, 
+			xmin=0,xmax=2.2*pi,
+			ymin=-1.5,ymax=1.5,
+			xlabel=$\omega t$,
+			xtick={3.14,6.28},
+			xticklabels={ $\pi\,$, $\,\,\,2\pi$},
+			ytick={-1,1},
+			yticklabels={$-V_m$, $V_m$},
+			]
+			\addplot[smooth, magenta, mark=none, domain=0:2*pi, samples=200] {sin(deg(x))};
+			\addplot[color = black, dashed, thick] coordinates {(0,1) (1.57, 1)};
+			\addplot[color = black, dashed, thick] coordinates {(0,-1) (4.8, -1)};
+			\node[anchor=east] at (axis cs:0,1.5){$v_S$};
+			\node[anchor=west] at (axis cs:3,0.5){$v_S = v_s = V_m \sin \omega t$};
+		\end{axis}
+		
+		\begin{axis}[
+			yshift=-7cm,
+			clip=false,
+			axis y line=left,
+			axis x line=middle, 
+			xmin=0,xmax=2.2*pi,
+			ymin=-1.5,ymax=1.5,
+			xlabel=$\omega t$,
+			xtick={3.14,6.28},
+			xticklabels={ $\pi\,$, $\,\,\,2\pi$},
+			ytick={1},
+			yticklabels={$V_m$},
+			]
+			\addplot[smooth, magenta, mark=none, domain=0:pi, samples=200] {sin(deg(x))};
+			\addplot[smooth, magenta, mark=none, domain=0:pi, samples=200, xshift=3.35cm] {sin(deg(x))};
+			\addplot[color = black, dashed, thick] coordinates {(0,1) (4.8, 1)};
+			\addplot[color = black, dashed, thick] coordinates {(3.14,0) (3.14, 3.4)};
+			\node[anchor=east] at (axis cs:0,1.5){$v_O$};
+			
+		\end{axis}
+
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura6}
+\end{figure}
+
+Si $V_{D0}$ es tomado en cuenta, el voltaje pico en la carga será de $V_m - 2V_{D0}$ debido a los dos diodos en serie conduciendo.
+Asdumiendo diodos ideales, el voltaje de salida promedio sería de:
+
+\begin{align}
+	V_{O(av)} &= \frac{1}{\pi} \int_{0}^{\pi} V_m \sin \omega t \, d(\omega t) \nonumber \\
+	&= - \left.{\left[ \frac{V_m}{\pi} \cos({\omega t}) \right]}\right|_{\;0}^{\;\pi} \nonumber \\
+	&= - \frac{V_m}{\pi} \left[ \cos \pi - \cos 0 \right] \nonumber
+\end{align}
+
+Por lo tanto:
+
+\begin{align}
+	V_{O(av)} = \frac{2V_m}{\pi} \approx 0.636Vm
+\end{align}
+
+Por lo tanto, la corriente promedio $I_{O(av)}$ en la resistencia de carga $R$ puede encontrarse mediante la ley de Ohm
+
+\begin{align}
+	I_{O(av)} = \frac{V_{O(av)}}{R} = \frac{2V_m}{\pi R} = \frac{0.636V_m}{R}
+\end{align}
+
+De la ecuación (9), el voltaje rms de una señal está dado por:
+
+\begin{align}
+	V_{rms} &= \sqrt{\frac{1}{\pi} \int_{0}^{T} { V^2_m \sin^2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       (\omega t) d(\omega t) }} \nonumber \\
+	&= \sqrt{\frac{V^2_m}{\pi} \left(\frac{\pi}{2} \right)} \nonumber 
+\end{align}
+
+\begin{align}
+	V_{rms} = \frac{V_m}{\sqrt{2}} = 0.707V_m
+\end{align}
+
+La corriente de carga $I_{O(rms)}$ está dada por
+\begin{align}
+	I_{O(rms)} = \frac{V_{O(rms)}}{R} = \frac{V_m}{2R}
+\end{align}
+
+\subsection*{Rectificador de onda completa con el diodo real}
+Nuevamente, asumiendo una aproximación lineal para los diodos en dirección directa, éste comenzara a conducir cuando $V_m \sin \omega t = V_{D0}$, la corriente de carga es de:
+
+\begin{align}
+	i_L = \frac{Vm \sin \omega t - 2V_{D0}}{R_L + 2r_D}
+\end{align}
+
+El voltaje en la carga está dado por
+
+\begin{align}
+	v_O= \left\{ 
+	\begin{array}{lc} \frac{R_L}{R_L + 2r_D} \left( V_m \sin \omega t - 2V_{D0} \right), & 2m\pi + \alpha \leq \omega t \leq (2m + 1)\pi - \alpha \\
+	\end{array} \right.
+\end{align}
+
+	\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[sV, l=${v=V_m \sin{\omega t} }$, i=$i$] ++(0,5)
+		to[D] ++(2,0)
+		to[battery2, invert, l=$2V_{D0}$] ++(2,0)
+		to[R, l=$2r_D$] ++(2,0)
+		to[short] ++(0.5,0)
+		to[R, l_=$R_L$, v^=$v_O$, f>_=$i_L$] ++(0,-5)
+		to[short] (0,0);
+		
+		\pgfplotsset{width=9cm,compat=1.18}
+		\begin{axis}[xshift=9cm,
+			yshift=-0.5,
+			clip=false,
+			axis y line=left,
+			axis x line=middle, 
+			xmin=0,xmax=2.2*pi,
+			ymin=-1.5,ymax=1.5,
+			xlabel=$\omega t$,
+			xtick={0.3,3.14,6.28},
+			xticklabels={$\alpha$, $\pi\,$, $\,\,\,2\pi$},
+			ytick={0.3, 1},
+			yticklabels={$V_{D0}$, $V_m$},
+			]
+			\addplot[smooth, red, mark=none, domain=0:2*pi, samples=200, dashed] {sin(deg(x))};
+			\addplot[smooth, green, mark=none, domain=0:pi, samples=200] {sin(deg(x))};
+			\addplot[smooth, green, mark=none, domain=0:pi, samples=200, xshift=3.35cm] {sin(deg(x))};
+			\addplot[smooth, magenta, mark=none, domain=0.3:(pi - 0.3), samples=200] {sin(deg(x)) - 0.3};
+			\addplot[smooth, magenta, mark=none, domain=0.3:(pi - 0.3), samples=200, xshift=3.35cm] {sin(deg(x)) - 0.3};
+			\addplot[color = black, dashed, thick] coordinates {(0,1) (1.57, 1)};
+			\addplot[color = black, dashed, thick] coordinates {(0.3, 0) (0.3, 0.3) (0, 0.3)};
+			\addplot[color = black, dashed, thick] coordinates {(2.84, 0) (2.84, 0.3) (0, 0.3)};
+			\draw[->](2.6, -0.2)--(2.8, -0.05);
+			\draw[<-](1.57, 1.05)--(1.8, 1.2);
+			\draw[<-](2.4, 0.4)--(2.7, 0.7);
+			\draw[<-](4.6, 1.05)--(4.8, 1.2);
+			\node[anchor=west] at (axis cs:2.1,-0.3){$\pi - \alpha$};
+			\node[anchor=west] at (axis cs:1.2,1.3){$V_m \sin \omega t$};
+			\node[anchor=west] at (axis cs:4.2,1.3){$V_O \, ideal$};
+			\node[anchor=west] at (axis cs:2.6,0.8){$v_O$};
+		\end{axis}
+		\draw (9.5,6) node[above right, xshift=-20pt]{$v$};
+	\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura7}
+\end{figure}
+
+El voltaje de DC estará dado por:
+
+\begin{align}
+	V_{O(avg)} &= \frac{1}{\pi} \int_{\alpha}^{\pi - \alpha} v_L d(\omega t) = \frac{1}{\pi} \int_{\alpha}^{\pi - \alpha} \frac{R_L}{R_L + 2r_D} \left( V_m \sin \omega t - 2V_{D0} \right) d(\omega t) \nonumber \\
+	&= \frac{R_L}{\pi (R_L + 2r_D)} \left[ \int_{\alpha}^{\pi - \alpha} V_m \sin \omega t \, d(\omega t) - \int_{\alpha}^{\pi - \alpha} 2V_{D0} d(\omega t) \right] \nonumber \\
+	&= \frac{R_L}{\pi (R_L + 2r_D)} \left[  \left.{\left( -V_m \cos \omega t \right)}\right|_{\;\alpha}^{\;\pi - \alpha} - \left.{\left( 2V_{D0}(\omega t) \right)}\right|_{\;\alpha}^{\;\pi - \alpha} \right] \nonumber \\
+	&= \frac{R_L}{\pi (R_L + 2r_D)} \left[ -V_m \cos (\pi - \alpha) + V_m \cos \alpha - 2V_{D0}(\pi - \alpha) + 2\alpha V_{D0} \right] \nonumber \\
+	&= \frac{R_L}{\pi (R_L + 2r_D)} \left[ -V_m (-\cos \alpha) + V_m \cos \alpha - 2\pi V_{D0} + 2\alpha V_{DO} + 2\alpha V_{DO} \right] \nonumber
+\end{align}
+
+Por lo tanto
+
+\begin{align}
+	V_{O(avg)} = \frac{R_L}{\pi (R_L + r_D)} \left[ 2V_m \cos \alpha + 2(2\alpha - \pi)V_{D0} \right]
+\end{align}
+
+
+\end{document}

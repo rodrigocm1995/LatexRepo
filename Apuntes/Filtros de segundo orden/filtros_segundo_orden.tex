@@ -1,0 +1,402 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\graphicspath{{images/}}
+\usepackage{svg}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{tcolorbox}
+\usepackage{pdfpages}
+\usepackage{bodegraph}
+\title{Filtros de segundo orden}
+%\author{Rodrigo Castillejos}
+\author{Rodrigo}
+\date{Mayo 2025}
+
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Filtros de segundo orden}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\renewcommand{\figurename}{Figura}
+%\usepackage[color=ForestGreen!15,angle=45]{draftwatermark}
+%\SetWatermarkText{CONFIDENTIAL\\COPY FOR\\ POCA POCA}
+%\SetWatermarkScale{2.5}
+
+\usepackage{lipsum}  
+%\usepackage{cmbright}
+%\usepackage{mathpazo}
+%\usepackage{ccfonts,eulervm}
+ \usepackage[T1]{fontenc}
+ \usepackage{ccfonts}
+%\usepackage[math]{anttor}
+%\usepackage{antpolt}
+ %\usepackage{fouriernc}
+%\usepackage[utopia]{mathdesign}
+%---------------------------------------------------
+\tikzset{flipflop myRS/.style={flipflop,
+		 flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, tu={\ctikztextnot{RST}}, nu=1, n4=1 }}
+	}
+	
+\tikzset{flipflop myFFRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, n4=1 }}
+}
+%---------------------------------------------------
+\setlength\parindent{0pt}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the 
+% starred version does not.
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
+
+
+\begin{document}
+	
+\maketitle
+	
+\noindent\begin{tabular}{@{}ll}
+Author & \theauthor\\
+\end{tabular}
+	
+\section{Filtro pasa bajas de segundo orden}
+
+\subsection{Preliminares}
+El grado del denominador define el grado de la red bajo estudio. Por ejemplo, en las expresiones de primer orden el grado del denominador es de 1. Así, se puede expresar una función de transferencia a partir de la siguiente forma polinomial de primer orden.
+
+\begin{align}
+	H(s) = \frac{a_0 + a_1s}{b_0 + b_1s}
+\end{align}
+
+Al factorizar $a_0$ y $b_0$ tenemos
+
+\begin{align}
+	H(s) = \frac{a_0}{b_0} \frac{1 + \frac{a_1}{a_0}s }{1 + \frac{b_1}{b_0}s }
+\end{align}
+
+En esta expresión lineal, todos los coeficientes son reales y $a_0/b_0$ representa la ganancia estática de baja frecuencia $(s=0)$ la cual denotamos como $H_0$, al reordenar los términos de (2) obtenemos
+
+\begin{align}
+	H(s) = H_0 \frac{1 + s \frac{a_1}{a_0}}{1 + s\frac{b_1}{b_0}}
+\end{align}
+
+El escribir una ecuación de la forma apropiada implica que $H_0$ y $H(s)$ comparten dimensiones similares. Si $H(s)$ es una ganancia de voltaje $(V/V)$ o corriente $(A/A)$, entonces claramente la ganancia $H_0$ no debe tener dimenciones. Si se deriva una función de transferencia $Z(s)$ (una impedancia), entonces el término de dc debe ser una resistencia denotada como $R_0$.
+
+Si éste término de dc representa una unidad, entonces el numerador y el denominador no deben tener dimensiones. En este caso, los términos $s \frac{a_1}{a_0}$ y $s \frac{b_1}{b_0}$ son también adimensionales en (3). Dado que $s$ tiene la dimensión de una frecuencia en Hz, entonces los términos  $\frac{a_1}{a_0}$ y $\frac{b_1}{b_0}$ deben tener la dimensión de $Hz^{-1}$ o tiempo o también llamadas constantes de tiempo.
+
+Podemos describir redes de orden superior simplemente incrementando el orden de los polinomios:
+
+\begin{align}
+	H(s) = \frac{a_0 + a_1s + a_2s^2 + a_3s^3 + \cdots + a_ms^m }{b_0 + b_1s + b_2s^2 + b_3s^3 + \cdots + b_ns^n }
+\end{align}
+
+El grado del denominador $n$ en la ecuación (4) establece el orden de la red y también establece el número de polos: si se trata con una red de tercer orden entonces habrán tres polor (tres raíces para un polinomio de tercer orden). Así como en el denominador, si se tiene una forma de segundo orden en el numerador entonces se tendrán dos ceros. Estos polos o ceros pueden ser reales, imaginarios o conjugados. De nuevo, si se factoriza $\frac{a_0}{b_0}$ obtendremos una función ligeramente diferente
+
+\begin{align}
+	H(s) = H_0 \frac{1 + \frac{a_1}{a_0}s + \frac{a_2}{a_0}s^2 + \frac{a_3}{a_0}s^3 + \cdots + \frac{a_m}{a_0}s^m }{ 1 + \frac{b_1}{a_0}s + \frac{b_2}{a_0}s^2 + \frac{b_3}{a_0}s^3 + \cdots + \frac{b_n}{b_0}s^n }
+\end{align}
+
+Para tener los cocientes adimensionales, $a_1/a_0$ y $b_1/b_0$ deben tener la dimensión de $Hz^{-1}$ o tiempo como en (2).
+
+\subsection{Forma polinomial de segundo orden}
+No es fácil identificar los polos y ceros en la ecuación (4). Asuma que el denominador $D$ de una función de transferencia de segundo orden ha sido derivado en la siguiente forma en la cual $b_0$ es igual a 1.
+
+\begin{align}
+	D(s) = 1 + b_1s + b_2s^2
+\end{align}
+
+Una de las formas polinomiales más populares es la que se presenta en un filtro pasa bajas de segundo orden, donde su denominador se caracteriza por un factor de calidad $Q$ (o un factor de amortiguamiento $\zeta$) y una frecuencia resonante $\omega_0$
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		H(s) = \frac{1}{1 + \frac{s}{\omega_0 Q} + \left( \frac{s}{\omega_0} \right)^2 } = \frac{1}{1 + 2\zeta \frac{s}{\omega_0} + \left( \frac{s}{\omega_0} \right)^2 }
+	\end{equation}
+\end{tcolorbox}
+
+Cuando se tiene una fórmula como la que se presenta en (6), ya sea en el denominador o en el numerador, entonces se debe reorganizar para que se ajuste al formato del denominador de la ecuación (7). Para ello, se identifican los términos igualando (6) con el denominador de (7), es decir
+
+\begin{align}
+	b_1 = \frac{1}{\omega_0 Q}
+\end{align}
+
+\begin{align}
+	b_2 = \frac{1}{\omega_0^2}
+\end{align}
+
+De (9) obtenemos
+
+\begin{align}
+	\omega_0 = \frac{1}{ \sqrt{b_2} }
+\end{align}
+
+Si sustituimos la ecuación (10) en (8) obtenemos la definición del factor de calidad $Q$
+
+\begin{align}
+	Q = \frac{\sqrt{b_2}}{b_1}
+\end{align}
+
+Para obtener la posición de los polos debemos resolver
+
+\begin{align}
+	1 + \frac{s}{\omega_0 Q} + \left( \frac{s}{\omega_0} \right)^2 = 0
+\end{align}
+
+Al utilizar la ecuación general obtenemos
+
+\begin{align}
+	s_{p_1}, s_{p_2} = \frac{-b_1 \pm \sqrt{b_1^2 - 4b_2} }{2b_2}
+\end{align}
+
+\begin{align}
+		s_{p_1}, s_{p_2} &= \frac{- \frac{1}{\omega_0 Q} \pm \sqrt{ \left( \frac{1}{\omega_0 Q} \right)^2  - 4 \left( \frac{1}{\omega_0^2} \right)} }{2 \left( \frac{1}{\omega_0^2} \right) } \nonumber \\
+		&= \frac{- \frac{1}{\omega_0 Q} \pm \sqrt{ \frac{1}{\omega_0^2 Q^2}  - \frac{4}{\omega_0^2}} }{ \frac{2}{\omega_0^2} } \nonumber \\
+		&= \frac{- \frac{1}{\omega_0 Q} \pm \sqrt{ \frac{1 - 4Q^2}{\omega_0^2 Q^2}} }{ \frac{2}{\omega_0^2} } \nonumber \\
+		&= \frac{- \frac{1}{\omega_0 Q} \pm \frac{\sqrt{ 1 - 4Q^2 }}{\omega_0 Q}  }{ \frac{2}{\omega_0^2} } \nonumber
+\end{align}
+
+\begin{align}
+	&= \frac{ \frac{-1  \pm \sqrt{1 - 4Q^2} }{\omega_0 Q} }{\frac{2}{\omega_0^2}} \nonumber \\
+	&= \frac{\omega_0^2 \left(-1 \pm \sqrt{ 1 - 4Q^2 } \right) }{2 \omega_0 Q} \nonumber
+\end{align}
+
+Así
+
+\begin{align}
+	s_{p_1}, s_{p_2} = \frac{\omega_0}{2Q} \left( \pm \sqrt{1 - 4Q^2} - 1 \right)
+\end{align}
+
+Dependiendo del valor del factor de calidad $Q$, las raíces pueden ser reales (sin parte imaginaria), conjugadas (parte real e imaginaria) o conjugadas imaginarias (sin parte real). Para $Q$ menor a $0.5$ las raíces son reales y la respuesta ante un escalón unitario no es oscilante del todo. Para $Q$ mayor a $0.5$, las raíces son reales y coincidentes. La respuesta es rápida y no hay oscilaciones. Para $Q$ mayor a $0.5$, las raíces se vuelven conjugadas y se puede observar una respuesta oscilatoria donde la parte real representará un amortiguamiento (disipación de energía) haciendo que las oscilaciones desaparezcan con el tiempo. A medida que $Q$ aumente, las partes reales se reducirán haciendo que la respuesta se vuelva cada vez más oscilatoria, con un \textit{sobreimpuso} pronunciado. Cuando $Q$ es infinito, la parte real se vuelve 0 obteniendo así oscilaciones permamnentes.
+Estas respuestas transitorias aparecen en la figura 1 para diferentes valores de $Q$.
+
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=1]
+		\pgfplotsset{width=15cm,compat=1.18}
+		\begin{axis}[
+			clip=false,
+			axis y line=left,
+			axis x line=middle, 
+			xmin=0,xmax=60,
+			ymin=0,ymax=2,
+			xlabel=$t(s)$,
+			ylabel=$v$,
+			title= \textbf{Step Response},
+			axis y line= center,
+			]
+			\addplot[smooth, RoyalBlue, mark=none, domain=0:60, samples=400,style=thick] {-exp(-5*x)*(cosh(sqrt(6)*x*2)+sqrt(6) * sinh(sqrt(6)*x*2) *(5/12))+1 };
+			\addplot[smooth, Mulberry, mark=none, domain=0:60, samples=400,style=thick] { -exp(-x) -x*exp(-x)+1 };
+			\addplot[smooth, Mahogany, mark=none, domain=0:60, samples=400,style=thick] { -exp(-0.5*x)*(cos(deg(sqrt(3)*x)/2)+(sqrt(3)*sin(deg(sqrt(3)*x/2))/3))+1 };
+			\addplot[smooth, ForestGreen, mark=none, domain=0:60, samples=400,style=thick] {-exp(-0.16665*x)*(cos(deg(19720*x)/20000)+19720*sin(deg(19720*x)/20000)*0.00000857)+1 };
+			\addplot[smooth, Orange, mark=none, domain=0:60, samples=400,style=thick] {-exp(-0.07145*x)*(cos(deg(949*x*0.00105))+949*sin(deg(949*x*0.00105))*0.0000754  )+1 };
+			\legend{$Q=0.1$,$Q=0.5$,$Q=1.0$,$Q=3.0$,$Q=7.0$}
+			\node[anchor=west] at (axis cs:25,0.4){$\omega_0=1$};
+			%\draw[<-](10, 0.6)--(15, 0.45); %Q=0.1
+			%\draw[<-](2.8, 0.6)--(11, 0.3); %Q=0.5
+			%\node[anchor=west] at (axis cs:15,0.4){$Q=0.1$};
+			%\node[anchor=west] at (axis cs:11,0.25){$Q=0.5$};
+		\end{axis}
+		;\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura1}
+\end{figure}
+
+Si colocamos los polos $s_1$ y $s_2$ obtenidos a partir de la ecuación 14 sobre el plano $s$, obtendríamos una gráfica como la que se muestra en la figura 2. En 2(a), $Q$ es bajo, muy por debajo de $0.5$ y los polos están divididos. La raíz $s_{p_1}$ al eje vertical y domina la respuesta de ac de baja frecuencia mientras que $s_{p_2}$ se refiere a las frecuencias más altas. En (b) $Q=0.5$ y las raíces son \textit{coincidentes}: es decir, los polos ocurren a la misma frecuencia pero las respuestas transitorias entán libres de vibraciones porque no hay parte imaginaria en $s_{p_1}$ y $s_{p_2}$.
+A medida que $Q$ aumenta más allá de 0.5 como en (c), las raíces se vuelven conjugadas y la respuesta es una forma de onda senoidal oscilatoria amortiguada. Las partesz reales son todas las pérdidas que disipan energía y amortiguan el sistema. En (d) no se disipa energía ciclo a ciclo, $Q$ es infinito. El sistema no está amortiguado y oscila libremente.
+Es importante notar que todas las raíces en (a), (b) y (c) descansan en el semiplano izquierdo, allí la respuesta decae exponencialmente. En otros términos está acotado y no diverge. Si uno de estos polos salta al lado derecho del mapa y se convierte en una raíz positiva, la respuesta divergiría y se volvería ilimitada.
+
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.7]
+	\pgfplotsset{width=9cm,compat=1.18}
+	\begin{axis}[
+		clip=false,
+		axis y line=center,
+		axis x line=middle, 
+		xmin=-1,xmax=1,
+		ymin=-1,ymax=1,
+		xtick={0},
+		ytick={0},
+		xlabel=$\sigma$,
+		ylabel=$j\omega$,
+		]
+		\addplot+[thick,mark=x,mark size=5pt,const plot] coordinates {(-0.8,0) (-0.4,0)};
+		\node[anchor=north] at (axis cs:-0.8,-0.1){$s_{p_2}$};
+		\node[anchor=north east] at (axis cs:0,0){$0$};
+		\node[anchor=north] at (axis cs:-0.4,-0.1){$s_{p_1}$};
+		\node[anchor=north] at (axis cs:0.5,-0.5){$Q<0.5$};
+		\node[anchor=north] at (axis cs:-0.5,0.5){LHP};
+		\node[anchor=north] at (axis cs:0.5,0.5){RHP};
+		\node[anchor=north] at (axis cs:0.5,-0.5){$Q<0.5$};
+		\draw[<-] (-0.9,-0.5) -- (-0.6,-0.5) node[right=0mm]{$Q$};
+		\draw[->] (-0.45,-0.45) -- (-0.45,-0.55);
+		\draw[->] (-0.4,-0.5) -- (-0.1,-0.5);
+		\draw[<-] (-0.9,-0.7) -- (-0.6,-0.7) node[right=0mm]{$Q$};
+		\draw[->] (-0.45,-0.75) -- (-0.45,-0.65);
+		\draw[->] (-0.4,-0.7) -- (-0.1,-0.7);
+		\node[] at (axis cs: 0.5,-1){$(a)$};
+		\node[] at (axis cs: 0.5,-3.5){$(b)$};
+		\node[] at (axis cs: 3.5,-1){$(d)$};
+		\node[] at (axis cs: 3.5,-3.5){$(c)$};
+	\end{axis}
+	
+	\pgfplotsset{width=9cm,compat=1.18}
+	\begin{axis}[
+		xshift=11cm,
+		yshift=0cm,
+		clip=false,
+		axis y line=center,
+		axis x line=middle, 
+		xmin=-1,xmax=1,
+		ymin=-1,ymax=1,
+		xtick={0},
+		ytick={0},
+		xlabel=$\sigma$,
+		ylabel=$j\omega$,
+		]
+		\addplot+[thick,mark=x,mark size=5pt,const plot] coordinates {(0,0.7) (0,-0.7)};
+		\node[right=-2mm] at (axis cs:0.1,0.7){$s_{p_2}$};
+		\node[anchor=north east] at (axis cs:0,0){$0$};
+		\node[right=-2mm] at (axis cs:0.1,-0.7){$s_{p_1}$};
+		\draw (0,0.7) .. controls (-0.5,0.3) and (-0.5,-0.3) .. (0,-0.7);
+		\node[anchor=north] at (axis cs:0.5,-0.5){$Q \rightarrow \infty $};
+	\end{axis}
+	
+	\pgfplotsset{width=9cm,compat=1.18}
+	\begin{axis}[
+		xshift=0cm,
+		yshift=-7cm,
+		clip=false,
+		axis y line=center,
+		axis x line=middle, 
+		xmin=-1,xmax=1,
+		ymin=-1,ymax=1,
+		xtick={0},
+		ytick={0},
+		xlabel=$\sigma$,
+		ylabel=$j\omega$,
+		]
+		\addplot+[thick,mark=x,mark size=5pt,const plot] coordinates {(-0.5,0)};
+		\node[anchor=north east] at (axis cs:0,0){$0$};
+		\node[anchor=north] at (axis cs:-0.5,0.2){$s_{p_2}$};
+		\node[anchor=north] at (axis cs:-0.5,0.3){$s_{p_1}$};
+		\node[anchor=north] at (axis cs:0.5,-0.5){$Q=0.5$};
+		\draw[<-] (-0.9,-0.5) -- (-0.6,-0.5) node[right=0mm]{$Q$};
+		\draw[->] (-0.45,-0.45) -- (-0.45,-0.55);
+		\draw[->] (-0.4,-0.5) -- (-0.1,-0.5);
+		\draw[<-] (-0.9,-0.7) -- (-0.6,-0.7) node[right=0mm]{$Q$};
+		\draw[->] (-0.45,-0.75) -- (-0.45,-0.65);
+		\draw[->] (-0.4,-0.7) -- (-0.1,-0.7);
+	\end{axis}
+	
+		\pgfplotsset{width=9cm,compat=1.18}
+	\begin{axis}[
+		xshift=11cm,
+		yshift=-7cm,
+		clip=false,
+		axis y line=center,
+		axis x line=middle, 
+		xmin=-1,xmax=1,
+		ymin=-1,ymax=1,
+		xtick={0},
+		ytick={0},
+		xlabel=$\sigma$,
+		ylabel=$j\omega$,
+		]
+		\addplot+[thick,mark=x,mark size=5pt,const plot] coordinates {(-0.3,0.33)};
+		\addplot+[thick,mark=x,mark size=5pt,const plot,color=blue] coordinates {(-0.3,-0.33)};
+		\node[right=2mm] at (axis cs:-0.3,0.3){$s_{p_2}$};
+		\node[anchor=north east] at (axis cs:0,0){$0$};
+		\node[right=2mm] at (axis cs:-0.3,-0.3){$s_{p_1}$};
+		\draw (0,0.7) .. controls (-0.5,0.3) and (-0.5,-0.3) .. (0,-0.7);
+		\node[anchor=north] at (axis cs:0.5,-0.5){$Q > 0.5 $};
+	\end{axis}
+	;\end{tikzpicture}
+	\caption{}	
+	\label{fig:figura2}
+\end{figure}
+
+\subsection{Respuesta en frecuencia}
+
+Si la amplitud de una fuente senoidal se mantiene constante y se varía la frecuencia, se obtiene la respuesta en frecuencia del circuito. Esta puede considerarse como una descripción completa del comportamiento del estado estable senoidal de un circuito como una función de la frecuenica. La respuesta en frecuencia de un circuito es lagráfica de la función de transferencia de este mismo $\textbf{H}\omega$ contra $\omega$, con $\omega$ que varía desde $\omega=0$ hasta $\omega=\infty$. Al ser una cantidad compleja, $\textbf{H}\omega$ tiene una magnitud $H(\omega)$ y una fase $\phi$, esto es, $\textbf{H}\omega = H(\omega) \angle \phi $. \\
+
+
+Para obtener el equivalente de (7) en el dominio de la frecuencia sustituimos la variable $s$ por $s=j\omega$ 
+
+\begin{align}
+	\textbf{H}(\omega) &= H(s)|_{s=j\omega}  = \frac{1}{1 + \frac{j\omega}{\omega_0 Q} + \left( \frac{j \omega}{\omega_0} \right)^2}
+\end{align}
+
+o bien
+
+\begin{align}
+	\textbf{H}(\omega) = \frac{1}{1 - \left( \frac{\omega}{\omega_0} \right)^2 + j\omega \frac{1}{\omega_0 Q}  }
+\end{align}
+
+\subsection*{Respuesta en magnitud}
+La respuesta en magnitud de la función de transferencia en (15) está dado por el valor absoluto de $	\textbf{H}(\omega)$
+
+\begin{align}
+	|	\textbf{H}(\omega)| = \frac{\abs{1}}{\abs{ 1 - \left( \frac{\omega}{\omega_0} \right)^2 +  j \omega \frac{1}{\omega_0 Q}   }}
+\end{align}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,arc=0mm,boxrule=0mm,width=(\linewidth+0.5cm)]
+	\begin{equation}
+		\abs{\textbf{H}(\omega)} = \frac{1}{ \sqrt{ \left[ 1 - \left( \frac{\omega}{\omega_0} \right)^2 \right]^2 + \left( \frac{\omega}{\omega_0 Q} \right)^2 }  }
+	\end{equation}
+\end{tcolorbox}
+
+En $\omega = \omega_0$ la magnitud es
+
+\begin{align}
+	\abs{\textbf{H}(\omega = \omega_0)} =  \frac{1}{ \sqrt{ \left[ 1 - \left( \frac{\omega_0}{\omega_0} \right)^2 \right]^2 + \left( \frac{\omega_0}{\omega_0 Q} \right)^2 }} = \frac{1}{\sqrt{ \frac{1}{Q^2} }} = \frac{1}{\frac{1}{Q}} = Q
+\end{align}
+
+La frecuencia pico $\omega_{peak}$ donde la magnitud es máxima está dada por
+
+\begin{align}
+	\frac{d}{d\omega}\abs{H(\omega)} &= \frac{d}{d\omega}\frac{1}{ \sqrt{ \left[ 1 - \left( \frac{\omega}{\omega_0} \right)^2 \right]^2 + \left( \frac{\omega}{\omega_0 Q} \right)^2 }  } = 0 \nonumber \\
+	\frac{d}{d\omega} \abs{H(\omega)}^2 &= 
+\end{align}
+
+\end{document}

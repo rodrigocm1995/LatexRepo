@@ -1,0 +1,716 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\usepackage{geometry}
+\geometry{
+	top=2.5cm,      % Margen superior
+	bottom=2.5cm,   % Margen inferior
+	left=3cm,       % Margen izquierdo
+	right=3cm,      % Margen derecho
+	% headheight=15pt % Opcional: Aumentar espacio para el encabezado si LaTeX da un Warning
+}
+
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[english]{babel}
+
+%\usepackage{background}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+%\usepackage{fontawesome}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	END OF PACKAGES
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	INPUTS
+%----------------------------------------------------------------------------------------
+\input{listings_config.tex}
+\input{vscode_theme.tex}
+\input{custom_boxes.tex}
+%----------------------------------------------------------------------------------------
+%	END INPUTS
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+\lstset{
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1
+	{é}{{\'e}}1
+	{í}{{\'i}}1
+	{ó}{{\'o}}1
+	{ú}{{\'u}}1
+	{ñ}{{\~n}}1
+	{Á}{{\'A}}1
+	{É}{{\'E}}1
+	{Í}{{\'I}}1
+	{Ó}{{\'O}}1
+	{Ú}{{\'U}}1
+	{Ñ}{{\~N}}1
+	{¿}{{\textquestiondown}}1
+	{¡}{{\textexclamdown}}1
+}
+%----------------------------------------------------------------------------------------
+%	END OF ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\contentsname}{My Custom Table of Contents}
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+	
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{GUÍA DE CONTROL DE VERSIONES CON GIT}} % The article title
+
+\subtitle{Manual de Procedimientos y Buenas Prácticas para la Gestión de Ramas y Sincronización en GitHub} % Uncomment to display a subtitle
+
+\author{Rodrigo Castillejos} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	PORTADA PERSONALIZADA
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\centering
+	\vspace*{2cm}
+	
+	\vspace{1cm}
+	
+	% Título Principal
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Manual de Comandos y}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Flujos de Trabajo en}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{GIT}}\\[0.5cm]
+	
+	% Subtítulo
+	{\Large\spacedlowsmallcaps{Guía metodológica para la administración de ramas, resolución de conflictos, depuración de archivos y publicación en GitHub}}\\[1.5cm]
+	
+	% Línea divisoria elegante
+	\rule{\linewidth}{1pt}\\[2cm]
+	
+	% Información del Autor y detalles del curso/institución
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushleft} \large
+			\emph{Autor:}\\
+			Rodrigo \spacedlowsmallcaps{Castillejos}
+		\end{flushleft}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushright} \large
+			\emph{Proyecto:}\\
+			Control de Dispositivos Embebidos
+		\end{flushright}
+	\end{minipage}
+	
+	\vfill
+	\vspace{3cm}
+	
+	% Fecha
+	{\large\today}\\[1cm]
+\end{titlepage}
+\newpage % Forza el salto de página después de la portada
+
+\setcounter{tocdepth}{3} % Set the depth of the table of contents to show sections and subsections only
+
+%----------------------------------------------------------------------------------------
+%	RESUMEN (SUMMARY / ABSTRACT) - COLOCAR ANTES DEL ÍNDICE
+%----------------------------------------------------------------------------------------
+\section*{Resumen}
+Este documento técnico recopila de forma estructurada los comandos y flujos de trabajo de Git utilizados para administrar el desarrollo de firmware y sistemas de telemetría. Abarca desde la clonación inicial y creación de ramas secundarias de desarrollo (\textit{feature branches}), hasta la resolución de conflictos derivados de archivos de compilación no deseados, la fusión segura de código (\textit{merge}) a la rama principal y la migración selectiva de archivos. Se presentan las mejores prácticas de flujo de trabajo comparando métodos de ramificación e incluye explicaciones detalladas de la sintaxis y comportamiento interno de comandos críticos como \textbf{\texttt{git checkout}}, \textbf{\texttt{git rm -{}-cached}}, \textbf{\texttt{git reset -{}-hard}} y \textbf{\texttt{git remote set-url}}.
+\newpage % Salto de página para que el índice (Table of Contents) inicie en una hoja limpia
+
+\tableofcontents % Print the table of contents
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 1: CLONACIÓN LOCAL
+%----------------------------------------------------------------------------------------
+\section{Clonación Local de un Repositorio}
+
+El punto de partida de la interacción con el control de versiones es la descarga del repositorio remoto desde GitHub. Este proceso crea una base de datos local en tu disco con el historial completo de commits del proyecto.
+
+\subsection{Procedimiento detallado}
+\begin{enumerate}
+	\item \textbf{Obtener la dirección de clonación:} En la página web de tu repositorio en GitHub (por ejemplo, \texttt{PowerMonitorDashboard}), haz clic en el botón verde \textbf{Code}, selecciona la pestaña \textbf{HTTPS} y copia la URL.
+	\item \textbf{Ejecutar el comando de clonación:} Abre una terminal en tu carpeta de desarrollo local y escribe:
+	\begin{lstlisting}[language=DOS]
+	git clone https://github.com/rodrigocm1995/PowerMonitorDashboard.git
+	\end{lstlisting}
+	\item \textbf{Ingresar al directorio:} Accede a la nueva carpeta creada automáticamente por Git:
+	\begin{lstlisting}[language=DOS]
+	cd PowerMonitorDashboard
+	\end{lstlisting}
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 2: GESTIÓN DE RAMAS Y FLUJOS
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Gestión de Ramas Secundarias (Feature Branches)}
+
+Las ramas secundarias se utilizan para implementar nuevas funciones, configurar bases de datos o corregir errores de forma aislada del código de producción estable de la rama \textbf{\texttt{main}}.
+
+\subsection{Comandos para la creación e inicio de ramas}
+Para crear una rama (por ejemplo, \texttt{feature/add-database}) y cambiarte a ella en una sola instrucción, puedes utilizar la terminal:
+
+\begin{lstlisting}[language=DOS]
+# Usando el comando clásico:
+git checkout -b feature/add-database
+
+# Usando el comando moderno de Git:
+git switch -c feature/add-database
+\end{lstlisting}
+
+\subsection{Análisis comparativo de flujos de trabajo}
+Existen dos formas populares para abordar las modificaciones y asignarlas a una nueva rama:
+
+\subsubsection{Método A: Creación anticipada de la rama (Recomendado)}
+Consiste en crear la rama secundaria \textbf{antes} de modificar cualquier archivo.
+
+\begin{verbatim}
+Paso 1: Checkout a la nueva rama
+Paso 2: Modificar archivos
+Paso 3: Commit y Push
+\end{verbatim}
+
+\begin{itemize}
+	\item \textbf{Ventajas:} Es el método más limpio y ordenado. Previene por completo la mezcla accidental de cambios de desarrollo con la rama principal en caso de tener que cambiar de contexto de forma imprevista. El historial de commits refleja el inicio exacto de la característica.
+\end{itemize}
+
+\subsubsection{Método B: Desarrollo local y ramificación posterior}
+Consiste en realizar las modificaciones en tu rama actual (ej. \textbf{\texttt{main}}) sin hacer commit, y después crear la rama secundaria para confirmar las modificaciones en ella.
+
+\begin{verbatim}
+Paso 1: Modificar archivos en main
+Paso 2: Checkout a nueva rama
+Paso 3: Commit y Push
+\end{verbatim}
+
+\begin{itemize}
+	\item \textbf{Cómo funciona:} En Git, las modificaciones locales que están pendientes de preparación o confirmación (cambios en el \textit{Working Directory}) no pertenecen a ninguna rama. Al cambiarte de rama usando \texttt{git checkout -b}, Git arrastra esos archivos modificados contigo de forma automática hacia la nueva rama.
+	\item \textbf{Riesgo:} Si el archivo ya tiene cambios diferentes en la rama de destino, Git bloqueará la conmutación arrojando un error de conflicto. Solo es seguro si tu árbol de trabajo no tiene conflictos de fusión directa.
+\end{itemize}
+
+%\noindent\rule{\linewidth}{0.4pt}
+
+\subsection{Confirmación y publicación de la nueva rama}
+Una vez que has editado y guardado tus archivos, la secuencia de publicación en GitHub es la siguiente:
+
+\begin{lstlisting}[language=DOS]
+# 1. Verificar el estado del espacio de trabajo
+git status
+
+# 2. Agregar los archivos modificados al Staging Area
+git add .
+
+# 3. Confirmar los cambios localmente
+git commit -m "Configure database models and context for power monitoring"
+
+# 4. Publicar la rama en GitHub por primera vez
+git push -u origin feature/add-database
+\end{lstlisting}
+
+El parámetro \texttt{-u} (\texttt{-{}-set-upstream}) establece un vínculo de seguimiento de forma que en los próximos envíos bastará con ejecutar simplemente \texttt{git push}.
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 3: CAMBIO ENTRE RAMAS Y CONFLICTOS
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Cambio de Ramas y Resolución de Bloqueos de Compilación}
+
+Para navegar de regreso a una rama existente (como \texttt{main}), se utiliza:
+\begin{lstlisting}[language=DOS]
+git checkout main
+# O bien:
+git switch main
+\end{lstlisting}
+
+\subsection{El problema de archivos de compilación rastreados}
+Un error muy común ocurre al intentar cambiar de rama cuando Git reporta que ciertos archivos se sobrescribirán:
+\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+error: Your local changes to the following files would be overwritten by checkout:
+        Service/TemperatureService/bin/Debug/net9.0/TemperatureService.dll
+        Service/TemperatureService/obj/Debug/net9.0/TemperatureService.dll
+Please commit your changes or stash them before you switch branches.
+Aborting
+\end{lstlisting}
+
+\textbf{¿Por qué sucede?} Esto ocurre cuando una de las ramas (como \texttt{main}) tiene en su historial de commits archivos binarios temporales de compilación (como la carpeta \texttt{bin} u \texttt{obj}), y la otra rama no los tiene o los tiene ignorados. Al correr el proyecto (\texttt{dotnet run} o \texttt{npm start}), el compilador re-escribe estos binarios. Al intentar cambiar de rama, Git nota que los archivos rastreados cambiaron localmente y bloquea el proceso para no perder datos.
+
+\subsection{La Solución: Limpieza forzada (\texttt{git reset -{}-hard})}
+Dado que los archivos reportados son binarios autogenerados de compilación y no contienen código fuente escrito por ti, puedes descartar todas las modificaciones locales de forma segura con el comando:
+
+\begin{lstlisting}[language=DOS]
+git reset --hard
+\end{lstlisting}
+
+\textbf{Efecto:} Este comando descarta todos los cambios del directorio de trabajo y del área de preparación, regresando el repositorio al estado exacto del último commit registrado. Esto limpia el bloqueo y te permite hacer \texttt{git switch} o \texttt{git checkout} de inmediato.
+
+\begin{ErrorBox}{Peligro del uso de git reset --hard}
+	El comando \texttt{git reset -{}-hard} destruye permanentemente cualquier cambio que no haya sido confirmado en un commit. Asegúrate de usarlo únicamente si estás seguro de que los archivos listados en rojo por \texttt{git status} son archivos basura de compilación y no código real que desees conservar.
+\end{ErrorBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 4: ELIMINACIÓN DE ARCHIVOS DEL HISTORIAL Y EL USO DE .GITIGNORE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Eliminación de Archivos del Historial y el uso de .gitignore}
+
+El archivo \texttt{.gitignore} le indica a Git qué archivos debe ignorar por completo (como \texttt{node\_modules/}, \texttt{bin/}, \texttt{obj/}). Sin embargo, \textbf{el archivo .gitignore solo funciona para archivos que no están siendo rastreados (untracked)}.
+
+Si un archivo ya fue subido a GitHub en commits anteriores, Git lo seguirá rastreando e informando sobre sus modificaciones, ignorando las reglas del archivo \texttt{.gitignore}.
+
+\subsection{El comando de remoción del índice (\texttt{git rm -{}-cached})}
+Para indicarle a Git que deje de vigilar un archivo o carpeta sin eliminarlo físicamente de tu computadora, debes sacarlo del índice (área de preparación) de Git.
+
+La sintaxis del comando es la siguiente:
+\begin{lstlisting}[language=DOS]
+# Dejar de rastrear una carpeta de compilación de forma recursiva
+git rm -r --cached Service/TemperatureService/bin/
+git rm -r --cached Service/TemperatureService/obj/
+\end{lstlisting}
+
+\begin{description}
+	\item[\texttt{git rm}:] Comando para remover archivos o directorios del control de Git.
+	\item[\texttt{-r}:] Aplica la remoción de manera recursiva (necesaria para procesar carpetas y todo su contenido).
+	\item[\texttt{-{}-cached}:] \textbf{Modificador crítico.} Indica que solo se borre la referencia del archivo de la base de datos de Git (lo que provocará su eliminación del repositorio en la nube de GitHub), pero \textbf{mantendrá el archivo intacto en tu almacenamiento local} para que el proyecto siga compilando.
+\end{description}
+
+\subsection{Flujo completo de limpieza permanente}
+Para limpiar el historial de la rama actual y hacer que el \texttt{.gitignore} empiece a funcionar:
+\begin{lstlisting}[language=DOS]
+# 1. Descartar cambios de compilación locales
+git reset --hard
+
+# 2. Remover las carpetas del rastreo de Git
+git rm -r --cached Service/TemperatureService/bin/
+git rm -r --cached Service/TemperatureService/obj/
+
+# 3. Guardar el cambio y subirlo
+git commit -m "Stop tracking build folders"
+git push origin <nombre-rama>
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 5: INTEGRACIÓN A LA RAMA MAIN (MERGE)
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Integración de Cambios: Fusión (Merge) a la Rama Principal}
+
+Cuando una característica desarrollada en una rama secundaria está terminada y validada, se debe fusionar e integrar en la rama principal \texttt{main}.
+
+\subsection{Flujo de comandos estándar para el Merge}
+Para integrar los cambios de la rama \texttt{feature/add-database} dentro de \texttt{main}:
+
+\begin{lstlisting}[language=DOS]
+# 1. Cambiarse a la rama de destino (main)
+git checkout main
+
+# 2. Descargar los ultimos cambios del servidor remoto
+git pull origin main
+
+# 3. Fusionar la rama secundaria dentro de main
+git merge feature/add-database
+
+# 4. Subir la rama main actualizada a GitHub
+git push origin main
+\end{lstlisting}
+
+\subsection{El concepto de fusión automática y resolución de conflictos}
+Git analiza el ancestro común más cercano de ambas ramas. 
+
+\begin{itemize}
+	\item \textbf{Fusión Automática (Fast-forward o 3-way merge):} Si las modificaciones de la rama secundaria se realizaron en archivos o líneas de código diferentes a las que se editaron en \texttt{main} desde la separación, Git fusiona ambos trabajos automáticamente sin alterar nada.
+	\item \textbf{Conflictos de fusión:} Si se editó exactamente la misma línea del mismo archivo en ambas ramas con contenidos distintos, Git detendrá la fusión y marcará el archivo con marcas de conflicto para que el desarrollador elija manualmente qué versión conservar antes de finalizar el commit.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 6: OPERACIONES DE EXTRACCIÓN SELECTIVA (CHECKOUT --)
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Extracción Selectiva de Archivos entre Ramas (Operaciones Quirúrgicas)}
+
+En ocasiones no se desea realizar una fusión completa de ramas, sino extraer únicamente un archivo o una carpeta específica de otra rama (por ejemplo, traer el archivo \texttt{.gitignore} o la carpeta del microcontrolador \texttt{NUCLEO-F303\_TempAndLuxMonitor} de la rama \texttt{main} hacia tu rama actual).
+
+Para copiar un recurso directamente de una rama a otra sin afectar tus archivos locales editados, se utiliza la siguiente instrucción:
+
+\begin{lstlisting}[language=DOS]
+git checkout <rama-origen> -- <ruta/del/archivo-o-carpeta>
+\end{lstlisting}
+
+\subsection{Ejemplo de uso práctico}
+Si te encuentras en tu rama de desarrollo y deseas clonar el archivo \texttt{.gitignore} tal como está en \texttt{main}:
+\begin{lstlisting}[language=DOS]
+git checkout main -- .gitignore
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{Comportamiento:} Este comando busca en la base de datos de Git de la rama \texttt{main}, toma una copia exacta del archivo \texttt{.gitignore} y lo escribe en tu carpeta local activa. Además, lo coloca automáticamente en el área de preparación (\textit{staged}), listo para ser confirmado con un \texttt{git commit}.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 7: MODIFICACIÓN DEL SERVIDOR REMOTO
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Actualización de la Dirección del Servidor Remoto (Remote URL)}
+
+Si el nombre del repositorio se modifica en GitHub (por ejemplo, corregir una falta de ortografía o un carácter especial prohibido), se romperá el vínculo local del repositorio. Para corregir la dirección URL de GitHub en tu proyecto local sin perder tu historial, se utiliza el comando:
+
+\begin{lstlisting}[language=DOS]
+git remote set-url origin https://github.com/rodrigocm1995/AmbientLight-Temperature-Dashboard.git
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{Sintaxis:}
+	\begin{itemize}
+		\item \texttt{set-url}: Modifica la dirección URL asociada a un alias de servidor remoto.
+		\item \texttt{origin}: Nombre del alias del servidor que se está actualizando.
+		\item La nueva URL \texttt{.git} apunta directamente al repositorio renombrado.
+	\end{itemize}
+\end{itemize}
+
+Para verificar que el cambio de dirección se aplicó con éxito, ejecuta:
+\begin{lstlisting}[language=DOS]
+git remote -v
+\end{lstlisting}
+
+\newpage
+\section{Publicación de un Directorio Local en un Nuevo Repositorio}
+
+Cuando tienes una carpeta local con archivos (como tu carpeta \texttt{Latex} en \texttt{C:\textbackslash Users\textbackslash casti\textbackslash OneDri\\ve\textbackslash Documentos\textbackslash Latex}) y deseas convertirla en un repositorio de GitHub llamado \texttt{LatexRepository}, existen dos caminos para lograrlo: el método tradicional a través de la interfaz web de GitHub y el método avanzado utilizando la línea de comandos.
+
+\subsection{¿Es necesario crearlo desde la web de GitHub?}
+No es estrictamente necesario entrar al sitio web de GitHub. Puedes crear el repositorio remoto directamente desde tu terminal si tienes instalada la herramienta oficial de línea de comandos de GitHub conocida como \textbf{GitHub CLI} (\texttt{gh}). Si no dispones de esta herramienta, sí deberás crear el repositorio vacío manualmente en la página web antes de poder subir tus archivos locales.
+
+\subsection{¿Qué es GitHub CLI y cómo verificar su instalación?}
+\textbf{GitHub CLI} (representado por el comando de consola \texttt{gh}) es la herramienta oficial de línea de comandos de GitHub. A diferencia de Git (que gestiona el historial local de archivos), GitHub CLI permite realizar tareas directamente sobre la plataforma web de GitHub (como administrar repositorios, solicitudes de extracción o \textit{pull requests}, fallos o \textit{issues}, y secretos de despliegue) sin salir de tu terminal.
+
+Para verificar si ya lo tienes instalado en tu sistema, abre una terminal (PowerShell o CMD) y ejecuta el siguiente comando:
+\begin{lstlisting}[language=DOS]
+gh --version
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{Si está instalado:} Verás información detallada con el número de versión (por ejemplo, \texttt{gh version 2.45.0}).
+	\item \textbf{Si no está instalado:} Windows arrojará un error indicando que el término \texttt{gh} no se reconoce como un cmdlet, función, archivo de script o programa ejecutable. En este caso, puedes descargarlo e instalarlo desde su sitio oficial: \href{https://cli.github.com/}{cli.github.com}.
+\end{itemize}
+
+\subsection{Método 1: Creación del Repositorio desde la Web de GitHub (Tradicional)}
+Este es el método estándar. Sigue estos pasos para subir tu carpeta local \texttt{Latex}:
+
+\begin{enumerate}
+	\item \textbf{Crear el repositorio en GitHub:}
+	\begin{enumerate}
+		\item Inicia sesión en \href{https://github.com}{github.com}.
+		\item Haz clic en el botón \textbf{New} (Nuevo) en la sección de repositorios.
+		\item Asigna el nombre \texttt{LatexRepository} en \textbf{Repository name}.
+		\item \textbf{Muy Importante:} No selecciones ninguna de las opciones de inicialización (como \textit{Add a README file}, \textit{Add .gitignore} o \textit{Choose a license}). El repositorio remoto debe permanecer completamente vacío para evitar conflictos de fusión iniciales.
+		\item Haz clic en el botón \textbf{Create repository}.
+		\item Copia la URL HTTPS que te proporciona la página (será algo como \texttt{https://github.com\\/rodrigocm1995/LatexRepository.git}).
+	\end{enumerate}
+	
+	\item \textbf{Inicializar y subir la carpeta local desde la terminal:}
+	Abre tu consola (PowerShell o CMD) en la ruta de tu carpeta y ejecuta la siguiente secuencia de comandos:
+	\begin{lstlisting}[language=DOS]
+	# 1. Cambiarse al directorio que deseas subir
+	cd "C:\Users\casti\OneDrive\Documentos\Latex"
+	
+	# 2. Inicializar el repositorio Git local en esta carpeta
+	git init
+	
+	# 3. Agregar todos los archivos al area de preparacion
+	git add .
+	
+	# 4. Registrar los archivos en tu primer commit local
+	git commit -m "Initial commit: Uploading LaTeX documents"
+	
+	# 5. Asegurar que la rama principal se llame main
+	git branch -M main
+	
+	# 6. Vincular el repositorio local con el remoto de GitHub
+	git remote add origin https://github.com/rodrigocm1995/LatexRepository.git
+	
+	# 7. Subir el historial de commits a la rama main
+	git push -u origin main
+	\end{lstlisting}
+\end{enumerate}
+
+\subsection{Método 2: Creación y Publicación usando GitHub CLI (\texttt{gh})}
+Si tienes instalado \textbf{GitHub CLI}, puedes crear el repositorio en la nube y subir tu código en un solo paso directo sin abrir el navegador, siempre y cuando tu terminal esté autenticada con tu cuenta de GitHub.
+
+\subsubsection{¿Qué es gh auth login y cómo autenticarse?}
+El comando \texttt{gh auth login} es el mecanismo que utiliza GitHub CLI para vincular tu terminal local con tu cuenta en la nube de GitHub, otorgándole los permisos necesarios para realizar cambios remotos (como crear repositorios o subir código).
+
+\begin{enumerate}
+	\item \textbf{Cómo saber si ya estás autenticado:}
+	Ejecuta el siguiente comando en tu terminal para verificar el estado de tu sesión activa:
+	\begin{lstlisting}[language=DOS]
+	gh auth status
+	\end{lstlisting}
+	
+	\begin{itemize}
+		\item \textbf{Sesión activa:} La consola te responderá con tu nombre de usuario e información de conexión (por ejemplo: \texttt{Logged in to github.com account rodrigocm1995}).
+		\item \textbf{Sin sesión:} La consola te indicará que no has iniciado sesión en ningún host de GitHub.
+	\end{itemize}
+	
+	\item \textbf{Cómo realizar la autenticación:}
+	Si no has iniciado sesión, ejecuta:
+	\begin{lstlisting}[language=DOS]
+	gh auth login
+	\end{lstlisting}
+	
+	A continuación, la terminal iniciará un asistente interactivo donde debes responder las siguientes opciones (figura \ref{fig:git_3}):
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{git_3}
+		\caption{Opciones del asistente interactivo de gh auth login.}\label{fig:git_3}
+	\end{figure}
+
+	\begin{enumerate}
+		\item \textbf{What account do you want to log into?} Selecciona \texttt{GitHub.com}.
+		\item \textbf{What is your preferred protocol for Git operations?} Selecciona \texttt{HTTPS}.
+		\item \textbf{Authenticate Git with your GitHub credentials?} Selecciona \texttt{Yes} (esto configura automáticamente las credenciales para futuros comandos de Git).
+		\item \textbf{How would you like to authenticate GitHub CLI?} Selecciona \texttt{Login with a web browser}.
+		\item La terminal generará un código único de 8 caracteres (por ejemplo: \texttt{A1B2-C3D4}) y te solicitará presionar \keys{Enter} para abrir tu navegador web predeterminado.
+		\item En la página de GitHub que se abrirá, introduce el código de 8 caracteres (figura \ref{fig:git_1}).
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{git_1}
+			\caption{Ingreso del código de autorización.}\label{fig:git_1}
+		\end{figure}
+		\item Haz clic en \textbf{Authorize github}. La terminal confirmará el inicio de sesión exitoso de inmediato (figura \ref{fig:git_2}).
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{git_2}
+			\caption{Autorizar que GitHub CLI acceda a la cuenta.}\label{fig:git_2}
+		\end{figure}
+	\end{enumerate}
+\end{enumerate}
+
+Una vez autenticado, abre la terminal en la carpeta correspondiente y ejecuta:
+
+\begin{lstlisting}[language=DOS]
+# 1. Acceder a la carpeta local
+cd "C:\Users\casti\OneDrive\Documentos\Latex"
+
+# 2. Inicializar el repositorio local si no lo has hecho
+git init
+
+# 3. Preparar y confirmar los archivos localmente
+git add .
+git commit -m "Initial commit: Uploading LaTeX documents"
+
+# 4. Crear el repositorio en GitHub y hacer Push automaticamente
+gh repo create LatexRepository --public --source=. --remote=origin --push
+\end{lstlisting}
+
+
+
+\begin{InfoBox}{Explicación de parámetros de GitHub CLI}
+	\begin{description}
+		\item[\texttt{-{}-public}:] Crea el repositorio en GitHub con visibilidad pública (usa \texttt{-{}-private} si deseas que sea privado).
+		\item[\texttt{-{}-source=.}:] Indica que el código fuente base se encuentra en el directorio actual (\texttt{.}).
+		\item[\texttt{-{}-remote=origin}:] Configura automáticamente el enlace remoto con el nombre \texttt{origin}.
+		\item[\texttt{-{}-push}:] Realiza la subida de los commits confirmados en tu rama principal inmediatamente después de crear el repositorio remoto.
+	\end{description}
+\end{InfoBox}
+
+\newpage
+\section{Eliminación de un Repositorio de GitHub}
+
+En caso de que requieras eliminar de forma permanente un repositorio de GitHub (por ejemplo, el repositorio de prueba \texttt{LatexRepository}), existen dos maneras de llevarlo a cabo: a través de la interfaz web tradicional o utilizando la consola de comandos mediante GitHub CLI.
+
+\begin{WarningBox}{Advertencia sobre la eliminación de repositorios}
+	La eliminación de un repositorio en GitHub es una acción destructiva e irreversible. Al hacerlo, se perderá de forma permanente todo el historial de commits, ramas, issues, pull requests y comentarios asociados. Asegúrate de respaldar tu código local antes de proceder.
+\end{WarningBox}
+
+\subsection{Método 1: Eliminación desde la Aplicación Web de GitHub}
+Este es el proceso estándar a través de tu navegador de internet:
+\begin{enumerate}
+	\item Accede a tu cuenta de GitHub y navega a la página principal del repositorio que deseas borrar (ej. \texttt{rodrigocm1995/LatexRepository}).
+	\item Haz clic en la pestaña \textbf{Settings} (Configuración) ubicada en el menú horizontal superior del repositorio (representada por un icono de engranaje).
+	\item Desplázate hasta el final de la página de configuración hasta encontrar la sección denominada \textbf{Danger Zone} (Zona de Peligro).
+	\item Identifica la opción \textbf{Delete this repository} (Eliminar este repositorio) y haz clic sobre ella.
+	\item GitHub te mostrará una serie de advertencias sobre lo que implica la eliminación. Haz clic en los botones de confirmación correspondientes.
+	\item Para evitar eliminaciones accidentales, la plataforma te solicitará escribir de forma explícita la ruta completa del repositorio (por ejemplo, \texttt{rodrigocm1995/LatexRepository}).
+	\item Finalmente, haz clic en el botón de confirmación definitiva. Es posible que debas ingresar tu contraseña de GitHub o código de doble factor (2FA) para finalizar el proceso.
+\end{enumerate}
+
+\subsection{Método 2: Eliminación usando la Consola (GitHub CLI)}
+Si tienes instalada y configurada la herramienta de comandos oficial de GitHub (\texttt{gh}), puedes eliminar el repositorio remoto directamente desde tu terminal (PowerShell o CMD) sin abrir el navegador.
+
+Para ello, utiliza el comando \texttt{gh repo delete} con la siguiente sintaxis:
+\begin{lstlisting}[language=DOS]
+gh repo delete <propietario>/<nombre-repositorio>
+\end{lstlisting}
+
+\subsubsection{Ejemplo práctico para eliminar `LatexRepository`:}
+Abre tu terminal y ejecuta:
+\begin{lstlisting}[language=DOS]
+gh repo delete rodrigocm1995/LatexRepository
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{Comportamiento por defecto:} El comando te pedirá confirmación de forma interactiva en la terminal escribiendo de nuevo el nombre del repositorio para confirmar.
+	\item \textbf{Eliminación directa sin confirmación interactiva:} Si deseas saltarte la confirmación manual (por ejemplo, en scripts automatizados), puedes añadir el modificador \texttt{-{}-yes}:
+	\begin{lstlisting}[language=DOS]
+	gh repo delete rodrigocm1995/LatexRepository --yes
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Resolución del Error de Permisos (HTTP 403: delete\_repo scope)}
+Por razones de seguridad, cuando inicias sesión por primera vez en GitHub CLI con \texttt{gh auth login}, la herramienta solicita permisos limitados que no incluyen la capacidad de borrar repositorios. Si intentas borrar un repositorio sin este alcance, obtendrás el siguiente error:
+\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+HTTP 403: Must have admin rights to Repository.
+This API operation needs the "delete_repo" scope. To request it, run:
+  gh auth refresh -h github.com -s delete_repo
+\end{lstlisting}
+
+\subsubsection{Cómo resolverlo:}
+Para otorgarle el permiso de eliminación a GitHub CLI, debes actualizar las credenciales de tu cuenta ejecutando el siguiente comando:
+\begin{lstlisting}[language=DOS]
+gh auth refresh -h github.com -s delete_repo
+\end{lstlisting}
+
+\begin{enumerate}
+	\item El comando te solicitará abrir el navegador web para re-autorizar GitHub CLI. Presiona la tecla \keys{Enter} para proceder.
+	\item En el navegador, se abrirá la página de GitHub donde aparecerá la solicitud del permiso adicional: \textbf{Delete repositories} (Eliminar repositorios). Haz clic en el botón verde \textbf{Authorize github}.
+	\item Tras la confirmación, regresa a tu terminal y vuelve a ejecutar el comando de eliminación original. Ahora se completará con éxito sin errores de privilegios.
+\end{enumerate}
+
+\end{document}

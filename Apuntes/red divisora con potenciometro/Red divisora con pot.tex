@@ -1,0 +1,256 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{pdfpages}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{filecontents}
+\usepackage{nicematrix}
+\usepackage{bodeplot}
+\graphicspath{{images/}}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{schemabloc}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usetikzlibrary{positioning}
+\usepackage[scr]{rsfso}
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{$#2$}}%
+\newcommand*{\Resize}[2]{\resizebox{#1}{!}{$#2$}}%
+
+\newcommand{\Laplace}{\mathscr{L}}
+
+\title{Análisis de red divisora de voltaje con potenciómetro}
+\author{Rodrigo}
+\date{Agosto 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Análisis de circuito con OpA}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+\renewcommand{\figurename}{Figura}
+%---------------------------------------------------
+\tikzset{flipflop myRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, tu={\ctikztextnot{RST}}, nu=1, n4=1 }}
+}
+
+\tikzset{flipflop myFFRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, n4=1 }}
+}
+%---------------------------------------------------
+
+\makeatletter
+\newcommand*{\underarrow}{\def\@underarrow{\relax}\@ifstar{\@@underarrow}{\def\@underarrow{\hidewidth}\@@underarrow}}
+\newcommand*{\@@underarrow}[2][]{\underset{\@underarrow\substack{\uparrow\if\relax\detokenize{#1}\relax\else\\#1\fi}\@underarrow}{#2}}
+
+\newcommand*{\overarrow}{\def\@overarrow{\relax}\@ifstar{\@@overarrow}{\def\@overarrow{\hidewidth}\@@overarrow}}
+\newcommand*{\@@overarrow}[2][]{\overset{\@overarrow\substack{\if\relax\detokenize{#1}\relax\else#1\\\fi\downarrow}\@overarrow}{#2}}
+\makeatother
+
+\makeatletter
+\newcounter{elimination@steps}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash$}p{#1}<{$}}
+\def\elimination@num@rights{}
+\def\elimination@num@variables{}
+\def\elimination@col@width{}
+\newenvironment{elimination}[4][0]
+{
+	\setcounter{elimination@steps}{0}
+	\def\elimination@num@rights{#1}
+	\def\elimination@num@variables{#2}
+	\def\elimination@col@width{#3}
+	\renewcommand{\arraystretch}{#4}
+	\start@align\@ne\st@rredtrue\m@ne
+}
+{
+	\endalign
+	\ignorespacesafterend
+}
+\newcommand{\eliminationstep}[2]
+{
+	\ifnum\value{elimination@steps}>0\sim\quad\fi
+	\left[
+	\ifnum\elimination@num@rights>0
+	\begin{array}
+		{@{}*{\elimination@num@variables}{R{\elimination@col@width}}
+			|@{}*{\elimination@num@rights}{R{\elimination@col@width}}}
+		\else
+		\begin{array}
+			{@{}*{\elimination@num@variables}{R{\elimination@col@width}}}
+			\fi
+			#1
+		\end{array}
+		\right]
+		& 
+		\begin{array}{l}
+			#2
+		\end{array}
+		&%                                    moved second & here
+		\addtocounter{elimination@steps}{1}
+	}
+	\makeatother
+	
+	\makeatletter
+	\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+		\hskip -\arraycolsep
+		\let\@ifnextchar\new@ifnextchar
+		\array{#1}}
+	\makeatother
+	
+\setlength\parindent{0pt}
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+
+	\end{tabular}
+
+	
+	\section*{Análisis}
+Sea la red divisora de voltaje simétrica, formada por dos resistencias de igual valor $R$ y un potenciómetro $R_p$, determine el valor de $R$ para cualquier valor especificado de $V_o$
+
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		%\ctikzset{resistor = european}
+		\ctikzset{bipoles/thickness=4}
+		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+		\draw (0,0) node[vcc](VCC){$V_{CC}$} to[R, l_=$R$] ++(0,-3) node[potentiometershape, anchor=left, rotate=-90](P1){};
+		\draw (P1.right) to[R, l_=$R$] ++(0,-3) node[vee](VEE){$V_{EE}$};
+		\draw (P1.wiper) node[xshift=-11mm]{$R_p$} to[short, -o] ++(2,0) node[right]{$V_o$};
+	\end{tikzpicture}	
+	\caption{Red divisora de voltaje}	
+	\label{fig:figura1}
+\end{figure}
+
+Redibujamos el circuito de la figura 1 como se muestra a continuación, reemplazando el potenciómetro por su modelo equivalente y colocando las fuentes de tensión apropiadas
+
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		%\ctikzset{resistor = european}
+		\ctikzset{bipoles/thickness=4}
+		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+		\draw (0,0) coordinate (o1) to[R, l_=$R$] ++(0,-3) to[R, l_=$(1 - \alpha)R_p$] ++(0,-3) coordinate (p1) to[R, l_=$\alpha R_p$] ++(0,-3) to[R, l_=$R$] ++(0,-3) coordinate (o2);
+		\draw (p1) to[short, *-o] ++(2,0) node[right]{$V_o$} ; 
+		\draw (o1) to[short] ++(-6,0) coordinate (p2);
+		\draw (p2) to[V, invert, l_=$V_{CC}$] (p2 |- p1);
+		\draw (o2) to[short] ++(-6,0) coordinate (p3);
+		\draw (p3) to[V, l=$V_{EE}$] (p3 |- p1) coordinate (ground);
+		\draw (ground) to[short, *-] ++(2,0) node[ground]{};
+	\end{tikzpicture}	
+	\caption{Red divisora de voltaje}	
+	\label{fig:figura2}
+\end{figure}
+
+Aplicamos el principio de superposición para encontrar el voltaje respecto a cada fuente. Sea el voltaje $V_{o_1}$ debido a $V_{CC}$ y con $V_{EE}$ desconectada.
+
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		%\ctikzset{resistor = european}
+		\ctikzset{bipoles/thickness=4}
+		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+		\draw (0,0) to[V] ++(0,6) to[R, l=$R$] ++(3,0) to[R, l=$(1 - \alpha)R_p$] ++(3,0) coordinate (p1) to[R, l=$\alpha R_p$] ++(0,-3) to[R, l=$R$] ++(0,-3) coordinate (m1) to[short] (0,0);
+		\draw (p1) to[short, *-o] ++(2,0) node[right]{$V_{o_1}$};
+		\coordinate (M) at ($(0,0)!0.5!(m1)$);
+		\draw (M) to[short, *-] ++(0,-0.1) node[ground]{};
+	\end{tikzpicture}	
+	\caption{Red divisora de voltaje}	
+	\label{fig:figura3}
+\end{figure}
+
+Mediante divisor de tensión obtenemos
+
+\begin{align}
+	V_{o_1} = \frac{R + \alpha R_p}{R + (1 - \alpha)R_p + \alpha R_p + R} V_{CC} = \frac{R + \alpha R_p}{2R + R_p}V_{CC}
+\end{align}
+
+Ahora encontramos el voltaje $V_{o2}$ debido a $V_{EE}$, desconectando ahora la fuente de tensión $V_{CC}$
+
+\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		%\ctikzset{resistor = european}
+		\ctikzset{bipoles/thickness=4}
+		\ctikzset{monopoles/vcc/arrow={Stealth[width=6pt,length=9pt]}}
+		\ctikzset{monopoles/vee/arrow={Stealth[width=6pt,length=9pt]}}
+		\draw (0,0) to[V, invert] ++(0,6) to[R, l=$R$] ++(3,0) to[R, l=$\alpha R_p$] ++(3,0) coordinate (p1) to[R, l=$(1 - \alpha) R_p$] ++(0,-3) to[R, l=$R$] ++(0,-3) coordinate (m1) to[short] (0,0);
+		\draw (p1) to[short, *-o] ++(2,0) node[right]{$V_{o_2}$};
+		\coordinate (M) at ($(0,0)!0.5!(m1)$);
+		\draw (M) to[short, *-] ++(0,-0.1) node[ground]{};
+	\end{tikzpicture}	
+	\caption{Red divisora de voltaje}	
+	\label{fig:figura4}
+\end{figure}
+
+\begin{align}
+	V_{o_2} = -\frac{R + (1 - \alpha) R_p}{R + (1 - \alpha)R_p + \alpha R_p + R} V_{CC} = -  \frac{R + (1 - \alpha) R_p}{2R + R_p}V_{EE}
+\end{align}
+
+Al combinar las ecuaciones (1) y (2) obtenemos el voltaje de salida completo
+
+\begin{align}
+	V_o = V_{o_1} + V_{o_2} = \frac{R + \alpha R_p}{2R + R_p}V_{CC} - \frac{R + (1 - \alpha) R_p}{2R + R_p}V_{EE}
+\end{align}
+
+sumiendo voltajes simétricos, podemos hacer que $V_{CC} = V_{EE}$, es decir
+
+\begin{align}
+	V_o = \frac{R + \alpha R_p - R - R_p + \alpha R_p}{2R + R_p} V_{CC} = \frac{R_p (2\alpha -1 )}{R_p + 2R} V_{CC}
+\end{align}
+
+Despejamos $R$ de la ecuación (4)
+\begin{align}
+	\frac{V_o}{V_{CC}} = \frac{R_p (2\alpha -1 )}{R_p + 2R} \nonumber \\
+	R_p V_o + 2RV_o = V_{CC}R_p(2\alpha -1) \nonumber \\
+	2RV_o = V_{CC}R_p(2\alpha -1) - R_p V_o
+\end{align}
+
+Es decir
+
+\begin{align}
+	R = \frac{R_p \left[ (2\alpha - 1)V_{CC} - V_o \right]}{2V_o}
+\end{align}
+
+El voltaje de salida máximo o mínimo deseado sucederá cuando el potenciómetro se encuentre en sus extremos
+
+\end{document}

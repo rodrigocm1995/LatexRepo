@@ -1,0 +1,160 @@
+\documentclass[a4paper, 12pt]{article}
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{tikzpagenodes}
+\usepackage{atbegshi}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{graphicx} % to add images 
+\graphicspath{{images/}} % path to save the images
+%\setlength{\headsep}{3.5cm}
+\usepackage{geometry}
+\geometry{
+	hmargin=1cm,
+	bmargin=3cm,
+	tmargin=4.5cm,
+	top=5.5cm,
+	centering
+}
+\usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{xcolor}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage[framemethod=tikz]{mdframed} % Allows defining custom boxed/framed environments
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage[explicit]{titlesec}
+%----------------------------------------------------------------------------------------
+%	COLORS
+%----------------------------------------------------------------------------------------
+\definecolor{darkBlue}{RGB}{0,61,107}
+\definecolor{red1}{RGB}{178,41,41}
+\definecolor{red2}{RGB}{229,23,23}
+\definecolor{myBlue}{HTML}{0088FF}
+\definecolor{darkBlue}{RGB}{0,61,107}
+%----------------------------------------------------------------------------------------
+%	NEWCOMMAND
+%----------------------------------------------------------------------------------------
+\renewcommand*\oldstylenums[1]{{\AlegreyaOsF #1}} %necessary to use Alegreya
+
+\newcommand\Header{%
+	\begin{tikzpicture}[remember picture, overlay]
+		%\fill[darkBlue]
+		%(current page.north west) -- ++(5,0) -- ++(0.5,-0.5) -- ++(10,0) -- ++(-1,-1.8	) -- ++(-3,0) -- ++(-1,-1.8) -- ++(-15,0);
+		\draw[red1, fill=red1] (current page.north west) -- ++(8,0) -- ++(2,-2) -- ++(-2,-2) -- ++(-1,0) -- ++(2,2) -- ++(-1.8,1.8) -- ++(-15,0);
+		\draw[red2, fill=red2] ([xshift=8.4cm]current page.north west) -- ++(1.1,0) -- ++(2,-2) -- ++(-2.5,-2.5) -- ++(-12,0) -- ++(0,0.3) -- ++(11.2,0) -- ++(2.2,2.2) -- ++(-2,2);
+		\draw[fill=black] ([xshift=12.8cm, yshift=-2cm]current page.north west) -- ++(-1,0) -- ++(-2.5,-2.5) -- ++(1,0) -- ++(2.2,2.2) -- ++(15,0) -- ++(0,0.3) -- ++(-15,0);
+		\node[font=\sffamily\bfseries\color{black},anchor=west,xshift=12cm,yshift=-1.1cm] at (current page.north west)
+		{\Huge\selectfont Circuitos Eléctricos};
+		\node[xshift=4cm,yshift=-2.2cm] (myfirstpic) at (current page.north west) {\includegraphics[width=5cm]{logo1}};
+		%([xshift=14cm]current page.north west) -- ++(1,0) -- ++(1,-2);
+		%(current page.north west) |- ([xshift=-15cm]current page.north east) -- ([xshift=1cm, yshift=-3cm]current page.north east) -- ;
+	\end{tikzpicture}%
+}
+
+
+\pagestyle{empty}
+\AtBeginShipout{\Header}
+\AtBeginShipoutFirst{\Header}
+
+
+\makeatletter
+\pgfcircdeclarebipole{}{\ctikzvalof{bipoles/vsourcesin/height}}{sVpm}{\ctikzvalof{bipoles/vsourcesin/height}}{\ctikzvalof{bipoles/vsourcesin/width}}{
+	
+	\pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+	\pgfpathellipse{\pgfpointorigin}{\pgfpoint{0}{\pgf@circ@res@up}}{\pgfpoint{\pgf@circ@res@left}{0}}
+	\pgfusepath{draw}     
+	\pgftext[bottom,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@down]{\scriptsize$-$}
+	\pgftext[top,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@up]{\scriptsize$+$}
+	
+	\pgf@circ@res@up = .35\pgf@circ@res@up
+	\pgfscope
+	\pgftransformrotate{90}
+	\pgfpathmoveto{\pgfpoint{-\pgf@circ@res@up}{0cm}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfusepath{draw}
+	\endpgfscope
+}
+\def\pgf@circ@sVpm@path#1{\pgf@circ@bipole@path{sVpm}{#1}}
+\compattikzset{sinusoidal voltage source pm/.style = {\circuitikzbasekey, /tikz/to path=\pgf@circ@sVpm@path, \circuitikzbasekey/bipole/is voltage=true, \circuitikzbasekey/bipole/is voltageoutsideofsymbol=true, v=#1 }}
+\compattikzset{sVpm/.style = {\comnpatname sinusoidal voltage source pm = #1}}
+
+\pgfcircdeclarebipole{}{\ctikzvalof{bipoles/vsourcesin/height}}{sVpmh}{\ctikzvalof{bipoles/vsourcesin/height}}{\ctikzvalof{bipoles/vsourcesin/width}}{
+	
+	\pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+	\pgfpathellipse{\pgfpointorigin}{\pgfpoint{0}{\pgf@circ@res@up}}{\pgfpoint{\pgf@circ@res@left}{0}}
+	\pgfusepath{draw}     
+	\pgftext[center,x=0.2\pgf@circ@res@down-\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@down]{\scriptsize$-$}
+	\pgftext[top,rotate=90,y=\ctikzvalof{bipoles/vsourceam/margin}\pgf@circ@res@up]{\scriptsize$+$}
+	
+	\pgf@circ@res@up = .35\pgf@circ@res@up
+	\pgfscope
+	\pgftransformrotate{90}
+	\pgfpathmoveto{\pgfpoint{-\pgf@circ@res@up}{0cm}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathsine{\pgfpoint{.5\pgf@circ@res@up}{-.4\pgf@circ@res@up}}
+	\pgfpathcosine{\pgfpoint{.5\pgf@circ@res@up}{.4\pgf@circ@res@up}}
+	\pgfusepath{draw}
+	\endpgfscope
+}
+\def\pgf@circ@sVpmh@path#1{\pgf@circ@bipole@path{sVpmh}{#1}}
+\compattikzset{sinusoidal voltage source pmh/.style = {\circuitikzbasekey, /tikz/to path=\pgf@circ@sVpmh@path, \circuitikzbasekey/bipole/is voltage=true, \circuitikzbasekey/bipole/is voltageoutsideofsymbol=true, v=#1 }}
+\compattikzset{sVpmh/.style = {\comnpatname sinusoidal voltage source pmh = #1}}
+\makeatother
+
+
+\renewcommand*\thesection{\arabic{section}}
+
+\titleformat{\section}[hang]{\Large\bfseries\sffamily}%
+{\rlap{\color{darkBlue}\rule[-6pt]{\columnwidth}{2pt}}\colorbox{darkBlue}{%
+		\raisebox{0pt}[13pt][3pt]{ \makebox[60pt]{% height, width
+				\fontfamily{phv}\selectfont\color{white}{\thesection}}
+}}}%
+{15pt}%
+{ \color{darkBlue}#1
+	%
+}
+%----------------------------------------------------------------------------------------
+%	DOCUMENT
+%----------------------------------------------------------------------------------------
+\begin{document}
+%	\vspace*{0.5cm}
+	\section{}
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\draw (0,0)   to[V, l=$v_{in}$] (0,4) coordinate(node11)
+			to[R, l=$R_{s}$] ++(3,0)
+			to[C, l=$C_1$] ++(2,0) coordinate(node1)
+			to[R, l2=$R_{3}$ and \SI{14}{\kilo\ohm}, *-*] ++(0,-4) coordinate(node3)
+			to[short] (0,0);
+			\draw (node1) to[short] ++(3,0) coordinate(node2);
+			\draw (node2) node[npn,right](Q1){$Q_1$};
+			\draw (Q1.E)  to[R, l2=$R_E$ and \SI{0.7}{\kilo\ohm}, -*] (node3 -| Q1.E) node[ground]{} coordinate(node4) -- (node3);
+			\draw (Q1.E)  to[short, *-] ++(3,0) coordinate(node5)
+			to[C, l=$C_3$] (node4 -| node5) coordinate(node9) -- (node4);
+			\draw (Q1.C)  to[short] ++(0,2) coordinate(node6); 
+			\draw (node6) node[npn, above left](Q2){$Q_2$};
+			\draw (Q2.B)  to[short] (node1 |- Q2.B) coordinate(node7);
+			\draw (node7) to[R, l2=$R_2$ and \SI{25}{\kilo\ohm}, *-] (node1);
+			\draw (node7) to[C, l_=$C_4$] (node7 -| node11) node[ground]{};
+			\draw (Q2.C)  to[R, l2_=$R_c$ and \SI{3}{\kilo\ohm}] ++(0,3) coordinate(node8) node[vcc]{$V_{CC}$};
+			\draw (node7) to[R, l2_=$R_1$ and\SI{51}{\kilo\ohm}] (node7 |- node8) node[vcc]{$V_{CC}$};
+			\draw (Q2.C)  to[C, l=$C_2$, *-] ++(6,0) coordinate(node10);
+			\draw (node10)to[R, l2=$R_L$ and \SI{10}{\kilo\ohm}] (node10 |- node9)
+			to[short, -*] (node9);
+			\draw (node1) node[cyan,above right]{$V_{TH1}$};
+			\draw (node7) node[cyan, above right]{$V_{TH2}$};
+		\end{tikzpicture}
+		\caption{Amplificador cascode}	
+		\label{fig:figura1}
+	\end{figure}
+\end{document}

@@ -1,0 +1,112 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{pdfpages}
+\usepackage{filecontents}
+\graphicspath{{images/}}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\usepackage{schemabloc}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+
+\title{Passive $\pi$ Filter Analysis}
+\author{Rodrigo}
+\date{Agosto 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Passive $\pi$ Filter Analysis}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+\renewcommand{\figurename}{Figure}
+%---------------------------------------------------
+\tikzset{flipflop myRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, tu={\ctikztextnot{RST}}, nu=1, n4=1 }}
+}
+
+\tikzset{flipflop myFFRS/.style={flipflop,
+		flipflop def={t1=R, t3=S, t6=Q, t4={\ctikztextnot{Q}}, n4=1 }}
+}
+%---------------------------------------------------
+
+\makeatletter
+\newcommand*{\underarrow}{\def\@underarrow{\relax}\@ifstar{\@@underarrow}{\def\@underarrow{\hidewidth}\@@underarrow}}
+\newcommand*{\@@underarrow}[2][]{\underset{\@underarrow\substack{\uparrow\if\relax\detokenize{#1}\relax\else\\#1\fi}\@underarrow}{#2}}
+
+\newcommand*{\overarrow}{\def\@overarrow{\relax}\@ifstar{\@@overarrow}{\def\@overarrow{\hidewidth}\@@overarrow}}
+\newcommand*{\@@overarrow}[2][]{\overset{\@overarrow\substack{\if\relax\detokenize{#1}\relax\else#1\\\fi\downarrow}\@overarrow}{#2}}
+\makeatother
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+
+	\end{tabular}
+
+	
+	\section{Descripción General}
+	La serie de dispositivos STM32xx, basados en núcleos ARM, poseen varios temporizadores o timers incorporados que se describen a continuación
+	
+	\begin{itemize}
+		\item \textbf{Timers de propósito general} son usados en cualquier aplicación que requiera comparación de salida (timing y generación de retrasos), modos de un pulso, captura de entrada (para medición de señales de frecuencia externa), interface de sensores (sensores de efecto hall o encoders).
+		\item \textbf{Timers avanzados} Estos timers tienen la mayor cantidad de funciones. Además de las funciones de los timers de propósito general, estos timers incluyen varias características relacionadas al control de motores y aplicaciones de conversión de potencia digital: tres señales complementarias con inserción de tiempo muerto y entrada de parada de emergencia.
+		\item \textbf{Timers de uno o dos canales} usados como timers de propósito general con un número limitado de canales
+		\item Timers de uno o dos canales con \textbf{salida complementaria} Lo mismo que los timers anteriores con un generador adicional de tiempo muerto en uno de los canales. En algunas situaciones, esta característica permite utilizar un timer de propóstio general cuando se necesita un timer avanzado adicional.
+		\item \textbf{Timer básicos} Son usados para generar tiempos base o como disparadores de periféricos DAC. Estos timers no tienen de entrada o de salida.
+		\item \textbf{Timers de bajo consumo} son simplemente timers de porpósito general capaces de operar en modos de bajo consumo. Se utilizan por ejmplo para generar eventos de activación.
+		\item \textbf{Timers de alta resolución} estos timers especializados son diseñados para manejar conversión de potencia en aplicaciones de iluminación y fuentes de energía.
+	\end{itemize}
+
+\section{Timers de propósito general}
+Los temporizadores de propósito general pueden ser programados en varias configuraciones diferentes
+
+\subsection{Fuentes de entrada de reloj}
+Los temporizadores siempre necesitarán de una fuente de reloj. Los timers pueden ser sincronizados por varias fuentes de reloj de manera simultánea
+
+\begin{itemize}
+	\item Reloj interno
+	\item Reloj externo
+	\begin{itemize}
+		\item modo1 externo (pines TI1 o TI2)
+		\item modo2 de reloj externo (pin ETR)
+		\item disparador de reloj interno (ITRx)
+	\end{itemize}
+\end{itemize}
+
+\end{document}

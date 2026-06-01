@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[american,RPvoltages]{circuiTikz}
+\usepackage{tikz, tikz-cd}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{amsmath,amsfonts,stmaryrd,amssymb} % Math packages
+\title{The Analysis and Design of Linear Circuits  }
+\author{Rodrigo Castillejos}
+\date{July 2024}
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%  the preset of fancyhdr 
+	\fancyhf{} % clear all header and footer fields
+	\fancyfoot[L]{\thedate}
+	\fancyhead[L]{Problem Resolution}
+	\fancyhead[R]{\theauthor}
+}
+\makeatletter
+\def\@maketitle{%
+	\newpage
+	\null
+	\vskip 1em%
+	\begin{center}%
+		\let \footnote \thanks
+		{\LARGE \@title \par}%
+		\vskip 1em%
+		%{\large \@date}%
+	\end{center}%
+	\par
+	\vskip 1em}
+\makeatother
+
+\usepackage{lipsum}  
+\usepackage{cmbright}
+
+\begin{document}
+	
+	\maketitle
+	
+	\noindent\begin{tabular}{@{}ll}
+		Author & \theauthor\\
+		Chapter &  Basic Circuit Analysis\\
+		Problem & 2.64
+	\end{tabular}
+	
+	\section*{Exercise 2-64}
+	You wish to drive a \qty{1}{\kohm} load from your car battery as shown in figure 1 . The load needs \qty{5}{\volt} across it to operate correctly . Where should the wiper on the potentiometer be set ($R_x$) to obtain the desired output voltage?
+	
+	\begin{figure}[H]
+		\centering	
+		\begin{tikzpicture}[scale=0.8]
+			\ctikzset{resistors/width=1.5, resistors/zigs=9}
+			\draw (0,0)   to[V, l={\qty{12}{\volt}}] (0,5)
+				  to[short] ++(4,0)
+				  to[potentiometer, name=P, -*] ++(0,-5);
+		    \draw (P.wiper) node[xshift=-40]{$\qty{5}{\kohm}$};
+			\ctikzset{resistors/width=0.8, resistors/zigs=3}
+			\draw (P.wiper) to [short] ++(3,0)
+				  to[R, v={\qty{5}{\volt}}, l={\qty{1}{\kohm}}] ++(0,-2.5)
+				  to[short] (0,0);
+			\draw[|<->, 
+			transform canvas={yshift=-1.5mm, xshift=1.5mm}] (4.7,0.4) -- node[fill=white, inner sep=0pt] {$R_{\mathrm{x}}$} (P.wiper);		 
+		\end{tikzpicture}
+		\caption{Amplificador cascode}	
+		\label{fig:figura1}
+	\end{figure}
+	
+	\section*{Answer}
+	
+	Replacing the circuit of figure 1 with the model for the potentiometer that consists of two resistors we get
+	\begin{figure}[H]
+	\centering	
+	\begin{tikzpicture}[scale=0.8]
+		\draw (0,0) to[V, l={\qty{12}{\volt}}] (0,6)
+			  to[short] ++(5,0)
+			  to[R, -*, l={$\alpha R_p$}, i>_=$I_1$] ++(0,-3) coordinate(p1)
+			  to[R, l={$(1-\alpha) R_p$}, -*, i>_=$I_2$] ++(0,-3);
+		\draw (p1) to[short] ++(4,0)
+			  to[R, l={\qty{1}{\kohm}}, v={\qty{5}{\volt}}, i>^=$I_3$] ++(0,-3)
+			  to [short] (0,0);
+		\draw (p1) node[above right]{$V_{1}$};
+	\end{tikzpicture}
+	\caption{Amplificador cascode}	
+	\label{fig:figura2}
+\end{figure}	
+	
+	Applying the KCL on node $V_1$ we get
+	
+	\begin{align}
+		I_1 = I_2 + I_3 \nonumber
+	\end{align}
+	
+	\begin{align}
+		\frac{\qty{12}{\volt} - \qty{5}{\volt}}{\alpha R_p} = \frac{\qty{5}{\volt}}{(1-\alpha)R_p} + \frac{\qty{5}{\volt}}{\qty{1}{\kohm}} \nonumber \\
+		\frac{\qty{7}{\volt}}{\alpha R_p} = \frac{\qty{5}{\volt}}{(1-\alpha)R_p} + \qty{5}{\milli\ampere} \nonumber \\
+		\frac{\qty{7}{\volt}}{\alpha R_p} - \frac{\qty{5}{\volt}}{(1-\alpha)R_p} = \qty{5}{\milli\ampere} \nonumber
+	\end{align}
+	
+	\begin{align}
+		\frac{7(1 - \alpha) - 5\alpha}{\alpha (1 - \alpha) R_p} = \qty{5}{\milli\ampere} \nonumber \\
+		\frac{7 - 7\alpha - 5\alpha}{\alpha (1 - \alpha) R_p} = \qty{5}{\milli\ampere} \nonumber \\
+		\frac{7 - 12 \alpha}{\alpha (1 - \alpha) R_p} = \qty{5}{\milli\ampere} \nonumber \\
+		7 - 12\alpha = 0.005\alpha (1-\alpha)R_p \nonumber \\
+		7 - 12\alpha = 25\alpha - 25 \alpha ^2 \nonumber \\
+		25 \alpha ^2 - 37\alpha + 7 = 0
+	\end{align}
+	
+	Solving the quadratic function yields
+	
+	\begin{align}
+		\alpha_1 = 1.2573 \nonumber \\
+		\alpha_2 = 0.2227 \nonumber
+	\end{align}
+	
+	We know the alpha value cannot be values greater than 1, so the solution for this equation is $\alpha=0.2227$. Therefore, the value of $R_x$ must be
+	
+	\begin{align}
+		R_x = (1 - \alpha) R_p = (1 - 0.2227)(\qty{5}{\kohm}) = \qty{3886.5}{\ohm}
+	\end{align}
+	
+\end{document}

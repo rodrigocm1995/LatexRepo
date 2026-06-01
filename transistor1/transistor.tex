@@ -1,0 +1,227 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+%Set page layout parameters
+\usepackage[
+top=4cm,
+bottom=2cm,
+left=2cm,
+right=2cm,
+headheight=2cm,
+footskip=1cm,
+marginparwidth=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+% To use color boxes
+\usepackage{tcolorbox}
+\usepackage{lipsum}
+\tcbuselibrary{listings,theorems,skins,vignette,raster,breakable,magazine,poster,fitting,hooks}
+\newcounter{ejemplo}
+%Images path
+\graphicspath{{images/}}
+\usepackage{float} %provide us with the option H
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{tikzpagenodes}
+%to redefine figure caption 
+\renewcommand{\figurename}{Figura}
+%change text font
+\usepackage[T1]{fontenc}
+\usepackage{tgbonum} % LaTeX will use the TEX Gyre Bonum font family
+
+\definecolor{subtitle_yellow}{RGB}{252,213,129}
+\definecolor{title_yellow}{RGB}{249,175,16}
+\definecolor{steel_blue_title}{RGB}{93,138,168}
+\definecolor{pewter_blue_subtitle}{RGB}{149,178,198}
+\definecolor{ecru_circle}{RGB}{215,190,130}
+\definecolor{ecru_circle1}{RGB}{68,148,173}
+
+\newcommand{\myfirststyle}{%
+	\begin{tikzpicture}[remember picture, overlay]
+		
+		%top border
+		\fill[fill=steel_blue_title](current page.north west) rectangle ([yshift=-12mm]current page.north east);
+		
+		\fill[fill=pewter_blue_subtitle]([yshift=-14mm]current page.north west) rectangle ([yshift=-27mm]current page.north east);
+		
+		%page box
+		%\draw[lightgray, fill=Rhodamine, fill opacity=0.05, line width=1mm, rounded corners=3mm] ([xshift=-5mm,yshift=5mm]current page text area.north west) rectangle ([xshift=5mm,yshift=-5mm]current page text area.south east);
+		
+		%bottom box
+		\fill[fill=pewter_blue_subtitle](current page.south west) rectangle ([yshift=10mm]current page.south east);
+		
+		%page circle
+		\draw[white,fill=ecru_circle1,line width=2mm] ([xshift=-5mm,yshift=25mm]current page text area.north east) circle (0.8); 
+		
+		
+		%page number text        
+		%\node[anchor=center] at ([xshift=-5mm,yshift=25mm]current page text area.north east) {\Huge\bfseries\sffamily\color{white}{\thepage}};
+		
+		%title text
+		\node[anchor=west] at ([yshift=32mm]current page text area.north west) {\Huge\bfseries\sffamily\color{white}{}};
+		
+		%subtitle text
+		\node[anchor=west] at ([xshift=10mm,yshift=16mm]current page text area.north west) {\Large\bfseries\sffamily\color{white}{}};
+		
+		%footer text
+		\node[anchor=center] at ([yshift=-15mm]current page text area.south) {\large\bfseries\sffamily\color{white}{Created by: Belmont Dubois}};
+		
+	\end{tikzpicture}
+}
+
+
+%create page style
+\fancypagestyle{MyFirstStyle}{%
+	\fancyhf{}
+	\fancyhead[C]{\myfirststyle}
+	\renewcommand{\headrulewidth}{0pt}
+}%
+
+\pagestyle{MyFirstStyle}
+
+\colorlet{colexam}{red!75!black}
+\newtcolorbox[use counter=ejemplo]{myexample}{%
+	empty,title={Ejemplo \thetcbcounter},attach boxed title to top left,
+	boxed title style={empty,size=minimal,toprule=2pt,top=4pt,
+		overlay={\draw[colexam,line width=2pt]
+			([yshift=-1pt]frame.north west)--([yshift=-1pt]frame.north east);}},
+	coltitle=colexam,fonttitle=\Large\bfseries,
+	before=\par\medskip\noindent,parbox=false,boxsep=0pt,left=0pt,right=3mm,top=4pt,
+	breakable,pad at break*=0mm,vfill before first,
+	overlay unbroken={\draw[colexam,line width=1pt]
+		([yshift=-1pt]title.north east)--([xshift=-0.5pt,yshift=-1pt]title.north-|frame.east)
+		--([xshift=-0.5pt]frame.south east)--(frame.south west); },
+	overlay first={\draw[colexam,line width=1pt]
+		([yshift=-1pt]title.north east)--([xshift=-0.5pt,yshift=-1pt]title.north-|frame.east)
+		--([xshift=-0.5pt]frame.south east); },
+	overlay middle={\draw[colexam,line width=1pt] ([xshift=-0.5pt]frame.north east)
+		--([xshift=-0.5pt]frame.south east); },
+	overlay last={\draw[colexam,line width=1pt] ([xshift=-0.5pt]frame.north east)
+		--([xshift=-0.5pt]frame.south east)--(frame.south west);},%
+}
+
+
+\begin{document}
+	Si un transistor es usado para la amplificación de voltaje (o corriente), entonces es necesario \textbf{polarizar} el circuito. Las principales razones para polarizar un circuito es para encender el dispositivo y, de manera particular, colocar el punto de operación en aquella región donde el dispositivo opera de manera lineal, de tal manera que cualquier cambio en la señal de entrada cause un cambio proporcional en la señal de salida.
+	
+	La determinación del punto de polarización de DC descrito por $(I_B, I_C, V_{CE})$ es el primer paso en el análisis de circuitos transistorizados. Una vez que se encuentran los valores de $I_B$ e $I_C$ podemos encontrar $g_m$, $r_{\pi}$ y $r_o$ (para el análisis de AC), esto es $g_m = I_C/V_T$, $r_{\pi} = 25.8mV/I_B$ y $r_o = V_A/I_C$.
+	Dado que la unión B-E se comporta como un diodo, el transistor necesita un voltaje B-E de $V_{BE} \simeq 0.7V$ para conducir. Si aplicamos más de $0.7V$, el transistor se podrá dañar debido a la corriente excesiva. Es por esto que se usan resistores para limitar las corrientes en las terminales del transistor.\\
+	
+	\noindent Algunos tipos de polarización de circuitos con transistores son:
+	\begin{itemize}
+		\item Active current-source biasing (Polarización por fuente de corriente activa)
+		\item Single base resistor biasing (Polarización por resistencia de base)
+		\item Emitter resistance-feedback biasing (Polarización por resistencia de retroalimentación de emisor)
+		\item Emitter-follower biasing (Polarización por seguidor de emisor)
+		\item Two-base resistor biasing (Polarización por dos resistencias de base) 
+	\end{itemize}
+	
+	El circuito que analizaremos a continuación será la polarización por resistencia de retroalimentación de emisor el cual se muestra en la figura \ref{fig:pic1}, el cual podemos redibujar como se muestra en la figura \ref{fig:pic2}.
+	
+	Al usar la LTK (Ley de Tensión de Kirchhoff) en el circuito de la figura \ref{fig:pic2} a lo largo del lazo B-E obtenemos
+	
+	\begin{align}
+		V_{CC} - R_BI_B - V_{BE} - R_EI_E = 0
+	\end{align}
+
+	No obstante, sabemos que
+	\begin{subequations}
+		\label{E:eq4}
+		\begin{align}
+			I_E = I_C + I_B\\
+			I_C = \beta I_B\\
+			I_B = I_C/\beta
+		\end{align}
+	\end{subequations}
+
+	Al sustituir la ecuación (2a) y (2b) en la ecuación (1) obtenemos
+	\begin{align}
+		V_{CC} - R_BI_B - V_{BE} - R_E(I_C + I_B) = 0\nonumber\\
+		V_{CC} - R_BI_B - V_{BE} - R_E(\beta I_B + I_B) = 0\nonumber\\
+		V_{CC} - R_BI_B - V_{BE} - R_E(\beta + 1)I_B = 0
+	\end{align}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{figure1}
+		\caption{Polarización por resistencia de retroalimentación de emisor.}
+		\label{fig:pic1}
+	\end{figure}
+
+	El siguiente paso es despejar $I_B$ de la ecuación (3)
+	\begin{align}
+		R_BI_B + R_E(\beta + 1)I_B = V_{CC} - V_{BE}\nonumber\\
+		I_B[R_B + R_E(\beta + 1)] = V_{CC} - V_{BE}\nonumber
+	\end{align}
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,width=(\linewidth+0.45cm)]
+		\begin{equation}
+			I_B = \frac{V_{CC} - V_{BE}}{R_B + R_E(\beta + 1)}
+		\end{equation}
+	\end{tcolorbox}	
+	\vspace{0.5cm}
+	Y de la ecuación (2a), la corriente de colector se puede representar como
+	\vspace{0.5cm}
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,width=(\linewidth+0.45cm)]
+		\begin{equation}
+			I_C = \beta I_B = \frac{\beta(V_{CC} - V_{BE})}{R_B + R_E(\beta + 1)}
+		\end{equation}
+	\end{tcolorbox}
+
+	\newpage
+	Al usar la LTK sobre el lazo C-E del circuito de la figura \ref{fig:pic2} obtenemos
+	
+	\begin{align}
+		V_{CC} - R_CI_C - V_{CE} - R_EI_E = 0
+	\end{align}
+	La sustitución de las ecuaciones (2a) y (2b) en la ecuación (6) produce
+	\begin{align}
+		V_{CC} - R_C\beta I_B - V_{CE} - R_E(I_C + I_B) = 0\nonumber\\
+		V_{CC} - R_C\beta I_B - V_{CE} - R_E(\beta I_B + I_B) = 0\nonumber\\
+		V_{CC} - R_C\beta I_B - V_{CE} - R_E(\beta + 1)I_B = 0
+	\end{align}
+	 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{figure2}
+		\caption{Circuito equivalente con dos fuentes de alimentación}
+		\label{fig:pic2}
+	\end{figure}
+
+	Al despejar la ecuación (7) para $V_{CE}$ obtenemos
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,width=(\linewidth+0.45cm)]
+		\begin{equation}
+			V_{CE} = V_{CC} - R_CI_C - R_EI_E = V_{CC} - R_C\beta I_B - (\beta + 1)R_EI_B
+		\end{equation}
+	\end{tcolorbox}
+
+	\newpage
+	\begin{myexample}
+		Para el circuito mostrado en la figura \ref{fig:pic1}. Sea $V_{CC} = 15V$, $R_B = 430\,k\Omega$, $R_C = 910\,\Omega$ y $R_E = 100\,\Omega$. Asuma una ganancia $\beta = 100$.\\
+		
+		De la ecuación (4) podemos encontrar la corriente de base del circuito, es decir
+		\begin{align}
+			I_B = \frac{V_{CC} - V_{BE}}{R_B + R_E(\beta + 1)} = \frac{15 - 0.7}{430 \times 10^{3} + (100)(100 + 1)} \simeq 32.5 \times 10^{-6}A \simeq 32.5\,\mu A\nonumber
+		\end{align}
+		
+		Ahora utilizamos la ecuación (5) para determinar la corriente de colector
+		\begin{align}
+			I_C = \beta I_B = (100)(32.5 \times 10^{-6}) = 3.25\, mA\nonumber
+		\end{align}
+	
+		Por último, el voltaje C-E $V_{CE}$ puede encontrarse a partir de la ecuación (8)
+		\begin{align}
+			V_{CE} &= V_{CC} - R_CI_C - R_EI_E\nonumber\\
+			V_{CE} &= V_{CC} - R_C\beta I_B - (\beta + 1)R_EI_B\nonumber
+		\end{align}
+		\vspace{-1cm}
+		\begin{align}
+			= 15 - (910)(100)(32.5 \times 10^{-6}) - (100 + 1)(100)(32.5 \times 10^{-6}) = 11.71\,V\nonumber
+		\end{align}
+	
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.7]{figure3}
+			\caption{Simulación del circuito del ejemplo 1}
+			\label{fig:pic3}
+		\end{figure}
+	\end{myexample}
+\end{document} 

@@ -1,0 +1,23 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}{Aplicaciones requeridas para la creación de proyectos STM32}}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}{Extensiones Recomendadas para Visual Studio Code}}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}{Descarga y Configuración de CMake}}{5}{subsection.1.2}%
+\contentsline {section}{\numberline {2}{Configuraciones Previas en Visual Studio Code}}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}{Creación y Uso de Perfiles (Profiles)}}{7}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}{¿Para qué sirven y cuáles son sus ventajas?}}{7}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}{Pasos para crear un nuevo perfil}}{7}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}{Activación del perfil}}{8}{subsubsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.2}{Configuración de la Ruta del Ejecutable de CMake}}{8}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}{Configuración de la Ruta del Ejecutable de STM32CubeMX}}{9}{subsection.2.3}%
+\contentsline {section}{\numberline {3}{Creación de un nuevo proyecto usando STM32CubeMX}}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}{Prueba de Funcionamiento: Parpadeo de LED (Blinky)}}{17}{subsection.3.1}%
+\contentsline {section}{\numberline {4}{Integración de Controladores y Librerías Propias en CMake}}{22}{section.4}%
+\contentsline {subsection}{\numberline {4.1}{Estructura del archivo CMakeLists.txt (Antes)}}{22}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}{Modificación de Fuentes y Cabeceras (Después)}}{23}{subsection.4.2}%
+\contentsline {section}{\numberline {5}{Configuración del Puerto Serie e Impresión de Valores Flotantes}}{24}{section.5}%
+\contentsline {subsection}{\numberline {5.1}{Código de Prueba para el Sensor OPT3001}}{24}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}{Uso de la Extensión Serial Monitor en Visual Studio Code}}{29}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}{El problema de la impresión de Punto Flotante}}{29}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}{Habilitación de Flotantes en el enlazador de CMake}}{29}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}{Comparativa de Métodos para Habilitar Punto Flotante}}{30}{subsection.5.5}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
