@@ -713,4 +713,87 @@ gh auth refresh -h github.com -s delete_repo
 	\item Tras la confirmación, regresa a tu terminal y vuelve a ejecutar el comando de eliminación original. Ahora se completará con éxito sin errores de privilegios.
 \end{enumerate}
 
+\newpage
+\section{Comparación de Diferencias entre Ramas}
+
+Para proyectos colaborativos o desarrollos extensos (por ejemplo, comparar la rama \texttt{feature/sensor-calibration} con \texttt{feature/add-database} en el proyecto \texttt{PowerMonitorDashboard}), Git y GitHub ofrecen herramientas sumamente potentes para contrastar qué archivos o carpetas se han agregado, modificado o eliminado entre ambas ramas.
+
+\subsection{Comparación desde la Línea de Comandos (Terminal)}
+La herramienta principal para contrastar dos ramas es el comando \texttt{git diff}. Dependiendo del nivel de detalle que requieras, dispones de los siguientes modificadores:
+
+\begin{enumerate}
+	\item \textbf{Ver el estado de los archivos (Recomendado):}
+	Si deseas una lista limpia de los archivos que difieren sin saturar la terminal con líneas de código, utiliza el parámetro \texttt{-{}-name-status}:
+	\begin{lstlisting}[language=DOS]
+	git diff --name-status feature/sensor-calibration..feature/add-database
+	\end{lstlisting}
+	\textbf{Interpretación del resultado:}
+	\begin{itemize}
+		\item \texttt{A} (Added): El archivo fue \textbf{Agregado} en la rama comparada (existe en \texttt{feature/add-database} pero no en la rama base).
+		\item \texttt{M} (Modified): El archivo fue \textbf{Modificado} entre ambas ramas.
+		\item \texttt{D} (Deleted): El archivo fue \textbf{Eliminado} en la rama comparada (o solo existía en la rama base).
+	\end{itemize}
+	
+	\item \textbf{Ver un resumen estadístico del código cambiado:}
+	Si deseas saber cuántas líneas se agregaron o eliminaron en cada archivo afectado, utiliza \texttt{-{}-stat}:
+	\begin{lstlisting}[language=DOS]
+	git diff --stat feature/sensor-calibration..feature/add-database
+	\end{lstlisting}
+	Esto generará una salida informativa que indica el total de cambios cuantitativos:
+	\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+Service/PowerMonitorService/Program.cs             | 15 ++++++++++----
+ View/PowerMonitorView/src/app/app.component.html   | 34 ++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 4 deletions(-)
+	\end{lstlisting}
+	
+	\item \textbf{Obtener solo la ruta de los archivos modificados:}
+	Si requieres únicamente la lista de nombres y directorios de los archivos para copiar y pegar, usa \texttt{-{}-name-only}:
+	\begin{lstlisting}[language=DOS]
+	git diff --name-only feature/sensor-calibration..feature/add-database
+	\end{lstlisting}
+	
+	\item \textbf{Ver la diferencia exacta de código línea por línea:}
+	Para revisar el código modificado directamente desde la consola, ejecuta el comando sin parámetros extra:
+	\begin{lstlisting}[language=DOS]
+	git diff feature/sensor-calibration..feature/add-database
+	\end{lstlisting}
+\end{enumerate}
+
+\begin{InfoBox}{Significado de la sintaxis de dos puntos (..)}
+	La sintaxis \texttt{ramaA..ramaB} le indica a Git que realice la comparación de \texttt{ramaB} utilizando como base de referencia a \texttt{ramaA}. Por lo tanto, el resultado te mostrará qué cambios (adiciones, ediciones o eliminaciones) deben realizarse para transformar la rama base en la rama comparada.
+\end{InfoBox}
+
+\subsection{Comparación Visual a través del Navegador Web (GitHub)}
+Si prefieres un entorno más gráfico e interactivo que facilite la navegación por los directorios de cambios, la plataforma web de GitHub cuenta con una herramienta excelente.
+
+\subsubsection{Método 1: Acceso Directo por URL}
+La forma más veloz de ingresar a la comparación visual es estructurando la dirección en la barra de navegación de tu navegador de la siguiente manera:
+\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+https://github.com/<usuario>/<repositorio>/compare/<rama_base>...<rama_a_comparar>
+\end{lstlisting}
+
+En tu caso particular, la dirección exacta para comparar las ramas de tu proyecto de telemetría de energía es:
+\begin{lstlisting}[language=plaintext, style=miestiloclaro]
+https://github.com/rodrigocm1995/PowerMonitorDashboard/compare/feature/sensor-calibration...feature/add-database
+\end{lstlisting}
+
+\subsubsection{Método 2: Navegando en la Interfaz Gráfica de GitHub}
+\begin{enumerate}
+	\item Abre tu repositorio en \href{https://github.com}{github.com}.
+	\item Haz clic sobre el botón \textbf{Branches} (Ramas) ubicado en la parte superior izquierda (el cual indica el número de ramas activas de tu proyecto).
+	\item Localiza la rama que deseas contrastar (por ejemplo, \texttt{feature/add-database}) y haz clic en el botón \textbf{Compare} (Comparar) o \textbf{New pull request} a su derecha.
+	\item En la parte superior de la pantalla de comparación, selecciona los dos desplegables:
+	\begin{itemize}
+		\item \textbf{base:} La rama de referencia (ej. \texttt{feature/sensor-calibration}).
+		\item \textbf{compare:} La rama con las modificaciones (ej. \texttt{feature/add-database}).
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection{Elementos del panel de comparación de GitHub:}
+Una vez cargada la pantalla, la herramienta visual te proporcionará dos pestañas:
+\begin{itemize}
+	\item \textbf{Commits:} Una lista ordenada con todos los mensajes de confirmación de cambios presentes en la rama comparada.
+	\item \textbf{Files changed (Archivos modificados):} Muestra el árbol de directorios a la izquierda para navegar entre carpetas, y el código coloreado a la derecha (verde para adiciones, rojo para eliminaciones). Los archivos nuevos se identifican con una etiqueta verde de letra \textbf{A} (Added).
+\end{itemize}
+
 \end{document}

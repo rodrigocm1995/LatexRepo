@@ -31,4 +31,10 @@
 \contentsline {subsubsection}{\numberline {9.2.1}{Ejemplo práctico para eliminar `LatexRepository`:}}{16}{subsubsection.9.2.1}%
 \contentsline {subsection}{\numberline {9.3}{Resolución del Error de Permisos (HTTP 403: delete\_repo scope)}}{17}{subsection.9.3}%
 \contentsline {subsubsection}{\numberline {9.3.1}{Cómo resolverlo:}}{17}{subsubsection.9.3.1}%
+\contentsline {section}{\numberline {10}{Comparación de Diferencias entre Ramas}}{18}{section.10}%
+\contentsline {subsection}{\numberline {10.1}{Comparación desde la Línea de Comandos (Terminal)}}{18}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}{Comparación Visual a través del Navegador Web (GitHub)}}{18}{subsection.10.2}%
+\contentsline {subsubsection}{\numberline {10.2.1}{Método 1: Acceso Directo por URL}}{19}{subsubsection.10.2.1}%
+\contentsline {subsubsection}{\numberline {10.2.2}{Método 2: Navegando en la Interfaz Gráfica de GitHub}}{19}{subsubsection.10.2.2}%
+\contentsline {subsubsection}{\numberline {10.2.3}{Elementos del panel de comparación de GitHub:}}{19}{subsubsection.10.2.3}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

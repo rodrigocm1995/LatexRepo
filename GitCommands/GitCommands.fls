@@ -25,6 +25,7 @@ INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\koma-script\scrsize
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\koma-script\scrsize10pt.clo
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\koma-script\scrsize10pt.clo
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\koma-script\typearea.sty
+INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr10.tfm
 INPUT .\structure.tex
 INPUT .\structure.tex
 INPUT structure.tex
@@ -367,8 +368,6 @@ INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tcolorbox\tcbraster
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tcolorbox\tcbskins.code.tex
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tikzfill\tikzfill.image.sty
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tikzfill\tikzfill.image.sty
-INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tikzfill\tikzfill-common.sty
-INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tikzfill\tikzfill-common.sty
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tikzfill\tikzlibraryfill.image.code.tex
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tikzfill\tikzlibraryfill.image.code.tex
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\tcolorbox\tcbskinsjigsaw.code.tex
@@ -453,6 +452,7 @@ INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-s
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\microtype\mt-ppl.cfg
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\microtype\mt-ppl.cfg
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\microtype\mt-ppl.cfg
+INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr10.tfm
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\palatino\pplr9d.tfm
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\tfm\adobe\palatino\pplb9d.tfm
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\iwona\t1iwona.fd
@@ -674,6 +674,11 @@ INPUT .\Figures\git_2.png
 INPUT .\Figures\git_2.png
 INPUT .\Figures\git_2.png
 INPUT .\Figures\git_2.png
+INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\fontawesome7\ufontawesome7free4.fd
+INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\fontawesome7\ufontawesome7free4.fd
+INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\tex\latex\fontawesome7\ufontawesome7free4.fd
+INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fontawesome7\fa7free4solid.tfm
+INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\fontawesome7\fa7free4_solid.enc
 INPUT GitCommands.aux
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\type1\public\fontawesome7\FontAwesome7Free-Solid.pfb
 INPUT C:\Users\casti\AppData\Local\Programs\MiKTeX\fonts\type1\public\fontawesome7\FontAwesome7Free-Solid.pfb
