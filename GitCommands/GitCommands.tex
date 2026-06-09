@@ -796,4 +796,128 @@ Una vez cargada la pantalla, la herramienta visual te proporcionará dos pestañ
 	\item \textbf{Files changed (Archivos modificados):} Muestra el árbol de directorios a la izquierda para navegar entre carpetas, y el código coloreado a la derecha (verde para adiciones, rojo para eliminaciones). Los archivos nuevos se identifican con una etiqueta verde de letra \textbf{A} (Added).
 \end{itemize}
 
+\newpage
+\section{Reubicación de Archivos y Carpetas en el Repositorio}
+
+Cuando es necesario mover archivos o carpetas dentro del repositorio (por ejemplo, mover la carpeta del microcontrolador \texttt{NUCLEO-F303\_TMP117} de la ruta \texttt{TMP117/TMP117} a \texttt{TMP117/Examples}), existen dos formas principales para realizar esta acción de forma segura en Git sin perder el historial de confirmaciones (\textit{commit history}).
+
+\subsection{Método 1: Cortar y Pegar en el Explorador de Archivos (Manual)}
+Este método consiste en utilizar el entorno gráfico de tu sistema operativo (como el Explorador de Archivos de Windows o VS Code) para mover los archivos, y posteriormente indicarle a Git que procese dichos cambios.
+
+\begin{enumerate}
+	\item \textbf{Mover los archivos:} Abre el Explorador de archivos y realiza la operación tradicional de cortar (\keys{\ctrl + X}) y pegar (\keys{\ctrl + V}) para reubicar la carpeta o archivos en su nueva ruta de destino.
+	\item \textbf{Preparar los cambios en Git:} Abre una terminal en la raíz del repositorio y ejecuta:
+	\begin{lstlisting}[language=DOS]
+	git add .
+	\end{lstlisting}
+	\begin{itemize}
+		\item \textbf{Comportamiento interno:} Git no guarda de forma explícita el concepto de ``renombrar'' o ``mover''. En su lugar, al realizar el \texttt{git add .}, Git detecta que los archivos desaparecieron de la ruta anterior y aparecieron en la nueva ruta con el mismo contenido (o casi idéntico).
+	\end{itemize}
+	\item \textbf{Confirmar y publicar los cambios:}
+	\begin{lstlisting}[language=DOS]
+	git commit -m "Mover NUCLEO-F303_TMP117 a la carpeta de Examples"
+	git push origin <nombre-rama>
+	\end{lstlisting}
+	Al hacer el commit, el algoritmo de detección de renombrado de Git (\textit{rename detection}) marcará automáticamente la reubicación como un cambio tipo \texttt{rename (100\% match)}, conservando todo su historial en los nuevos commits.
+\end{enumerate}
+
+\subsection{Método 2: Uso del Comando Nativo de Git (\texttt{git mv})}
+Este método es el más limpio y recomendado cuando se trabaja directamente desde la consola, ya que le indica a Git de forma explícita la reubicación del recurso. Este comando realiza el movimiento físico en el almacenamiento y prepara (\textit{stages}) la reubicación en el índice en una sola instrucción.
+
+La sintaxis del comando es la siguiente:
+\begin{lstlisting}[language=DOS]
+git mv <ruta/actual/del/recurso> <nueva/ruta/de/destino>
+\end{lstlisting}
+
+\subsubsection{Ejemplo práctico}
+Si te encuentras en la raíz del repositorio y deseas mover la carpeta del sensor del microcontrolador a la carpeta de ejemplos utilizando la terminal:
+\begin{lstlisting}[language=DOS]
+git mv C/TMP117/TMP117/NUCLEO-F303_TMP117 C/TMP117/Examples/
+\end{lstlisting}
+\begin{InfoBox}{Rutas en Windows}
+	Al ejecutar comandos de Git en Windows (usando Git Bash, PowerShell o CMD), se recomienda utilizar barras diagonales hacia adelante (\texttt{/}) para evitar que la terminal interprete la barra invertida (\texttt{\textbackslash}) como un carácter de escape o genere errores de resolución de ruta.
+\end{InfoBox}
+
+\subsubsection{Confirmar y subir la reubicación}
+Dado que \texttt{git mv} ya preparó la reubicación en el área de preparación, no es necesario hacer un \texttt{git add}. Simplemente ejecuta:
+\begin{lstlisting}[language=DOS]
+git commit -m "Mover NUCLEO-F303_TMP117 a la carpeta de Examples"
+git push origin <nombre-rama>
+\end{lstlisting}
+
+\newpage
+\section{Actualización de una Rama Secundaria desde la Rama Principal (Main)}
+
+En el desarrollo de software colaborativo o en proyectos individuales con varias ramas de características (\textit{feature branches}), es una \textbf{práctica sumamente común y recomendada} integrar periódicamente los cambios más recientes de la rama principal (\texttt{main}) hacia tu rama secundaria de trabajo.
+
+\subsection{¿Por qué es común y necesario?}
+A medida que pasa el tiempo, la rama \texttt{main} puede avanzar debido a que se fusionan otras ramas, se corrigen errores (hotfixes) o se actualizan configuraciones y dependencias globales. Mantener tu rama secundaria actualizada con respecto a \texttt{main} te permite:
+\begin{itemize}
+	\item \textbf{Detectar y resolver conflictos tempranamente} en tu entorno de desarrollo local, en lugar de enfrentarte a conflictos masivos al momento de finalizar tu característica y hacer el merge de retorno.
+	\item \textbf{Asegurar la compatibilidad} de tu código nuevo con las modificaciones más recientes hechas por otros miembros del equipo.
+	\item \textbf{Disponer de las últimas librerías, dependencias o refactorizaciones} globales para continuar tu desarrollo sin inconsistencias.
+\end{itemize}
+
+\subsection{Flujo de Trabajo Inicial}
+Antes de integrar los cambios, debes asegurar que tu rama \texttt{main} local tiene las últimas modificaciones del servidor remoto de GitHub:
+
+\begin{lstlisting}[language=DOS]
+# 1. Cambiarse a la rama principal
+git checkout main
+
+# 2. Descargar los ultimos cambios de GitHub
+git pull origin main
+
+# 3. Regresar a tu rama secundaria de trabajo
+git checkout feature/nombre-de-tu-rama
+\end{lstlisting}
+
+Una vez realizados estos pasos, puedes elegir uno de los siguientes dos métodos para integrar la rama \texttt{main} en tu rama secundaria:
+
+\subsection{Método 1: Fusión Directa (\texttt{git merge}) - Seguro y Tradicional}
+Este método toma todos los cambios nuevos de \texttt{main} y los inserta en tu rama secundaria a través de un commit especial de fusión (\textit{merge commit}).
+
+\begin{lstlisting}[language=DOS]
+git merge main
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{Comportamiento ante conflictos:} Si existen conflictos de código en las mismas líneas, Git detendrá el merge. Deberás resolver los conflictos manualmente en los archivos correspondientes, prepararlos con \texttt{git add .} y guardar la fusión realizando un commit.
+	\item \textbf{Ventajas:} No reescribe ni altera el historial de tus commits. Es ideal para ramas compartidas con otros desarrolladores.
+	\item \textbf{Desventajas:} Genera commits de fusión automáticos (ej. \textit{Merge branch 'main' into...}) que pueden saturar visualmente el historial de ramas en repositorios grandes.
+\end{itemize}
+
+\subsection{Método 2: Reorganización de la Rama (\texttt{git rebase}) - Historial Lineal}
+Este método "despega" temporalmente tus commits específicos de la rama secundaria, coloca los commits nuevos de \texttt{main} en la base de la rama, y finalmente vuelve a aplicar tus commits uno por uno encima del código más actualizado.
+
+\begin{lstlisting}[language=DOS]
+git rebase main
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{Comportamiento ante conflictos:} Git pausará la reorganización al encontrar un conflicto. Deberás resolverlo, prepararlo con \texttt{git add .} y reanudar con \texttt{git rebase --continue}.
+	\item \textbf{Ventajas:} Elimina commits de fusión innecesarios, manteniendo un historial de confirmaciones lineal, limpio y fácil de leer.
+	\item \textbf{Desventajas y Precaución:} Dado que altera el identificador SHA-1 de tus commits locales, si ya habías subido anteriormente la rama a GitHub, deberás forzar la publicación de tus cambios utilizando el parámetro \texttt{--force-with-lease}:
+	\begin{lstlisting}[language=DOS]
+	git push origin feature/nombre-de-tu-rama --force-with-lease
+	\end{lstlisting}
+\end{itemize}
+
+\subsection{Paso Crítico Posterior: Subir los Cambios a GitHub}
+Un error sumamente frecuente tras completar con éxito una fusión (\texttt{git merge}) o reorganización (\texttt{git rebase}) local es asumir que los cambios ya se encuentran en la plataforma web de GitHub.
+
+\begin{WarningBox}{Operaciones 100\% Locales}
+	Tanto \texttt{git merge} como \texttt{git rebase} son comandos que actúan exclusivamente sobre la base de datos de Git local en tu computadora. Hasta que no realices una subida explícita, la versión de la rama en GitHub permanecerá en su estado anterior.
+\end{WarningBox}
+
+Para que tus cambios se actualicen en el servidor de GitHub y se reflejen en la web, debes ejecutar:
+
+\begin{lstlisting}[language=DOS]
+# Si utilizaste el Metodo 1 (git merge main):
+git push origin feature/nombre-de-tu-rama
+
+# Si utilizaste el Metodo 2 (git rebase main):
+git push origin feature/nombre-de-tu-rama --force-with-lease
+\end{lstlisting}
+
 \end{document}

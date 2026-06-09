@@ -37,4 +37,15 @@
 \contentsline {subsubsection}{\numberline {10.2.1}{Método 1: Acceso Directo por URL}}{19}{subsubsection.10.2.1}%
 \contentsline {subsubsection}{\numberline {10.2.2}{Método 2: Navegando en la Interfaz Gráfica de GitHub}}{19}{subsubsection.10.2.2}%
 \contentsline {subsubsection}{\numberline {10.2.3}{Elementos del panel de comparación de GitHub:}}{19}{subsubsection.10.2.3}%
+\contentsline {section}{\numberline {11}{Reubicación de Archivos y Carpetas en el Repositorio}}{20}{section.11}%
+\contentsline {subsection}{\numberline {11.1}{Método 1: Cortar y Pegar en el Explorador de Archivos (Manual)}}{20}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}{Método 2: Uso del Comando Nativo de Git (\texttt {git mv})}}{20}{subsection.11.2}%
+\contentsline {subsubsection}{\numberline {11.2.1}{Ejemplo práctico}}{20}{subsubsection.11.2.1}%
+\contentsline {subsubsection}{\numberline {11.2.2}{Confirmar y subir la reubicación}}{21}{subsubsection.11.2.2}%
+\contentsline {section}{\numberline {12}{Actualización de una Rama Secundaria desde la Rama Principal (Main)}}{22}{section.12}%
+\contentsline {subsection}{\numberline {12.1}{¿Por qué es común y necesario?}}{22}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}{Flujo de Trabajo Inicial}}{22}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}{Método 1: Fusión Directa (\texttt {git merge}) - Seguro y Tradicional}}{22}{subsection.12.3}%
+\contentsline {subsection}{\numberline {12.4}{Método 2: Reorganización de la Rama (\texttt {git rebase}) - Historial Lineal}}{23}{subsection.12.4}%
+\contentsline {subsection}{\numberline {12.5}{Paso Crítico Posterior: Subir los Cambios a GitHub}}{23}{subsection.12.5}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

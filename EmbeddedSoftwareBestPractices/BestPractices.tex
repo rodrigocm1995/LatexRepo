@@ -1,0 +1,872 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arsclassica Article
+% LaTeX Template
+% Version 1.1 (1/8/17)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Lorenzo Pantieri (http://www.lorenzopantieri.net) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+\usepackage{geometry}
+\geometry{
+	top=2.5cm,      % Margen superior
+	bottom=2.5cm,   % Margen inferior
+	left=3cm,       % Margen izquierdo
+	right=3cm,      % Margen derecho
+}
+
+\hyphenation{Fortran hy-phen-ation} 
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[english]{babel}
+
+\usepackage{graphicx}
+
+\usepackage[os=win]{menukeys}
+
+\usepackage{float}
+
+\usepackage[dvipsnames,svgnames]{xcolor}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{listings}
+
+\usepackage{caption}
+
+\usepackage{enumitem}
+
+\usepackage{fontawesome7}
+
+\usepackage{dirtree}
+
+\usepackage{textcomp}
+
+\usepackage{hyperref}
+
+\usepackage{svg}
+
+\usepackage{colortbl}
+
+%----------------------------------------------------------------------------------------
+%	END OF PACKAGES
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+%	INPUTS
+%----------------------------------------------------------------------------------------
+\input{listings_config.tex}
+\input{vscode_theme.tex}
+\input{custom_boxes.tex}
+%----------------------------------------------------------------------------------------
+%	END INPUTS
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+\lstset{
+	inputencoding=utf8,
+	extendedchars=true,
+	literate={á}{{\'a}}1
+	{é}{{\'e}}1
+	{í}{{\'i}}1
+	{ó}{{\'o}}1
+	{ú}{{\'u}}1
+	{ñ}{{\~n}}1
+	{Á}{{\'A}}1
+	{É}{{\'E}}1
+	{Í}{{\'I}}1
+	{Ó}{{\'O}}1
+	{Ú}{{\'U}}1
+	{Ñ}{{\~N}}1
+	{¿}{{\textquestiondown}}1
+	{¡}{{\textexclamdown}}1
+}
+%----------------------------------------------------------------------------------------
+%	END OF ENABLING SPECIAL CHARACTERS IN LSTLISTING
+%----------------------------------------------------------------------------------------
+
+\setlength{\parindent}{0pt}
+
+%----------------------------------------------------------------------------------------
+%	RENEWS
+%----------------------------------------------------------------------------------------
+
+\setlocalecaption{english}{contents}{TABLA DE CONTENIDOS}
+\setlocalecaption{english}{table}{Tabla}
+\setlocalecaption{english}{figure}{Figura}
+\addto\captionsenglish{%
+	\renewcommand\listfigurename{Listado de imágenes}}
+
+
+\NewTotalTCBox{\commandbox}{ s v }
+{verbatim,colupper=white,colback=black!75!white,colframe=black}
+{\IfBooleanT{#1}{\textcolor{red}{\ttfamily\bfseries > }}%
+	\lstinline[language=command.com,keywordstyle=\color{blue!35!white}\bfseries]^#2^}
+	
+\newtcolorbox{mybox}[1]{colback=yellow!5!white,
+	colframe=yellow!65!black,fonttitle=\bfseries,
+	title={#1},sharp corners}
+	
+	
+\tcbset {
+	base/.style={
+		arc=0mm, 
+		bottomtitle=0.5mm,
+		boxrule=0mm,
+		colbacktitle=black!10!white, 
+		coltitle=black, 
+		fonttitle=\bfseries, 
+		left=2.5mm,
+		leftrule=1mm,
+		right=3.5mm,
+		title={#1},
+		toptitle=0.75mm, 
+	}
+}
+
+\definecolor{brandblue}{rgb}{0.34, 0.7, 1}
+
+\newtcolorbox{subbox}[1]{
+	colframe=yellow!30!white,
+	base={#1}
+}	
+
+\newtcbox{\xmybox}[1][red]{on line,
+	arc=7pt,colback=#1!90!white,colframe=#1!50!black,
+	before upper={\rule[-3pt]{0pt}{10pt}},boxrule=1pt,
+	boxsep=0pt,left=6pt,right=6pt,top=2pt,bottom=2pt}
+
+
+\renewcommand*\DTstylecomment{\rmfamily\color{JungleGreen}\textsc}
+\renewcommand*\DTstyle{\ttfamily\textcolor{Maroon}}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{BUENAS PRÁCTICAS EN SISTEMAS EMBEBIDOS}} % The article title
+
+\subtitle{Metodologías de Optimización de Memoria y Código para Microcontroladores}
+
+\author{Rodrigo Castillejos}
+
+\date{}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} 
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} 
+
+\pagestyle{scrheadings} 
+
+%----------------------------------------------------------------------------------------
+%	PORTADA PERSONALIZADA
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\centering
+	\vspace*{2cm}
+	
+	\vspace{1cm}
+	
+	% Título Principal
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Buenas Prácticas de}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Programación en}}\\[0.5cm]
+	{\Huge\bfseries\color{Maroon}\spacedallcaps{Sistemas Embebidos}}\\[0.5cm]
+	
+	% Subtítulo
+	{\Large\spacedlowsmallcaps{Guía metodológica de optimización de memoria RAM, Flash y compilación eficiente en VS Code y CMake}}\\[1.5cm]
+	
+	% Línea divisoria elegante
+	\rule{\linewidth}{1pt}\\[2cm]
+	
+	% Información del Autor y detalles del curso/institución
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushleft} \large
+			\emph{Autor:}\\
+			Rodrigo \spacedlowsmallcaps{Castillejos}
+		\end{flushleft}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\begin{flushright} \large
+			\emph{Proyecto:}\\
+			Control de Dispositivos Embebidos
+		\end{flushright}
+	\end{minipage}
+	
+	\vfill
+	\vspace{3cm}
+	
+	% Fecha
+	{\large\today}\\[1cm]
+\end{titlepage}
+\newpage 
+
+\setcounter{tocdepth}{3} 
+
+%----------------------------------------------------------------------------------------
+%	RESUMEN (SUMMARY / ABSTRACT) - COLOCAR ANTES DEL ÍNDICE
+%----------------------------------------------------------------------------------------
+\section*{Resumen}
+Este documento técnico recopila las mejores prácticas de programación en C aplicadas al desarrollo de sistemas embebidos con recursos limitados. Debido a la limitada capacidad de memoria RAM y almacenamiento Flash física en los microcontroladores (como las series STM32), el firmware debe diseñarse con técnicas rigurosas de optimización. Se analizan temas críticos tales como la mitigación de fragmentación eliminando la asignación dinámica, el uso correcto de tipos de datos de ancho fijo (\texttt{<stdint.h>}), el almacenamiento de constantes en Flash mediante el calificador \textit{const}, el control del Stack, el paso por referencia y el uso del calificador \textit{volatile} ante registros e interrupciones. Por último, se proporciona una guía detallada sobre cómo configurar las opciones de optimización del compilador GCC (especialmente el flag \texttt{-Os}) en entornos de desarrollo basados en VS Code, utilizando CMake, Makefiles y archivos de configuración de tareas.
+
+\newpage 
+
+\tableofcontents 
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 1: INTRODUCCIÓN
+%----------------------------------------------------------------------------------------
+\section{Introducción a las Restricciones en Sistemas Embebidos}
+
+A diferencia de los sistemas de cómputo de propósito general, los microcontroladores embebidos operan bajo severas restricciones físicas de hardware. Mientras que una computadora común dispone de gigabytes de memoria de acceso aleatorio (RAM) y almacenamiento en estado sólido, un microcontrolador de rango medio típicamente posee entre unos cuantos kilobytes hasta un par de megabytes de memoria Flash y de escasos kilobytes de RAM física.
+
+Esta arquitectura física determina que el desarrollo de firmware requiera un diseño minucioso y óptimo. Un byte desperdiciado en una estructura mal alineada o la importación innecesaria de una librería matemática pesada puede significar que el ejecutable supere los límites físicos del chip, impidiendo su compilación o provocando fallos fatales en tiempo de ejecución (como bloqueos de tipo \textit{HardFault} o desbordamientos del Stack).
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 2: ARQUITECTURA DE MEMORIA Y EL BOOTLOADER
+%----------------------------------------------------------------------------------------
+\section{Arquitectura de Memoria y el Bootloader}
+
+Para comprender a fondo cómo optimizar el firmware, es fundamental conocer la arquitectura de memoria interna de un microcontrolador. A diferencia de un sistema de propósito general, un microcontrolador integra múltiples tecnologías de almacenamiento físico en un mismo chip de silicio, organizadas de acuerdo con su función y volatilidad.
+
+\subsection{Clasificación de Memorias Físicas y sus Funciones}
+
+Típicamente, un microcontrolador posee tres categorías principales de almacenamiento de datos y programa:
+
+\begin{description}
+	\item[\textbf{Memoria Flash (Memoria de Programa):}]~\\
+	Es un tipo de memoria no volátil (los datos se conservan al apagar el chip). Su función principal es almacenar el código binario de la aplicación (firmware) generado tras la compilación y datos constantes que no cambian en tiempo de ejecución (como tablas de búsqueda o LUTs, constantes de calibración y cadenas de texto plano). Su proceso de lectura por parte de la CPU es veloz, pero el proceso de escritura o borrado es significativamente más lento y tiene una vida útil limitada en ciclos de escritura (típicamente entre 10,000 y 100,000 ciclos).
+	
+	\item[\textbf{Memoria RAM (SRAM - Memoria de Datos):}]~\\
+	Es una memoria volátil (pierde absolutamente toda la información en cuanto se corta la alimentación). Su función es almacenar las variables temporales del programa en ejecución, la pila de llamadas (Stack), las variables globales y estáticas que pueden modificarse en caliente, el montón (Heap) y buffers de comunicación. Es extremadamente rápida tanto para lectura como para escritura aleatoria, y no sufre degradación por ciclos de uso. Su tamaño físico es mucho menor que el de la memoria Flash (suele representar entre el 5\% y el 10\% de esta).
+	
+	\item[\textbf{Memoria EEPROM:}]~\\
+	Es un bloque no volátil dedicado a almacenar parámetros de configuración del usuario, registros de eventos (logs) o valores de calibración que deben sobrevivir al apagado de la máquina, pero que a su vez se modifican periódicamente por el software durante su operación ordinaria. Ofrece la ventaja de poder escribirse y borrarse byte por byte en tiempo de ejecución con una alta resistencia al desgaste (hasta 1,000,000 de ciclos).
+\end{description}
+
+\begin{InfoBox}{Emulación de EEPROM en Flash}
+	Muchos microcontroladores modernos (como la mayoría de la familia STM32) carecen de una memoria EEPROM física dedicada por razones de reducción de coste en el silicio. En su lugar, se reserva un sector de la memoria Flash del usuario y se implementa por software un algoritmo de emulación de EEPROM (usualmente escribiendo en páginas alternas y aplicando técnicas de nivelación de desgaste o \textit{wear leveling}) para imitar el comportamiento de una EEPROM real.
+\end{InfoBox}
+
+\subsubsection{Memorias Auxiliares del Sistema}
+Adicionalmente a los tres bloques principales, el microcontrolador dispone de otras tecnologías de almacenamiento con propósitos muy específicos:
+\begin{itemize}
+	\item \textbf{Registros del Núcleo (CPU Registers):} Celdas de memoria de velocidad extrema integradas dentro del procesador, utilizadas para contener operandos aritméticos temporales y el estado del núcleo de manera directa (ej. acumulador, contador de programa, puntero de pila).
+	\item \textbf{Boot ROM / Memoria de Sistema (System Memory):} Zona no volátil protegida contra escritura grabada por el fabricante del silicio. Contiene el cargador de arranque inicial (bootloader de fábrica) seguro.
+	\item \textbf{OTP (One-Time Programmable):} Sección de la Flash que solo puede escribirse una única vez. Se emplea habitualmente para almacenar identificadores únicos del dispositivo (UID), claves de descifrado y firmas de seguridad.
+	\item \textbf{Caché (ej. I-Cache y D-Cache):} Memoria de tamaño muy reducido y alta velocidad que actúa de puente entre el núcleo y la Flash/SRAM en procesadores avanzados de alta gama (como ARM Cortex-M7), acelerando la velocidad de acceso y ejecución de instrucciones.
+\end{itemize}
+
+\subsection{El Bootloader y su Relación con la Memoria Flash}
+
+El \textbf{bootloader} (gestor de arranque) es un código ejecutable de tamaño reducido que se sitúa en el primer peldaño de la ejecución del microcontrolador tras salir de un estado de Reset o encendido, actuando como un intermediario antes del firmware principal del usuario.
+
+Su función principal es evaluar si el sistema debe entrar en un modo de programación (actualización de firmware) o si debe saltar de inmediato a la aplicación principal guardada en memoria. Para decidirlo, suele monitorizar una condición de hardware (por ejemplo, el estado físico de un pin GPIO como el pin \texttt{BOOT0} en STM32 al encender el chip) o una instrucción enviada por puerto serie.
+
+\begin{WarningBox}{Relación Crítica con la Memoria Flash}
+	El bootloader opera en estrecha sinergia con la memoria Flash de dos maneras esenciales:
+	\begin{enumerate}
+		\item \textbf{Ubicación de almacenamiento:} Para poder iniciarse tras el encendido, el bootloader debe guardarse en memoria no volátil. Un \textbf{bootloader de fábrica} vive en la \textit{System Memory} (ROM grabada por el fabricante), mientras que un \textbf{bootloader personalizado de usuario} se almacena en la primera sección direccionable de la memoria Flash del usuario (típicamente desde la base \texttt{0x08000000} en STM32), ocupando los primeros sectores.
+		\item \textbf{Modificación de la Flash (Escritura):} En caso de que se solicite una actualización, el bootloader escucha los datos del nuevo firmware a través de puertos de comunicación (UART, SPI, USB, CAN, etc.), y ejecuta comandos para \textbf{borrar} físicamente los sectores de la Flash donde reside la aplicación anterior y luego \textbf{escribir} el nuevo binario. Una vez verificado el Checksum, cambia el vector de interrupciones y transfiere el flujo de ejecución a la nueva sección de la Flash.
+	\end{enumerate}
+\end{WarningBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 3: GESTIÓN EFICIENTE DE RAM
+%----------------------------------------------------------------------------------------
+\section{Buenas Prácticas para la Gestión de Memoria RAM}
+
+La memoria RAM es el recurso más escaso en sistemas embebidos. Almacena variables de estado, la pila de llamadas del sistema (Stack), variables globales y estáticas.
+
+\subsection{Prohibición Absoluta de la Asignación Dinámica}
+En el desarrollo de software para PC, la asignación dinámica de memoria mediante funciones como \texttt{malloc()}, \texttt{calloc()}, \texttt{realloc()} y \texttt{free()} es habitual. Sin embargo, en sistemas embebidos de tiempo real y recursos limitados, \textbf{esta práctica está estrictamente prohibida} por normativas de seguridad crítica como MISRA C.
+
+\subsubsection{Consecuencias de la asignación dinámica}
+\begin{itemize}
+	\item \textbf{Fragmentación de Memoria:} Con el uso repetido de reservar y liberar memoria, el mapa de la RAM física se fragmenta. Aparecen pequeños huecos de memoria libre inutilizables porque no son contiguos. Eventualmente, una solicitud de reserva fallará aunque la suma total de memoria libre teórica sea suficiente.
+	\item \textbf{Fugas de Memoria (Memory Leaks):} Si un bloque no se libera correctamente (por ejemplo, ante una interrupción o una salida prematura de función), el sistema se queda sin RAM gradualmente hasta congelarse.
+	\item \textbf{Falta de Determinismo en Tiempo:} El tiempo que le toma al administrador de memoria buscar un bloque libre en el bloque dinámico (\textit{Heap}) no es constante (complejidad $O(N)$ en el peor de los casos al buscar en la lista ligada de bloques libres), lo cual es inaceptable en sistemas de control de tiempo real con restricciones estrictas de temporización.
+\end{itemize}
+
+\begin{WarningBox}{Alternativa en Embebidos}
+	Se debe emplear únicamente \textbf{asignación estática} (variables globales o estáticas declaradas en tiempo de compilación) o \textbf{asignación en el Stack} (variables locales temporales). Todo el consumo de RAM debe ser predecible y determinable en el momento de la compilación.
+\end{WarningBox}
+
+Para ilustrar esto, considere el siguiente ejemplo de código inaceptable en sistemas embebidos, donde se usa \texttt{malloc()} para un buffer de procesamiento de datos:
+
+\begin{lstlisting}[style=CMakeStyle]
+// INCORRECTO: Uso peligroso de asignación dinámica
+void ProcessSensorData(uint8_t *rawData, uint16_t length)
+{
+    // malloc() puede fallar o fragmentar la memoria RAM
+    uint8_t *tempBuffer = (uint8_t *)malloc(length * sizeof(uint8_t));
+    if (tempBuffer == NULL)
+    {
+        // Manejo de error complejo
+        return;
+    }
+    
+    // Procesamiento...
+    memcpy(tempBuffer, rawData, length);
+    
+    free(tempBuffer); // Si ocurre una interrupción o retorno anticipado, fuga de memoria
+}
+\end{lstlisting}
+
+La alternativa recomendada para eliminar este riesgo es utilizar buffers de tamaño estático máximo conocidos en tiempo de compilación o buffers locales en el Stack si el tamaño es pequeño:
+
+\begin{lstlisting}[style=CMakeStyle]
+// CORRECTO: Asignación estática pre-asignada
+#define MAX_BUFFER_SIZE 256
+
+static uint8_t s_tempBuffer[MAX_BUFFER_SIZE]; // Asignado en la sección .bss en compilación
+
+void ProcessSensorData(const uint8_t *rawData, uint16_t length)
+{
+    if (length > MAX_BUFFER_SIZE)
+    {
+        length = MAX_BUFFER_SIZE; // Truncado seguro
+    }
+    
+    // Procesamiento seguro sin riesgo de fragmentación o fallo de reserva
+    memcpy(s_tempBuffer, rawData, length);
+}
+\end{lstlisting}
+
+\subsection{Optimización de Tipos de Datos y Ancho de Palabra (\texorpdfstring{\texttt{<stdint.h>}}{stdint.h})}
+El uso de tipos estándar tradicionales de C como \texttt{int}, \texttt{short} o \texttt{long} debe ser descartado, ya que su longitud varía según la arquitectura del procesador (un \texttt{int} suele ocupar 4 bytes en arquitecturas ARM de 32 bits, pero 2 bytes en microcontroladores AVR de 8 bits). 
+
+Se debe importar siempre la cabecera estándar \texttt{<stdint.h>} y hacer uso exclusivo de tipos con longitud explícita (ver Tabla~\ref{tab:tipos_datos}).
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lllc}
+		\toprule
+		\textbf{Tipo de Dato} & \textbf{Descripción} & \textbf{Rango de Valores} & \textbf{Tamaño (Bytes)} \\
+		\midrule
+		\texttt{uint8\_t} & Entero sin signo & 0 a 255 & 1 \\
+		\texttt{int8\_t} & Entero con signo & -128 a 127 & 1 \\
+		\texttt{uint16\_t} & Entero sin signo & 0 a 65,535 & 2 \\
+		\texttt{int16\_t} & Entero con signo & -32,768 a 32,767 & 2 \\
+		\texttt{uint32\_t} & Entero sin signo & 0 a 4,294,967,295 & 4 \\
+		\texttt{int32\_t} & Entero con signo & -2,147,483,648 a 2,147,483,647 & 4 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Tipos de datos de ancho fijo estándar.}\label{tab:tipos_datos}
+\end{table}
+
+\begin{InfoBox}{Optimización de Tipos Rápidos (Fast Types)}
+	En procesadores de 32 bits (como ARM Cortex-M), el acceso a registros es óptimo a 32 bits. Si declaras una variable local para un bucle como \texttt{uint8\_t}, el compilador puede tener que generar instrucciones adicionales de conversión o máscara (como \texttt{UXTB} o \texttt{AND}) para limpiar los bits superiores del registro tras cada operación aritmética. \\
+	Para variables locales de contadores y bucles donde el tamaño no es restrictivo en memoria, se recomienda el uso de tipos rápidos como \texttt{uint\_fast8\_t} o \texttt{uint\_fast16\_t}, los cuales se compilarán al tamaño nativo más eficiente del procesador (32 bits en ARM), optimizando la velocidad de ejecución.
+\end{InfoBox}
+
+\subsection{Estructuras y Alineación de Memoria}
+Los microcontroladores modernos de 32 bits acceden a la memoria RAM de manera más eficiente en direcciones alineadas (múltiplos de 4 bytes). Si se definen estructuras de datos sin prestar atención al orden de sus variables, el compilador insertará automáticamente bytes de relleno invisibles (\textit{padding}) para forzar la alineación, desperdiciando valiosa memoria RAM.
+
+Considere el siguiente ejemplo de una estructura sin optimizar:
+
+\begin{lstlisting}[style=CMakeStyle]
+// Estructura mal alineada (Total: 12 bytes en memoria debido al padding)
+typedef struct
+{
+    uint8_t status;      // 1 byte + 3 bytes de padding invisible
+    uint32_t timestamp;  // 4 bytes (debe alinearse a direccion multiplo de 4)
+    uint16_t value;      // 2 bytes + 2 bytes de padding al final de la estructura
+} SensorData_t;
+\end{lstlisting}
+
+La distribución física en la memoria RAM de 32 bits para esta estructura se visualiza en la Tabla~\ref{tab:padding_struct}:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\textbf{Dirección Relativa} & \textbf{Byte 3} & \textbf{Byte 2} & \textbf{Byte 1} & \textbf{Byte 0} \\
+		\hline
+		\texttt{0x00} & \cellcolor{gray!20}Padding & \cellcolor{gray!20}Padding & \cellcolor{gray!20}Padding & \texttt{status} (1B) \\
+		\hline
+		\texttt{0x04} & \multicolumn{4}{c|}{\texttt{timestamp} (4 bytes)} \\
+		\hline
+		\texttt{0x08} & \cellcolor{gray!20}Padding & \cellcolor{gray!20}Padding & \multicolumn{2}{c|}{\texttt{value} (2B)} \\
+		\hline
+	\end{tabular}
+	\caption{Mapa de memoria de estructura con relleno (12 bytes ocupados).}\label{tab:padding_struct}
+\end{table}
+
+Para solucionar esta ineficiencia de almacenamiento, se deben seguir las siguientes dos directivas:
+
+\begin{enumerate}
+	\item \textbf{Ordenar los campos por tamaño descendente:} Colocar primero los elementos más grandes y con restricciones de alineación más severas:
+	\begin{itemize}
+		\item \textbf{64 bits (8 bytes):} Variables de tipo \texttt{double} y enteros de 64 bits (\texttt{uint64\_t}, \texttt{int64\_t}). De acuerdo con el estándar de llamada de ARM (AAPCS), requieren alineación a direcciones múltiplos de 8 bytes.
+		\item \textbf{32 bits (4 bytes):} Variables de tipo \texttt{float} y enteros de 32 bits (\texttt{uint32\_t}, \texttt{int32\_t}). Requieren alineación a direcciones múltiplos de 4 bytes.
+		\item \textbf{16 bits (2 bytes):} Variables de tipo \texttt{uint16\_t} y \texttt{int16\_t}. Requieren alineación a direcciones múltiplos de 2 bytes.
+		\item \textbf{8 bits (1 byte):} Variables de tipo \texttt{uint8\_t}, \texttt{int8\_t}, \texttt{char} y el tipo booleano nativo \texttt{\_Bool} (o \texttt{bool} de \texttt{<stdbool.h>}). Tienen una alineación de 1 byte (sin restricciones). Se colocan siempre al final para rellenar los huecos restantes antes del cierre de la estructura.
+	\end{itemize}
+	Esto minimiza drásticamente la necesidad de relleno automático (\textit{padding}) por parte del compilador.
+	\item \textbf{Empaquetar estructuras:} Si el ahorro de RAM es absolutamente crítico (a costa de una pequeña penalización en ciclos de reloj debido a accesos no alineados del procesador), se puede instruir al compilador a empaquetar la estructura eliminando el relleno mediante el atributo \texttt{\_\_attribute\_\_((packed))}.
+\end{enumerate}
+
+Considere la estructura ordenada y optimizada:
+
+\begin{lstlisting}[style=CMakeStyle]
+// Estructura optimizada por orden descendente (Total: 8 bytes en memoria)
+typedef struct
+{
+    uint32_t timestamp; // 4 bytes
+    uint16_t value;     // 2 bytes
+    uint8_t status;     // 1 byte + 1 byte de padding al final de la estructura
+} SensorDataOpt_t;
+\end{lstlisting}
+
+La estructura optimizada ocupa únicamente 8 bytes en memoria en lugar de 12 bytes, reduciendo el consumo en un 33\%.
+
+\subsection{Prevención de Desbordamiento del Stack y Análisis de Uso}
+La pila (Stack) es una zona de la memoria RAM reservada para la ejecución de funciones: almacena las direcciones de retorno, los valores de los registros del procesador a restaurar y todas las variables locales no estáticas.
+
+\begin{ErrorBox}{Peligro Crítico: Stack Overflow}
+	Si el Stack crece excesivamente hacia direcciones de memoria inferiores e invade el espacio asignado a variables globales y estáticas (sección \texttt{.data} y \texttt{.bss}), ocurre un desbordamiento del Stack (\textit{Stack Overflow}). Al carecer la mayoría de los microcontroladores de un sistema operativo o unidad de protección activa (MPU) configurada, esto corrompe los datos globales de forma silenciosa, resultando en cuelgues, reinicios abruptos o fallos de tipo \textit{HardFault}.
+\end{ErrorBox}
+
+Para prevenir esta situación extrema, se deben adoptar las siguientes directivas de diseño:
+\begin{itemize}
+	\item \textbf{No declarar arreglos grandes localmente:} Si se requiere un buffer temporal de comunicación (por ejemplo, 512 bytes), nunca debe declararse dentro de una función de forma local. Use la palabra clave \texttt{static} para asignarla a la sección estática de RAM global, o use un buffer global reutilizable.
+	\item \textbf{Prohibición estricta de recursividad:} Las llamadas a funciones recursivas empujan nuevos marcos de ejecución en el Stack por cada iteración. En firmware embebido, todo algoritmo debe implementarse de manera estrictamente iterativa.
+	\item \textbf{Monitoreo en el Linker Script:} El archivo de enlace (por ejemplo, \texttt{STM32F303XX\_FLASH.ld}) define explícitamente el tamaño mínimo reservado para el Stack. Verifique que la variable \texttt{\_Min\_Stack\_Size} sea suficiente para las necesidades del sistema.
+\end{itemize}
+
+\begin{InfoBox}{Análisis Estático del Stack con GCC}
+	El compilador GCC ofrece herramientas poderosas para calcular el uso máximo del Stack en tiempo de compilación. Añadiendo la bandera de compilación \texttt{-fstack-usage}, el compilador generará un archivo complementario con extensión \texttt{.su} por cada archivo de código fuente compilado. Este archivo detalla el tamaño exacto en bytes de la pila utilizado por cada una de las funciones definidas en el proyecto.
+\end{InfoBox}
+
+\subsubsection{Habilitación de \texttt{-fstack-usage} en CMake y VS Code}
+Para activar la generación de los reportes del Stack en un entorno de desarrollo basado en VS Code y CMake, se debe agregar el flag al archivo \texttt{CMakeLists.txt} principal.
+
+Existen dos alternativas estándar en CMake:
+
+\begin{enumerate}
+	\item \textbf{Mediante \texttt{target\_compile\_options} (Recomendado):}
+	Asocia la bandera específicamente a tu objetivo ejecutable. En el archivo \texttt{CMakeLists.txt} raíz, localiza la definición del proyecto y añade el comando después de que el objetivo haya sido creado mediante \texttt{add\_executable}:
+\begin{lstlisting}[style=CMakeStyle]
+# Agregar bandera de uso de pila al target del proyecto
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -fstack-usage)
+\end{lstlisting}
+
+	\item \textbf{Mediante \texttt{add\_compile\_options} (Global):}
+	Si deseas aplicar la bandera de forma global a todos los objetivos y subdirectorios de CMake, puedes declararla en las primeras líneas de tu script:
+\begin{lstlisting}[style=CMakeStyle]
+# Opcion global para todos los archivos compilados en el directorio
+add_compile_options(-fstack-usage)
+\end{lstlisting}
+\end{enumerate}
+
+Una vez configurado y recompilado el proyecto (usando el botón \textbf{Build} en VS Code), los archivos con extensión \texttt{.su} se generarán dentro del directorio de construcción temporal de CMake. \\
+Típicamente se ubican en la ruta: \\
+\texttt{build/Debug/CMakeFiles/<NombreProyecto>.dir/Core/Src/main.c.su} (o la carpeta correspondiente a cada archivo fuente).
+
+Cada línea de un archivo \texttt{.su} contiene un formato sencillo como el siguiente:
+\begin{lstlisting}[style=miestiloclaro]
+main.c:104:main   24   static
+main.c:236:Error_Handler   0   static
+\end{lstlisting}
+Esto indica que la función \texttt{main()} en el archivo \texttt{main.c} (declarada en la línea 104) requiere exactamente 24 bytes de memoria en la pila de forma estática.
+
+\subsection{Paso de Parámetros por Referencia (Punteros) y Uso de Const}
+Cuando una función requiere el acceso a estructuras complejas, arreglos de gran tamaño o instancias de controladores de periféricos (como \texttt{OPT3001\_HandleTypeDef}), pasar los datos "por valor" provoca que el compilador copie la estructura completa en el Stack, aumentando drásticamente el consumo de pila y los ciclos de CPU.
+
+Se debe pasar el parámetro \textbf{por referencia} mediante un puntero. Si la función únicamente leerá los datos del objeto, se debe calificar la variable con el modificador \texttt{const} para garantizar la seguridad de solo lectura del objeto:
+
+\begin{lstlisting}[style=CMakeStyle]
+// INCORRECTO: Copia toda la estructura (ej. 24 bytes) en el Stack
+void OPT3001_Update(OPT3001_HandleTypeDef opt3001);
+
+// CORRECTO: Pasa un puntero (solo copia 4 bytes de direccion)
+void OPT3001_Update(OPT3001_HandleTypeDef *opt3001);
+
+// RECOMENDADO (Paso por referencia de solo lectura seguro):
+void OPT3001_Read(const OPT3001_HandleTypeDef *opt3001);
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 4: OPTIMIZACIÓN DE ROM (FLASH) Y CÁLCULOS
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Optimización de Almacenamiento Flash (ROM) y Rendimiento}
+
+La memoria Flash contiene el código ejecutable del firmware generado y los datos constantes de solo lectura que deben persistir tras cortes de energía.
+
+\subsection{Almacenamiento de Constantes en Flash mediante \texttt{const}}
+En C, cualquier cadena de texto constante o tabla de consulta (\textit{look-up table}) se copiará por defecto a la memoria RAM de lectura/escritura durante el arranque a menos que se use explícitamente el calificador \texttt{const}. Esto duplica el espacio consumido (ocupa Flash para el valor inicial y RAM en ejecución).
+
+En arquitecturas ARM Cortex-M, calificar estas estructuras como \texttt{const} le indica al compilador que mantenga las variables exclusivamente en la sección de solo lectura de la memoria Flash (\texttt{.rodata}), liberando espacio crítico de RAM.
+
+\begin{lstlisting}[style=CMakeStyle]
+// INCORRECTO: Ocupa 16 bytes de Flash y 16 bytes de RAM en tiempo de ejecucion
+uint16_t SinusoidalLUT[8] = {0, 707, 1000, 707, 0, -707, -1000, -707};
+
+// CORRECTO: Se almacena exclusivamente en la seccion .rodata (Flash/ROM). RAM libre = 0 bytes:
+const uint16_t SinusoidalLUT[8] = {0, 707, 1000, 707, 0, -707, -1000, -707};
+\end{lstlisting}
+
+\begin{InfoBox}{El Proceso de Inicialización y el Vector de Arranque}
+	Durante el arranque del microcontrolador, antes de ingresar a la función \texttt{main()}, se ejecuta el código de inicialización en ensamblador (por ejemplo, en \texttt{startup\_stm32f303xe.s}). Este código realiza la copia física de todos los valores de inicialización de variables de la memoria Flash a la memoria RAM (sección \texttt{.data}), e inicializa a cero la sección \texttt{.bss}. \\
+	Al definir variables como \texttt{const}, el compilador las ubica directamente en la sección \texttt{.rodata}. Dado que el procesador puede leer directamente desde la memoria Flash, no es necesario copiarlas a RAM, eliminando el consumo de esta y reduciendo la duración del proceso de arranque.
+\end{InfoBox}
+
+\subsection{Evitar la Aritmética de Punto Flotante y Funciones Pesadas}
+Muchos microcontroladores embebidos de bajo costo (como los basados en ARM Cortex-M$0$ o Cortex-M3) carecen de una Unidad de Punto Flotante (FPU) física en su silicio. Cuando realizamos operaciones matemáticas con variables de tipo \texttt{float} o \texttt{double}, el compilador se ve obligado a enlazar e inyectar extensas rutinas matemáticas de emulación por software en la memoria Flash, lo cual infla severamente el tamaño del archivo binario ejecutable y ralentiza el desempeño de la CPU por órdenes de magnitud.
+
+\subsubsection{Reglas para optimizar cálculos aritméticos:}
+\begin{enumerate}
+	\item \textbf{Uso de Aritmética de Punto Fijo:} En lugar de utilizar números decimales nativos, multiplique los valores reales por factores de escala de potencias de 10 (10, 100, 1000) o potencias de 2 y realice las operaciones aritméticas utilizando enteros estándar. \\
+	Por ejemplo, si se desea calcular el voltaje de entrada a partir de una lectura de un ADC de 12 bits con referencia de 3.3V, se puede evitar el punto flotante de la siguiente manera:
+	\begin{lstlisting}[style=CMakeStyle]
+// Enfoque ineficiente con Punto Flotante
+float voltage = (float)adcRead * 3.3f / 4095.0f; // Requiere emulacion float
+
+// Enfoque optimizado con Punto Fijo (Voltaje en milivoltios)
+uint32_t voltage_mv = ((uint32_t)adcRead * 3300) / 4095; // Aritmetica entera rapida\end{lstlisting}
+	
+	\item \textbf{Evitar funciones de la biblioteca matemática estándar (\texttt{math.h}):} Funciones como \texttt{pow()}, \texttt{sin()}, \texttt{cos()} y \texttt{log()} arrastran dependencias sumamente complejas que incrementan drásticamente el peso del firmware.
+	\begin{itemize}
+		\item \textit{Desplazamientos de bits:} Para resolver potencias de 2 (como $2^{\text{exponente}}$ requeridas para decodificar los bits de mantisa y exponente en sensores como el sensor de luz ambiental OPT3001), nunca use \texttt{pow(2, exponente)}. Reemplácelo por un desplazamiento lógico a la izquierda:
+		\begin{lstlisting}[style=CMakeStyle]
+// INCORRECTO: Lento y requiere enlazar libreria matematica pesada
+double lux = 0.01 * pow(2, exponente) * mantisa;
+
+// CORRECTO: Resuelto en un solo ciclo de reloj por la CPU mediante hardware de barrido
+double lux = 0.01 * (double)(1 << exponente) * (double)mantisa;
+		\end{lstlisting}
+		\item \textit{Tablas de Consulta (LUT):} Si requiere calcular funciones trigonométricas complejas en sistemas en tiempo real, genere previamente una tabla constante (LUT) indexada y guardada en Flash mediante el calificador \texttt{const}. Para mayor precisión sin aumentar el tamaño de la tabla, puede implementar una interpolación lineal entre los dos puntos más cercanos:
+		\begin{lstlisting}[style=CMakeStyle]
+// Seno de 0 a 90 grados en pasos de 1 grado, escalado por 1000 (punto fijo)
+// Guardado en .rodata (Flash/ROM). Solo consume 182 bytes de Flash y 0 bytes de RAM:
+const int16_t SinLUT_x1000[91] = {
+    0,   17,  35,  52,  70,  87,  105, 122, 139, 156,
+    174, 191, 208, 225, 242, 259, 276, 292, 309, 326,
+    342, 358, 375, 391, 407, 423, 438, 454, 469, 485,
+    500, 515, 530, 545, 559, 574, 588, 602, 616, 629,
+    643, 656, 669, 682, 695, 707, 719, 731, 743, 755,
+    766, 777, 788, 799, 809, 819, 829, 839, 848, 857,
+    866, 875, 883, 891, 899, 906, 914, 921, 927, 934,
+    940, 946, 951, 956, 961, 966, 970, 974, 978, 982,
+    985, 988, 990, 993, 995, 996, 998, 999, 999, 1000,
+    1000
+};
+
+// Obtiene el seno utilizando interpolacion lineal
+int16_t GetSine_FixedPoint(float angleDegrees)
+{
+    if (angleDegrees < 0.0f) angleDegrees = 0.0f;
+    if (angleDegrees > 90.0f) angleDegrees = 90.0f;
+
+    uint8_t index = (uint8_t)angleDegrees;
+    if (index >= 90) return SinLUT_x1000[90];
+
+    float fractional = angleDegrees - (float)index;
+
+    // Leer los dos puntos adyacentes de la LUT
+    int16_t y0 = SinLUT_x1000[index];
+    int16_t y1 = SinLUT_x1000[index + 1];
+
+    // Interpolacion lineal: y = y0 + (y1 - y0) * fraccion
+    return y0 + (int16_t)((float)(y1 - y0) * fractional);
+}
+		\end{lstlisting}
+		
+		\newpage
+		\textbf{Explicación del funcionamiento:}
+		\begin{itemize}
+			\item \textbf{Eficiencia en memoria:} La tabla \texttt{SinLUT\_x1000} tiene 91 elementos de tipo \texttt{int16\_t} (2 bytes cada uno). Al ser calificada con \texttt{const}, se almacena directamente en la Flash ocupando únicamente 182 bytes, lo que deja la valiosa memoria RAM intacta.
+			\item \textbf{Interpolación Lineal:} Si llamamos a \texttt{GetSine\_FixedPoint(45.5f)}, el índice entero será 45 y la fracción será \texttt{0.5f}. El código leerá \texttt{SinLUT\_x1000[45]} (707) y \texttt{SinLUT\_x1000[46]} (719). La interpolación calculará:
+			$$\text{Resultado} = 707 + (719 - 707) \times 0.5 = 707 + 6 = 713$$
+			Esto representa un valor de 0.713 (el valor real con alta precisión es $\sin(45.5^\circ) \approx 0.71325$), logrando una excelente aproximación sin llamar a la pesada biblioteca trigonométrica de GCC.
+		\end{itemize}
+	\end{itemize}
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 5: EL CALIFICADOR VOLATILE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Uso del Calificador \texttt{volatile}}
+
+En el desarrollo de software de escritorio, el compilador realiza optimizaciones agresivas asumiendo que los valores de las variables en memoria RAM únicamente cambian si el propio código principal del hilo de ejecución ejecuta una instrucción directa de escritura sobre ellas. En sistemas embebidos, esta suposición básica suele provocar fallos críticos de funcionamiento.
+
+El calificador \textbf{\texttt{volatile}} le indica explícitamente al optimizador del compilador que la variable asociada puede cambiar de valor de manera externa en cualquier instante, debido a eventos del hardware (como registros de periféricos) o asíncronos (como rutinas de interrupción). Por lo tanto, el compilador tiene estrictamente prohibido optimizar el acceso a dicha variable almacenando su valor en un registro interno de la CPU; en su lugar, está obligado a forzar una lectura física desde la dirección de memoria RAM en cada instrucción del programa.
+
+\subsection{¿Cuándo debe utilizarse?}
+\begin{enumerate}
+	\item \textbf{Variables globales compartidas modificadas en Rutinas de Interrupción (ISR):}
+	Si una bandera se define de manera convencional, el compilador optimizará el bucle en el programa principal guardando la lectura del valor en un registro de la CPU de manera permanente. Dado que la interrupción modifica la variable en la memoria física y no en el registro de la CPU asignado al bucle, el programa principal nunca se enterará del cambio, quedando atrapado en un bucle infinito.
+	
+	Considere la diferencia generada por el compilador en el código de máquina (ver código en Lista~\ref{lst:code_volatile}):
+	
+	\begin{lstlisting}[style=CMakeStyle, caption={Ejemplo de uso de variable volatile.}, label={lst:code_volatile}]
+// Variable global modificada por hardware/interrupciones
+volatile uint8_t g_systemReady = 0;
+
+void EXTI0_IRQHandler(void)
+{
+    g_systemReady = 1; // Se ejecuta de forma asincrona ante interrupcion de pin
+}
+
+int main(void)
+{
+    // ... inicializacion ...
+    while(!g_systemReady)
+    {
+        // Si no fuera volatile, el compilador optimizara el bucle,
+        // cargando g_systemReady en un registro una sola vez.
+    }
+    // Continuar ejecucion...
+}
+	\end{lstlisting}
+
+	\item \textbf{Registros de periféricos de Entrada/Salida mapeados en memoria:} Los periféricos cambian de estado físicamente en el chip (por ejemplo, el bit RXNE del registro de estado UART se establece en 1 cuando llega un carácter). Las definiciones de registros provistas por el fabricante (dentro de las librerías CMSIS) utilizan el calificador \texttt{volatile} de manera interna en todas sus macros para garantizar la lectura de estado del hardware en tiempo real.
+\end{enumerate}
+
+\subsection{Análisis del código Ensamblador generado}
+Para comprender de forma profunda el efecto del calificador, considere la traducción al ensamblador ARM Cortex-M generado por el compilador para el bucle de espera anterior:
+
+\begin{lstlisting}[style=miestiloclaro, caption={Ensamblador generado sin calificar la variable como volatile.}]
+; --- SIN CALIFICAR COMO VOLATILE ---
+    LDR R1, =g_systemReady  ; R1 almacena la direccion de memoria de la variable
+    LDR R0, [R1]            ; Carga el valor inicial de g_systemReady en el registro R0
+.L2:
+    CMP R0, #0              ; Compara el valor en R0 con cero
+    BEQ .L2                 ; Si es cero, salta a .L2 (Bucle infinito en registros!)
+                            ; La memoria fisica NUNCA se vuelve a leer.
+\end{lstlisting}
+
+\begin{lstlisting}[style=miestiloclaro, caption={Ensamblador generado al calificar la variable como volatile.}]
+; --- CALIFICADO COMO VOLATILE (Comportamiento correcto) ---
+    LDR R1, =g_systemReady  ; R1 almacena la direccion de memoria de la variable
+.L2:
+    LDR R0, [R1]            ; Carga el valor actual de g_systemReady desde la RAM en R0
+    CMP R0, #0              ; Compara el valor en R0 con cero
+    BEQ .L2                 ; Si es cero, salta a .L2
+                            ; Fuerza la lectura desde RAM en cada iteracion del bucle.
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN 6: OPTIMIZACIÓN EN VS CODE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Optimización del Compilador GCC en VS Code}
+
+El compilador de C/C++ utilizado de manera estándar para microcontroladores ARM (la suite de herramientas \texttt{arm-none-eabi-gcc}) dispone de diversos niveles de optimización de código, los cuales se seleccionan en la etapa de compilación mediante parámetros o banderas de la terminal.
+
+\subsection{Niveles de Optimización en GCC}
+Los distintos niveles de optimización controlan el balance entre la velocidad de ejecución, el espacio físico del binario resultante en la memoria Flash y la facilidad para realizar la depuración interactiva en tiempo real. En la Tabla~\ref{tab:niveles_optimizacion} se presenta una comparativa de estos niveles:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lcccp{5.5cm}}
+		\toprule
+		\textbf{Flag} & \textbf{Opt. Tamaño} & \textbf{Opt. Velocidad} & \textbf{Depuración} & \textbf{Descripción} \\
+		\midrule
+		\texttt{-O0} & Ninguna & Ninguna & Excelente & Traduce directamente C a ensamblador paso a paso. \\
+		\texttt{-O1} & Moderada & Moderada & Aceptable & Optimización básica que no altera el orden de instrucciones. \\
+		\texttt{-O2} & Alta & Alta & Compleja & Aplica optimizaciones estándar sin incrementar tamaño. \\
+		\texttt{-O3} & Baja & Muy Alta & Muy Difícil & Optimización agresiva (desenrolla bucles, inlining). \\
+		\texttt{-Os} & \textbf{Máxima} & Alta & Compleja & \textbf{Recomendada.} Reduce al mínimo el binario en Flash. \\
+		\texttt{-Ofast} & Baja & Extrema & Imposible & Activa optimizaciones rápidas de flotantes sin estándar. \\
+		\bottomrule
+	\end{tabular}
+	\caption{Comparativa de niveles de optimización de GCC.}\label{tab:niveles_optimizacion}
+\end{table}
+
+\subsection{La Bandera de Optimización de Tamaño: \texttt{-Os}}
+La bandera \texttt{-Os} (Optimize for Size) es la opción estándar de la industria y la mejor práctica recomendada para el firmware de producción en microcontroladores con recursos limitados.
+
+\begin{InfoBox}{¿Cómo opera la bandera -Os bajo el capó?}
+	La optimización \texttt{-Os} activa todas las optimizaciones estándar de \texttt{-O2} que no impliquen un aumento del tamaño del código de máquina resultante. Adicionalmente, realiza análisis específicos orientados a disminuir el espacio en bytes ocupado por el binario:
+	\begin{itemize}
+		\item \textbf{Fusión de bloques idénticos:} Detecta segmentos de código ensamblador repetitivos a lo largo del firmware y los unifica en subrutinas compartidas.
+		\item \textbf{Oclusión de Frame Pointer:} Elimina el puntero de marco de pila en funciones donde no sea estrictamente necesario (\texttt{-fomit-frame-pointer}), liberando un registro de la CPU para otras variables y reduciendo el tamaño del marco de pila.
+		\item \textbf{Desactivación de desenrollado de bucles (\textit{Loop Unrolling}):} A diferencia de \texttt{-O3}, que duplica las instrucciones de un ciclo en línea para acelerarlo, \texttt{-Os} mantiene los bucles compactos para no duplicar líneas de código.
+	\end{itemize}
+\end{InfoBox}
+
+\subsection{Cómo configurar la optimización en entornos de VS Code}
+Dependiendo de la estructura del proyecto de firmware y del sistema de construcción que se utilice dentro del editor Visual Studio Code, la optimización \texttt{-Os} se debe configurar de acuerdo con los siguientes escenarios prácticos:
+
+\subsubsection{Caso A: Proyectos basados en CMake (STM32 VS Code Extension)}
+En las nuevas herramientas oficiales de STMicroelectronics basadas en CMake, la optimización y generación del binario se configuran mediante perfiles de CMake (\textit{Presets}). Para forzar o configurar la compilación de tamaño, existen dos alternativas:
+
+\begin{enumerate}
+	\item \textbf{Mediante CMakePresets.json (Recomendado):}
+	El archivo \texttt{CMakePresets.json} en la raíz del proyecto define los perfiles de compilación. Para activar la compilación optimizada en tamaño, asegúrese de definir o seleccionar el preset de configuración configurado al tipo de compilación \texttt{MinSizeRel} (Minimal Size Release), el cual inyecta internamente la bandera \texttt{-Os}. 
+	
+	Un ejemplo del fragmento de configuración en \texttt{CMakePresets.json} se muestra en el Listado~\ref{lst:presets_json}:
+\end{enumerate}
+
+\begin{lstlisting}[language=json, caption={Fragmento de configuracion en CMakePresets.json.}, label={lst:presets_json}]
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "MinSizeRel",
+      "displayName": "Optimizado para Tamano",
+      "description": "Compilacion en modo Release con optimizacion -Os",
+      "binaryDir": "${sourceDir}/build/MinSizeRel",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "MinSizeRel",
+        "CMAKE_TOOLCHAIN_FILE": "cmake/gcc-arm-none-eabi.cmake"
+      }
+    }
+  ]
+}
+\end{lstlisting}
+
+\begin{enumerate}
+	\setcounter{enumi}{1}
+	\item \textbf{Forzar la bandera directamente en CMakeLists.txt:}
+	Si desea que el compilador aplique la optimización \texttt{-Os} sin importar el tipo de preset seleccionado por el usuario, agregue la directiva \texttt{add\_compile\_options} o defínala en las opciones de compilación del proyecto principal dentro de su archivo \texttt{CMakeLists.txt} raíz:
+\end{enumerate}
+
+\begin{lstlisting}[style=CMakeStyle]
+# Forzar la optimizacion de tamano y habilitar simbolos de depuracion
+add_compile_options(-Os -ggdb)
+\end{lstlisting}
+
+O bien, asocie la bandera específicamente a la configuración de lanzamiento o minimización de tamaño:
+\begin{lstlisting}[style=CMakeStyle]
+# Establecer las banderas especificas para el modo de minimizacion de tamano
+set(CMAKE_C_FLAGS_MINSIZEREL "-Os -DNDEBUG")
+\end{lstlisting}
+
+\subsubsection{Caso B: Proyectos basados en Makefile tradicionales}
+Si el proyecto se compila llamando de forma directa a la utilidad \texttt{make} mediante un archivo Makefile generado previamente (por ejemplo, al exportar un proyecto antiguo de CubeMX), la optimización del compilador se declara directamente sobre la variable de configuración de optimización (comúnmente llamada \texttt{OPT} o \texttt{CFLAGS}):
+
+\begin{lstlisting}[style=CMakeStyle, caption={Configuracion de optimizacion de tamano en un Makefile.}]
+#---------------------------------------
+# optimization flags
+#---------------------------------------
+# Cambiar -O3 o -O0 por -Os para reducir el tamano del binario
+OPT = -Os
+
+# Banderas del compilador que heredan la variable OPT
+CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+\end{lstlisting}
+
+\subsubsection{Caso C: Tareas integradas de compilación en VS Code (tasks.json)}
+Si está utilizando Visual Studio Code para compilar un archivo de código fuente de forma directa mediante una tarea manual de compilación (declarada en \texttt{.vscode/tasks.json}), debe inyectar de forma directa el parámetro de línea de comandos \texttt{-Os} en la lista de argumentos de la cadena de herramientas del compilador GCC (\texttt{arm-none-eabi-gcc}):
+
+\begin{lstlisting}[language=json, caption={Configuracion del compilador arm-none-eabi-gcc en tasks.json.}, label={lst:tasks_json}]
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Compilar Proyecto Embebido",
+      "command": "arm-none-eabi-gcc",
+      "args": [
+        "-g",
+        "-Os",              // Bandera de optimizacion orientada a tamano
+        "-mcpu=cortex-m4",   // Arquitectura del procesador de destino
+        "-mthumb",           // Modo de juego de instrucciones Thumb-2
+        "${file}",           // Archivo actual en edicion en el editor
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}.elf"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
+\end{lstlisting}
+
+\subsection{Banderas adicionales de optimización para reducir tamaño}
+Para maximizar los efectos del flag \texttt{-Os}, se recomienda acompañarlo de banderas avanzadas del compilador y enlazador que eliminan el código muerto (código fuente que nunca es llamado o ejecutado en la aplicación):
+
+\begin{itemize}
+	\item \textbf{\texttt{-ffunction-sections} y \texttt{-fdata-sections}:} Indican al compilador GCC que coloque cada función del código y cada objeto de datos estático en su propia sección dedicada en el archivo objeto (\texttt{.o}). De forma nativa, todo el código se ubica en una sola sección continua.
+	\item \textbf{\texttt{-Wl,--gc-sections}:} Instruye al enlazador (\textit{linker}) a ejecutar una recolección de basura de las secciones de memoria (\textit{garbage collection of sections}). En la fase de enlace, busca todas aquellas secciones independientes creadas en el paso anterior que nunca sean referenciadas en el árbol de llamadas del programa y las elimina por completo del binario final.
+\end{itemize}
+
+El uso combinado de \texttt{-Os} junto con estas dos banderas es capaz de reducir el tamaño final del binario en Flash en porcentajes que oscilan entre un 20\% y un 50\%, permitiendo almacenar firmware complejo en microcontroladores de baja gama.
+
+\begin{InfoBox}{¿Cómo operan y por qué son tan eficientes juntas?}
+	El funcionamiento y la sinergia de estas banderas se detalla a continuación:
+	\begin{description}
+		\item[\texttt{-ffunction-sections} y \texttt{-fdata-sections} (Compilador):]~\\
+		\textbf{Por qué es necesario:} Por defecto, el compilador GCC compila todo tu archivo fuente de C (funciones y variables globales) en una sola sección continua de código (llamada \texttt{.text} y \texttt{.data} respectivamente). Si el linker detecta que no estás usando una sola función de ese archivo, no la puede eliminar porque está empaquetada junto al resto. \\
+		\textbf{Qué hace:} Obliga al compilador a dividir el archivo objeto y a colocar cada función en una sección separada (ej. \texttt{.text.GetSine\_FixedPoint}) y cada variable en otra (ej. \texttt{.data.s\_tempBuffer}).
+		
+		\item[\texttt{-Wl,--gc-sections} (Enlazador/Linker):]~\\
+		\textbf{Qué hace:} ``gc'' significa \textit{Garbage Collection} (recolección de basura). Durante la etapa de enlace (cuando se juntan todos los archivos objeto \texttt{.o} para armar el ejecutable \texttt{.elf}), el linker escanea el árbol de llamadas partiendo desde el punto de entrada (\texttt{Reset\_Handler} y \texttt{main}). \\
+		\textbf{El resultado:} Cualquier sección de función o variable que fue separada en el paso anterior y que no sea alcanzada ni llamada en el flujo de ejecución, es descartada del binario final.
+		
+		\item[El impacto real:]~\\
+		Esta técnica es crítica al integrar librerías externas completas (como la HAL de STM32Cube o controladores de sensores como el \texttt{OPT3001}). Si la librería ofrece 20 funciones y tú solo utilizas 2, las otras 18 funciones son eliminadas físicamente de la memoria Flash del microcontrolador, logrando reducciones del binario final de entre un 20\% y un 50\%.
+	\end{description}
+\end{InfoBox}
+
+\subsubsection{Configuración de eliminación de código muerto en CMake}
+Para inyectar estas banderas en un proyecto de CMake en VS Code, se deben agregar tanto las opciones de compilación como las de enlace sobre tu objetivo en el archivo \texttt{CMakeLists.txt} principal:
+
+\begin{lstlisting}[style=CMakeStyle]
+# 1. Separar funciones y datos en secciones independientes (Compilador)
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
+    -ffunction-sections
+    -fdata-sections
+)
+
+# 2. Descartar secciones no referenciadas / codigo muerto (Enlazador)
+target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
+    -Wl,--gc-sections
+)
+\end{lstlisting}
+
+\subsection{Análisis del uso de memoria en VS Code}
+Tras finalizar el proceso de compilación con las banderas de optimización anteriores, es fundamental cuantificar el resultado exacto del uso de memoria física RAM y Flash en el microcontrolador. En Visual Studio Code, esto se visualiza en dos secciones clave:
+
+\begin{enumerate}
+	\item \textbf{Salida de Consola del Build:} Al finalizar la compilación basada en CMake, la consola integrada imprimirá una tabla con la región de memoria RAM, FLASH y CCMRAM del microcontrolador especificando los bytes consumidos y el porcentaje del total libre del chip.
+	\item \textbf{Herramientas Gráficas Integradas de ST:} Haciendo clic sobre la extensión de STMicroelectronics en la barra lateral izquierda, puede acceder a las herramientas visuales \textbf{STM32 Build Analyzer} y \textbf{Memory Inspector}. Estas herramientas examinan la información contenida en el archivo enlazado \texttt{.elf} para mostrar gráficos interactivos con el uso exacto de memoria RAM y Flash detallando el peso en bytes que consume cada función de su programa.
+\end{enumerate}
+
+\end{document}

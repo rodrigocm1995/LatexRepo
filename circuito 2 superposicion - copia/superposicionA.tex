@@ -158,6 +158,42 @@
 	\caption{}	
 	\label{fig:figura2}
 \end{figure}
+
+\begin{align}
+	V_{out} = V_{FB} \times \left( 1 + \frac{R_1}{R_2} \right) = \qty{0.6}{\volt} \times \left( 1 + \frac{R_1}{R_2} \right) \nonumber
+\end{align}
+
+If $R_1 = \qty{330}{\kilo\ohm}$ and $R_2 = \qty{68}{\kilo\ohm}$ then:
+
+\begin{align}
+	V_{out} = \qty{0.6}{\volt} \times \left( 1 + \frac{ \qty{330}{\kilo\ohm} }{ \qty{68}{\kilo\ohm} } \right) = \qty{3.51}{\volt} \nonumber
+\end{align}
+
+\begin{align}
+	V_{out} = \qty{0.6}{\volt} \times \left( 1 + \frac{ \qty{249}{\kilo\ohm} }{ \qty{68}{\kilo\ohm} } \right) = \qty{2.797}{\volt} \nonumber
+\end{align}
+
+\begin{align}
+	R_2 = \frac{V_{FB}}{I_{FB}} = \frac{ \qty{0.6}{\volt} }{ \qty{5}{\mu\ampere} } \nonumber
+\end{align}
+
+\begin{align}
+	I_{FB} = \frac{V_{FB}}{R_2} = \frac{ \qty{0.6}{\volt} }{ \qty{68}{\kilo\ohm} } = \qty{8.82}{\mu\ampere} \nonumber
+\end{align}
+
+\begin{align}
+	R_1 = R_2 \times \left( \frac{V_{out}}{ V_{FB} } - 1 \right) = R_2 \times \left( \frac{V_{out}}{ \qty{0.6}{\volt} } -1 \right) \nonumber
+\end{align}
+
+\begin{align}
+	R_1 = \qty{68}{\kilo\ohm} \times \left( \frac{ \qty{3.3}{\volt} }{ \qty{0.6}{\volt} } -1 \right) = \qty{306}{\kilo\ohm} \nonumber
+\end{align}
+
+\begin{align}
+	R_2 = \frac{V_{FB}}{I_{FB}} = \frac{ \qty{0.6}{\volt} }{ \qty{5}{\mu\ampere} } = \qty{120}{\kilo\ohm}\\
+	R_1 = R_2 \times \left( \frac{V_{out}}{ \qty{0.6}{\volt} } -1 \right) = \qty{120}{\kilo\ohm} \times \left( \frac{ \qty{3.3}{\volt} }{ \qty{0.6}{\volt} } - 1 \right) = \qty{540}{\kilo\ohm}
+\end{align}
+
 \end{document}
 
 
