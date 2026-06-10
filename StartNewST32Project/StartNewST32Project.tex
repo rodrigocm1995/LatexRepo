@@ -685,7 +685,7 @@ Para verificar que el flujo de trabajo completo (compilador, enlazador, CMake y 
 	
 	\item Busque el ciclo infinito principal \texttt{while (1)} dentro de la función \texttt{main} y coloque las siguientes líneas para alternar el estado del pin del LED (el cual para la placa NUCLEO-F303RE está asociado físicamente a la etiqueta \texttt{GPIOA} en el \texttt{GPIO\_PIN\_5}):
 	
-	\begin{lstlisting}[language=C]
+	\begin{lstlisting}[style=CMakeStyle]
 		/* USER CODE BEGIN 3 */
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 		HAL_Delay(100);
@@ -957,289 +957,289 @@ Para validar el correcto funcionamiento de sensores analógicos o digitales que 
 El siguiente código fuente en C para el archivo \directory{Core/Src/main.c} realiza la inicialización del sensor a través del bus \texttt{I2C1}, configura sus límites de lux inferior y superior, y transmite de forma periódica las lecturas del registro de configuración y los valores calculados de lux (en formato de punto flotante) a través de la interfaz \texttt{USART2}:
 
 \begin{lstlisting}[style=CMakeStyle]
-	/* USER CODE BEGIN Header */
-	/**
-	******************************************************************************
-	* @file           : main.c
-	* @brief          : Main program body
-	******************************************************************************
-	* @attention
-	*
-	* Copyright (c) 2026 STMicroelectronics.
-	* All rights reserved.
-	*
-	* This software is licensed under terms that can be found in the LICENSE file
-	* in the root directory of this software component.
-	* If no LICENSE file comes with this software, it is provided AS-IS.
-	*
-	******************************************************************************
-	*/
-	/* USER CODE END Header */
-	/* Includes ------------------------------------------------------------------*/
-	#include "main.h"
-	#include "stm32f3xx_hal.h"
+/* USER CODE BEGIN Header */
+/**
+******************************************************************************
+* @file           : main.c
+* @brief          : Main program body
+******************************************************************************
+* @attention
+*
+* Copyright (c) 2026 STMicroelectronics.
+* All rights reserved.
+*
+* This software is licensed under terms that can be found in the LICENSE file
+* in the root directory of this software component.
+* If no LICENSE file comes with this software, it is provided AS-IS.
+*
+******************************************************************************
+*/
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "stm32f3xx_hal.h"
 	
-	/* Private includes ----------------------------------------------------------*/
-	/* USER CODE BEGIN Includes */
-	#include <string.h>
-	#include <stdio.h>
-	#include <OPT3001.h>
-	/* USER CODE END Includes */
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include <string.h>
+#include <stdio.h>
+#include <OPT3001.h>
+/* USER CODE END Includes */
 	
-	/* Private typedef -----------------------------------------------------------*/
-	/* USER CODE BEGIN PTD */
-	OPT3001_HandleTypeDef opt3001;
-	/* USER CODE END PTD */
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+OPT3001_HandleTypeDef opt3001;
+/* USER CODE END PTD */
 	
-	/* Private define ------------------------------------------------------------*/
-	/* USER CODE BEGIN PD */
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
 	
-	/* USER CODE END PD */
+/* USER CODE END PD */
 	
-	/* Private macro -------------------------------------------------------------*/
-	/* USER CODE BEGIN PM */
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
 	
-	/* USER CODE END PM */
+/* USER CODE END PM */
 	
-	/* Private variables ---------------------------------------------------------*/
-	I2C_HandleTypeDef hi2c1;
+/* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c1;
 	
-	UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart2;
 	
-	/* USER CODE BEGIN PV */
-	char msg[50];
-	static uint16_t config     = 0;
-	static double lowLimitLux  = 0.0;
-	static double highLimitLux = 0.0;
-	static double lowLimit     = 100.0;
-	static double highLimit    = 2000.0;
-	static double lux          = 0.0;
-	/* USER CODE END PV */
+/* USER CODE BEGIN PV */
+char msg[50];
+static uint16_t config     = 0;
+static double lowLimitLux  = 0.0;
+static double highLimitLux = 0.0;
+static double lowLimit     = 100.0;
+static double highLimit    = 2000.0;
+static double lux          = 0.0;
+/* USER CODE END PV */
 	
-	/* Private function prototypes -----------------------------------------------*/
-	void SystemClock_Config(void);
-	static void MX_GPIO_Init(void);
-	static void MX_USART2_UART_Init(void);
-	static void MX_I2C1_Init(void);
-	/* USER CODE BEGIN PFP */
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_USART2_UART_Init(void);
+static void MX_I2C1_Init(void);
+/* USER CODE BEGIN PFP */
 	
-	/* USER CODE END PFP */
+/* USER CODE END PFP */
 	
-	/* Private user code ---------------------------------------------------------*/
-	/* USER CODE BEGIN 0 */
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
 	
-	/* USER CODE END 0 */
+/* USER CODE END 0 */
 	
-	/**
-	* @brief  The application entry point.
-	* @retval int
-	*/
-	int main(void)
+/**
+* @brief  The application entry point.
+* @retval int
+*/
+int main(void)
+{
+		
+	/* USER CODE BEGIN 1 */
+		
+	/* USER CODE END 1 */
+		
+	/* MCU Configuration--------------------------------------------------------*/
+		
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
+		
+	/* USER CODE BEGIN Init */
+		
+	/* USER CODE END Init */
+		
+	/* Configure the system clock */
+	SystemClock_Config();
+		
+	/* USER CODE BEGIN SysInit */
+		
+	/* USER CODE END SysInit */
+		
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_USART2_UART_Init();
+	MX_I2C1_Init();
+	/* USER CODE BEGIN 2 */
+	OPT3001_Init(&opt3001, &hi2c1);
+	OPT3001_SetLowLimit(&opt3001, lowLimit);
+	OPT3001_SetHighLimit(&opt3001, highLimit);
+	/* USER CODE END 2 */
+		
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
+	while (1)
 	{
-		
-		/* USER CODE BEGIN 1 */
-		
-		/* USER CODE END 1 */
-		
-		/* MCU Configuration--------------------------------------------------------*/
-		
-		/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-		HAL_Init();
-		
-		/* USER CODE BEGIN Init */
-		
-		/* USER CODE END Init */
-		
-		/* Configure the system clock */
-		SystemClock_Config();
-		
-		/* USER CODE BEGIN SysInit */
-		
-		/* USER CODE END SysInit */
-		
-		/* Initialize all configured peripherals */
-		MX_GPIO_Init();
-		MX_USART2_UART_Init();
-		MX_I2C1_Init();
-		/* USER CODE BEGIN 2 */
-		OPT3001_Init(&opt3001, &hi2c1);
-		OPT3001_SetLowLimit(&opt3001, lowLimit);
-		OPT3001_SetHighLimit(&opt3001, highLimit);
-		/* USER CODE END 2 */
-		
-		/* Infinite loop */
-		/* USER CODE BEGIN WHILE */
-		while (1)
-		{
-			config = OPT3001_GetConfiguration(&opt3001);
-			sprintf(msg, "CONFIGURATION Register = 0x%04X \r\n", config);
-			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+		config = OPT3001_GetConfiguration(&opt3001);
+		sprintf(msg, "CONFIGURATION Register = 0x%04X \r\n", config);
+		HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 			
-			lowLimitLux = OPT3001_GetLowLimitLux(&opt3001);
-			sprintf(msg, "Low Limit Lux = %.2f \r\n", lowLimitLux);
-			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+		lowLimitLux = OPT3001_GetLowLimitLux(&opt3001);
+		sprintf(msg, "Low Limit Lux = %.2f \r\n", lowLimitLux);
+		HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 			
-			highLimitLux = OPT3001_GetHighLimitLux(&opt3001);
-			sprintf(msg, "High Limit Lux = %.2f \r\n", highLimitLux);
-			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+		highLimitLux = OPT3001_GetHighLimitLux(&opt3001);
+		sprintf(msg, "High Limit Lux = %.2f \r\n", highLimitLux);
+		HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 			
-			lux = OPT3001_GetLux(&opt3001);
-			sprintf(msg, "Lux = %.2f \r\n", lux);
-			HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+		lux = OPT3001_GetLux(&opt3001);
+		sprintf(msg, "Lux = %.2f \r\n", lux);
+		HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 			
-			HAL_Delay(1000);
-			/* USER CODE END WHILE */
+		HAL_Delay(1000);
+		/* USER CODE END WHILE */
 			
-			/* USER CODE BEGIN 3 */
-		}
-		/* USER CODE END 3 */
+		/* USER CODE BEGIN 3 */
 	}
+	/* USER CODE END 3 */
+}
 	
-	/**
-	* @brief System Clock Configuration
-	* @retval None
+/**
+* @brief System Clock Configuration
+* @retval None
+*/
+void SystemClock_Config(void)
+{
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+	RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+		
+	/** Initializes the RCC Oscillators according to the specified parameters
+	* in the RCC_OscInitTypeDef structure.
 	*/
-	void SystemClock_Config(void)
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+	RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+	RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
 	{
-		RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-		RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-		RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-		
-		/** Initializes the RCC Oscillators according to the specified parameters
-		* in the RCC_OscInitTypeDef structure.
-		*/
-		RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-		RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-		RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-		RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-		RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-		RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
-		RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
-		if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-		{
-			Error_Handler();
-		}
-		
-		/** Initializes the CPU, AHB and APB buses clocks
-		*/
-		RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-		|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-		RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-		RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-		RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-		RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-		
-		if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-		{
-			Error_Handler();
-		}
-		PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1;
-		PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
-		PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
-		if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-		{
-			Error_Handler();
-		}
+		Error_Handler();
 	}
-	
-	/**
-	* @brief I2C1 Initialization Function
-	* @param None
-	* @retval None
+		
+	/** Initializes the CPU, AHB and APB buses clocks
 	*/
-	static void MX_I2C1_Init(void)
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+	|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+		
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
 	{
-		hi2c1.Instance = I2C1;
-		hi2c1.Init.Timing = 0x00201D2B;
-		hi2c1.Init.OwnAddress1 = 0;
-		hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-		hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-		hi2c1.Init.OwnAddress2 = 0;
-		hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-		hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-		hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-		if (HAL_I2C_Init(&hi2c1) != HAL_OK)
-		{
-			Error_Handler();
-		}
-		
-		/** Configure Analogue filter
-		*/
-		if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-		{
-			Error_Handler();
-		}
-		
-		/** Configure Digital filter
-		*/
-		if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
-		{
-			Error_Handler();
-		}
+		Error_Handler();
 	}
+	PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1;
+	PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+	PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+	{
+		Error_Handler();
+	}
+}
 	
-	/**
-	* @brief USART2 Initialization Function
-	* @param None
-	* @retval None
+/**
+* @brief I2C1 Initialization Function
+* @param None
+* @retval None
+*/
+static void MX_I2C1_Init(void)
+{
+	hi2c1.Instance = I2C1;
+	hi2c1.Init.Timing = 0x00201D2B;
+	hi2c1.Init.OwnAddress1 = 0;
+	hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+	hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+	hi2c1.Init.OwnAddress2 = 0;
+	hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+	hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+	hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+	if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+	{
+		Error_Handler();
+	}
+		
+	/** Configure Analogue filter
 	*/
-	static void MX_USART2_UART_Init(void)
+	if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
 	{
-		huart2.Instance = USART2;
-		huart2.Init.BaudRate = 115200;
-		huart2.Init.WordLength = UART_WORDLENGTH_8B;
-		huart2.Init.StopBits = UART_STOPBITS_1;
-		huart2.Init.Parity = UART_PARITY_NONE;
-		huart2.Init.Mode = UART_MODE_TX_RX;
-		huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-		huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-		huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-		huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-		if (HAL_UART_Init(&huart2) != HAL_OK)
-		{
-			Error_Handler();
-		}
+		Error_Handler();
 	}
-	
-	/**
-	* @brief GPIO Initialization Function
-	* @param None
-	* @retval None
+		
+	/** Configure Digital filter
 	*/
-	static void MX_GPIO_Init(void)
+	if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
 	{
-		GPIO_InitTypeDef GPIO_InitStruct = {0};
-		
-		/* GPIO Ports Clock Enable */
-		__HAL_RCC_GPIOC_CLK_ENABLE();
-		__HAL_RCC_GPIOF_CLK_ENABLE();
-		__HAL_RCC_GPIOA_CLK_ENABLE();
-		__HAL_RCC_GPIOB_CLK_ENABLE();
-		
-		/*Configure GPIO pin Output Level */
-		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-		
-		/*Configure GPIO pin : B1_Pin */
-		GPIO_InitStruct.Pin = B1_Pin;
-		GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
-		
-		/*Configure GPIO pin : LD2_Pin */
-		GPIO_InitStruct.Pin = LD2_Pin;
-		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-		HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+		Error_Handler();
 	}
+}
 	
-	void Error_Handler(void)
+/**
+* @brief USART2 Initialization Function
+* @param None
+* @retval None
+*/
+static void MX_USART2_UART_Init(void)
+{
+	huart2.Instance = USART2;
+	huart2.Init.BaudRate = 115200;
+	huart2.Init.WordLength = UART_WORDLENGTH_8B;
+	huart2.Init.StopBits = UART_STOPBITS_1;
+	huart2.Init.Parity = UART_PARITY_NONE;
+	huart2.Init.Mode = UART_MODE_TX_RX;
+	huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+	huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+	huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+	huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+	if (HAL_UART_Init(&huart2) != HAL_OK)
 	{
-		__disable_irq();
-		while (1)
-		{
-		}
+		Error_Handler();
 	}
+}
+	
+/**
+* @brief GPIO Initialization Function
+* @param None
+* @retval None
+*/
+static void MX_GPIO_Init(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+		
+	/* GPIO Ports Clock Enable */
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOF_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+		
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+		
+	/*Configure GPIO pin : B1_Pin */
+	GPIO_InitStruct.Pin = B1_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+		
+	/*Configure GPIO pin : LD2_Pin */
+	GPIO_InitStruct.Pin = LD2_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+}
+	
+void Error_Handler(void)
+{
+	__disable_irq();
+	while (1)
+	{
+	}
+}
 \end{lstlisting}
 
 \subsection{Uso de la Extensión Serial Monitor en Visual Studio Code}
@@ -1339,6 +1339,215 @@ target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -u _printf_float)
 \begin{InfoBox}{Recomendación Práctica}
 	Aunque ambos métodos producen exactamente el mismo binario final, el \textbf{Método B} (modificar el archivo \texttt{CMakeLists.txt}) es el más recomendado para tus proyectos, ya que te garantiza que no perderás la visualización de decimales si necesitas volver a configurar pines o relojes en STM32CubeMX más adelante.
 \end{InfoBox}
+
+%----------------------------------------------------------------------------------------
+%	SECCIÓN: GESTIÓN DE MÚLTIPLES ARCHIVOS MAIN
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Gestión de Múltiples Archivos \texttt{main} en un solo Proyecto}
+
+Durante la fase de prototipado o pruebas de un nuevo sensor (como el sensor de humedad y temperatura HDC1080), es común requerir la creación de diferentes scripts de prueba con lógicas e implementaciones distintas. Crear un proyecto nuevo desde cero en STM32CubeMX para cada prueba resulta ineficiente, consume excesivo almacenamiento en el disco duro y entorpece el flujo de trabajo.
+
+Para evitar esto, podemos crear múltiples archivos principales en la misma carpeta del proyecto (por ejemplo: \texttt{main.c}, \texttt{main\_1.c}, \texttt{main\_2.c}). Sin embargo, el estándar de programación en C impone una restricción ineludible: \textbf{un ejecutable compilado solo puede poseer una única función \texttt{int main(void)}}. Si intentamos compilar el proyecto directamente con más de un archivo \texttt{main} activo, el enlazador (\textit{linker}) detendrá el proceso arrojando el error crítico:
+\begin{lstlisting}[language=DOS]
+multiple definition of `main'
+multiple definition of `Error_Handler'
+\end{lstlisting}
+A continuación, se exponen los diferentes métodos para gestionar esta estructura de forma de ordenar y excluir los archivos de prueba inactivos según el entorno utilizado.
+
+\subsection{Método 1: Exclusión de archivos en STM32CubeIDE}
+Si está programando bajo el entorno de desarrollo oficial STM32CubeIDE, el gestor de compilación interna basado en Eclipse permite excluir archivos individuales de la compilación de forma visual e intuitiva:
+\begin{enumerate}
+	\item Agregue sus archivos secundarios a la carpeta \directory{Core/Src} con nombres descriptivos (ej. \texttt{main\_1.c}).
+	\item En el panel del \textbf{Project Explorer} (lado izquierdo), haga clic derecho sobre el archivo que no desea compilar en su sesión de pruebas actual.
+	\item Desplácese a la opción \textbf{Resource Configurations} $\rightarrow$ \textbf{Exclude from Build...}
+	\item En la ventana que aparece, marque todas las configuraciones de compilación existentes (usualmente \texttt{Debug} y \texttt{Release}) y presione el botón \textbf{OK}.
+	\item Observará que el archivo excluido se torna de un color grisáceo y su icono presenta una franja diagonal. El compilador lo omitirá por completo en la siguiente compilación. Para activarlo nuevamente, realice el mismo procedimiento y desmarque las casillas de exclusión.
+\end{enumerate}
+
+\subsection{Método 2: Compilación Condicional en VS Code mediante CMake}
+En Visual Studio Code, cuando el proyecto utiliza un sistema de construcción guiado por CMake, el proceso de exclusión debe controlarse escribiendo una variable de selección condicional dentro del archivo \textbf{\texttt{CMakeLists.txt}} principal en la raíz del proyecto.
+
+\subsubsection{Paso A: Modificación en \texttt{CMakeLists.txt} principal}
+Abra el archivo \texttt{CMakeLists.txt} raíz y modifique la sección que define la creación del archivo ejecutable (\texttt{add\_executable}) implementando la siguiente lógica:
+
+\begin{lstlisting}[style=CMakeStyle]
+# 1. Definir una variable de control para seleccionar el main activo
+# Opciones validas: "MAIN" (para main.c), "TEST1" (para main_1.c), "TEST2" (para main_2.c)
+set(ACTIVE_MAIN "TEST1")
+
+# 2. Asignar de manera condicional la ruta del archivo fisico
+if(ACTIVE_MAIN STREQUAL "MAIN")
+    set(MAIN_SOURCE "Core/Src/main.c")
+    message(STATUS "Compilando: MAIN PRINCIPAL (Core/Src/main.c)")
+elseif(ACTIVE_MAIN STREQUAL "TEST1")
+    set(MAIN_SOURCE "Core/Src/main_1.c")
+    message(STATUS "Compilando: PRUEBA 1 (Core/Src/main_1.c)")
+elseif(ACTIVE_MAIN STREQUAL "TEST2")
+    set(MAIN_SOURCE "Core/Src/main_2.c")
+    message(STATUS "Compilando: PRUEBA 2 (Core/Src/main_2.c)")
+else()
+    message(FATAL_ERROR "ACTIVE_MAIN invalida. Usa 'MAIN', 'TEST1' o 'TEST2'.")
+endif()
+
+# 3. Crear el objeto ejecutable a partir de la fuente dinamica seleccionada
+add_executable(${CMAKE_PROJECT_NAME}
+    ${MAIN_SOURCE}
+)
+\end{lstlisting}
+
+\subsubsection{Paso B: Modificación crítica en el script autogenerado de CubeMX}
+\begin{WarningBox}{La trampa de stm32cubemx/CMakeLists.txt}
+	Aunque modifique el archivo raíz anterior, la compilación de CMake volverá a fallar arrojando errores de duplicidad. Esto se debe a que la herramienta STM32CubeMX genera su propio subarchivo de configuración en \directory{cmake/stm32cubemx/CMakeLists.txt}, en el cual agrega de forma fija e incondicional el archivo \texttt{main.c} a la variable \texttt{MX\_Application\_Src}:
+	\begin{lstlisting}[style=CMakeStyle]
+set(MX_Application_Src
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/stm32f3xx_it.c
+    ...
+	\end{lstlisting}
+	Para solucionarlo, debe abrir dicho subarchivo y **comentar o eliminar** la línea correspondiente al archivo principal:
+	\begin{lstlisting}[style=CMakeStyle]
+set(MX_Application_Src
+    # ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/main.c  # Excluido para control condicional
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/stm32f3xx_it.c
+    ...
+	\end{lstlisting}
+\end{WarningBox}
+
+Una vez completados estos dos pasos, para cambiar de una prueba a otra solo debe alterar el valor del string en la variable \texttt{ACTIVE\_MAIN} de su \texttt{CMakeLists.txt} raíz, guardar y presionar \textbf{Build} (o \keys{F7}) en VS Code.
+
+\subsection{Método 3: Truco Universal (Directivas del Preprocesador de C)}
+Este método representa la alternativa favorita de muchos desarrolladores, ya que es \textbf{completamente independiente del entorno de desarrollo (IDE) o del sistema de construcción} (Make, CMake, Ninja, etc.), y evita tener que realizar modificaciones manuales sobre configuraciones del proyecto o del compilador.
+
+Consiste en crear un único archivo central de cabecera que defina cuál es la prueba activa, e inhabilitar condicionalmente el código de los archivos restantes utilizando el preprocesador de C.
+
+\begin{enumerate}
+	\item \textbf{Creación de la cabecera de control:}
+	Cree un archivo de configuración en la ruta \texttt{Core/Inc/test\_config.h} con el siguiente contenido:
+	\begin{lstlisting}[style=CMakeStyle, caption={Archivo de configuración de pruebas test\_config.h.}]
+// Core/Inc/test_config.h
+#ifndef TEST_CONFIG_H_
+#define TEST_CONFIG_H_
+
+// Descomenta unicamente la prueba que desees ejecutar:
+#define RUN_MAIN_PRODUCTION
+//#define RUN_TEST_1
+//#define RUN_TEST_2
+
+#endif
+	\end{lstlisting}
+	
+	\item \textbf{Protección condicional de los archivos de código fuente:}
+	En cada uno de sus archivos principales de pruebas, envuelva todo el contenido del archivo (incluyendo la declaración del `main` y las funciones secundarias) dentro de una directiva condicional \texttt{\#ifdef}:
+	
+	\begin{itemize}
+		\item \textbf{En \texttt{Core/Src/main.c}:}
+		\begin{lstlisting}[style=CMakeStyle]
+#include "test_config.h"
+#ifdef RUN_MAIN_PRODUCTION
+
+int main(void) {
+    // Codigo de produccion principal...
+}
+
+#endif
+		\end{lstlisting}
+		
+		\item \textbf{En \texttt{Core/Src/main\_test1.c}:}
+		\begin{lstlisting}[style=CMakeStyle]
+#include "test_config.h"
+#ifdef RUN_TEST_1
+
+int main(void) {
+    // Codigo para probar el sensor HDC1080...
+}
+
+#endif
+		\end{lstlisting}
+		
+		\item \textbf{En \texttt{Core/Src/main\_test2.c}:}
+		\begin{lstlisting}[style=CMakeStyle]
+#include "test_config.h"
+#ifdef RUN_TEST_2
+
+int main(void) {
+    // Codigo para otra prueba...
+}
+
+#endif
+		\end{lstlisting}
+	\end{itemize}
+\end{enumerate}
+
+\begin{InfoBox}{¿Cómo funciona bajo el capó?}
+	El compilador compilará físicamente todos los archivos \texttt{.c} listados en tu proyecto, pero el preprocesador de C evaluará las directivas antes de generar el código de máquina. Al estar activa únicamente una directiva en \texttt{test\_config.h}, los archivos inactivos se procesarán como si estuvieran totalmente vacíos tras el paso del preprocesador. De este modo, solo existirá una única definición de la función \texttt{main()} real en tiempo de enlazado, previniendo el error de colisión.
+\end{InfoBox}
+
+\subsection{El problema visual de IntelliSense en los archivos inactivos}
+Cuando este esquema se implementa con éxito, es normal experimentar un error de interfaz en Visual Studio Code. Al abrir en el editor los archivos que se encuentran inactivos en ese momento (ej. \texttt{main\_2.c} si la variable de selección es \texttt{TEST1}), el sistema desplegará advertencias de inclusión y líneas onduladas de color rojo en las librerías, acompañadas del siguiente mensaje en los problemas:
+\begin{lstlisting}[language=DOS]
+#include errors detected. Consider updating your compile_commands.json or includePath.
+cannot open source file "main.h"
+cannot open source file "HDC1080.h"
+\end{lstlisting}
+
+\subsubsection{¿Por qué ocurre?}
+Este comportamiento se debe a que la extensión oficial C/C++ de VS Code utiliza la base de datos de compilación denominada \texttt{compile\_commands.json} para conocer las rutas de inclusión del proyecto. Como CMake compila de forma selectiva, \textbf{los archivos inactivos se omiten de la base de datos}. Al no estar listados, IntelliSense no sabe qué rutas de hardware y drivers pertenecen a estos archivos y entra en conflicto, aunque el firmware compile sin problemas.
+
+Para eliminar estas falsas alertas visuales y habilitar el autocompletado en todas las pruebas a la vez, se presentan dos posibles alternativas:
+
+\begin{description}
+	\item[Alternativa A: Búsqueda Recursiva de Cabeceras en VS Code]~\\
+	Para abrir el archivo de configuración de C/C++ en VS Code, presione la combinación de teclas \keys{Ctrl + Shift + P} para desplegar la paleta de comandos y escriba: \textbf{C/C++: Edit Configurations (JSON)}. Esto abrirá o creará el archivo de configuración en la ruta \texttt{.vscode/c\_cpp\_\\properties.json}.
+
+	Si el archivo no cuenta con el arreglo de rutas de inclusión (lo cual es común en proyectos nuevos), se visualizará de la siguiente manera:
+	\begin{lstlisting}[language=json, caption={Archivo c\_cpp\_properties.json original (Sin includePath)}]
+{
+    "configurations": [
+        {
+            "name": "STM32",
+            "compileCommands": "${workspaceFolder}/build/Debug/compile_commands.json",
+            "intelliSenseMode": "windows-msvc-x64",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
+	\end{lstlisting}
+
+	Para habilitar la indexación recursiva de cabeceras en todos los archivos, se debe modificar agregando el parámetro \texttt{"includePath"} y la regla recursiva (asegúrese de agregar la coma de separación en la propiedad anterior):
+	\begin{lstlisting}[language=json, caption={Archivo c\_cpp\_properties.json optimizado (Con includePath)}]
+{
+    "configurations": [
+        {
+            "name": "STM32",
+            "compileCommands": "${workspaceFolder}/build/Debug/compile_commands.json",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "intelliSenseMode": "windows-msvc-x64",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
+	\end{lstlisting}
+	
+	\item[Alternativa B: Creación de un Target ficticio en CMake]~\\
+	Agregue al final de su archivo \texttt{CMakeLists.txt} raíz una biblioteca ficticia agrupando todos los archivos de prueba inactivos, pero calificada con la directiva \texttt{EXCLUDE\_FROM\_ALL} para evitar que el compilador los enlace realmente en el archivo binario:
+	\begin{lstlisting}[style=CMakeStyle]
+# Registrar las fuentes inactivas en CMake solo para que IntelliSense las indexe
+add_library(inactive_mains EXCLUDE_FROM_ALL
+    Core/Src/main.c
+    Core/Src/main_1.c
+    Core/Src/main_2.c
+)
+target_link_libraries(inactive_mains PRIVATE stm32cubemx)
+target_include_directories(inactive_mains PRIVATE Core/HDC1080)
+	\end{lstlisting}
+\end{description}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY

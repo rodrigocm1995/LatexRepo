@@ -266,21 +266,26 @@
 \lstdefinelanguage{CMakeVSCode}{
 	morekeywords=[1]{
 		cmake_minimum_required, set, if, endif, project, message, 
-		enable_language, add_executable, add_subdirectory, 
+		enable_language, add_executable, add_subdirectory, HAL_OK,HAL_ERROR,
 		target_link_directories, target_sources, target_include_directories, 
-		target_compile_definitions, list, target_link_libraries
+		target_compile_definitions, list, target_link_libraries, INA236_DEFAULT_ADDRESS, INA236_TRIALS, CHECK_BIT, INA236_CONFIGURATION_REGISTER, INA236_SHUNT_VOLTAGE_REGISTER, INA236_BUS_VOLTAGE_REGISTER, INA236_POWER_REGISTER, INA236_CURRENT_REGISTER, INA236_CALIBRATION_REGISTER, INA236_MASK_ENABLE_REGISTER, INA236_ALERT_LIMIT_REGISTER, MANUFACTURER_ID_REGISTER, DEVICE_ID_REGISTER, INA236_MODE_Pos, INA236_MODE_Mask, INA236_MODE, INA236_MODE_0, INA236_MODE_1, INA236_MODE_2, INA236_VSHCT_Pos, INA236_VSHCT_Mask, INA236_VSHCT, INA236_VSHCT_0, INA236_VSHCT_1, INA236_VSHCT_2, INA236_VBUSCT_Pos, INA236_VBUSCT_Mask, INA236_VBUSCT, INA236_VBUSCT_0, INA236_VBUSCT_1, INA236_VBUSCT_2, INA236_AVG_Pos, INA236_AVG_Mask, INA236_AVG, INA236_AVG_0, INA236_AVG_1, INA236_AVG_2, INA236_ADCRANGE_Pos, INA236_ADCRANGE_Mask, INA236_ADCRANGE, INA236_RST_Pos, INA236_RST_Mask, INA236_RST, INA236_LEN_Pos, INA236_LEN_Mask, INA236_LEN, INA236_APOL_Pos, INA236_APOL_Mask, INA236_APOL, INA236_OVF_Pos, INA236_OVF_Mask, INA236_OVF,INA236_CVRF_Pos,INA236_CVRF_Mask,INA236_CVRF,INA236_AFF_Pos,INA236_AFF_Mask,INA236_AFF,INA236_MEMERROR_Pos,INA236_MEMERROR_Mask,INA236_MEMERROR,INA236_CNVR_Pos,INA236_CNVR_Mask,INA236_CNVR,INA236_POL_Pos,INA236_POL_Mask,INA236_POL,INA236_BUL_Pos,INA236_BUL_Mask,INA236_BUL,INA236_BOL_Pos,INA236_BOL_Mask,INA236_BOL,INA236_SUL_Pos,INA236_SUL_Mask,INA236_SUL,INA236_SOL_Pos,INA236_SOL_Mask,INA236_SOL,INA236_SHUTDOWN,INA236_SHUNT_VOLTAGE_ONE_SHOT,INA236_BUS_VOLTAGE_ONE_SHOT,INA236_SHUNT_BUS_VOLTAGE_ONE_SHOT,INA236_CONTINUOUS_SHUNT_VOLTAGE,INA236_CONTINUOUS_BUS_VOLTAGE,INA236_CONTINUOUS_SHUNT_BUS_VOLTAGE,INA236_140_US, INA236_204_US, INA236_332_US, INA236_588_US, INA236_1100_US, INA236_2116_US, INA236_4156_US, INA236_8244_US,INA236_1_SAMPLE, INA236_4_SAMPLES, INA236_16_SAMPLES, INA236_64_SAMPLES, INA236_128_SAMPLES, INA236_256_SAMPLES, INA236_512_SAMPLES, INA236_1014_SAMPLES,INA236_ADC_RANGE_81_92_MV, INA236_ADC_RANGE20_48_MV,INA236_ACTIVE_LOW, INA236_ACTIVE_HIGH,INA236_CONV_READY_ALERT_DISABLE, INA236_CONV_READY_ALERT_ENABLE,INA236_POWER_LIMIT_ALERT_DISABLE, INA236_POWER_LIMIT_ALERT_ENABLE,INA236_POWER_LIMIT_ALERT_DISABLE, INA236_POWER_LIMIT_ALERT_ENABLE,INA236_BUS_OVER_LIMIT_ALERT_DISABLE, INA236_BUS_OVER_LIMIT_ALERT_ENABLE,INA236_SHUNT_UNDER_LIMIT_ALERT_DISABLE, INA236_SHUNT_UNDER_LIMIT_ALERT_ENABLE,INA236_SHUNT_OVER_LIMIT_ALERT_DISABLE, INA236_SHUNT_OVER_LIMIT_ALERT_ENABLE,HAL_MAX_DELAY
 	},
 	morekeywords=[2]{
-		VERSION, PRIVATE, REQUIRED, ON, TRUE, STATUS, static, void, double
+		VERSION, PRIVATE, REQUIRED, ON, TRUE, STATUS, static, define,INA236_WriteRegister,INA236_ReadRegister,INA236_Init,INA236_SetCalibration,INA236_ResetDevice,INA236_SetMode,INA236_SetShuntConvTime,INA236_SetBusConvTime,INA236_SetAverage,INA236_SetAdcRange,INA236_SetAlertPolarity,INA236_GetAlertPolarity,INA236_SetAlertPin,INA236_GetAlertPin,INA236_SetPowerOverLimit,INA236_SetBusUnderLimit,INA236_SetBusOverLimit,INA236_SetShuntUnderLimit,INA236_SetShuntOverLimit,INA236_IsConversionReady,INA236_IsMathOverflowReady,INA236_GetManufacturerID,INA236_GetDeviceID,INA236_GetShuntVoltage_mV,INA236_GetBusVoltage,INA236_GetCurrent_A,INA236_GetPower_W,HAL_I2C_IsDeviceReady,HAL_I2C_Mem_Write, return,HAL_I2C_Mem_Read,INA236_RoundCurrentLsb, log10, pow, floor
 	},
 	morekeywords=[3]{ 
-		uint16_t, uint8_t, uint32_t
+		uint16_t, uint8_t, uint32_t, var, pos, ina236, typedef, enum, double, struct, _Bool, void, value,registerAddress
 	},
 	morekeywords=[4]{ 
 		0
 	},
+	morekeywords=[5]{
+		INA236_Mode_TypeDef,INA236_ConvTime_TypeDef,INA236_Avg_TypeDef,INA236_AdcRange_TypeDef,INA236_AlertPol_TypeDef,INA236_ConvRdy_TypeDef,INA236_PowerAlert_TypeDef,INA236_BusUnderLimitAlert_TypeDef,INA236_BusOverLimitAlert_TypeDef,INA236_ShuntUnderLimitAlert_TypeDef,INA236_ShuntOverLimitAlert_TypeDef, AlertType_t, INA236_HandleTypeDef, HAL_StatusTypeDef
+	},
 	sensitive=false,
-	morecomment=[l]{\#},
+	%morecomment=[l]{\#}, 
+	morecomment=[s]{/*}{*/},
+	morecomment=[l]{//},
 	morestring=[b]"
 }
 % --- ESTILO CMAKE CON FONDO NEGRO ---
@@ -292,6 +297,7 @@
 	keywordstyle=[2]\color{vscontrol}\bfseries, % Modificadores (como PRIVATE) en rosa/morado
 	keywordstyle=[3]\color{vsorange}\bfseries,  % colorea el grupo 3 en naranja
 	keywordstyle=[4]\color{vsredorange}\bfseries,  % colorea el grupo 4 
+	keywordstyle=[5]\color{TealBlue}\bfseries,  % colorea el grupo 5 
 	stringstyle=\color{vsstring},               % Cadenas en color naranja/salmón
 	commentstyle=\color{vscomment}\itshape,     % Comentarios en verde
 	breakatwhitespace=false,
